@@ -1,0 +1,24 @@
+{
+  "Typescript React Styled Components": {
+    "scope": "typescript",
+    "prefix": "sc",
+    "body": [
+      "import { styled } from 'styled-components'",
+      "",
+      "export const ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}} = styled.div`",
+      " $2",
+      "`;"
+    ]
+  },
+  "Typescript React Styled Components in Mac": {
+    "scope": "typescript",
+    "prefix": "scmac",
+    "body": [
+      "import { styled } from 'styled-components'",
+      "",
+      "export const ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}} = styled.div`",
+      " $2",
+      "`;"
+    ]
+  }
+}

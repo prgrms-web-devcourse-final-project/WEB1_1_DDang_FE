@@ -1,0 +1,74 @@
+{
+  "Typescript React component with props": {
+    "scope": "typescriptreact",
+    "prefix": "rfc",
+    "body": [
+      "import * as S from './styles';",
+      "",
+      "type ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}Props = {",
+      "  $2",
+      "}",
+      "",
+      "export default function ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}({ $2 }: ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}Props ) {",
+      "  return (",
+      "    <S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}} className=\"\">",
+      "      ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}",
+      "    </S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
+      "  )",
+      "}"
+    ],
+    "description": "Creates a React Functional Component"
+  },
+  "Typescript React component with no props": {
+    "scope": "typescriptreact",
+    "prefix": "rfcn",
+    "body": [
+      "import * as S from './styles';",
+      "",
+      "export default function ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}() {",
+      "  return (",
+      "    <S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
+      "      ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}",
+      "    </S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
+      "  )",
+      "}"
+    ],
+    "description": "Creates a React Functional Component"
+  },
+  "Typescript React component with props in Mac": {
+    "scope": "typescriptreact",
+    "prefix": "rfcmac",
+    "body": [
+      "import * as S from './styles'",
+      "",
+      "interface ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}Props {",
+      "  $1",
+      "}",
+      "",
+      "export const ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}} = ({ $2 }) => {",
+      "  return (",
+      "    <S.${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
+      "      ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}",
+      "    </S.${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
+      "  )",
+      "}"
+    ],
+    "description": "Creates a React Functional Component"
+  },
+  "Typescript React component with no props in Mac": {
+    "scope": "typescriptreact",
+    "prefix": "rfcnmac",
+    "body": [
+      "import * as S from './styles'",
+      "",
+      "export const ${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}} = () => {",
+      "  return (",
+      "    <S.${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
+      "      ${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}}",
+      "    </S.${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
+      "  )",
+      "}"
+    ],
+    "description": "Creates a React Functional Component"
+  }
+}

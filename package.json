@@ -8,11 +8,21 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "pwa": "pwa-assets-generator --preset minimal public/test.svg"
+    "pwa": "pwa-assets-generator --preset minimal public/test.svg",
+    "format": "prettier --check --ignore-path .gitignore \"**/*.{ts,tsx}\"",
+    "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@types/node": "^22.9.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.28.0",
+    "styled-components": "^6.1.13",
+    "vite-plugin-mkcert": "^1.17.6",
+    "vite-tsconfig-paths": "^5.1.2",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.1",
@@ -31,7 +41,13 @@
     "workbox-precaching": "^7.1.0",
     "workbox-routing": "^7.1.0",
     "workbox-strategies": "^7.1.0",
-    "workbox-window": "^7.1.0"
+    "workbox-window": "^7.1.0",
+    "@eslint/js": "^9.13.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.11.0",
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.11.0"
   },
   "overrides": {
     "sharp": "0.32.6",
