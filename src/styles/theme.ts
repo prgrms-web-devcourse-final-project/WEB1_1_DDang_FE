@@ -1,3 +1,5 @@
-export const lightTheme = {}
+import { DefaultTheme } from 'styled-components'
 
-export const darkTheme = {}
+export const lightTheme: DefaultTheme = {}
+
+export const darkTheme: DefaultTheme = {}
