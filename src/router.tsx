@@ -1,6 +1,6 @@
 import Footer from '@components/Footer'
+import { HomePage } from '@/pages'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
-import { HomePage } from './pages'
 
 export const router = createBrowserRouter([
   {
