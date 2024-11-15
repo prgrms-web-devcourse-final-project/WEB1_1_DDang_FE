@@ -3,6 +3,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import mkcert from 'vite-plugin-mkcert'
+import svgr from 'vite-plugin-svgr'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +15,8 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     mkcert(),
-
+    svgr(),
+    dts(),
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
