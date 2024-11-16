@@ -1,0 +1,99 @@
+name: Unit Test & Lighthouse CI
+on:
+  push:
+    branches: [main, develop, lighthouse]
+  pull_request:
+    branches: [main, develop, lighthouse]
+
+permissions: # Github Token 없이 하는법 - Token은 만료 기간 때문에 관리 어려움
+  contents: read
+  pull-requests: write
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure npm registry
+        run: |
+          echo "Configuring npm to use public registry"
+          npm config set registry https://registry.npmjs.org/
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Remove package-lock.json
+        run: rm -f package-lock.json
+
+      - name: Install dependencies
+        run: npm install --registry=https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ''
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun --collect.settings.chromeFlags="--ignore-certificate-errors --no-sandbox --headless --disable-gpu"|| echo "Fail to Run Lighthouse CI!"
+
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            let comments = "";
+            results.forEach((result) => {
+              const { summary, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { audits } = details;
+
+              const formatResult = (res) => Math.round(res * 100);
+
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+
+              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+              const comment = [
+                `⚡ Lighthouse report!`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                // ... 나머지 카테고리들
+              ].join("\n");
+
+              const detail = [
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(
+                  audits["first-contentful-paint"].score * 100
+                )} First Contentful Paint | ${
+                  audits["first-contentful-paint"].displayValue
+                } |`,
+                // ... 나머지 상세 정보들
+              ].join("\n");
+              comments += comment + "\n" + detail + "\n";
+            });
+            core.setOutput('comments', comments)
+      - name: comment PR
+        if: github.event_name == 'pull_request'
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comments}}
