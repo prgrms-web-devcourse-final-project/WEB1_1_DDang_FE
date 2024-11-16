@@ -1,9 +1,9 @@
 name: Unit Test & Lighthouse CI
 on:
   push:
-    branches: [main, develop, lighthouse]
+    branches: [main, develop]
   pull_request:
-    branches: [main, develop, lighthouse]
+    branches: [main, develop]
 
 permissions: # Github Token 없이 하는법 - Token은 만료 기간 때문에 관리 어려움
   contents: read
