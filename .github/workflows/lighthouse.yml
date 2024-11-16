@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Configure npm registry
         run: |
@@ -45,6 +44,7 @@ jobs:
       - name: Run Lighthouse CI
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0' # SSL 검증 비활성화
         run: |
           npm install -g @lhci/cli@0.12.x
           lhci autorun || echo "Lighthouse CI failed, but continuing"

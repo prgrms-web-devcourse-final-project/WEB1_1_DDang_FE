@@ -2,26 +2,15 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'npm run dev',
-      url: ['https://localhost:3000'],
+      startServerCommand: 'npm run preview',
+      url: ['http://localhost:4173'],
       numberOfRuns: 1,
-      startServerReadyPattern: 'ready in',
-      settings: {
-        chromeFlags: ['--ignore-certificate-errors', '--no-sandbox', '--disable-gpu', '--headless'],
-      },
+      startServerReadyPattern: 'Local',
     },
     upload: {
       target: 'filesystem',
       outputDir: './lhci_reports',
       reportFilenamePattern: '%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%',
     },
-    // assert: {
-    //   preset: 'lighthouse:recommended',
-    //   assertions: {
-    //     'csp-xss': 'off',
-    //     'unused-javascript': 'off',
-    //     'uses-http2': 'off',
-    //   },
-    // },
   },
 }
