@@ -2,19 +2,13 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[Feature] "
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## 📝 설명
+<!--**필수** 요청하는 기능에 대해 자세히 설명해주세요. 어떤 문제를 해결하려 하는지, 어떤 가치를 제공할 수 있는지 포함해주세요-->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## 참고자료
+<!--기능과 관련된 스크린샷, 모크업, 다이어그램 등이 있다면 첨부해주세요-->
