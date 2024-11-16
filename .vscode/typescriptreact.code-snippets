@@ -11,13 +11,13 @@
       "",
       "export default function ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}({ $2 }: ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}Props ) {",
       "  return (",
-      "    <S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}} className=\"\">",
+      "    <S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
       "      ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}",
       "    </S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
       "  )",
-      "}"
+      "}",
     ],
-    "description": "Creates a React Functional Component"
+    "description": "Creates a React Functional Component",
   },
   "Typescript React component with no props": {
     "scope": "typescriptreact",
@@ -31,9 +31,9 @@
       "      ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}",
       "    </S.${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}}>",
       "  )",
-      "}"
+      "}",
     ],
-    "description": "Creates a React Functional Component"
+    "description": "Creates a React Functional Component",
   },
   "Typescript React component with props in Mac": {
     "scope": "typescriptreact",
@@ -51,9 +51,9 @@
       "      ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}",
       "    </S.${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
       "  )",
-      "}"
+      "}",
     ],
-    "description": "Creates a React Functional Component"
+    "description": "Creates a React Functional Component",
   },
   "Typescript React component with no props in Mac": {
     "scope": "typescriptreact",
@@ -67,8 +67,8 @@
       "      ${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}}",
       "    </S.${1:${TM_DIRECTORY/.*\\/(.*)$/$1/}}>",
       "  )",
-      "}"
+      "}",
     ],
-    "description": "Creates a React Functional Component"
-  }
+    "description": "Creates a React Functional Component",
+  },
 }

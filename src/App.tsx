@@ -2,6 +2,7 @@ import PWABadge from '@/PWABadge'
 import { router } from '@/router'
 import GlobalStyle from '@/styles/globalStyle'
 import { lightTheme, darkTheme } from '@/styles/theme'
+import ModalContainer from '@modals/ModalContainer'
 import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
@@ -20,6 +21,7 @@ function App() {
         <GlobalStyle />
         <RouterProvider router={router} />
         <PWABadge />
+        <ModalContainer />
       </ThemeProvider>
     </>
   )
