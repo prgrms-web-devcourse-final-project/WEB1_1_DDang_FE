@@ -1,6 +1,7 @@
 module.exports = {
   ci: {
     collect: {
+      staticDistDir: './build',
       numberOfRuns: 1,
       startServerCommand: 'npm run dev',
       url: ['https://localhost:3000'],
@@ -9,7 +10,9 @@ module.exports = {
     //   preset: 'lighthouse:recommended',
     // },
     upload: {
-      target: 'temporary-public-storage',
+      target: 'filesystem',
+      outputDir: './lhci_reports',
+      reportFilenamePattern: '%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%',
     },
   },
 }

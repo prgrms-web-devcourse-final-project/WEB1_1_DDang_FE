@@ -46,7 +46,7 @@ jobs:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
           npm install -g @lhci/cli
-          lhci autorun --collect.settings.chromeFlags="--ignore-certificate-errors --no-sandbox --headless --disable-gpu"|| echo "Fail to Run Lighthouse CI!"
+          lhci autorun --collect.settings.chromeFlags="--ignore-certificate-errors --no-sandbox --headless --disable-gpu" || echo "Fail to Run Lighthouse CI!"
 
       - name: Format lighthouse score
         id: format_lighthouse_score
