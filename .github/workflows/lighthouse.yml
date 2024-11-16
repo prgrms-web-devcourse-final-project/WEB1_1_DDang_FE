@@ -1,3 +1,4 @@
+# .github/workflows/lighthouse.yml
 name: Unit Test & Lighthouse CI
 on:
   push:
@@ -5,7 +6,7 @@ on:
   pull_request:
     branches: [main, develop]
 
-permissions: # Github Token 없이 하는법 - Token은 만료 기간 때문에 관리 어려움
+permissions:
   contents: read
   pull-requests: write
 
@@ -45,8 +46,14 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
-          npm install -g @lhci/cli
-          lhci autorun --collect.settings.chromeFlags="--ignore-certificate-errors --no-sandbox --headless --disable-gpu" || echo "Fail to Run Lighthouse CI!"
+          npm install -g @lhci/cli@0.12.x
+          lhci autorun || echo "Lighthouse CI failed, but continuing"
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-results
+          path: .lighthouseci
 
       - name: Format lighthouse score
         id: format_lighthouse_score
@@ -55,11 +62,19 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            const reportPath = '.lighthouseci/manifest.json';
+
+            if (!fs.existsSync(reportPath)) {
+              console.log('No Lighthouse report found');
+              return;
+            }
+
+            const results = JSON.parse(fs.readFileSync(reportPath));
             let comments = "";
+
             results.forEach((result) => {
-              const { summary, jsonPath } = result;
-              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { summary } = result;
+              const details = JSON.parse(fs.readFileSync(result.jsonPath));
               const { audits } = details;
 
               const formatResult = (res) => Math.round(res * 100);
@@ -69,28 +84,34 @@ jobs:
               );
 
               const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+              
               const comment = [
-                `⚡ Lighthouse report!`,
+                `⚡ Lighthouse Report`,
                 `| Category | Score |`,
                 `| --- | --- |`,
                 `| ${score(summary.performance)} Performance | ${summary.performance} |`,
-                // ... 나머지 카테고리들
-              ].join("\n");
+                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                `| ${score(summary.seo)} SEO | ${summary.seo} |`
+              ].join('\n');
 
               const detail = [
-                `| Category | Score |`,
+                `\n### Detailed Metrics`,
+                `| Metric | Value |`,
                 `| --- | --- |`,
-                `| ${score(
-                  audits["first-contentful-paint"].score * 100
-                )} First Contentful Paint | ${
-                  audits["first-contentful-paint"].displayValue
-                } |`,
-                // ... 나머지 상세 정보들
-              ].join("\n");
-              comments += comment + "\n" + detail + "\n";
+                `| ${score(audits['first-contentful-paint'].score * 100)} First Contentful Paint | ${audits['first-contentful-paint'].displayValue} |`,
+                `| ${score(audits['largest-contentful-paint'].score * 100)} Largest Contentful Paint | ${audits['largest-contentful-paint'].displayValue} |`,
+                `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${audits['total-blocking-time'].displayValue} |`,
+                `| ${score(audits['cumulative-layout-shift'].score * 100)} Cumulative Layout Shift | ${audits['cumulative-layout-shift'].displayValue} |`,
+                `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
+              ].join('\n');
+
+              comments += comment + '\n' + detail + '\n\n';
             });
-            core.setOutput('comments', comments)
-      - name: comment PR
+
+            core.setOutput('comments', comments);
+
+      - name: Comment PR
         if: github.event_name == 'pull_request'
         uses: unsplash/comment-on-pr@v1.3.0
         env:

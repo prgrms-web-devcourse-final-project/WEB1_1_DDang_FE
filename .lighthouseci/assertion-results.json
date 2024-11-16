@@ -121,21 +121,6 @@
   {
     "name": "maxLength",
     "expected": 0,
-    "actual": 3,
-    "values": [
-      3
-    ],
-    "operator": "<=",
-    "passed": false,
-    "auditId": "unused-javascript",
-    "level": "error",
-    "url": "https://localhost:3000/",
-    "auditTitle": "Reduce unused JavaScript",
-    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/"
-  },
-  {
-    "name": "maxLength",
-    "expected": 0,
     "actual": 14,
     "values": [
       14
