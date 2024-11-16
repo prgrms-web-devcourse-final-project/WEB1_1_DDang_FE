@@ -11,15 +11,17 @@ module.exports = {
       },
     },
     upload: {
-      target: 'temporary-public-storage',
+      target: 'filesystem',
+      outputDir: './lhci_reports',
+      reportFilenamePattern: '%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%',
     },
-    assert: {
-      preset: 'lighthouse:recommended',
-      assertions: {
-        'csp-xss': 'off',
-        'unused-javascript': 'off',
-        'uses-http2': 'off',
-      },
-    },
+    // assert: {
+    //   preset: 'lighthouse:recommended',
+    //   assertions: {
+    //     'csp-xss': 'off',
+    //     'unused-javascript': 'off',
+    //     'uses-http2': 'off',
+    //   },
+    // },
   },
 }

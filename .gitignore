@@ -32,3 +32,4 @@ dev-dist
 **/lighthouse/
 .lighthouseci/*.html
 .lighthouseci/*.json
+lhci_reports

@@ -62,7 +62,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            const reportPath = '.lighthouseci/manifest.json';
+            const reportPath = './lhci_reports/manifest.json';
 
             if (!fs.existsSync(reportPath)) {
               console.log('No Lighthouse report found');
