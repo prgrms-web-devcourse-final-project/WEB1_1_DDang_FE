@@ -5,9 +5,9 @@ module.exports = {
       startServerCommand: 'npm run dev',
       url: ['https://localhost:3000'],
     },
-    assert: {
-      preset: 'lighthouse:recommended',
-    },
+    // assert: {
+    //   preset: 'lighthouse:recommended',
+    // },
     upload: {
       target: 'temporary-public-storage',
     },

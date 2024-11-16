@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import mkcert from 'vite-plugin-mkcert'
 import svgr from 'vite-plugin-svgr'
 import dts from 'vite-plugin-dts'
+import { compression } from 'vite-plugin-compression2'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
     mkcert(),
     svgr(),
     dts(),
+    compression(),
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
