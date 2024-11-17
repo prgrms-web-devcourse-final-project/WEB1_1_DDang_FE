@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
         },
 
         devOptions: {
-          enabled: false,
+          enabled: true,
           navigateFallback: 'index.html',
           suppressWarnings: true,
           type: 'module',

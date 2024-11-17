@@ -1,5 +1,5 @@
 import Footer from '@components/Footer'
-import { HomePage } from '@/pages'
+import { HomePage, LoginPage, LogPage, MyPage, WalkPage } from '@/pages'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -17,8 +17,20 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/hello',
-        element: <div>hello</div>,
+        path: '/log',
+        element: <LogPage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/walk',
+        element: <WalkPage />,
+      },
+      {
+        path: '/mypage',
+        element: <MyPage />,
       },
     ],
   },
