@@ -20,10 +20,16 @@ function App() {
             <title>DDang</title>
             <meta
               httpEquiv='Content-Security-Policy'
-              //todo 백엔드 url 추가
-              //* 참고 https://w01fgang.tistory.com/147
               content={`
                 default-src 'self';
+                script-src 'self' 'unsafe-inline' 'unsafe-eval';
+                style-src 'self' 'unsafe-inline';
+                img-src 'self' data: https:;
+                font-src 'self' data:;
+                connect-src 'self' https:;
+                frame-src 'self';
+                base-uri 'self';
+                form-action 'self';
               `}
             />
           </Helmet>
