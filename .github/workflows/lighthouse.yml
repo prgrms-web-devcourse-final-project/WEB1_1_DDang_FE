@@ -64,27 +64,27 @@ jobs:
             const reportPath = './lhci_reports/manifest.json';
 
             if (!fs.existsSync(reportPath)) {
-              console.log('No Lighthouse report found');
-              return;
+                console.log('No Lighthouse report found');
+                return;
             }
 
             const results = JSON.parse(fs.readFileSync(reportPath));
-            let comments = "";
+            // 중앙값 결과 찾기
+            const medianResult = results.find(entry => entry.isRepresentativeRun);
+            const details = JSON.parse(fs.readFileSync(medianResult.jsonPath));
+            const { summary } = medianResult;
+            const { audits } = details;
 
-            results.forEach((result) => {
-              const { summary } = result;
-              const details = JSON.parse(fs.readFileSync(result.jsonPath));
-              const { audits } = details;
+            const formatResult = (res) => Math.round(res * 100);
 
-              const formatResult = (res) => Math.round(res * 100);
-
-              Object.keys(summary).forEach(
+            Object.keys(summary).forEach(
                 (key) => (summary[key] = formatResult(summary[key]))
-              );
+            );
 
-              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
-              
-              const comment = [
+            const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+
+            // 기본 성능 메트릭
+            const performanceMetrics = [
                 `# ⚡ Lighthouse Report`,
                 `| Category | Score |`,
                 `| --- | --- |`,
@@ -92,9 +92,10 @@ jobs:
                 `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
                 `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
                 `| ${score(summary.seo)} SEO | ${summary.seo} |`
-              ].join('\n');
+            ].join('\n');
 
-              const detail = [
+            // 상세 메트릭
+            const detailedMetrics = [
                 `\n### Detailed Metrics`,
                 `| Metric | Value |`,
                 `| --- | --- |`,
@@ -103,19 +104,17 @@ jobs:
                 `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${audits['total-blocking-time'].displayValue} |`,
                 `| ${score(audits['cumulative-layout-shift'].score * 100)} Cumulative Layout Shift | ${audits['cumulative-layout-shift'].displayValue} |`,
                 `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
-              ].join('\n');
+            ].join('\n');
 
-              // CSP-XSS 정보 
-              const securityInfo = [
+            // 보안 검사 결과
+            const securityChecks = [
                 `\n### Security Checks`,
                 `| Check | Status | Details |`,
                 `| --- | --- | --- |`,
-                `| CSP-XSS | ${audits['csp-xss'].score === 1 ? '✅' : '⚠️'} | ${audits['csp-xss'].title} |`
-              ].join('\n');
+                `| CSP-XSS | ${audits['csp-xss'] ? (audits['csp-xss'].score === 1 ? '✅' : '⚠️') : '❓'} | ${audits['csp-xss'] ? audits['csp-xss'].title : 'Not available'} |`
+            ].join('\n');
 
-              comments += comment + '\n' + detail + '\n' + securityInfo + '\n\n';
-            });
-
+            const comments = performanceMetrics + '\n' + detailedMetrics + '\n' + securityChecks;
             core.setOutput('comments', comments);
 
       - name: Comment PR
