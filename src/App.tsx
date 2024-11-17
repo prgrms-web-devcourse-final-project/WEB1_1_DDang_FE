@@ -18,6 +18,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <Helmet>
             <title>DDang</title>
+            <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
           </Helmet>
           <button onClick={toggleTheme} hidden>
             Toggle Theme
