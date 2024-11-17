@@ -1,11 +1,12 @@
-import { VitePWA } from 'vite-plugin-pwa'
-import { defineConfig } from 'vite'
+import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import svgr from 'vite-plugin-svgr'
+import { defineConfig } from 'vite'
+import { compression } from 'vite-plugin-compression2'
 import dts from 'vite-plugin-dts'
 import mkcert from 'vite-plugin-mkcert'
-import { compression } from 'vite-plugin-compression2'
+import { VitePWA } from 'vite-plugin-pwa'
+import svgr from 'vite-plugin-svgr'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -15,6 +16,11 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      legacy({
+        targets: ['defaults', 'not IE 11'],
+        modernPolyfills: true,
+        renderLegacyChunks: false,
+      }),
       tsconfigPaths(),
       ...(mode === 'development' ? [mkcert()] : []),
       svgr(),
