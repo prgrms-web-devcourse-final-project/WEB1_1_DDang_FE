@@ -1,4 +1,3 @@
-# .github/workflows/lighthouse.yml
 name: Lighthouse CI
 on:
   push:
@@ -86,7 +85,7 @@ jobs:
               const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
               
               const comment = [
-                `⚡ Lighthouse Report`,
+                `# ⚡ Lighthouse Report`,
                 `| Category | Score |`,
                 `| --- | --- |`,
                 `| ${score(summary.performance)} Performance | ${summary.performance} |`,
@@ -106,7 +105,15 @@ jobs:
                 `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
               ].join('\n');
 
-              comments += comment + '\n' + detail + '\n\n';
+              // CSP-XSS 정보 
+              const securityInfo = [
+                `\n### Security Checks`,
+                `| Check | Status | Details |`,
+                `| --- | --- | --- |`,
+                `| CSP-XSS | ${audits['csp-xss'].score === 1 ? '✅' : '⚠️'} | ${audits['csp-xss'].title} |`
+              ].join('\n');
+
+              comments += comment + '\n' + detail + '\n' + securityInfo + '\n\n';
             });
 
             core.setOutput('comments', comments);
