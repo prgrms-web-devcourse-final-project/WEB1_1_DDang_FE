@@ -49,10 +49,11 @@ jobs:
           lhci autorun || echo "Lighthouse CI failed, but continuing"
 
       - name: Upload Lighthouse results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lighthouse-results
           path: .lighthouseci
+          include-hidden-files: true
 
       - name: Format lighthouse score
         id: format_lighthouse_score
