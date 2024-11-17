@@ -1,4 +1,3 @@
-import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { compression } from 'vite-plugin-compression2'
@@ -16,11 +15,6 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      legacy({
-        targets: ['defaults', 'not IE 11'],
-        modernPolyfills: true,
-        renderLegacyChunks: false,
-      }),
       tsconfigPaths(),
       ...(mode === 'development' ? [mkcert()] : []),
       svgr(),
