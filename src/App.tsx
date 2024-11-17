@@ -18,20 +18,6 @@ function App() {
         <ThemeProvider theme={theme}>
           <Helmet>
             <title>DDang</title>
-            <meta
-              httpEquiv='Content-Security-Policy'
-              content={`
-                default-src 'self';
-                script-src 'self' 'unsafe-inline' 'unsafe-eval';
-                style-src 'self' 'unsafe-inline';
-                img-src 'self' data: https:;
-                font-src 'self' data:;
-                connect-src 'self' https:;
-                frame-src 'self';
-                base-uri 'self';
-                form-action 'self';
-              `}
-            />
           </Helmet>
           <button onClick={toggleTheme} hidden>
             Toggle Theme
