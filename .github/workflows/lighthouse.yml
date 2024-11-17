@@ -1,5 +1,5 @@
 # .github/workflows/lighthouse.yml
-name: Unit Test & Lighthouse CI
+name: Lighthouse CI
 on:
   push:
     branches: [main, develop]
