@@ -18,14 +18,6 @@ function App() {
         <ThemeProvider theme={theme}>
           <Helmet>
             <title>DDang</title>
-            <meta
-              httpEquiv='Content-Security-Policy'
-              //todo 백엔드 url 추가
-              //* 참고 https://w01fgang.tistory.com/147
-              content={`
-                default-src 'self';
-              `}
-            />
           </Helmet>
           <button onClick={toggleTheme} hidden>
             Toggle Theme
