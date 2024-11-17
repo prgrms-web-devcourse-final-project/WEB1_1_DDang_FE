@@ -5,6 +5,7 @@ import { lightTheme, darkTheme } from '@/styles/theme'
 import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 function App() {
   //* 다크모드 확장성 고려
@@ -13,14 +14,27 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <button onClick={toggleTheme} hidden>
-          Toggle Theme
-        </button>
-        <GlobalStyle />
-        <RouterProvider router={router} />
-        <PWABadge />
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider theme={theme}>
+          <Helmet>
+            <title>DDang</title>
+            <meta
+              httpEquiv='Content-Security-Policy'
+              //todo 백엔드 url 추가
+              //* 참고 https://w01fgang.tistory.com/147
+              content={`
+                default-src 'self';
+              `}
+            />
+          </Helmet>
+          <button onClick={toggleTheme} hidden>
+            Toggle Theme
+          </button>
+          <GlobalStyle />
+          <RouterProvider router={router} />
+          <PWABadge />
+        </ThemeProvider>
+      </HelmetProvider>
     </>
   )
 }
