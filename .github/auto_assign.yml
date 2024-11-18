@@ -1,0 +1,18 @@
+addReviewers: true
+addAssignees: author
+useReviewGroups: true
+numberOfReviewers: 2
+
+reviewGroups:
+  kimjuyoung99:
+    - ruehan
+    - shlee9999
+  ruehan:
+    - shlee9999
+    - wonill
+  shlee9999:
+    - wonill
+    - kimjuyoung99
+  wonill:
+    - kimjuyoung99
+    - ruehan
