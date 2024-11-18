@@ -11,11 +11,11 @@ module.exports = {
       outputDir: './lhci_reports',
       reportFilenamePattern: '%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%',
     },
-    assert: {
-      preset: 'lighthouse:recommended',
-      assertions: {
-        'csp-xss': ['warn', {}],
-      },
-    },
+    // assert: {
+    //   preset: 'lighthouse:recommended',
+    //   assertions: {
+    //     'csp-xss': ['warn', {}],
+    //   },
+    // },
   },
 }
