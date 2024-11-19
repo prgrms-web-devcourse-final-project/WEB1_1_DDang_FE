@@ -1,0 +1,55 @@
+name: Delete Merged Branches
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 매일 자정에 실행
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  delete-merged-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Delete old merged branches
+        run: |
+          # 시작 로그
+          echo "Starting branch cleanup process..."
+
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+          # develop 브랜치로 전환
+          echo "Switching to develop branch..."
+          git checkout develop
+
+          # 현재 시간 기록
+          echo "Current time: $(date)"
+
+          # 병합된 브랜치 검사 및 삭제
+          echo "Checking for merged branches older than 7 days..."
+          git branch -r --merged develop | \
+            grep -v 'main\|develop' | \
+            grep "origin/" | \
+            cut -d "/" -f 2- | \
+            while read branch; do
+              echo "Checking branch: $branch"
+              last_commit_date=$(git log -1 --format=%cd origin/$branch)
+              echo "Last commit date: $last_commit_date"
+              
+              if [[ $(git log -1 --since='7 days ago' origin/$branch) == "" ]]; then
+                echo "Branch '$branch' is older than 7 days and will be deleted"
+                git push origin --delete $branch
+                echo "Successfully deleted branch: $branch"
+              else
+                echo "Branch '$branch' is still active (less than 7 days old)"
+              fi
+            done
+
+          # 완료 로그
+          echo "Branch cleanup process completed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
