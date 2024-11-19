@@ -4,3 +4,5 @@ Disallow: /mypage
 Allow: /assets/
 Allow: /log/
 Allow: /walk/
+
+Sitemap: https://localhost:3000/sitemap.xml
