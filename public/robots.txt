@@ -1,8 +1,8 @@
 User-agent: *
-Disallow: /login
-Disallow: /mypage
 Allow: /assets/
 Allow: /log/
 Allow: /walk/
+Disallow: /login
+Disallow: /mypage
 
 Sitemap: https://localhost:3000/sitemap.xml

@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import Sitemap from 'vite-plugin-sitemap'
 import { compression } from 'vite-plugin-compression2'
 import dts from 'vite-plugin-dts'
 import mkcert from 'vite-plugin-mkcert'
@@ -9,6 +10,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const baseUrl = mode === 'development' ? 'https://localhost:3000' : 'https://localhost:4173';
   return {
     server: {
       port: 3000,
@@ -41,6 +43,7 @@ export default defineConfig(({ mode }) => {
 
         injectManifest: {
           globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+          globIgnores: ['**/sitemap.xml'],
         },
 
         devOptions: {
@@ -49,6 +52,39 @@ export default defineConfig(({ mode }) => {
           suppressWarnings: true,
           type: 'module',
         },
+      }),
+      Sitemap({
+        hostname: baseUrl,
+        dynamicRoutes: [
+          '/',
+          '/log',
+          '/login',
+          '/walk',
+          '/mypage'
+        ],
+        exclude: [],
+        changefreq: 'weekly',
+        priority: {
+          '/': 1.0,
+          '*': 0.8
+        },
+        lastmod: new Date(),
+        outDir: mode === 'development' ? 'public' : 'dist',
+        readable: true,
+        robots: [
+          {
+            userAgent: '*',
+            allow: [
+              '/assets/',
+              '/log/',
+              '/walk/'
+            ],
+            disallow: [
+              '/login',
+              '/mypage'
+            ]
+          }
+        ]
       }),
     ],
     build: {
