@@ -9,20 +9,17 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
 })
 
-// self.__WB_MANIFEST is the default injection point
 precacheAndRoute(self.__WB_MANIFEST)
 
-// clean old assets
 cleanupOutdatedCaches()
 
 const EXCLUDED_PATHS = ['/sitemap.xml']
 
 /** @type {RegExp[] | undefined} */
 let allowlist
-// in dev mode, we disable precaching to avoid caching issues
+
 if (import.meta.env.DEV) allowlist = [/^\/$/]
 
-// to allow work offline
 registerRoute(
   new NavigationRoute(
     createHandlerBoundToURL('index.html'),
@@ -47,7 +44,7 @@ registerRoute(
   })
 )
 
-// 다른 모든 요청에 대한 네트워크 우선 전략
+
 registerRoute(
   ({ url }) => {
     return !url.pathname.endsWith('sitemap.xml')

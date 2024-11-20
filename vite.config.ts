@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import Sitemap from 'vite-plugin-sitemap'
 import { compression } from 'vite-plugin-compression2'
 import dts from 'vite-plugin-dts'
@@ -10,7 +10,9 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const baseUrl = mode === 'development' ? 'https://localhost:3000' : 'https://localhost:4173';
+  const env = loadEnv(mode, process.cwd(), '');
+  const baseUrl = mode === 'production' ? env.BASE_URL : 'https://localhost:3000'
+  
   return {
     server: {
       port: 3000,
