@@ -1,5 +1,4 @@
-import { BrandColors, GrayscaleColors } from '@/styles/styled'
-import { styled } from 'styled-components'
+import { BrandColors, GrayscaleColors, styled } from 'styled-components'
 
 type ActionButtonProps = {
   $bgColor:
@@ -16,6 +15,9 @@ const buttonFontColorMap = {
   gc_1: 'font_4',
 } as const
 
+/**
+ *
+ */
 export const ActionButton = styled.button<ActionButtonProps>`
   width: 100%;
   padding: 1rem;
@@ -30,17 +32,4 @@ export const ActionButton = styled.button<ActionButtonProps>`
       : type === 'semiRoundedRect'
         ? theme.typography._15
         : theme.typography._17};
-`
-
-export const Input = styled.input`
-  width: 100%;
-  border: none;
-  font-size: ${({ theme }) => theme.typography._20};
-  text-align: center;
-  /* transition: 0.15s box-shadow; */
-  padding: 17px 32px;
-  border-radius: 12px;
-  &:focus {
-    box-shadow: ${({ theme }) => `inset 0 0 0 1px ${theme.colors.grayscale.font_1}`};
-  }
 `
