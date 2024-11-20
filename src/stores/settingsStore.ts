@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
-interface SettingsStore {
+type SettingsStore = {
+  allNotifications: boolean
   friendRequests: boolean
   familyWalkNotifications: boolean
   myWalkNotifications: boolean
@@ -11,15 +12,18 @@ interface SettingsStore {
   setMyWalkNotifications: (value: boolean) => void
   setMessages: (value: boolean) => void
   setGangbuntta: (value: boolean) => void
+  setAllNotifications: (value: boolean) => void
 }
 
 export const useSettingsStore = create<SettingsStore>(set => ({
+  allNotifications: true,
   friendRequests: true,
   familyWalkNotifications: true,
   myWalkNotifications: true,
   messages: true,
   gangbuntta: true,
 
+  setAllNotifications: value => set({ friendRequests: value }),
   setFriendRequests: value => set({ friendRequests: value }),
   setFamilyWalkNotifications: value => set({ familyWalkNotifications: value }),
   setMyWalkNotifications: value => set({ myWalkNotifications: value }),
