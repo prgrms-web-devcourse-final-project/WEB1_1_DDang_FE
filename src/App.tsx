@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import ToggleArea from '@components/ToggleArea'
 
 function App() {
   //* 다크모드 확장성 고려
@@ -23,6 +24,7 @@ function App() {
           <button onClick={toggleTheme} hidden>
             Toggle Theme
           </button>
+          <ToggleArea />
           <GlobalStyle />
           <RouterProvider router={router} />
           <PWABadge />
