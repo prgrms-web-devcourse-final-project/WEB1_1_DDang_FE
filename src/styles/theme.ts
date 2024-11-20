@@ -9,8 +9,6 @@ const brand = {
   sub: '#6CA719',
 } as const
 
-export type BrandKey = keyof typeof brand
-
 const grayscale = {
   font_1: '#111111', // 기본 텍스트 색상
   font_2: '#505050',
@@ -21,8 +19,6 @@ const grayscale = {
   gc_3: '#F7F7FB',
   gc_4: '#FFFFFF', // 가장 밝은 배경
 } as const
-
-export type GrayscaleKey = keyof typeof grayscale
 
 const grayscaleDark = {
   font_1: '#FFFFFF', // 어두운 모드에서 기본 텍스트 색상
