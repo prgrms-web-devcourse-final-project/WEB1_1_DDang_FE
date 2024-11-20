@@ -1,8 +1,8 @@
-import { GrayscaleColors, styled } from 'styled-components'
+import { FontWeight, GrayscaleColors, styled } from 'styled-components'
 
 type TypoProps = {
   color?: keyof GrayscaleColors
-  weight?: 300 | 400 | 700 | 800
+  weight?: FontWeight
 }
 
 const Typo = styled.p<TypoProps>`

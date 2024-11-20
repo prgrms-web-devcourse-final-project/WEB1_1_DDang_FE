@@ -39,4 +39,6 @@ declare module 'styled-components' {
     _13: string
     _11: string
   }
+
+  export type FontWeight = '300' | '400' | '700' | '800'
 }
