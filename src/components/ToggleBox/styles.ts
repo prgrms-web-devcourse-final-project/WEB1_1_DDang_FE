@@ -5,7 +5,6 @@ export const ToggleBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 18px 16px 18px 20px;
-  border: 1px solid black;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   &:first-of-type {
     border-top-left-radius: 16px;

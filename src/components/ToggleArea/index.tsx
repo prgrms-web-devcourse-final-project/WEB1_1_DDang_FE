@@ -3,8 +3,7 @@ import * as S from './styles'
 
 export default function ToggleArea() {
   return (
-    <S.ToggleArea className=''>
-      <ToggleBox setting={'allNotifications'} />
+    <S.ToggleArea>
       <ToggleBox setting={'friendRequests'} />
       <ToggleBox setting={'familyWalkNotifications'} />
       <ToggleBox setting={'myWalkNotifications'} />

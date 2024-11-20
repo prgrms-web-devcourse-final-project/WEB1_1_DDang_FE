@@ -13,7 +13,7 @@ export default function ToggleBox({ setting }: ToggleBoxProps) {
   return (
     <S.ToggleBox>
       <S.MainArea>
-        <Typo17 color='font_1'>{SETTINGS_INFO[setting].title}</Typo17>
+        <Typo17 weight={700}>{SETTINGS_INFO[setting].title}</Typo17>
         {SETTINGS_INFO[setting].desc ? <Typo15>{SETTINGS_INFO[setting].desc}</Typo15> : null}
       </S.MainArea>
       <Toggle id={setting} setting={setting} />
