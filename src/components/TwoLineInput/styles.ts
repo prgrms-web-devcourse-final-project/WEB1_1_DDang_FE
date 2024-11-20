@@ -7,7 +7,7 @@ export const TwoLineInput = styled(TextareaAutosize)`
   text-align: center;
   padding: 17px 32px;
   border-radius: 12px;
-  font-size: ${({ theme }) => theme.typography.suitVariable20pt};
+  font-size: ${({ theme }) => theme.typography._20};
   resize: none; // 수동 리사이즈 방지
   overflow: hidden; // 스크롤바 제거
   &:focus {
