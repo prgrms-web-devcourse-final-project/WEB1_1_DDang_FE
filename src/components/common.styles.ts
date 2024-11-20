@@ -30,6 +30,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
 export const Input = styled.input`
   width: 100%;
   border: none;
+  font-size: ${({ theme }) => theme.typography.suitVariable20pt};
   text-align: center;
   /* transition: 0.15s box-shadow; */
   padding: 17px 32px;
