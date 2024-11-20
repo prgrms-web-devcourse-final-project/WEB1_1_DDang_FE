@@ -26,3 +26,15 @@ export const ActionButton = styled.button<ActionButtonProps>`
   font-size: ${({ rounded, theme }) =>
     rounded === 'regular' ? theme.typography.suitVariable15pt : theme.typography.suitVariable17pt};
 `
+
+export const Input = styled.input`
+  width: 100%;
+  border: none;
+  text-align: center;
+  /* transition: 0.15s box-shadow; */
+  padding: 17px 32px;
+  border-radius: 12px;
+  &:focus {
+    box-shadow: ${({ theme }) => `inset 0 0 0 1px ${theme.colors.grayscale.font_1}`};
+  }
+`

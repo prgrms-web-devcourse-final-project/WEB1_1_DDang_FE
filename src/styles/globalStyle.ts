@@ -61,6 +61,15 @@ const GlobalStyle = createGlobalStyle`
     font-family: inherit; /* 폰트 상속 */
     outline: none;
   }
+
+  input {
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.grayscale.font_3};
+    }
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
 `
 
 export default GlobalStyle
