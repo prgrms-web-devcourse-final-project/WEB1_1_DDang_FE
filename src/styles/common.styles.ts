@@ -1,9 +1,11 @@
-import { BrandKey, GrayscaleKey } from '@/styles/theme'
+import { BrandColors, GrayscaleColors } from '@/styles/styled'
 import { styled } from 'styled-components'
 
 type ActionButtonProps = {
-  bgColor: Extract<BrandKey, 'default' | 'lighten_2'> | Extract<GrayscaleKey, 'gc_4' | 'gc_1' | 'font_1'>
-  rounded: 'regular' | 'full'
+  $bgColor:
+    | Extract<keyof BrandColors, 'default' | 'lighten_2'>
+    | Extract<keyof GrayscaleColors, 'gc_4' | 'gc_1' | 'font_1'>
+  $type: 'roundedRect' | 'semiRoundedRect' | 'capsule'
 }
 
 const buttonFontColorMap = {
@@ -17,13 +19,17 @@ const buttonFontColorMap = {
 export const ActionButton = styled.button<ActionButtonProps>`
   width: 100%;
   padding: 1rem;
-  background-color: ${({ bgColor, theme }) =>
-    bgColor.includes('gc') || bgColor.includes('font')
-      ? theme.colors.grayscale[bgColor as Extract<GrayscaleKey, 'gc_4' | 'gc_1' | 'font_1'>]
-      : theme.colors.brand[bgColor as Extract<BrandKey, 'default' | 'lighten_2'>]};
-  color: ${({ bgColor, theme }) => theme.colors.grayscale[buttonFontColorMap[bgColor]]};
-  border-radius: ${({ rounded }) => (rounded === 'regular' ? '12px' : '100px')};
-  font-size: ${({ rounded, theme }) => (rounded === 'regular' ? theme.typography._15 : theme.typography._17)};
+  background-color: ${({ theme, $bgColor: bgColor }) =>
+    theme.colors.grayscale[bgColor as keyof GrayscaleColors] || theme.colors.brand[bgColor as keyof BrandColors]};
+  color: ${({ $bgColor: bgColor, theme }) => theme.colors.grayscale[buttonFontColorMap[bgColor]]};
+  border-radius: ${({ $type: type }) =>
+    type === 'roundedRect' ? '12px' : type === 'semiRoundedRect' ? '20px' : '100px'};
+  font-size: ${({ $type: type, theme }) =>
+    type === 'roundedRect'
+      ? theme.typography._14
+      : type === 'semiRoundedRect'
+        ? theme.typography._15
+        : theme.typography._17};
 `
 
 export const Input = styled.input`
