@@ -1,20 +1,22 @@
+import { SettingsStoreKey, useSettingsStore } from '@stores/settingsStore'
 import * as S from './styles'
-import { useState } from 'react'
 
 type ToggleProps = {
   id: string
+  setting: SettingsStoreKey
 }
 
-export default function Toggle({ id }: ToggleProps) {
-  const [checked, setChecked] = useState(false)
+export default function Toggle({ id, setting }: ToggleProps) {
+  const value = useSettingsStore(state => state[setting])
+  const setSetting = useSettingsStore(state => state.setSetting)
 
-  const handleChange = () => {
-    setChecked(!checked)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSetting(setting, e.target.checked)
   }
 
   return (
     <S.Toggle>
-      <input name={id} id={id} type='checkbox' checked={checked} onChange={handleChange} hidden />
+      <input name={id} id={id} type='checkbox' checked={value} onChange={handleChange} hidden />
       <label htmlFor={id}>
         <S.Circle />
       </label>

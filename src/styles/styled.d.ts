@@ -23,13 +23,13 @@ declare module 'styled-components' {
       }
     }
     typography: {
-      suitVariable24pt: string
-      suitVariable20pt: string
-      suitVariable17pt: string
-      suitVariable15pt: string
-      suitVariable14pt: string
-      suitVariable13pt: string
-      suitVariable11pt: string
+      _24: string
+      _20: string
+      _17: string
+      _15: string
+      _14: string
+      _13: string
+      _11: string
     }
   }
 }

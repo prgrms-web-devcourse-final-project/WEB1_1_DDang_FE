@@ -23,14 +23,13 @@ export const ActionButton = styled.button<ActionButtonProps>`
       : theme.colors.brand[bgColor as Extract<BrandKey, 'default' | 'lighten_2'>]};
   color: ${({ bgColor, theme }) => theme.colors.grayscale[buttonFontColorMap[bgColor]]};
   border-radius: ${({ rounded }) => (rounded === 'regular' ? '12px' : '100px')};
-  font-size: ${({ rounded, theme }) =>
-    rounded === 'regular' ? theme.typography.suitVariable15pt : theme.typography.suitVariable17pt};
+  font-size: ${({ rounded, theme }) => (rounded === 'regular' ? theme.typography._15 : theme.typography._17)};
 `
 
 export const Input = styled.input`
   width: 100%;
   border: none;
-  font-size: ${({ theme }) => theme.typography.suitVariable20pt};
+  font-size: ${({ theme }) => theme.typography._20};
   text-align: center;
   /* transition: 0.15s box-shadow; */
   padding: 17px 32px;

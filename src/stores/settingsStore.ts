@@ -7,12 +7,7 @@ type SettingsStore = {
   myWalkNotifications: boolean
   messages: boolean
   gangbuntta: boolean
-  setFriendRequests: (value: boolean) => void
-  setFamilyWalkNotifications: (value: boolean) => void
-  setMyWalkNotifications: (value: boolean) => void
-  setMessages: (value: boolean) => void
-  setGangbuntta: (value: boolean) => void
-  setAllNotifications: (value: boolean) => void
+  setSetting: (key: keyof Omit<SettingsStore, 'setSetting'>, value: boolean) => void
 }
 
 export const useSettingsStore = create<SettingsStore>(set => ({
@@ -23,10 +18,11 @@ export const useSettingsStore = create<SettingsStore>(set => ({
   messages: true,
   gangbuntta: true,
 
-  setAllNotifications: value => set({ friendRequests: value }),
-  setFriendRequests: value => set({ friendRequests: value }),
-  setFamilyWalkNotifications: value => set({ familyWalkNotifications: value }),
-  setMyWalkNotifications: value => set({ myWalkNotifications: value }),
-  setMessages: value => set({ messages: value }),
-  setGangbuntta: value => set({ gangbuntta: value }),
+  setSetting: (key, value) =>
+    set(state => ({
+      ...state,
+      [key]: value,
+    })),
 }))
+
+export type SettingsStoreKey = keyof Omit<SettingsStore, 'setSetting'>

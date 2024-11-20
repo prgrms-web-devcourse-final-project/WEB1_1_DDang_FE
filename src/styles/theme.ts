@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components'
 
-export const brand = {
+const brand = {
   darken: '#462008',
   default: '#783D16',
   lighten_1: '#ECB99A',
@@ -11,7 +11,7 @@ export const brand = {
 
 export type BrandKey = keyof typeof brand
 
-export const grayscale = {
+const grayscale = {
   font_1: '#111111', // 기본 텍스트 색상
   font_2: '#505050',
   font_3: '#767676',
@@ -24,7 +24,7 @@ export const grayscale = {
 
 export type GrayscaleKey = keyof typeof grayscale
 
-export const grayscaleDark = {
+const grayscaleDark = {
   font_1: '#FFFFFF', // 어두운 모드에서 기본 텍스트 색상
   font_2: '#E5E5EC', // 밝은 회색 톤의 텍스트
   font_3: '#999999',
@@ -36,13 +36,13 @@ export const grayscaleDark = {
 } as const
 
 export const typography = {
-  suitVariable24pt: '24px',
-  suitVariable20pt: '20px',
-  suitVariable17pt: '17px',
-  suitVariable15pt: '15px',
-  suitVariable14pt: '14px',
-  suitVariable13pt: '13px',
-  suitVariable11pt: '11px',
+  _24: '24px',
+  _20: '20px',
+  _17: '17px',
+  _15: '15px',
+  _14: '14px',
+  _13: '13px',
+  _11: '11px',
 } as const
 
 export const lightTheme: DefaultTheme = {
