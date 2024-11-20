@@ -1,8 +1,7 @@
-import { styled } from 'styled-components'
-import { DefaultTheme } from 'styled-components/dist/types'
+import { GrayscaleColors, styled } from 'styled-components'
 
 type TypoProps = {
-  color?: keyof DefaultTheme['colors']['grayscale']
+  color?: keyof GrayscaleColors
   weight?: 300 | 400 | 700 | 800
 }
 
