@@ -5,6 +5,7 @@ declare module 'styled-components' {
     colors: Colors
     typography: Typography
   }
+
   export type BrandColors = {
     darken: string
     default: string

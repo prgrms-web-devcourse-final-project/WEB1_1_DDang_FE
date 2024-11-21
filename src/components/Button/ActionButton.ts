@@ -1,4 +1,4 @@
-import styled, { BrandColors, GrayscaleColors } from 'styled-components'
+import styled, { BrandColors, GrayscaleColors, Typography } from 'styled-components'
 
 type BgColorType =
   | Extract<keyof BrandColors, 'default' | 'lighten_2'>
@@ -12,7 +12,7 @@ type ActionButtonProps = {
 type ActionButtonStyles = {
   padding: string
   borderRadius: string
-  fontSize: string
+  fontSize: keyof Typography
 }
 
 const ACTION_BUTTON_FONT_COLORS: Record<BgColorType, keyof GrayscaleColors> = {
@@ -23,7 +23,7 @@ const ACTION_BUTTON_FONT_COLORS: Record<BgColorType, keyof GrayscaleColors> = {
   gc_1: 'font_4',
 } as const
 
-const ACTION_BUTTON_STYLES: Record<string, ActionButtonStyles> = {
+const ACTION_BUTTON_STYLES: Record<Exclude<ActionButtonProps['$type'], undefined>, ActionButtonStyles> = {
   roundedRect: {
     padding: '15.5px 24px',
     borderRadius: '12px',
@@ -44,7 +44,7 @@ const ACTION_BUTTON_STYLES: Record<string, ActionButtonStyles> = {
 export const ActionButton = styled.button<ActionButtonProps>`
   width: 100%;
   background-color: ${({ theme, $bgColor = 'default' }) =>
-    theme.colors.grayscale[$bgColor] || theme.colors.brand[$bgColor]};
+    theme.colors.grayscale[$bgColor as keyof GrayscaleColors] || theme.colors.brand[$bgColor as keyof BrandColors]};
   color: ${({ theme, $bgColor = 'default' }) => theme.colors.grayscale[ACTION_BUTTON_FONT_COLORS[$bgColor]]};
   padding: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.padding};
   border-radius: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.borderRadius};
