@@ -7,8 +7,8 @@
       "",
       "export const ${1:${TM_DIRECTORY/^.+\\\\(.*)$/$1/}} = styled.div`",
       " $2",
-      "`;"
-    ]
+      "`;",
+    ],
   },
   "Typescript React Styled Components in Mac": {
     "scope": "typescript",
@@ -18,7 +18,7 @@
       "",
       "export const ${3:${TM_DIRECTORY/.*\\/(.*)$/$1/}} = styled.div`",
       " $2",
-      "`;"
-    ]
-  }
+      "`;",
+    ],
+  },
 }

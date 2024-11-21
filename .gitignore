@@ -24,3 +24,12 @@ dev-dist
 
 # .env
 .env
+
+#lighthouse
+.lighthouseci/
+**/lighthouse-report.html
+**/lighthouse.report.html
+**/lighthouse/
+.lighthouseci/*.html
+.lighthouseci/*.json
+lhci_reports

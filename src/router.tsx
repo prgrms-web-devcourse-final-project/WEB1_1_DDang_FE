@@ -1,24 +1,40 @@
+import { Suspense } from 'react'
 import Footer from '@components/Footer'
-import { HomePage } from '@/pages'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
+import * as Pages from './components/LazyComponents'
+import Loader from '@components/Loader'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
         <Footer />
       </>
     ),
     children: [
       {
         path: '/',
-        element: <HomePage />,
+        element: <Pages.HomePage />,
       },
       {
-        path: '/hello',
-        element: <div>hello</div>,
+        path: '/log',
+        element: <Pages.LogPage />,
+      },
+      {
+        path: '/login',
+        element: <Pages.LoginPage />,
+      },
+      {
+        path: '/walk',
+        element: <Pages.WalkPage />,
+      },
+      {
+        path: '/mypage',
+        element: <Pages.MyPage />,
       },
     ],
   },

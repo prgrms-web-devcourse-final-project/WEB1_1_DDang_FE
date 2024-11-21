@@ -1,0 +1,127 @@
+name: Lighthouse CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Configure npm registry
+        run: |
+          echo "Configuring npm to use public registry"
+          npm config set registry https://registry.npmjs.org/
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Remove package-lock.json
+        run: rm -f package-lock.json
+
+      - name: Install dependencies
+        run: npm install --registry=https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ''
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0' # SSL 검증 비활성화
+        run: |
+          npm install -g @lhci/cli@0.12.x
+          lhci autorun || echo "Lighthouse CI failed, but continuing"
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: .lighthouseci
+          include-hidden-files: true
+
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const reportPath = './lhci_reports/manifest.json';
+
+            if (!fs.existsSync(reportPath)) {
+                console.log('No Lighthouse report found');
+                return;
+            }
+
+            const results = JSON.parse(fs.readFileSync(reportPath));
+            // 중앙값 결과 찾기
+            const medianResult = results.find(entry => entry.isRepresentativeRun);
+            const details = JSON.parse(fs.readFileSync(medianResult.jsonPath));
+            const { summary } = medianResult;
+            const { audits } = details;
+
+            const formatResult = (res) => Math.round(res * 100);
+
+            Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+            );
+
+            const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+
+            // 기본 성능 메트릭
+            const performanceMetrics = [
+                `# ⚡ Lighthouse Report`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                `| ${score(summary.seo)} SEO | ${summary.seo} |`
+            ].join('\n');
+
+            // 상세 메트릭
+            const detailedMetrics = [
+                `\n### Detailed Metrics`,
+                `| Metric | Value |`,
+                `| --- | --- |`,
+                `| ${score(audits['first-contentful-paint'].score * 100)} First Contentful Paint | ${audits['first-contentful-paint'].displayValue} |`,
+                `| ${score(audits['largest-contentful-paint'].score * 100)} Largest Contentful Paint | ${audits['largest-contentful-paint'].displayValue} |`,
+                `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${audits['total-blocking-time'].displayValue} |`,
+                `| ${score(audits['cumulative-layout-shift'].score * 100)} Cumulative Layout Shift | ${audits['cumulative-layout-shift'].displayValue} |`,
+                `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
+            ].join('\n');
+
+            // 보안 검사 결과
+            const securityChecks = [
+                `\n### Security Checks`,
+                `| Check | Status | Details |`,
+                `| --- | --- | --- |`,
+                `| CSP-XSS | ${audits['csp-xss'] ? (audits['csp-xss'].score === 1 ? '✅' : '⚠️') : '❓'} | ${audits['csp-xss'] ? audits['csp-xss'].title : 'Not available'} |`
+            ].join('\n');
+
+            const comments = performanceMetrics + '\n' + detailedMetrics + '\n' + securityChecks;
+            core.setOutput('comments', comments);
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comments}}

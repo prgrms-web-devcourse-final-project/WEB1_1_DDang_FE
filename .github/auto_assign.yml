@@ -1,0 +1,15 @@
+addReviewers: true
+addAssignees: author
+
+reviewers:
+  - ruehan
+  - shlee9999
+  - wonill
+  - kimjuyoung99
+
+numberOfReviewers: 2
+
+skipKeywords:
+  - wip
+
+filterUserReviewer: true
