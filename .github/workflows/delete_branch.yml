@@ -2,8 +2,11 @@ name: Delete Merged Branches
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 매일 자정에 실행
-  workflow_dispatch: # 수동 실행 가능
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   delete-merged-branches:
@@ -13,43 +16,42 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete old merged branches
         run: |
-          # 시작 로그
           echo "Starting branch cleanup process..."
 
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
 
-          # develop 브랜치로 전환
           echo "Switching to develop branch..."
           git checkout develop
 
-          # 현재 시간 기록
           echo "Current time: $(date)"
 
-          # 병합된 브랜치 검사 및 삭제
+          # 원격 브랜치 최신 정보 업데이트
+          git fetch --prune origin
+
           echo "Checking for merged branches older than 7 days..."
           git branch -r --merged develop | \
-            grep -v 'main\|develop' | \
-            grep "origin/" | \
-            cut -d "/" -f 2- | \
+            grep -v 'origin/main\|origin/develop' | \
             while read branch; do
-              echo "Checking branch: $branch"
-              last_commit_date=$(git log -1 --format=%cd origin/$branch)
+              branch_name=${branch#origin/}
+              echo "Checking branch: $branch_name"
+              
+              # 마지막 커밋 날짜 확인
+              last_commit_date=$(git log -1 --format=%cd $branch)
               echo "Last commit date: $last_commit_date"
               
-              if [[ $(git log -1 --since='7 days ago' origin/$branch) == "" ]]; then
-                echo "Branch '$branch' is older than 7 days and will be deleted"
-                git push origin --delete $branch
-                echo "Successfully deleted branch: $branch"
+              if [[ $(git log -1 --since='7 days ago' $branch) == "" ]]; then
+                echo "Branch '$branch_name' is older than 7 days and will be deleted"
+                git push origin --delete $branch_name || echo "Failed to delete branch: $branch_name"
               else
-                echo "Branch '$branch' is still active (less than 7 days old)"
+                echo "Branch '$branch_name' is still active (less than 7 days old)"
               fi
             done
 
-          # 완료 로그
           echo "Branch cleanup process completed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
