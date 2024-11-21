@@ -1,4 +1,4 @@
-import { SettingsStoreKey } from '@stores/settingsStore'
+import { SettingsStoreKey } from '~stores/settingsStore'
 
 export const SETTINGS_INFO: Record<SettingsStoreKey, { title: string; desc: string }> = {
   allNotifications: {
