@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       proxy: {
         '^/ors/v2/directions/.*': {
-          target: 'http://112.162.84.70:8002',
+          target: 'http://112.162.84.70:8003',
           changeOrigin: true,
           secure: false,
           rewrite: path => path,
