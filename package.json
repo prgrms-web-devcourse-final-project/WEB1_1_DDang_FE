@@ -13,6 +13,8 @@
     "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@types/ol": "^7.0.0",
+    "ol": "^10.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
@@ -24,8 +26,8 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^22.9.0",
     "@eslint/js": "^9.13.0",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@types/styled-components": "^5.1.34",
@@ -44,12 +46,12 @@
     "typescript": "^5.2.2",
     "typescript-eslint": "^8.11.0",
     "vite": "^5.2.10",
-    "vite-plugin-compression2": "^1.3.1",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-compression2": "^1.3.1",
     "vite-plugin-dts": "^4.3.0",
     "vite-plugin-mkcert": "^1.17.6",
-    "vite-plugin-svgr": "^4.3.0",
     "vite-plugin-pwa": "^0.20.5",
+    "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.2",
     "workbox-core": "^7.1.0",
     "workbox-precaching": "^7.1.0",
