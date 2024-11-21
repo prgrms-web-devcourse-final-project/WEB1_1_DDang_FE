@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { useModalStore } from '@stores/modalStore'
+import { useModalStore } from '~stores/modalStore'
 
 export default function ModalContainer() {
   const { modalList } = useModalStore()
