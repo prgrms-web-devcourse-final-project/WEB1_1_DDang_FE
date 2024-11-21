@@ -1,9 +1,9 @@
 import * as S from './styles'
-import { ActionButton } from '../../../components/Button/ActionButton'
-import AddDogPicture from '../../../assets/add-dog-picture.svg'
-import TwoLineInput  from '../../../components/Input/TwoLineInput'
-import PrevButton from '../../../components/Button/PrevButton'
-import { Typo24 } from './../../../components/Typo/index';
+import { ActionButton } from '~components/Button/ActionButton'
+import AddDogPicture from '~assets/add-dog-picture.svg'
+import TwoLineInput  from '~components/Input/TwoLineInput'
+import PrevButton from '~components/Button/PrevButton'
+import { Typo24 } from '~components/Typo/index';
 
 export default function DogProfileSection() {
   return (
