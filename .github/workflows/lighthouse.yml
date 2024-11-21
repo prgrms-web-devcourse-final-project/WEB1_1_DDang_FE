@@ -38,6 +38,8 @@ jobs:
           NODE_AUTH_TOKEN: ''
 
       - name: Build project
+        env:
+          BASE_URL: "https://ddang.pages.dev"
         run: npm run build
 
       - name: Run Lighthouse CI
