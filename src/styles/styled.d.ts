@@ -1,10 +1,11 @@
 import 'styled-components'
 
 declare module 'styled-components' {
-  export type DefaultTheme = {
+  export interface DefaultTheme {
     colors: Colors
     typography: Typography
   }
+
   export type BrandColors = {
     darken: string
     default: string
