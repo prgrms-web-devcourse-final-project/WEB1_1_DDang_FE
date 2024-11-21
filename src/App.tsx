@@ -1,11 +1,11 @@
-import PWABadge from '@/PWABadge'
-import { router } from '@/router'
-import GlobalStyle from '@/styles/globalStyle'
-import { lightTheme, darkTheme } from '@/styles/theme'
-import ModalContainer from '@modals/ModalContainer'
+
+import PWABadge from '~/PWABadge'
+import { router } from '~/router'
+import GlobalStyle from '~/styles/globalStyle'
+import { lightTheme, darkTheme } from '~/styles/theme'
 import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 function App() {
@@ -25,7 +25,9 @@ function App() {
             Toggle Theme
           </button>
           <GlobalStyle />
-          <RouterProvider router={router} />
+          <MobileWrapper>
+            <RouterProvider router={router} />
+          </MobileWrapper>
           <PWABadge />
           <ModalContainer />
         </ThemeProvider>
@@ -35,3 +37,24 @@ function App() {
 }
 
 export default App
+
+const MobileWrapper = styled.div`
+  font-family: 'SUIT', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.grayscale.font_1}; /* 기본 텍스트 색상 (Font_1) */
+  background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
+  min-width: 340px;
+  max-width: 430px;
+  min-height: calc(var(--vh, 1vh) * 100);
+  margin: auto;
+  position: relative;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`

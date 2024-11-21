@@ -13,6 +13,8 @@
     "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@types/ol": "^7.0.0",
+    "ol": "^10.2.1",
     "@types/react-textarea-autosize": "^8.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

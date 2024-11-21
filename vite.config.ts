@@ -12,6 +12,23 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: 3000,
+      strictPort: true,
+      proxy: {
+        '^/ors/v2/directions/.*': {
+          target: 'http://112.162.84.70:8003',
+          changeOrigin: true,
+          secure: false,
+          rewrite: path => path,
+          configure: (proxy, options) => {
+            proxy.on('error', (err, req, res) => {
+              console.log('프록시 에러:', err)
+            })
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              console.log('프록시 요청:', proxyReq.path)
+            })
+          },
+        },
+      },
     },
     plugins: [
       react(),
