@@ -1,4 +1,4 @@
-import { SettingsStoreKey, useSettingsStore } from '@stores/settingsStore'
+import { SettingsStoreKey, useSettingsStore } from '~stores/settingsStore'
 import * as S from './styles'
 
 type ToggleProps = {

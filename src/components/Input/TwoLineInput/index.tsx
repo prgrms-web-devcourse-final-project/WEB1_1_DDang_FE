@@ -1,4 +1,4 @@
-import { TEXTAREA_VALIDATION } from '@constants/validations'
+import { TEXTAREA_VALIDATION } from '~constants/validations'
 import { ChangeEvent, useState } from 'react'
 import { TextareaAutosizeProps } from 'react-textarea-autosize'
 import * as S from './styles'
