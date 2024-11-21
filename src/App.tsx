@@ -37,7 +37,7 @@ function App() {
 export default App
 
 const MobileWrapper = styled.div`
-  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-family: 'SUIT', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
