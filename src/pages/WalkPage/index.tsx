@@ -1,4 +1,4 @@
-import MapComponent from '@pages/WalkPage/components/MapComponent'
+import MapComponent from '~pages/WalkPage/components/MapComponent'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 
