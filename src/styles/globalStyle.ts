@@ -45,8 +45,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'SUIT', sans-serif; /* SUIT 폰트 적용 */
     line-height: 1.5; 
     letter-spacing: -0.025em; 
-    color: ${({ theme }) => theme.colors.grayscale.font_1}; /* 기본 텍스트 색상 (Font_1) */
-    background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
   }
 
   /* 버튼 스타일 */
