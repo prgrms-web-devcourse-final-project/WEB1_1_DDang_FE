@@ -1,4 +1,4 @@
-import ToggleBox from '@components/ToggleBox'
+import ToggleBox from '~components/ToggleBox'
 import * as S from './styles'
 
 export default function ToggleArea() {

@@ -1,4 +1,4 @@
-import styled, { BrandColors, GrayscaleColors, Typography } from 'styled-components'
+import styled, { BrandColors, FontWeight, GrayscaleColors, Typography } from 'styled-components'
 
 type BgColorType =
   | Extract<keyof BrandColors, 'default' | 'lighten_2'>
@@ -7,6 +7,7 @@ type BgColorType =
 type ActionButtonProps = {
   $bgColor?: BgColorType
   $type?: 'roundedRect' | 'semiRoundedRect' | 'capsule'
+  $fontWeight?: FontWeight
 }
 
 type ActionButtonStyles = {
@@ -49,4 +50,5 @@ export const ActionButton = styled.button<ActionButtonProps>`
   padding: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.padding};
   border-radius: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.borderRadius};
   font-size: ${({ theme, $type = 'capsule' }) => theme.typography[ACTION_BUTTON_STYLES[$type]?.fontSize]};
+  font-weight: ${({ $fontWeight }) => $fontWeight};
 `

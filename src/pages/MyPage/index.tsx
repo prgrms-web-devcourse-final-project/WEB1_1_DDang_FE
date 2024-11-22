@@ -2,8 +2,8 @@ import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
 import ProfileImage from 'assets/masterprofile.svg'
-import { Typo13, Typo15, Typo24 } from '@components/Typo'
-import ToggleBox from '@components/ToggleBox'
+import { Typo13, Typo15, Typo24 } from '~components/Typo'
+import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
 
 export default function MyPage() {

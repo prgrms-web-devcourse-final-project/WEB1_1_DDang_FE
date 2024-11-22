@@ -1,7 +1,7 @@
-import Toggle from '@components/Toggle'
-import { Typo14, Typo15, Typo17 } from '@components/Typo'
-import { SETTINGS_INFO } from '@constants/settingsInfo'
-import { SettingsStoreKey } from '@stores/settingsStore'
+import Toggle from '~components/Toggle'
+import { Typo14, Typo15, Typo17 } from '~components/Typo'
+import { SETTINGS_INFO } from '~constants/settingsInfo'
+import { SettingsStoreKey } from '~stores/settingsStore'
 import * as S from './styles'
 
 type ToggleBoxProps = {

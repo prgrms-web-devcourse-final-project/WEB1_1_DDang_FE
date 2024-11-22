@@ -1,11 +1,12 @@
-import PWABadge from '@/PWABadge'
-import { router } from '@/router'
-import GlobalStyle from '@/styles/globalStyle'
-import { lightTheme, darkTheme } from '@/styles/theme'
+import PWABadge from '~/PWABadge'
+import { router } from '~/router'
+import GlobalStyle from '~/styles/globalStyle'
+import { lightTheme, darkTheme } from '~/styles/theme'
 import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import ModalContainer from '~modals/ModalContainer'
 
 function App() {
   //* 다크모드 확장성 고려
@@ -28,6 +29,7 @@ function App() {
             <RouterProvider router={router} />
           </MobileWrapper>
           <PWABadge />
+          <ModalContainer />
         </ThemeProvider>
       </HelmetProvider>
     </>

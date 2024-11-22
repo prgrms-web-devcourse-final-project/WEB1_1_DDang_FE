@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import Footer from '@components/Footer'
+import Footer from '~components/Footer'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import * as Pages from './components/LazyComponents'
-import Loader from '@components/Loader'
+import Loader from '~components/Loader'
 
 export const router = createBrowserRouter([
   {
@@ -25,10 +25,6 @@ export const router = createBrowserRouter([
         element: <Pages.LogPage />,
       },
       {
-        path: '/login',
-        element: <Pages.LoginPage />,
-      },
-      {
         path: '/walk',
         element: <Pages.WalkPage />,
       },
@@ -38,4 +34,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/login',
+    element: <Pages.LoginPage />,
+  }
 ])
