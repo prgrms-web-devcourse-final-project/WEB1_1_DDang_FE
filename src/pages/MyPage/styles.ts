@@ -1,5 +1,5 @@
 import { styled } from 'styled-components'
-import { ActionButton } from '../../components/Button/ActionButton'
+import { ActionButton } from '@components/Button/ActionButton'
 
 export const MyPage = styled.div`
   width: 375px;
@@ -8,12 +8,13 @@ export const MyPage = styled.div`
   position: relative;
   margin: 0 auto;
   box-sizing: border-box;
+  padding: 0;
   /* border: 1px solid blue; */
 `
 
 export const MainContainer = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 0 20px;
   height: calc(100% - 56px);
   flex-direction: column;
   box-sizing: border-box;
@@ -61,13 +62,13 @@ export const SettingIcon = styled.div`
 `
 
 export const ProfileSection = styled.div`
-  width: calc(100% + 40px);
-  margin-left: -20px;
+  width: 100%;
   height: 285px;
   flex-shrink: 0;
   background-color: white;
   border-radius: 16px;
   box-sizing: border-box;
+  padding: 0 20px;
 `
 //프로필정보
 export const ProfileArea = styled.div`
@@ -104,11 +105,10 @@ export const CountArea = styled.div`
   /* border: 1px solid red; */
 `
 export const CountSectioin = styled(ProfileSection)`
-  width: calc(100% + 40px); // ProfileSection의 width를 상속받지만 명시적으로 작성
+  width: 100%;
   height: 96px;
   flex-shrink: 0;
   margin-top: 12px;
-  margin-left: -20px; // 왼쪽 padding 상쇄
   display: flex;
   padding: 12px 16px;
 `
@@ -127,6 +127,5 @@ export const CountWrapperSmall = styled.div`
 `
 export const GangbunttaArea = styled.div`
   padding-top: 12px;
-  width: calc(100% + 40px);
-  margin-left: -20px;
+  width: 100%;
 `
