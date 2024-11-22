@@ -10,7 +10,7 @@ export default function LoginPage() {
         <title>DDang | 로그인</title>
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
-      {/* <DogProfileSection /> */}
+      <DogProfileSection />
       <DogProfileDetailSection />
     </S.LoginPage>
   )
