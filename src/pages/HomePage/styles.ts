@@ -10,20 +10,6 @@ export const HomePage = styled.div`
   height: calc(100dvh - ${FOOTER_HEIGHT}px);
 `
 
-export const ProfileImgWrapper = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  overflow: hidden;
-`
-
-export const ProfileImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  cursor: pointer;
-`
 export const Header = styled.header`
   padding: 12px 0;
   display: flex;
