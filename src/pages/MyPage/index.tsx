@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
 import ProfileImage from 'assets/masterprofile.svg'
 import { Typo13, Typo15, Typo24 } from '@components/Typo'
+import ToggleBox from '@components/ToggleBox'
 import { useTheme } from 'styled-components'
 
 export default function MyPage() {
@@ -44,15 +45,19 @@ export default function MyPage() {
           </S.CountArea>
 
           <S.CountArea>
-            <S.CountWrapperBig></S.CountWrapperBig>
-            <S.CountWrapperSmall></S.CountWrapperSmall>
+            <S.CountWrapperBig>32km</S.CountWrapperBig>
+            <S.CountWrapperSmall>총 산책거리</S.CountWrapperSmall>
           </S.CountArea>
 
           <S.CountArea>
-            <S.CountWrapperBig></S.CountWrapperBig>
-            <S.CountWrapperSmall></S.CountWrapperSmall>
+            <S.CountWrapperBig>16회</S.CountWrapperBig>
+            <S.CountWrapperSmall>강번따 횟수</S.CountWrapperSmall>
           </S.CountArea>
         </S.CountSectioin>
+
+        <S.GangbunttaArea>
+          <ToggleBox type='md' setting='gangbuntta' />
+        </S.GangbunttaArea>
 
         <S.ButtonArea>
           <S.CustomActionButton $type='semiRoundedRect' $bgColor='font_1'>

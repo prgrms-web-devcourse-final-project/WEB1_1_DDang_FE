@@ -4,11 +4,11 @@ import { ActionButton } from '../../components/Button/ActionButton'
 export const MyPage = styled.div`
   width: 375px;
   height: 698px;
-  border: 1px solid blue;
   overflow: hidden;
   position: relative;
   margin: 0 auto;
   box-sizing: border-box;
+  /* border: 1px solid blue; */
 `
 
 export const MainContainer = styled.div`
@@ -36,7 +36,7 @@ export const HeaderContainer = styled.div`
   width: 100%;
   height: 56px;
   flex-shrink: 0;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._17};
   text-align: center;
@@ -61,19 +61,13 @@ export const SettingIcon = styled.div`
 `
 
 export const ProfileSection = styled.div`
-  width: 100%;
+  width: calc(100% + 40px);
+  margin-left: -20px;
   height: 285px;
   flex-shrink: 0;
   background-color: white;
   border-radius: 16px;
   box-sizing: border-box;
-`
-
-export const CountSectioin = styled(ProfileSection)`
-  width: 100%;
-  height: 96px;
-  flex-shrink: 0;
-  margin-top: 12px;
 `
 //프로필정보
 export const ProfileArea = styled.div`
@@ -103,17 +97,36 @@ export const CountArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 1px;
+  width: 100px;
+  height: 72px;
+  flex-shrink: 0;
+  /* border: 1px solid red; */
+`
+export const CountSectioin = styled(ProfileSection)`
+  width: calc(100% + 40px); // ProfileSection의 width를 상속받지만 명시적으로 작성
+  height: 96px;
+  flex-shrink: 0;
+  margin-top: 12px;
+  margin-left: -20px; // 왼쪽 padding 상쇄
+  display: flex;
+  padding: 12px 16px;
 `
 
 export const CountWrapperBig = styled.div`
   font-size: ${({ theme }) => theme.typography._20};
   font-weight: 800;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
+  padding-top: 8px;
 `
 
 export const CountWrapperSmall = styled.div`
   font-size: ${({ theme }) => theme.typography._13};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-weight: 500;
+`
+export const GangbunttaArea = styled.div`
+  padding-top: 12px;
+  width: calc(100% + 40px);
+  margin-left: -20px;
 `
