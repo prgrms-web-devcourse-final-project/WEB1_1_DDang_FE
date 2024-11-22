@@ -4,27 +4,44 @@ import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource } from 'ol/source'
-import { Point } from 'ol/geom'
+import { Geometry, Point } from 'ol/geom'
 import Feature from 'ol/Feature'
-import { Style, Circle, Fill, Stroke } from 'ol/style'
+import { Style, Circle, Fill, Stroke, Icon } from 'ol/style'
 import 'ol/ol.css'
 import axios from 'axios'
 import { LineString } from 'ol/geom'
 import { fromLonLat } from 'ol/proj'
 import { easeOut } from 'ol/easing'
 import XYZ from 'ol/source/XYZ'
+import ReactDOMServer from 'react-dom/server'
+import * as S from '~pages/WalkPage/styles'
+import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
+
+const geoOptions = {
+  enableHighAccuracy: true,
+  timeout: 10000,
+  maximumAge: 1000,
+}
+
+export const getMarkerIconString = () => {
+  const svgString = ReactDOMServer.renderToString(<S.MapPinIcon />)
+  return svgString
+}
 
 export default function MapComponent() {
   // 지도 관련 ref
   const mapRef = useRef<Map | null>(null)
+  const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
+  const watchPositionIdRef = useRef<number | null>(null)
   const vectorSourceRef = useRef<VectorSource>(new VectorSource())
   const markerRef = useRef<Feature | null>(null)
+  const [showCenterButton, setShowCenterButton] = useState<boolean>(false)
   // const rotationRef = useRef<number>(0)
 
   // 위치 및 권한 관련 상태
-  const [hasCompassPermission, setHasCompassPermission] = useState<boolean>(false)
+  const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
@@ -46,47 +63,51 @@ export default function MapComponent() {
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
 
-  // 위치 추적 옵션 설정
-  const geoOptions = {
-    enableHighAccuracy: true,
-    timeout: 10000,
-    maximumAge: 1000,
-  }
+  useEffect(() => {
+    return () => {
+      if (currentLocationMarkerRef.current) {
+        vectorSourceRef.current.removeFeature(currentLocationMarkerRef.current)
+      }
+      if (markerRef.current) {
+        vectorSourceRef.current.removeFeature(markerRef.current)
+      }
+    }
+  }, [])
 
   // 나침반 권한 요청 함수
-  const requestCompassPermission = async () => {
-    if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-      try {
-        const response = await (DeviceOrientationEvent as any).requestPermission()
-        setHasCompassPermission(response === 'granted')
-        if (response === 'granted') {
-          setAutoRotate(true)
-          rotateMap(lastHeadingRef.current)
-        }
-      } catch (error) {
-        console.error('나침반 권한 요청 실패:', error)
-      }
-    } else {
-      setHasCompassPermission(true)
-      setAutoRotate(true)
-    }
-  }
+  // const handleCompassPermission = async () => {
+  //   if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+  //     try {
+  //       const response = await (DeviceOrientationEvent as any).requestPermission()
+  //       setHasCompassPermission(response === 'granted')
+  //       if (response === 'granted') {
+  //         setAutoRotate(true)
+  //         rotateMap(lastHeadingRef.current)
+  //       }
+  //     } catch (error) {
+  //       console.error('나침반 권한 요청 실패:', error)
+  //     }
+  //   } else {
+  //     setHasCompassPermission(true)
+  //     setAutoRotate(true)
+  //   }
+  // }
 
   // 위치 추적 오류 처리 함수
   const handleLocationError = (error: GeolocationPositionError) => {
     console.error('위치 추적 오류:', error.message)
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        setLocationError('위치 권한이 거부되었습니다. 설정에서 권한을 허용해주세요.')
+        // setLocationError('위치 권한이 거부되었습니다. 설정에서 권한을 허용해주세요.')
         break
       case error.POSITION_UNAVAILABLE:
-        setLocationError('위치 정보를 사용할 수 없습니다. GPS 신호를 확인해주세요.')
+        // setLocationError('위치 정보를 사용할 수 없습니다. GPS 신호를 확인해주세요.')
         break
       case error.TIMEOUT:
-        setLocationError('위치 정보 요청 시간이 초과되었습니다.')
+        // setLocationError('위치 정보 요청 시간이 초과되었습니다.')
         break
       default:
-        setLocationError('위치 정보를 가져오는데 실패했습니다.')
+      // setLocationError('위치 정보를 가져오는데 실패했습니다.')
     }
   }
 
@@ -116,6 +137,42 @@ export default function MapComponent() {
     })
   }
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const coords = [position.coords.longitude, position.coords.latitude]
+
+          // 지도 중심 이동
+          mapRef.current?.getView().setCenter(fromLonLat(coords))
+
+          // SVG 마커 스타일 생성
+          const markerStyle = new Style({
+            image: new Icon({
+              anchor: [0.5, 1], // 핀 하단 중앙이 좌표에 위치하도록 설정
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'fraction',
+              src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString())}`,
+
+              scale: 1,
+            }),
+          })
+
+          // 마커 생성 및 추가
+          if (!markerRef.current) {
+            markerRef.current = new Feature({
+              geometry: new Point(fromLonLat(coords)),
+            })
+            markerRef.current.setStyle(markerStyle)
+            vectorSourceRef.current.addFeature(markerRef.current)
+          }
+        },
+        handleLocationError,
+        geoOptions
+      )
+    }
+  }, [])
+
   // 나침반 이벤트 처리
   useEffect(() => {
     if (!hasCompassPermission) return
@@ -134,36 +191,7 @@ export default function MapComponent() {
 
       lastHeadingRef.current = heading
 
-      if (markerRef.current && mapRef.current) {
-        // 마커 스타일 업데이트 - 방향 화살표 제거
-        markerRef.current.setStyle([
-          // 바깥쪽 원
-          new Style({
-            image: new Circle({
-              radius: 15,
-              fill: new Fill({ color: 'rgba(66, 133, 244, 0.1)' }),
-              stroke: new Stroke({
-                color: '#4285F4',
-                width: 1,
-              }),
-            }),
-          }),
-          // 중앙 원
-          new Style({
-            image: new Circle({
-              radius: 8,
-              fill: new Fill({ color: '#4285F4' }),
-              stroke: new Stroke({
-                color: '#ffffff',
-                width: 2,
-              }),
-            }),
-          }),
-        ])
-
-        // 지도 회전
-        rotateMap(heading)
-      }
+      rotateMap(heading)
     }
 
     window.addEventListener('deviceorientation', handleDeviceOrientation, true)
@@ -189,24 +217,9 @@ export default function MapComponent() {
       }),
     })
 
-    // 지도 초기화
-    // const map = new Map({
-    //   target: 'map',
-    //   layers: [
-    //     // 기본 지도 레이어
-    //     new TileLayer({
-    //       source: new OSM(),
-    //     }),
-    //     vectorLayer,
-    //   ],
-    //   view: new View({
-    //     center: fromLonLat([126.9784, 37.5666]), // 서울시청 기준
-    //     zoom: 18,
-    //   }),
-    // })
-
     const map = new Map({
       target: 'map',
+      controls: [],
       layers: [
         // Vworld 기본지도로 변경
         new TileLayer({
@@ -217,7 +230,6 @@ export default function MapComponent() {
         vectorLayer,
       ],
       view: new View({
-        center: fromLonLat([126.9784, 37.5666]), // 서울시청 기준
         zoom: 18,
         maxZoom: 19,
         minZoom: 5,
@@ -226,6 +238,23 @@ export default function MapComponent() {
     })
 
     mapRef.current = map
+
+    map.on('moveend', () => {
+      if (markerRef.current) {
+        const markerCoords = (markerRef.current.getGeometry() as Point).getCoordinates()
+        const mapCenter = map.getView().getCenter()
+
+        if (mapCenter) {
+          const distance = Math.sqrt(
+            Math.pow(markerCoords[0] - mapCenter[0], 2) + Math.pow(markerCoords[1] - mapCenter[1], 2)
+          )
+
+          //@ts-ignore
+          const pixelDistance = map.getView().getResolution() ? distance / map.getView().getResolution() : 0
+          setShowCenterButton(pixelDistance > 50)
+        }
+      }
+    })
 
     // 위치 추적 및 마커 업데이트
     const intervalId = setInterval(() => {
@@ -339,6 +368,8 @@ export default function MapComponent() {
             center: fromLonLat(coords),
             duration: 500,
           })
+
+          setShowCenterButton(false)
         },
         error => {
           console.error('위치 정보를 가져오는데 실패했습니다:', error)
@@ -352,17 +383,19 @@ export default function MapComponent() {
   const formatTime = (seconds: number): string => {
     const hours = Math.floor(seconds / 3600)
     const minutes = Math.floor((seconds % 3600) / 60)
-    const remainingSeconds = seconds % 60
 
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
+    if (hours > 0) {
+      return `${hours}시간 ${minutes}분`
+    }
+    return `${minutes}분`
   }
 
-  // 거리 포맷팅 (m/km)
+  // 거리 포맷팅 (km)
   const formatDistance = (meters: number): string => {
     if (meters < 1000) {
       return `${Math.round(meters)}m`
     }
-    return `${(meters / 1000).toFixed(2)}km`
+    return `${(meters / 1000).toFixed(1)} km`
   }
 
   // 두 지점 간의 직선 거리를 계산하는 함수 (Haversine formula) -> 실제 거리 계산이 불가능 할 때 사용
@@ -381,9 +414,6 @@ export default function MapComponent() {
 
   // shouldCallApi 함수 수정
   const shouldCallApi = (newPosition: { lat: number; lng: number }): boolean => {
-    const MIN_DISTANCE = 20 // 최소 50미터
-    const MIN_TIME_INTERVAL = 10000 // 최소 30초
-
     // 첫 번째 위치는 무조건 저장
     if (accumulatedPositionsRef.current.length === 0) return true
 
@@ -396,7 +426,6 @@ export default function MapComponent() {
 
   // 위치 데이터 정확도 필터링
   const filterPosition = (position: GeolocationPosition): boolean => {
-    const MIN_ACCURACY = 20 // 20미터 이상의 정확도만 허용
     const isAccurate = position.coords.accuracy <= MIN_ACCURACY
 
     // 도로 근처에 있는지 확인하는 로직 추가 가능
@@ -432,32 +461,20 @@ export default function MapComponent() {
       geometry: new Point(coordinates),
     })
 
-    marker.setStyle(
-      new Style({
-        image: new Circle({
-          radius: 6,
-          fill: new Fill({ color: '#FF6B6B' }), // 마커 색상 변경
-          stroke: new Stroke({
-            color: '#ffffff',
-            width: 2,
-          }),
+    const markerStyle = new Style({
+      image: new Circle({
+        radius: 4,
+        fill: new Fill({ color: '#4CAF50' }),
+        stroke: new Stroke({
+          color: '#ffffff',
+          width: 2,
         }),
-      })
-    )
+      }),
+    })
 
+    marker.setStyle(markerStyle)
     vectorSourceRef.current.addFeature(marker)
   }
-
-  const currentLocationStyle = new Style({
-    image: new Circle({
-      radius: 8,
-      fill: new Fill({ color: '#4285F4' }),
-      stroke: new Stroke({
-        color: '#ffffff',
-        width: 2,
-      }),
-    }),
-  })
 
   // handleWalkToggle 함수 수정 (테스트 모드 부분은 그대로 유지)
   const handleWalkToggle = () => {
@@ -476,10 +493,9 @@ export default function MapComponent() {
 
       // 현재 방향으로 즉시 회전
       rotateMap(lastHeadingRef.current)
-
       // 위치 추적 시작
-      navigator.geolocation.watchPosition(
-        position => {
+      watchPositionIdRef.current = navigator.geolocation.watchPosition(
+        (position: GeolocationPosition) => {
           if (!filterPosition(position)) return
 
           const newPosition = {
@@ -490,18 +506,26 @@ export default function MapComponent() {
           const coordinates = fromLonLat([newPosition.lng, newPosition.lat])
 
           // 현재 위치 마커 업데이트 (실시간 위치 표시용)
-          if (markerRef.current) {
-            const point = markerRef.current.getGeometry() as Point
+          if (currentLocationMarkerRef.current) {
+            const point = currentLocationMarkerRef.current.getGeometry() as Point
             point.setCoordinates(coordinates)
           } else {
-            markerRef.current = new Feature({
+            currentLocationMarkerRef.current = new Feature({
               geometry: new Point(coordinates),
             })
-            markerRef.current.setStyle(currentLocationStyle)
-            vectorSourceRef.current.addFeature(markerRef.current)
+            const markerStyle = new Style({
+              image: new Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString())}`,
+                scale: 1,
+              }),
+            })
+            currentLocationMarkerRef.current.setStyle(markerStyle)
+            vectorSourceRef.current.addFeature(currentLocationMarkerRef.current)
           }
 
-          // 지도 중심 이동
           if (mapRef.current) {
             mapRef.current.getView().animate({
               center: coordinates,
@@ -539,6 +563,12 @@ export default function MapComponent() {
       // 산책 종료
       setIsWalking(false)
       setAutoRotate(false)
+
+      // 위치 추적 중지
+      if (watchPositionIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchPositionIdRef.current)
+        watchPositionIdRef.current = null
+      }
 
       // 타이머 정지
       if (walkIntervalRef.current) {
@@ -604,6 +634,9 @@ export default function MapComponent() {
       if (walkIntervalRef.current) {
         clearInterval(walkIntervalRef.current)
       }
+      if (watchPositionIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchPositionIdRef.current)
+      }
     }
   }, [])
 
@@ -637,30 +670,6 @@ export default function MapComponent() {
     }
   }
 
-  // 지도 회전 토글 버튼 추가
-  const handleRotateToggle = () => {
-    if (!hasCompassPermission) {
-      requestCompassPermission()
-      return
-    }
-
-    const newAutoRotate = !autoRotate
-    setAutoRotate(newAutoRotate)
-
-    if (newAutoRotate) {
-      // 회전 활성화 시 현재 방향으로 즉시 회전
-      rotateMap(lastHeadingRef.current)
-    } else {
-      // 회전 비활성화 시 북쪽 방향으로 회전
-      mapRef.current?.getView().animate({
-        rotation: 0,
-        duration: 500,
-      })
-    }
-  }
-
-  // 기존 상태 선언부 아래에 추가
-
   // 모달 관련 상태 추가
   const [showSummaryModal, setShowSummaryModal] = useState<boolean>(false)
   const [walkSummary, setWalkSummary] = useState<{
@@ -670,133 +679,52 @@ export default function MapComponent() {
   } | null>(null)
 
   return (
-    <>
-      <div id='map' style={{ width: '100vw', height: '100dvh' }} />
-      {locationError && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: 'rgba(255, 0, 0, 0.8)',
-            color: 'white',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            zIndex: 100,
-          }}
-        >
-          {locationError}
-        </div>
+    <S.MapContainer>
+      <S.Map id='map' />
+      {locationError && <S.LocationErrorMessage>{locationError}</S.LocationErrorMessage>}
+      {showCenterButton && (
+        <S.CenterButton onClick={handleCenterCurrentLocation}>
+          <S.CenterIcon />내 위치로
+        </S.CenterButton>
       )}
-      <div
-        style={{
-          position: 'fixed',
-          top: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: '5px',
-          zIndex: 100,
-          display: isWalking ? 'block' : 'none',
-        }}
-      >
-        <div>{formatTime(walkTime)}</div>
-        <div>{formatDistance(estimatedDistance || walkDistance)}</div>
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 100,
-        }}
-      >
-        <button
-          onClick={handleWalkToggle}
-          style={{
-            padding: '15px 30px',
-            background: isWalking ? '#ff4444' : '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '25px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: 'bold',
-          }}
-        >
-          {isWalking ? '산책 종료' : '산책 시작'}
-        </button>
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          zIndex: 100,
-        }}
-      >
-        <button
-          onClick={hasCompassPermission ? handleRotateToggle : requestCompassPermission}
-          style={{
-            padding: '10px',
-            background: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            cursor: 'pointer',
-            color: hasCompassPermission && autoRotate ? '#4CAF50' : 'currentColor',
-          }}
-        >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+
+      {isWalking ? (
+        <S.WalkControlContainer>
+          <S.InfoBox>
+            <S.InfoValue>{formatTime(walkTime)}</S.InfoValue>
+          </S.InfoBox>
+
+          <S.StyledActionButton
+            onClick={handleWalkToggle}
+            $type='capsule'
+            $bgColor={isWalking ? 'font_1' : 'default'}
+            $fontWeight='700'
+            $isWalking={isWalking}
           >
-            <path d='M12 2L19 21l-7-4-7 4 7-19z' />
-          </svg>
-        </button>
-        <button
-          onClick={handleCenterCurrentLocation}
-          style={{
-            padding: '10px',
-            background: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            cursor: 'pointer',
-          }}
-        >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            {isWalking ? '산책 끝' : '산책 시작'}
+          </S.StyledActionButton>
+
+          <S.InfoBox>
+            <S.InfoValue>{formatDistance(estimatedDistance || walkDistance)}</S.InfoValue>
+          </S.InfoBox>
+        </S.WalkControlContainer>
+      ) : (
+        <S.WalkControlContainer style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+          <S.StyledActionButton
+            onClick={handleWalkToggle}
+            $type='capsule'
+            $bgColor={isWalking ? 'font_1' : 'default'}
+            $fontWeight='700'
+            $isWalking={isWalking}
           >
-            <circle cx='12' cy='12' r='10' />
-            <circle cx='12' cy='12' r='1' />
-          </svg>
-        </button>
-      </div>
+            {isWalking ? '산책 끝' : '산책 시작'}
+          </S.StyledActionButton>
+        </S.WalkControlContainer>
+      )}
+
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           top: '20px',
           right: '20px',
           zIndex: 100,
@@ -804,75 +732,36 @@ export default function MapComponent() {
       ></div>
 
       {showSummaryModal && walkSummary && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: 'white',
-              padding: '20px',
-              borderRadius: '10px',
-              maxWidth: '80%',
-              maxHeight: '80%',
-              overflow: 'auto',
-            }}
-          >
-            <h2 style={{ marginBottom: '20px' }}>산책 요약</h2>
-            <div style={{ marginBottom: '15px' }}>
+        <S.ModalOverlay>
+          <S.ModalContent>
+            <S.ModalTitle>산책 요약</S.ModalTitle>
+            <S.ModalSection>
               <strong>총 시간:</strong> {formatTime(walkSummary.time)}
-            </div>
-            <div style={{ marginBottom: '15px' }}>
+            </S.ModalSection>
+            <S.ModalSection>
               <strong>총 거리:</strong> {formatDistance(walkSummary.distance)}
-            </div>
-            <div style={{ marginBottom: '20px' }}>
+            </S.ModalSection>
+            <S.ModalSection>
               <strong>경로 좌표:</strong>
-              <div
-                style={{
-                  maxHeight: '200px',
-                  overflow: 'auto',
-                  padding: '10px',
-                  backgroundColor: '#f5f5f5',
-                  borderRadius: '5px',
-                  fontSize: '14px',
-                }}
-              >
+              <S.CoordinatesContainer>
                 {walkSummary.coordinates.map((coord, index) => (
-                  <div key={index}>
+                  <S.CoordinateItem key={index}>
                     {`위치 ${index + 1}: 위도 ${coord.lat.toFixed(6)}, 경도 ${coord.lng.toFixed(6)}`}
-                  </div>
+                  </S.CoordinateItem>
                 ))}
-              </div>
-            </div>
-            <button
+              </S.CoordinatesContainer>
+            </S.ModalSection>
+            <S.ModalButton
               onClick={() => {
                 setShowSummaryModal(false)
                 setWalkSummary(null)
               }}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-              }}
             >
               닫기
-            </button>
-          </div>
-        </div>
+            </S.ModalButton>
+          </S.ModalContent>
+        </S.ModalOverlay>
       )}
-    </>
+    </S.MapContainer>
   )
 }
