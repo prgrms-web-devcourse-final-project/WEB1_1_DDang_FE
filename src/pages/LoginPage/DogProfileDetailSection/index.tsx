@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '../components/GenderSelectButton'
 import PrevButton from '~components/Button/PrevButton'
@@ -9,18 +9,45 @@ import Check from '~assets/check.svg'
 export default function DogProfileDetailSection() {
   const [isNeutered, setIsNeutered] = useState(false);
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
+  const [weight, setWeight] = useState('');
 
-  useEffect(() => {
-    console.log(selectedGender)
-  }, [selectedGender])
+  const [displayValue, setDisplayValue] = useState('');
+  const [inputType, setInputType] = useState('text');
  
   const handleGenderSelect = (gender: 'male' | 'female') => {
     setSelectedGender(gender);
   };
 
-  const onChangeWeightInput = () => {
-    
-  }
+  const onChangeWeightInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === '') {
+      setWeight('');
+      setDisplayValue('');
+      return;
+    }
+  
+    if (/^\d*\.?\d*$/.test(value)) {
+      const formatted = value.includes('.') 
+        ? value.match(/^\d*\.?\d{0,2}/)![0]
+        : value;
+      
+      setWeight(formatted);
+      setDisplayValue(inputType === 'number' ? formatted : `${formatted}kg`);
+    }
+  };
+
+  const handleFocus = () => {
+    setInputType('number');
+    setDisplayValue(weight);
+  };
+
+  const handleBlur = () => {
+    setInputType('text');
+    if (weight) {
+      setDisplayValue(`${weight}kg`);
+    }
+  };
+
 
   return (
           <S.DogProfileDetailSection>
@@ -52,7 +79,7 @@ export default function DogProfileDetailSection() {
             </S.GenderBtnArea>
             <S.InputArea>
               <S.PickerBtn>견종 입력</S.PickerBtn>
-              <S.WeightInput placeholder='몸무게 입력' onChange={onChangeWeightInput}/>
+              <S.WeightInput placeholder='몸무게 입력' type={inputType} value={displayValue} onChange={onChangeWeightInput} onFocus={handleFocus} onBlur={handleBlur}/>
             </S.InputArea>
             <ActionButton>확인</ActionButton>
           </S.DogProfileDetailSection>
