@@ -46,7 +46,7 @@ export default function HomePage() {
               1시간
             </Typo14>
           </S.WalkTime>
-          <Separator />
+          <Separator $height={20} />
           <S.WalkDistance>
             <GrLocation style={{ marginRight: 6 }} size={18} />
             <Typo14 weight='700'>산책한 거리&nbsp;</Typo14>{' '}
