@@ -32,6 +32,8 @@ export const AddDogPictureBtnWrapper = styled.div`
 `
 
 export const AddDogPictureBtn = styled.div`
+    position: relative;
+    overflow: hidden;
     width: 180px;
     height: 180px;
     background-color: ${({theme}) => theme.colors.brand.lighten_2};
@@ -46,6 +48,21 @@ export const AddDogPictureBtn = styled.div`
     font-weight : 700;
     color: ${({theme}) => theme.colors.brand.darken};
     cursor: pointer;
+`
+
+export const HiddenFileInput = styled.input`
+    display: none;
+`
+
+export const DogImage = styled.img<{hasImage: boolean}>`
+    position: absolute;
+    z-index: ${({hasImage}) => hasImage ? '100' : '-100'};
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 `
 
 export const InputArea = styled.div`
