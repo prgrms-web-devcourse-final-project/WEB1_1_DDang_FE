@@ -32,7 +32,7 @@ const ACTION_BUTTON_STYLES: Record<Exclude<ActionButtonProps['$type'], undefined
   },
   semiRoundedRect: {
     padding: '16.5px 24px',
-    borderRadius: '20px',
+    borderRadius: '12px',
     fontSize: '_15',
   },
   capsule: {

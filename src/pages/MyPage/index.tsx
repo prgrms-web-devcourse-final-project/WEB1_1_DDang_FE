@@ -5,9 +5,21 @@ import ProfileImage from 'assets/masterprofile.svg'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
+import { useState } from 'react'
+import SettingsModal from '~pages/MyPage/SettingModal'
 
 export default function MyPage() {
   const theme = useTheme()
+  const [isSettingsOpen, setIsSettinsOpen] = useState(false)
+
+  const handleSettingsClik = () => {
+    setIsSettinsOpen(true)
+  }
+
+  const handleCloseSteeings = () => {
+    setIsSettinsOpen(false)
+  }
+
   return (
     <S.MyPage>
       <Helmet>
@@ -16,7 +28,7 @@ export default function MyPage() {
       </Helmet>
       <S.HeaderContainer>
         마이페이지
-        <S.SettingIcon>
+        <S.SettingIcon onClick={handleSettingsClik}>
           <IoSettingsOutline cursor='pointer' size={28} />
         </S.SettingIcon>
       </S.HeaderContainer>
@@ -65,6 +77,7 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
+      <SettingsModal isOpen={isSettingsOpen} onClose={handleCloseSteeings} />
     </S.MyPage>
   )
 }
