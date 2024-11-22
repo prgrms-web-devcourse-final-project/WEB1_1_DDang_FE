@@ -1,13 +1,17 @@
 import { styled } from 'styled-components'
 
 export const DogProfileSection = styled.div`
-    padding : 100px 20px 24px 20px;
+    padding : 120px 20px 24px 20px;
     background-color: ${({theme}) => theme.colors.grayscale.gc_4};
     height: 100dvh;
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-height : 700px) {
+        padding: 100px 20px 24px 20px;
+    }
 `
 
 export const PrevBtnWrapper = styled.div`
