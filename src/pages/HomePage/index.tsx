@@ -6,6 +6,7 @@ import { LuClock5 } from 'react-icons/lu'
 import { Separator } from '~components/Separator'
 import { ActionButton } from '~components/Button/ActionButton'
 import { GrLocation } from 'react-icons/gr'
+import { Profile } from '~components/Profile'
 
 export default function HomePage() {
   return (
@@ -16,9 +17,7 @@ export default function HomePage() {
       </Helmet>
 
       <S.Header>
-        <S.ProfileImgWrapper>
-          <S.ProfileImg src='test.svg' />
-        </S.ProfileImgWrapper>
+        <Profile $size={32} $src='test.svg' />
         <GoBell cursor='pointer' size={28} />
       </S.Header>
 
@@ -47,7 +46,7 @@ export default function HomePage() {
               1시간
             </Typo14>
           </S.WalkTime>
-          <Separator />
+          <Separator $height={20} />
           <S.WalkDistance>
             <GrLocation style={{ marginRight: 6 }} size={18} />
             <Typo14 weight='700'>산책한 거리&nbsp;</Typo14>{' '}

@@ -12,7 +12,6 @@ function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
-
   return (
     <>
       <HelmetProvider>
@@ -27,9 +26,9 @@ function App() {
           <GlobalStyle />
           <MobileWrapper>
             <RouterProvider router={router} />
+            <ModalContainer />
           </MobileWrapper>
           <PWABadge />
-          <ModalContainer />
         </ThemeProvider>
       </HelmetProvider>
     </>
