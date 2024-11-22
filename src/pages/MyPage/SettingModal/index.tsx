@@ -1,6 +1,8 @@
 import * as S from './styles'
 import { PrevButton } from '~components/Button/PrevButton/styles'
 import { Typo17 } from '~components/Typo'
+import ToggleArea from '~components/ToggleArea'
+import ToggleBox from '~components/ToggleBox'
 type SettingModalProps = {
   isOpen: boolean
   onClose: () => void
@@ -20,7 +22,12 @@ export default function SettingsModal({ isOpen, onClose }: SettingModalProps) {
         </S.TitleWrap>
       </S.Header>
 
-      <S.Content>와랄랄라</S.Content>
+      <S.Content>
+        <S.AllButtonWrapper>
+          <ToggleBox type='lg' setting='allNotifications' />
+        </S.AllButtonWrapper>
+        <ToggleArea />
+      </S.Content>
 
       <S.QuitButtonArea>
         <S.CustomQuiteButton $type='semiRoundedRect' $bgColor='gc_4' $fontWeight='700'>
