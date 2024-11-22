@@ -25,10 +25,6 @@ export const router = createBrowserRouter([
         element: <Pages.LogPage />,
       },
       {
-        path: '/login',
-        element: <Pages.LoginPage />,
-      },
-      {
         path: '/walk',
         element: <Pages.WalkPage />,
       },
@@ -38,4 +34,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/login',
+    element: <Pages.LoginPage />,
+  }
 ])

@@ -7,4 +7,5 @@ export const PrevButton = styled(GrPrevious)`
   top: 14px;
   width: 28px;
   height: 28px;
+  z-index: 5;
 `
