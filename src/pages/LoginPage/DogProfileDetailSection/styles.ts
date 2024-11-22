@@ -48,6 +48,7 @@ export const CheckboxCircle = styled.div<{ isChecked: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 `
 
 export const CheckboxLabel = styled.span<{ isChecked: boolean }>`
