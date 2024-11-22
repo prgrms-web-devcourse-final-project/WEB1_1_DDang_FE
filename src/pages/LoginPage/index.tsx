@@ -2,6 +2,8 @@ import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import DogProfileSection from './DogProfileSection'
 import DogProfileDetailSection from './DogProfileDetailSection'
+import FamilyCodeSection from './FamilyCodeSection'
+
 
 export default function LoginPage() {
   return (
@@ -12,6 +14,7 @@ export default function LoginPage() {
       </Helmet>
       <DogProfileSection />
       <DogProfileDetailSection />
+      <FamilyCodeSection />
     </S.LoginPage>
   )
 }

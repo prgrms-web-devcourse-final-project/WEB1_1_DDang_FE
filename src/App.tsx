@@ -12,7 +12,6 @@ function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
-
   return (
     <>
       <HelmetProvider>
@@ -27,9 +26,9 @@ function App() {
           <GlobalStyle />
           <MobileWrapper>
             <RouterProvider router={router} />
+            <ModalContainer />
           </MobileWrapper>
           <PWABadge />
-          <ModalContainer />
         </ThemeProvider>
       </HelmetProvider>
     </>
@@ -48,6 +47,7 @@ const MobileWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
   min-width: 340px;
   max-width: 430px;
+  /* width: 375px; */
   min-height: calc(var(--vh, 1vh) * 100);
   margin: auto;
   position: relative;
