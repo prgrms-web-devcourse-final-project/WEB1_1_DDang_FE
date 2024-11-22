@@ -1,20 +1,19 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import DogProfileSection from './DogProfileSection'
-import DogProfileDetailSection from './DogProfileDetailSection'
-import FamilyCodeSection from './FamilyCodeSection'
-
 
 export default function LoginPage() {
   return (
-    <S.LoginPage>
+    <S.LoginPageContainer>
       <Helmet>
         <title>DDang | 로그인</title>
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
-      <DogProfileSection />
-      <DogProfileDetailSection />
-      <FamilyCodeSection />
-    </S.LoginPage>
+      {/* <DogProfileSection /> */}
+
+      <S.TitleSection>건강한 반려 생활</S.TitleSection>
+      <S.TitleSection>댕과 함께해요!</S.TitleSection>
+      <S.Logo>로고</S.Logo>
+    </S.LoginPageContainer>
   )
 }
