@@ -2,15 +2,22 @@ import * as S from './styles'
 import { ActionButton } from '~components/Button/ActionButton'
 import AddDogPicture from '~assets/add-dog-picture.svg'
 import TwoLineInput  from '~components/Input/TwoLineInput'
-import PrevButton from '~components/Button/PrevButton'
+import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 
 export default function DogProfileSection() {
+
+  const handleClickPrev = () => {
+
+  }
+
   return (
           <S.DogProfileSection>
-            <S.PrevBtnWrapper>
-              <PrevButton />
-            </S.PrevBtnWrapper>
+            <Header
+              type='sm' 
+              onClickPrev={handleClickPrev}
+              prevBtn={true}
+            />
             <S.TypoWrapper>
             <Typo24 weight='700'>반려견 기본 정보를<br/> 알려주세요!</Typo24>
             </S.TypoWrapper>

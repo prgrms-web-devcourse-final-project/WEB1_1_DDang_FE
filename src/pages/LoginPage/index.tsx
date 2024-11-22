@@ -1,6 +1,7 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import DogProfileSection from './DogProfileSection'
+// import CheckDogProfileSection from './CheckDogProfileSection'
 
 export default function LoginPage() {
   return (
@@ -10,6 +11,7 @@ export default function LoginPage() {
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
       <DogProfileSection />
+      {/* <CheckDogProfileSection/> */}
     </S.LoginPage>
   )
 }

@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 
 export const DogProfileSection = styled.div`
-    padding : 0 20px 24px 20px;
+    padding : 100px 20px 24px 20px;
     background-color: ${({theme}) => theme.colors.grayscale.gc_4};
     height: 100dvh;
     
