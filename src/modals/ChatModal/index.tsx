@@ -274,9 +274,9 @@ export default function ChatModal() {
 
       {chatDummyData.map(chat =>
         chat.sender === '김민준' ? (
-          <OutgoingMessage>{chat.message}</OutgoingMessage>
+          <OutgoingMessage key={chat.id}>{chat.message}</OutgoingMessage>
         ) : (
-          <IncomingMessage>{chat.message}</IncomingMessage>
+          <IncomingMessage key={chat.id}>{chat.message}</IncomingMessage>
         )
       )}
 
