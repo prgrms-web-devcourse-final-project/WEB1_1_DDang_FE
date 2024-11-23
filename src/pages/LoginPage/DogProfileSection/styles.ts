@@ -75,6 +75,22 @@ export const InputArea = styled.div`
     }
 `
 
+export const NameInput = styled.input`
+  width: 100%;
+  border: none;
+  text-align: center;
+  padding: 17px 32px;
+  border-radius: 12px;
+  font-size: ${({ theme }) => theme.typography._20};
+  font-weight: 700;
+  &:focus {
+      box-shadow: ${({ theme }) => `inset 0 0 0 1px ${theme.colors.grayscale.font_1}`};
+    }
+  &::placeholder {
+    font-weight : 400;
+  }
+`
+
 export const DatePickerBtn = styled.div`
   width: 100%;
   border: none;
