@@ -4,11 +4,23 @@ import Naver_Icon from '~assets/naver_icon.svg?react'
 import Google_Icon from '~assets/google_icon.svg?react'
 import { FOOTER_HEIGHT } from '~constants/layout'
 
+const SOCIAL_COLORS = {
+  KAKAO: '#ffed16',
+  NAVER: '#03cf5d',
+  GOOGLE: '#f2f2f2',
+} as const
+
+const LAYOUT = {
+  ICON_SIZE: '24px',
+  BUTTON_HEIGHT: '52px',
+  ICON_LEFT_PADDING: '24px',
+  CONTAINER_PADDING: '50px 20px',
+} as const
+
 export const LoginPageContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   height: 100%;
   min-height: calc(100dvh - ${FOOTER_HEIGHT}px);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,9 +28,7 @@ export const LoginPageContainer = styled.div`
 
   padding: 50px 20px;
   position: relative;
-  overflow: hidden;
 `
-
 export const TitleSection = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: 28px;
@@ -36,16 +46,14 @@ export const Logo = styled.div`
   height: 180px;
   flex-shrink: 0;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.brand.lighten_2};
-
   display: flex;
   justify-content: center;
   align-items: center;
 
+  background-color: ${({ theme }) => theme.colors.brand.lighten_2};
   font-size: ${({ theme }) => theme.typography._24};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
-
 //소셜로그인
 export const SocialLoginSection = styled.div`
   width: 100%;
@@ -53,7 +61,6 @@ export const SocialLoginSection = styled.div`
   height: 200px;
   margin-top: 50px;
 `
-
 const SocialButtonBase = styled.div<{ weight: FontWeight }>`
   width: calc(100% - 12px); // 변경: 동적 너비 계산 (부모 크기 - 좌우 마진)
   height: 52px;
@@ -79,21 +86,19 @@ export const Google = styled(SocialButtonBase)`
   background: #f2f2f2;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
-export const KakaoIcon = styled(Kakao_Icon)`
-  width: 24px;
-  height: 24px;
+
+const IconBase = styled.svg`
+  width: ${LAYOUT.ICON_SIZE};
+  height: ${LAYOUT.ICON_SIZE};
   position: absolute;
-  left: 24px;
+  left: ${LAYOUT.ICON_LEFT_PADDING};
+`
+export const KakaoIcon = styled(Kakao_Icon)`
+  ${IconBase}
 `
 export const NaverIcon = styled(Naver_Icon)`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 24px;
+  ${IconBase}
 `
 export const GoogleIcon = styled(Google_Icon)`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 24px;
+  ${IconBase}
 `
