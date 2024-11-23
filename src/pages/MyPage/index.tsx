@@ -1,7 +1,7 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import ProfileImage from 'assets/masterprofile.svg'
+import ProfileImage from 'assets/masterprofile.svg?react'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
@@ -25,7 +25,7 @@ export default function MyPage() {
       <S.MainContainer>
         <S.ProfileSection>
           <S.ProfileArea>
-            <img src={ProfileImage} />
+            <ProfileImage />
           </S.ProfileArea>
           <S.ProfileText>
             <Typo24 weight='800'>닉네임</Typo24>
