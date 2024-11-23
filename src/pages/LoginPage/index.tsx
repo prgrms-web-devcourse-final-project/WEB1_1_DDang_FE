@@ -1,6 +1,32 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 
+const SOCIAL_LOGIN_BUTTONS = [
+  { Component: S.Kakao, Icon: S.KakaoIcon, text: '카카오계정 로그인' },
+  { Component: S.Naver, Icon: S.NaverIcon, text: '네이버로 로그인' },
+  { Component: S.Google, Icon: S.GoogleIcon, text: '구글로 로그인' },
+] as const
+
+const TitleSection = () => (
+  <S.TitleSection>
+    건강한 반려 생활{'\n'}
+    <S.BrandText>댕</S.BrandText>과 함께해요!
+  </S.TitleSection>
+)
+
+const SocialLoginButtons = (): JSX.Element => {
+  return (
+    <S.SocialLoginSection>
+      {SOCIAL_LOGIN_BUTTONS.map(({ Component, Icon, text }) => (
+        <Component key={text} weight='700'>
+          <Icon />
+          {text}
+        </Component>
+      ))}
+    </S.SocialLoginSection>
+  )
+}
+
 export default function LoginPage() {
   return (
     <S.LoginPageContainer>
@@ -8,25 +34,9 @@ export default function LoginPage() {
         <title>DDang | 로그인</title>
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
-      <S.TitleSection>
-        건강한 반려 생활{'\n'}
-        <S.BrandText>댕</S.BrandText>과 함께해요!
-      </S.TitleSection>{' '}
+      <TitleSection />
       <S.Logo>로고</S.Logo>
-      <S.SocialLoginSection>
-        <S.Kakao weight='700'>
-          <S.KakaoIcon />
-          카카오계정 로그인
-        </S.Kakao>
-        <S.Naver weight='700'>
-          <S.NaverIcon />
-          네이버로 로그인
-        </S.Naver>
-        <S.Google weight='700'>
-          <S.GoogleIcon />
-          구글로 로그인
-        </S.Google>
-      </S.SocialLoginSection>
+      <SocialLoginButtons />
     </S.LoginPageContainer>
   )
 }
