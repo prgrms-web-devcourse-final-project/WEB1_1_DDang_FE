@@ -12,11 +12,11 @@ export default function MyPage() {
   const theme = useTheme()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-  const handleSettingsClick = () => {
+  const onSettingsClick = () => {
     setIsSettingsOpen(true)
   }
 
-  const handleCloseSettings = () => {
+  const onCloseSettingModal = () => {
     setIsSettingsOpen(false)
   }
 
@@ -28,7 +28,7 @@ export default function MyPage() {
       </Helmet>
       <S.HeaderContainer>
         마이페이지
-        <S.SettingIcon onClick={handleSettingsClick}>
+        <S.SettingIcon onClick={onSettingsClick}>
           <IoSettingsOutline cursor='pointer' size={28} />
         </S.SettingIcon>
       </S.HeaderContainer>
@@ -77,7 +77,7 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
-      <SettingsModal isOpen={isSettingsOpen} onClose={handleCloseSettings} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={onCloseSettingModal} />
     </S.MyPage>
   )
 }

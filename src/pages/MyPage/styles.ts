@@ -9,7 +9,6 @@ export const MyPage = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   padding: 0;
-  /* border: 1px solid blue; */
 `
 
 export const MainContainer = styled.div`
@@ -60,12 +59,11 @@ export const SettingIcon = styled.div`
   top: 50%;
   transform: translateY(-50%);
 `
-
 export const ProfileSection = styled.div`
   width: 100%;
   height: 285px;
   flex-shrink: 0;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   border-radius: 16px;
   box-sizing: border-box;
   padding: 0 20px;
