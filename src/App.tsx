@@ -48,7 +48,7 @@ const MobileWrapper = styled.div`
   min-width: 340px;
   max-width: 430px;
   /* width: 375px; */
-  min-height: calc(var(--vh, 1vh) * 100);
+  min-height: 943px;
   margin: auto;
   position: relative;
   -ms-overflow-style: none;
