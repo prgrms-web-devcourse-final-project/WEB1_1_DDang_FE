@@ -1,7 +1,7 @@
 import * as S from './styles'
 import Male from '~assets/male.svg'
 import Female from '~assets/female.svg'
-import {Typo17} from '~components/Typo/index'
+import { Typo17 } from '~components/Typo/index'
 
 interface GenderSelectButtonProps {
     gender: 'male' | 'female'

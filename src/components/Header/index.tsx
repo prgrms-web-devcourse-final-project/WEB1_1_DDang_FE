@@ -7,7 +7,7 @@ type HeaderProps = {
   closeBtn?: boolean
   onClickPrev?: () => void
   onClickClose?: () => void
-  children: ReactNode
+  children?: ReactNode
   type: HeaderType
 }
 
