@@ -13,6 +13,11 @@ export const TitleSection = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: 28px;
   font-weight: 700;
+  white-space: pre-line; //줄바꿈!
+  text-align: center;
+`
+export const BrandText = styled.span`
+  color: ${({ theme }) => theme.colors.brand.default};
 `
 export const Logo = styled.div`
   width: 180px;
@@ -20,4 +25,11 @@ export const Logo = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: ${({ theme }) => theme.typography._24};
+  color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
