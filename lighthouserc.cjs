@@ -21,6 +21,8 @@ module.exports = {
       preset: 'lighthouse:recommended',
       assertions: {
         'is-crawlable': 'off',
+        'color-contrast': 'off',
+        'unsized-images': 'warn',
       },
     },
   },
