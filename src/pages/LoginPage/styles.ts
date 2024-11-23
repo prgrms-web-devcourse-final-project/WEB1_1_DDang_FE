@@ -75,18 +75,17 @@ const SocialButtonBase = styled.div<{ weight: FontWeight }>`
   cursor: pointer;
 `
 export const Kakao = styled(SocialButtonBase)`
-  background: #ffed16;
+  background: ${SOCIAL_COLORS.KAKAO};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
 export const Naver = styled(SocialButtonBase)`
-  background: #03cf5d;
+  background: ${SOCIAL_COLORS.NAVER};
   color: ${({ theme }) => theme.colors.grayscale.gc_4};
 `
 export const Google = styled(SocialButtonBase)`
-  background: #f2f2f2;
+  background: ${SOCIAL_COLORS.GOOGLE};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
-
 const IconBase = styled.svg`
   width: ${LAYOUT.ICON_SIZE};
   height: ${LAYOUT.ICON_SIZE};
