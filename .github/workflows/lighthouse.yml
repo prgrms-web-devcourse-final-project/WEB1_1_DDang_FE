@@ -43,10 +43,11 @@ jobs:
       - name: Run Lighthouse CI
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-          NODE_TLS_REJECT_UNAUTHORIZED: '0' # SSL 검증 비활성화
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
         run: |
           npm install -g @lhci/cli@0.12.x
-          lhci autorun || echo "Lighthouse CI failed, but continuing"
+          lhci autorun --config=./lighthouserc.js --upload.ignoreTestFailures || echo "Lighthouse CI completed with some failures"
+        timeout-minutes: 15
 
       - name: Upload Lighthouse results
         uses: actions/upload-artifact@v4
@@ -62,42 +63,36 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            const reportPath = './lhci_reports/manifest.json';
+            const glob = require('glob');
 
-            if (!fs.existsSync(reportPath)) {
-                console.log('No Lighthouse report found');
-                return;
-            }
+            const jsonReports = glob.sync('./lhci_reports/*.json');
+            let allComments = '';
 
-            const results = JSON.parse(fs.readFileSync(reportPath));
-            // 중앙값 결과 찾기
-            const medianResult = results.find(entry => entry.isRepresentativeRun);
-            const details = JSON.parse(fs.readFileSync(medianResult.jsonPath));
-            const { summary } = medianResult;
-            const { audits } = details;
+            jsonReports.forEach((reportPath) => {
+              const results = JSON.parse(fs.readFileSync(reportPath));
+              const medianResult = results.find(entry => entry.isRepresentativeRun);
+              const details = JSON.parse(fs.readFileSync(medianResult.jsonPath));
+              const { summary } = medianResult;
+              const { audits } = details;
 
-            const formatResult = (res) => Math.round(res * 100);
+              const formatResult = (res) => Math.round(res * 100);
+              Object.keys(summary).forEach((key) => (summary[key] = formatResult(summary[key])));
 
-            Object.keys(summary).forEach(
-                (key) => (summary[key] = formatResult(summary[key]))
-            );
+              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
-            const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
-
-            // 기본 성능 메트릭
-            const performanceMetrics = [
-                `# ⚡ Lighthouse Report`,
+              const performanceMetrics = [
+                `## Results for ${medianResult.url}`,
+                `### ⚡ Lighthouse Report`,
                 `| Category | Score |`,
                 `| --- | --- |`,
                 `| ${score(summary.performance)} Performance | ${summary.performance} |`,
                 `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
                 `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
                 `| ${score(summary.seo)} SEO | ${summary.seo} |`
-            ].join('\n');
+              ].join('\n');
 
-            // 상세 메트릭
-            const detailedMetrics = [
-                `\n### Detailed Metrics`,
+              const detailedMetrics = [
+                `\n#### Detailed Metrics`,
                 `| Metric | Value |`,
                 `| --- | --- |`,
                 `| ${score(audits['first-contentful-paint'].score * 100)} First Contentful Paint | ${audits['first-contentful-paint'].displayValue} |`,
@@ -105,18 +100,19 @@ jobs:
                 `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${audits['total-blocking-time'].displayValue} |`,
                 `| ${score(audits['cumulative-layout-shift'].score * 100)} Cumulative Layout Shift | ${audits['cumulative-layout-shift'].displayValue} |`,
                 `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
-            ].join('\n');
+              ].join('\n');
 
-            // 보안 검사 결과
-            const securityChecks = [
-                `\n### Security Checks`,
+              const securityChecks = [
+                `\n#### Security Checks`,
                 `| Check | Status | Details |`,
                 `| --- | --- | --- |`,
                 `| CSP-XSS | ${audits['csp-xss'] ? (audits['csp-xss'].score === 1 ? '✅' : '⚠️') : '❓'} | ${audits['csp-xss'] ? audits['csp-xss'].title : 'Not available'} |`
-            ].join('\n');
+              ].join('\n');
 
-            const comments = performanceMetrics + '\n' + detailedMetrics + '\n' + securityChecks;
-            core.setOutput('comments', comments);
+              allComments += performanceMetrics + '\n' + detailedMetrics + '\n' + securityChecks + '\n\n';
+            });
+
+            core.setOutput('comments', allComments);
 
       - name: Comment PR
         if: github.event_name == 'pull_request'
