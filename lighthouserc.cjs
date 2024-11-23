@@ -4,12 +4,12 @@ module.exports = {
       startServerCommand: 'npm run preview',
       url: [
         'http://localhost:4173',
-        // 'http://localhost:4173/log',
-        // 'http://localhost:4173/walk',
-        // 'http://localhost:4173/mypage',
-        // 'http://localhost:4173/login',
+        'http://localhost:4173/log',
+        'http://localhost:4173/walk',
+        'http://localhost:4173/login',
+        'http://localhost:4173/mypage',
       ],
-      numberOfRuns: 1,
+      numberOfRuns: 5,
       startServerReadyPattern: 'Local',
     },
     upload: {
@@ -19,6 +19,9 @@ module.exports = {
     },
     assert: {
       preset: 'lighthouse:recommended',
+      assertions: {
+        'is-crawlable': 'off',
+      },
     },
   },
 }
