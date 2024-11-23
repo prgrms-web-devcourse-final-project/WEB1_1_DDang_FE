@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import DogProfileSection from './DogProfileSection'
 import DogProfileDetailSection from './DogProfileDetailSection'
 import FamilyCodeSection from './FamilyCodeSection'
+import CheckDogProfileSection from './CheckDogProfileSection'
 
 
 export default function LoginPage() {
@@ -15,6 +16,7 @@ export default function LoginPage() {
       <DogProfileSection />
       <DogProfileDetailSection />
       <FamilyCodeSection />
+      <CheckDogProfileSection/>
     </S.LoginPage>
   )
 }
