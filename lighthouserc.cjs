@@ -25,6 +25,7 @@ module.exports = {
         'unsized-images': 'warn',
         'csp-xss': 'off',
         'unused-javascript': 'warn',
+        'uses-rel-preconnect': 'warn',
       },
     },
   },
