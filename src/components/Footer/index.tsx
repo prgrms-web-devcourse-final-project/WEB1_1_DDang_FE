@@ -8,20 +8,21 @@ import { useTheme } from 'styled-components'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
 
+const FOOTER_NAV_LIST = [
+  { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
+  { Icon: FaRegCalendarCheck, endpoint: '/log', typo: '댕댕로그' },
+  { Icon: IoMdPeople, endpoint: '/walk', typo: '소셜' },
+  {
+    Icon: MdOutlineFamilyRestroom,
+    endpoint: '/mypage',
+    typo: '패밀리댕',
+  },
+  { Icon: CgProfile, endpoint: '/login', typo: '내정보' },
+]
+
 export default function Footer() {
   //todo const location = useLocation() // location.pathname으로 url 감지하여, 아이콘 active 상태 활성화 할 예정
   const theme = useTheme()
-  const FOOTER_NAV_LIST = [
-    { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
-    { Icon: FaRegCalendarCheck, endpoint: '/log', typo: '댕댕로그' },
-    { Icon: IoMdPeople, endpoint: '/walk', typo: '소셜' },
-    {
-      Icon: MdOutlineFamilyRestroom,
-      endpoint: '/mypage',
-      typo: '패밀리댕',
-    },
-    { Icon: CgProfile, endpoint: '/login', typo: '내정보' },
-  ]
 
   return (
     <S.Footer>
