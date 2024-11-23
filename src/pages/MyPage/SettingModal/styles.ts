@@ -56,7 +56,7 @@ export const Content = styled.div`
   overflow-y: auto;
 `
 //탈퇴하기 버튼
-export const CustomQuiteButton = styled(ActionButton)`
+export const CustomQuitButton = styled(ActionButton)`
   font-size: ${({ theme }) => theme.typography._17};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};

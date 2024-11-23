@@ -6,18 +6,18 @@ import ProfileImage from '~assets/masterprofile.svg'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
-import SettingsModal from '~pages/MyPage/SettingModal'
+import SettingModal from '~pages/MyPage/SettingModal'
 
 export default function MyPage() {
   const theme = useTheme()
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [onClickSetting, setOnclickSetting] = useState(false)
 
   const onSettingsClick = () => {
-    setIsSettingsOpen(true)
+    setOnclickSetting(true)
   }
 
   const onCloseSettingModal = () => {
-    setIsSettingsOpen(false)
+    setOnclickSetting(false)
   }
 
   return (
@@ -77,7 +77,7 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
-      <SettingsModal isOpen={isSettingsOpen} onClose={onCloseSettingModal} />
+      <SettingModal isOpen={onClickSetting} onClose={onCloseSettingModal} />
     </S.MyPage>
   )
 }

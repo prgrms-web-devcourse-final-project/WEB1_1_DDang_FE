@@ -8,7 +8,7 @@ type SettingModalProps = {
   onClose: () => void
 }
 
-export default function SettingsModal({ isOpen, onClose }: SettingModalProps) {
+export default function SettingModal({ isOpen, onClose }: SettingModalProps) {
   if (!isOpen) return null
 
   return (
@@ -30,9 +30,9 @@ export default function SettingsModal({ isOpen, onClose }: SettingModalProps) {
       </S.Content>
 
       <S.QuitButtonArea>
-        <S.CustomQuiteButton $type='semiRoundedRect' $bgColor='gc_4' $fontWeight='700'>
+        <S.CustomQuitButton $type='semiRoundedRect' $bgColor='gc_4' $fontWeight='700'>
           탈퇴하기
-        </S.CustomQuiteButton>
+        </S.CustomQuitButton>
       </S.QuitButtonArea>
     </S.SettingModalContainer>
   )
