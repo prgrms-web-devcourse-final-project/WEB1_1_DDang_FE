@@ -2,7 +2,7 @@ import { useState } from 'react'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import ProfileImage from 'assets/masterprofile.svg'
+import ProfileImage from '~assets/masterprofile.svg'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
@@ -10,14 +10,14 @@ import SettingsModal from '~pages/MyPage/SettingModal'
 
 export default function MyPage() {
   const theme = useTheme()
-  const [isSettingsOpen, setIsSettinsOpen] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-  const handleSettingsClik = () => {
-    setIsSettinsOpen(true)
+  const handleSettingsClick = () => {
+    setIsSettingsOpen(true)
   }
 
-  const handleCloseSteeings = () => {
-    setIsSettinsOpen(false)
+  const handleCloseSettings = () => {
+    setIsSettingsOpen(false)
   }
 
   return (
@@ -28,7 +28,7 @@ export default function MyPage() {
       </Helmet>
       <S.HeaderContainer>
         마이페이지
-        <S.SettingIcon onClick={handleSettingsClik}>
+        <S.SettingIcon onClick={handleSettingsClick}>
           <IoSettingsOutline cursor='pointer' size={28} />
         </S.SettingIcon>
       </S.HeaderContainer>
@@ -50,7 +50,7 @@ export default function MyPage() {
           </S.ProfileText>
         </S.ProfileSection>
 
-        <S.CountSectioin>
+        <S.CountSection>
           <S.CountArea>
             <S.CountWrapperBig>23회</S.CountWrapperBig>
             <S.CountWrapperSmall>누적 산책 횟수</S.CountWrapperSmall>
@@ -65,7 +65,7 @@ export default function MyPage() {
             <S.CountWrapperBig>16회</S.CountWrapperBig>
             <S.CountWrapperSmall>강번따 횟수</S.CountWrapperSmall>
           </S.CountArea>
-        </S.CountSectioin>
+        </S.CountSection>
 
         <S.GangbunttaArea>
           <ToggleBox type='md' setting='gangbuntta' />
@@ -77,7 +77,7 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
-      <SettingsModal isOpen={isSettingsOpen} onClose={handleCloseSteeings} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={handleCloseSettings} />
     </S.MyPage>
   )
 }

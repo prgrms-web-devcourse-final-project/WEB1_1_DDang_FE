@@ -104,7 +104,7 @@ export const CountArea = styled.div`
   flex-shrink: 0;
   /* border: 1px solid red; */
 `
-export const CountSectioin = styled(ProfileSection)`
+export const CountSection = styled(ProfileSection)`
   width: 100%;
   height: 96px;
   flex-shrink: 0;
