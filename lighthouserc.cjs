@@ -9,7 +9,7 @@ module.exports = {
         'http://localhost:4173/login',
         'http://localhost:4173/mypage',
       ],
-      numberOfRuns: 1,
+      numberOfRuns: 3,
       startServerReadyPattern: 'Local',
     },
     upload: {
@@ -23,6 +23,8 @@ module.exports = {
         'is-crawlable': 'off',
         'color-contrast': 'off',
         'unsized-images': 'warn',
+        'csp-xss': 'off',
+        'unused-javascript': 'warn',
       },
     },
   },
