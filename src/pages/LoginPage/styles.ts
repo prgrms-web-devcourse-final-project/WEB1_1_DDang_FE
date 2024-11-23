@@ -10,8 +10,6 @@ export const LoginPageContainer = styled.div`
 
   overflow: hidden;
   position: relative;
-  margin: 0 auto;
-  box-sizing: border-box;
   padding: 0;
   align-items: center;
   flex-direction: column;
@@ -46,7 +44,6 @@ export const Logo = styled.div`
 
 //소셜로그인
 export const SocialLoginSection = styled.div`
-  /* border: 1px solid red; */
   width: 350px;
   height: 200px;
   margin-top: 50px;
@@ -54,7 +51,7 @@ export const SocialLoginSection = styled.div`
 export const Kakao = styled.div<{ weight: FontWeight }>`
   width: 335px;
   height: 52px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   border-radius: 12px;
   background: #ffed16;
 
@@ -78,7 +75,7 @@ export const KakaoIcon = styled(Kakao_Icon)`
 export const Naver = styled.div<{ weight: FontWeight }>`
   width: 335px;
   height: 52px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   border-radius: 12px;
   background: #03cf5d;
 
@@ -99,10 +96,10 @@ export const NaverIcon = styled(Naver_Icon)`
   position: absolute;
   left: 24px;
 `
-export const Gogle = styled.div<{ weight: FontWeight }>`
+export const Google = styled.div<{ weight: FontWeight }>`
   width: 335px;
   height: 52px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   border-radius: 12px;
   background: #f2f2f2;
 

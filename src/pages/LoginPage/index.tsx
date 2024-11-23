@@ -22,10 +22,10 @@ export default function LoginPage() {
           <S.NaverIcon />
           네이버로 로그인
         </S.Naver>
-        <S.Gogle weight='700'>
+        <S.Google weight='700'>
           <S.GoogleIcon />
           구글로 로그인
-        </S.Gogle>
+        </S.Google>
       </S.SocialLoginSection>
     </S.LoginPageContainer>
   )
