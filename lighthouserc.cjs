@@ -27,6 +27,7 @@ module.exports = {
         'unused-javascript': 'warn',
         'uses-rel-preconnect': 'warn',
         'link-name': 'warn',
+        bypass: 'warn',
       },
     },
   },
