@@ -12,9 +12,7 @@ const SOCIAL_COLORS = {
 
 const LAYOUT = {
   ICON_SIZE: '24px',
-  BUTTON_HEIGHT: '52px',
   ICON_LEFT_PADDING: '24px',
-  CONTAINER_PADDING: '50px 20px',
 } as const
 
 export const LoginPageContainer = styled.div`
@@ -62,7 +60,7 @@ export const SocialLoginSection = styled.div`
   margin-top: 50px;
 `
 const SocialButtonBase = styled.div<{ weight: FontWeight }>`
-  width: calc(100% - 12px); // 변경: 동적 너비 계산 (부모 크기 - 좌우 마진)
+  width: calc(100% - 12px);
   height: 52px;
   border-radius: 12px;
   font-size: ${({ theme }) => theme.typography._14};
@@ -73,6 +71,13 @@ const SocialButtonBase = styled.div<{ weight: FontWeight }>`
   position: relative;
   margin: 10px 6px;
   cursor: pointer;
+
+  svg {
+    position: absolute;
+    left: 24px;
+    width: ${LAYOUT.ICON_SIZE};
+    height: ${LAYOUT.ICON_SIZE};
+  }
 `
 export const Kakao = styled(SocialButtonBase)`
   background: ${SOCIAL_COLORS.KAKAO};
@@ -86,12 +91,13 @@ export const Google = styled(SocialButtonBase)`
   background: ${SOCIAL_COLORS.GOOGLE};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
-
 const IconBase = styled.svg`
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   width: ${LAYOUT.ICON_SIZE};
   height: ${LAYOUT.ICON_SIZE};
-  position: absolute;
-  left: ${LAYOUT.ICON_LEFT_PADDING};
 `
 export const KakaoIcon = styled(Kakao_Icon)`
   ${IconBase}

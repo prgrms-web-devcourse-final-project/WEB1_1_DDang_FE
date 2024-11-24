@@ -19,8 +19,10 @@ const SocialLoginButtons = (): JSX.Element => {
     <S.SocialLoginSection>
       {SOCIAL_LOGIN_BUTTONS.map(({ Component, Icon, text }) => (
         <Component key={text} weight='700'>
-          <Icon />
-          {text}
+          <div style={{ position: 'relative', width: '100%' }}>
+            <Icon />
+            <div style={{ textAlign: 'center' }}>{text}</div>
+          </div>
         </Component>
       ))}
     </S.SocialLoginSection>
