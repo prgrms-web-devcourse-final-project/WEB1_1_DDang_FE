@@ -1,7 +1,7 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import ProfileImage from 'assets/masterprofile.svg'
+import ProfileImage from 'assets/masterprofile.svg?react'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
@@ -11,7 +11,8 @@ export default function MyPage() {
   return (
     <S.MyPage>
       <Helmet>
-        <title>DDang | 마페</title>
+        <title>DDang | 마이페이지</title>
+        <meta name='robots' content='noindex' />
         <meta name='description' content='나의 반려견 정보와 산책 기록을 관리하세요.' />
       </Helmet>
       <S.HeaderContainer>
@@ -24,7 +25,7 @@ export default function MyPage() {
       <S.MainContainer>
         <S.ProfileSection>
           <S.ProfileArea>
-            <img src={ProfileImage} />
+            <ProfileImage />
           </S.ProfileArea>
           <S.ProfileText>
             <Typo24 weight='800'>닉네임</Typo24>

@@ -34,11 +34,13 @@ export default function LoginPage() {
     <S.LoginPageContainer>
       <Helmet>
         <title>DDang | 로그인</title>
+        <meta name='robots' content='noindex' />
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
       <TitleSection />
       <S.Logo>로고</S.Logo>
       <SocialLoginButtons />
     </S.LoginPageContainer>
+
   )
 }

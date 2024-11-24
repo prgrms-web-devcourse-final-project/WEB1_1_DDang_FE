@@ -1,17 +1,13 @@
-import { Suspense } from 'react'
 import Footer from '~components/Footer'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import * as Pages from './components/LazyComponents'
-import Loader from '~components/Loader'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <>
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
+        <Outlet />
         <Footer />
       </>
     ),
@@ -37,5 +33,5 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Pages.LoginPage />,
-  }
+  },
 ])
