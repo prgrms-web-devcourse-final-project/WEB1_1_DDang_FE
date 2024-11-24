@@ -5,6 +5,7 @@ import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~pages/LoginPage/components/GenderSelectButton'
 import { useState } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
+import Header from '~components/Header'
 
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
@@ -12,9 +13,10 @@ export default function Register() {
   const handleGenderSelect = (gender: 'male' | 'female') => {
     setSelectedGender(gender)
   }
-
+  const handleClickPrev = () => {}
   return (
     <S.Register>
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <Helmet>
         <title>DDang | 로그인</title>
         <meta name='description' content='DDang 서비스 로그인' />

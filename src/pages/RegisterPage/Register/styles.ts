@@ -1,58 +1,68 @@
 import { FontWeight, styled } from 'styled-components'
 
 export const Register = styled.div`
-  background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   flex-direction: column;
-  height: 100dvh;
-  padding: 20px 20px;
-  position: relative;
-  border: 2px solid red;
+  justify-content: space-between;
+  padding: 120px 20px 24px 20px;
+  background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
-    padding: 100px 20px 24px 20px;
+    padding: 76px 20px 16px;
+    gap: 0.5rem;
   }
 `
 
 export const TextSection = styled.text<{ weight: FontWeight }>`
+  flex-shrink: 0;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._24};
   font-weight: ${({ weight }) => weight};
   white-space: pre-line;
   text-align: center;
-  margin-top: 20%;
-  margin-bottom: 30px;
 `
+
 export const AddOwnerAvatarBtnWrapper = styled.div`
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
 `
+
 export const AddOwnerAvatarBtn = styled.div`
   width: 180px;
   height: 180px;
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
   border-radius: 50%;
-
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 0.5rem;
-
   font-weight: 700;
   color: ${({ theme }) => theme.colors.brand.darken};
   cursor: pointer;
+
+  @media (max-height: 700px) {
+    width: 150px;
+    height: 150px;
+  }
 `
+
 export const OwnerProfileSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
+
+  @media (max-height: 700px) {
+    gap: 0.5rem;
+  }
 `
+
 export const NickNameWrapper = styled.div`
-  text-align: center;
+  width: 100%;
 `
 
 export const PositionChoiceBtn = styled.div`
@@ -64,7 +74,12 @@ export const PositionChoiceBtn = styled.div`
   font-size: ${({ theme }) => theme.typography._20};
   color: ${({ theme }) => theme.colors.grayscale.font_3};
   cursor: pointer;
+
+  @media (max-height: 700px) {
+    padding: 12px 24px;
+  }
 `
+
 export const LocationBtn = styled.div`
   width: 100%;
   border: none;
@@ -74,19 +89,29 @@ export const LocationBtn = styled.div`
   font-size: ${({ theme }) => theme.typography._20};
   color: ${({ theme }) => theme.colors.grayscale.font_3};
   cursor: pointer;
+
+  @media (max-height: 700px) {
+    padding: 12px 24px;
+  }
 `
+
 export const GenderSelectBtnWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   height: 62px;
-  border: 1px solid red;
+
   & > * {
-    height: 100%; // 부모 높이에 맞춥니다
+    height: 100%;
   }
+
   button {
     flex-direction: row;
     gap: 0.8rem;
     height: 100%;
+  }
+
+  @media (max-height: 700px) {
+    height: 52px;
   }
 `
