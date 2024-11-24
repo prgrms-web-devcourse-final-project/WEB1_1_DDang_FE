@@ -34,11 +34,14 @@ export const AddOwnerAvatarBtn = styled.div`
   height: 180px;
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
   border-radius: 50%;
+  margin-top: 0.7rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 0.5rem;
+
   font-weight: 700;
   color: ${({ theme }) => theme.colors.brand.darken};
   cursor: pointer;
@@ -52,7 +55,7 @@ export const AddOwnerAvatarBtn = styled.div`
 export const OwnerProfileSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   flex: 1;
   justify-content: center;
 
