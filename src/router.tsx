@@ -36,6 +36,26 @@ export const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Pages.LoginPage />,
-  }
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Pages.LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/register',
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Pages.RegisterPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/register/dog',
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Pages.RegisterDogPage />
+      </Suspense>
+    ),
+  },
 ])

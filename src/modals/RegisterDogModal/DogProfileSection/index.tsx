@@ -5,7 +5,6 @@ import AddDogPicture from '~assets/add-dog-picture.svg'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
-import ModalContainer from '~modals/ModalContainer'
 import { DatePicker } from 'ios-style-picker'
 import '/node_modules/ios-style-picker/dist/style.css'
 

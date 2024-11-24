@@ -1,7 +1,7 @@
 import * as S from './styles'
 import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
-import GenderSelectButton from '../components/GenderSelectButton'
+import GenderSelectButton from '../../../components/GenderSelectButton'
 import { Typo24 } from '~components/Typo/index'
 import Check from '~assets/check.svg'
 import Header from '~components/Header/index'
