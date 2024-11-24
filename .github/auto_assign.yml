@@ -2,12 +2,16 @@ addReviewers: true
 addAssignees: author
 
 reviewers:
+  - saseungmin
   - ruehan
   - shlee9999
   - wonill
   - kimjuyoung99
 
-numberOfReviewers: 2
+numberOfReviewers: 3
+
+requiredReviewers:
+  - saseungmin
 
 skipKeywords:
   - wip

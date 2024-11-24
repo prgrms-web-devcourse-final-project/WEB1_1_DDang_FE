@@ -2,17 +2,17 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { lightTheme, darkTheme } from '~/styles/theme'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import ModalContainer from '~modals/ModalContainer'
+import Loader from '~components/Loader'
 
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
-
   return (
     <>
       <HelmetProvider>
@@ -26,10 +26,12 @@ function App() {
           </button>
           <GlobalStyle />
           <MobileWrapper>
-            <RouterProvider router={router} />
+            <Suspense fallback={<Loader />}>
+              <RouterProvider router={router} />
+              <ModalContainer />
+            </Suspense>
           </MobileWrapper>
           <PWABadge />
-          <ModalContainer />
         </ThemeProvider>
       </HelmetProvider>
     </>
