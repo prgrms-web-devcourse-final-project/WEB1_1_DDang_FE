@@ -26,6 +26,7 @@ module.exports = {
         'csp-xss': 'off',
         'unused-javascript': 'warn',
         'uses-rel-preconnect': 'warn',
+        'link-name': 'warn',
       },
     },
   },
