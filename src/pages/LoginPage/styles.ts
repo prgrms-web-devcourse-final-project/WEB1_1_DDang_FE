@@ -19,12 +19,12 @@ const LAYOUT = {
 
 export const LoginPageContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  height: 100%;
   min-height: calc(100dvh - ${FOOTER_HEIGHT}px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  height: 100dvh;
 
   padding: 50px 20px;
   position: relative;
@@ -86,6 +86,7 @@ export const Google = styled(SocialButtonBase)`
   background: ${SOCIAL_COLORS.GOOGLE};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
+
 const IconBase = styled.svg`
   width: ${LAYOUT.ICON_SIZE};
   height: ${LAYOUT.ICON_SIZE};
