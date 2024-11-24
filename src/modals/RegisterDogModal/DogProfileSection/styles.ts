@@ -1,5 +1,4 @@
 import { styled } from 'styled-components'
-import zh from './../../../../../date-picker-test/dist/formatters/zh.d'
 
 export const DogProfileSection = styled.div`
   padding: 120px 20px 24px 20px;
@@ -118,5 +117,5 @@ export const AlertFormWrapper = styled.div<{ isVisible: boolean }>`
   /* transform: translateY(${({ isVisible }) => (isVisible ? '0' : '10px')}); */
   transition:
     opacity 0.3s ease,
-    transform 0.3s ease;
+    visibility 0.3s ease;
 `
