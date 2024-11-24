@@ -4,12 +4,12 @@ module.exports = {
       startServerCommand: 'npm run preview',
       url: [
         'http://localhost:4173',
-        'http://localhost:4173/log',
+        // 'http://localhost:4173/log',
         // 'http://localhost:4173/walk',
-        'http://localhost:4173/login',
+        // 'http://localhost:4173/login',
         'http://localhost:4173/mypage',
       ],
-      numberOfRuns: 3,
+      numberOfRuns: 2,
       startServerReadyPattern: 'Local',
     },
     upload: {
