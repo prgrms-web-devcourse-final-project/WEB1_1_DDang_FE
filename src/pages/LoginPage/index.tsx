@@ -5,7 +5,6 @@ import DogProfileDetailSection from './DogProfileDetailSection'
 import FamilyCodeSection from './FamilyCodeSection'
 import CheckDogProfileSection from './CheckDogProfileSection'
 
-
 export default function LoginPage() {
   return (
     <S.LoginPage>
@@ -16,7 +15,7 @@ export default function LoginPage() {
       <DogProfileSection />
       <DogProfileDetailSection />
       <FamilyCodeSection />
-      <CheckDogProfileSection/>
+      <CheckDogProfileSection />
     </S.LoginPage>
   )
 }
