@@ -5,6 +5,9 @@ import AddDogPicture from '~assets/add-dog-picture.svg'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
+import ModalContainer from '~modals/ModalContainer'
+import { DatePicker } from 'ios-style-picker'
+import '/node_modules/ios-style-picker/dist/style.css'
 
 export default function DogProfileSection() {
   const [dogImage, setDogImage] = useState<string | undefined>(undefined)
@@ -30,7 +33,7 @@ export default function DogProfileSection() {
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
       <S.DogProfileSection>
         <S.TypoWrapper>
           <Typo24 weight='700'>
@@ -53,6 +56,20 @@ export default function DogProfileSection() {
         </S.InputArea>
         <ActionButton>다음</ActionButton>
       </S.DogProfileSection>
+      <DatePicker
+        fromDate={new Date(2000, 0, 1)}
+        toDate={new Date(new Date().getFullYear(), 11, 31)}
+        infinite
+        initDate={new Date()}
+        onChange={(y, m, d) => {
+          console.log(y, m, d)
+        }}
+        formatters={{
+          year: value => `${value}년`,
+          month: value => `${value}월`,
+          day: value => `${value}일`,
+        }}
+      />
     </>
   )
 }

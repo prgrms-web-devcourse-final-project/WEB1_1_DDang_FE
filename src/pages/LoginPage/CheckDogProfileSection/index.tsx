@@ -10,7 +10,7 @@ export default function CheckDogProfileSection() {
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
       <S.CheckDogProfileSection>
         <S.ProfileArea>
           <S.TypoWrapper>

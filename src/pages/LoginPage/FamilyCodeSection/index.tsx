@@ -8,7 +8,7 @@ export default function FamilyCodeSection() {
   const handleClickPrev = () => {}
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
       <S.FamilyCodeSection>
         <S.PrevBtnWrapper>
           <PrevButton />

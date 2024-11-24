@@ -50,7 +50,7 @@ export default function DogProfileDetailSection() {
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
       <S.DogProfileDetailSection>
         <S.TypoWrapper>
           <Typo24 weight='700'>
