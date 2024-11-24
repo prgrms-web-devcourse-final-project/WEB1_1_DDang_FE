@@ -7,15 +7,18 @@ import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
+import AlertForm from '~components/AlertForm'
 
 export default function DogProfileSection() {
-  const [dogImage, setDogImage] = useState<string | undefined>(undefined)
   const [dogName, setDogName] = useState('')
+  const [dogImage, setDogImage] = useState<string | undefined>(undefined)
   const [birth, setBirth] = useState('')
   const [intro, setIntro] = useState('')
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { pushModal } = useModalStore()
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertContent, setAlertContent] = useState('')
 
   const handleClickPrev = () => {}
 
@@ -36,6 +39,29 @@ export default function DogProfileSection() {
 
   const handleDatePickerOpen = () => {
     pushModal(<DatePickerModal date={birth} setDate={setBirth} />)
+  }
+
+  const handleNextClick = () => {
+    if (!dogName) {
+      setAlertContent('반려견 이름을 입력해주세요')
+      setShowAlert(true)
+    } else if (!dogImage) {
+      setAlertContent('반려견 사진을 등록해주세요')
+      setShowAlert(true)
+    } else if (!birth) {
+      setAlertContent('반려견 생일을 입력해주세요')
+      setShowAlert(true)
+    } else if (!intro) {
+      setAlertContent('한줄 소개를 적어주세요')
+      setShowAlert(true)
+    } else {
+      console.log('다음 페이지로')
+      return
+    }
+
+    setTimeout(() => {
+      setShowAlert(false)
+    }, 2000)
   }
 
   return (
@@ -65,7 +91,12 @@ export default function DogProfileSection() {
             한줄 소개 입력
           </TwoLineInput>
         </S.InputArea>
-        <ActionButton>다음</ActionButton>
+        <S.ActionButtonArea>
+          <ActionButton onClick={handleNextClick}>다음</ActionButton>
+          <S.AlertFormWrapper isVisible={showAlert}>
+            <AlertForm content={alertContent}></AlertForm>
+          </S.AlertFormWrapper>
+        </S.ActionButtonArea>
       </S.DogProfileSection>
     </>
   )

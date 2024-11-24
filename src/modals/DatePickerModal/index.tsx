@@ -1,5 +1,4 @@
 import * as S from './styles'
-
 import { useState } from 'react'
 import { useModalStore } from '~stores/modalStore'
 import { DatePicker } from 'ios-style-picker'

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components'
+import zh from './../../../../../date-picker-test/dist/formatters/zh.d'
 
 export const DogProfileSection = styled.div`
   padding: 120px 20px 24px 20px;
@@ -100,4 +101,22 @@ export const DatePickerBtn = styled.div<{ hasBirth: boolean }>`
   color: ${({ theme, hasBirth }) => (hasBirth ? 'black' : theme.colors.grayscale.font_3)};
   font-weight: ${({ hasBirth }) => (hasBirth ? '700' : '400')};
   cursor: pointer;
+`
+export const ActionButtonArea = styled.div`
+  position: relative;
+`
+export const AlertFormWrapper = styled.div<{ isVisible: boolean }>`
+  position: absolute;
+  top: -50px;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  visibility: ${({ isVisible }) => (isVisible ? 'visiblie' : 'hidden')};
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  /* transform: translateY(${({ isVisible }) => (isVisible ? '0' : '10px')}); */
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 `
