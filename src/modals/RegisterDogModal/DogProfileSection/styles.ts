@@ -114,7 +114,6 @@ export const AlertFormWrapper = styled.div<{ isVisible: boolean }>`
 
   visibility: ${({ isVisible }) => (isVisible ? 'visiblie' : 'hidden')};
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  /* transform: translateY(${({ isVisible }) => (isVisible ? '0' : '10px')}); */
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
