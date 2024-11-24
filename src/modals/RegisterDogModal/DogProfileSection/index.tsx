@@ -9,6 +9,7 @@ import DatePickerModal from '~modals/DatePickerModal'
 import AlertForm from '~components/AlertForm'
 import DogImageUploader from './DogImageUploader'
 import { validateDogProfile } from '~utils/validateDogProfile'
+import DogProfileDetailSection from '../DogProfileDetailSection'
 
 interface DogProfileType {
   name: string
@@ -25,11 +26,9 @@ export default function DogProfileSection() {
     intro: '',
   })
 
-  const { pushModal } = useModalStore()
+  const { popModal, pushModal } = useModalStore()
   const [showAlert, setShowAlert] = useState(false)
   const [alertContent, setAlertContent] = useState('')
-
-  const handleClickPrev = () => {}
 
   const handleDatePickerOpen = () => {
     pushModal(
@@ -43,7 +42,7 @@ export default function DogProfileSection() {
       triggerAlert(alertMessage)
       return
     }
-    console.log('다음 페이지로')
+    pushModal(<DogProfileDetailSection />)
   }
 
   const triggerAlert = (message: string) => {
@@ -56,7 +55,7 @@ export default function DogProfileSection() {
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
+      <Header type='sm' onClickPrev={popModal} prevBtn />
       <S.DogProfileSection>
         <S.TypoWrapper>
           <Typo24 weight='700'>
@@ -83,7 +82,9 @@ export default function DogProfileSection() {
           </TwoLineInput>
         </S.InputArea>
         <S.ActionButtonArea>
-          <ActionButton onClick={handleNextClick}>다음</ActionButton>
+          <ActionButton $bgColor={validateDogProfile(dogProfile) ? 'gc_1' : 'default'} onClick={handleNextClick}>
+            다음
+          </ActionButton>
           <S.AlertFormWrapper isVisible={showAlert}>
             <AlertForm content={alertContent} />
           </S.AlertFormWrapper>
