@@ -104,17 +104,3 @@ export const DatePickerBtn = styled.div<{ hasBirth: boolean }>`
 export const ActionButtonArea = styled.div`
   position: relative;
 `
-export const AlertFormWrapper = styled.div<{ isVisible: boolean }>`
-  position: absolute;
-  top: -50px;
-
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  visibility: ${({ isVisible }) => (isVisible ? 'visiblie' : 'hidden')};
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-`

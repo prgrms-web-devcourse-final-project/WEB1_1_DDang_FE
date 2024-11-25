@@ -6,10 +6,11 @@ import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
-import AlertForm from '~components/AlertForm'
 import DogImageUploader from './DogImageUploader'
 import { validateDogProfile } from '~utils/validateDogProfile'
 import DogProfileDetailSection from '../DogProfileDetailSection'
+import Toast from '~components/Toast'
+import { useToastStore } from '~/stores/toastStore'
 
 interface DogProfileType {
   name: string
@@ -27,8 +28,7 @@ export default function DogProfileSection() {
   })
 
   const { popModal, pushModal } = useModalStore()
-  const [showAlert, setShowAlert] = useState(false)
-  const [alertContent, setAlertContent] = useState('')
+  const { showToast } = useToastStore()
 
   const handleDatePickerOpen = () => {
     pushModal(
@@ -39,18 +39,10 @@ export default function DogProfileSection() {
   const handleNextClick = () => {
     const alertMessage = validateDogProfile(dogProfile)
     if (alertMessage) {
-      triggerAlert(alertMessage)
+      showToast(alertMessage)
       return
     }
     pushModal(<DogProfileDetailSection />)
-  }
-
-  const triggerAlert = (message: string) => {
-    setAlertContent(message)
-    setShowAlert(true)
-    setTimeout(() => {
-      setShowAlert(false)
-    }, 2000)
   }
 
   return (
@@ -85,9 +77,7 @@ export default function DogProfileSection() {
           <ActionButton $bgColor={validateDogProfile(dogProfile) ? 'gc_1' : 'default'} onClick={handleNextClick}>
             다음
           </ActionButton>
-          <S.AlertFormWrapper isVisible={showAlert}>
-            <AlertForm content={alertContent} />
-          </S.AlertFormWrapper>
+          <Toast />
         </S.ActionButtonArea>
       </S.DogProfileSection>
     </>
