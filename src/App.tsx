@@ -25,10 +25,12 @@ function App() {
             Toggle Theme
           </button>
           <GlobalStyle />
-          <MobileContainer>
-            <RouterProvider router={router} />
-            <ModalContainer />
-          </MobileContainer>
+          <MobileWrapper>
+            <Suspense fallback={<Loader />}>
+              <RouterProvider router={router} />
+              <ModalContainer />
+            </Suspense>
+          </MobileWrapper>
           <PWABadge />
         </ThemeProvider>
       </HelmetProvider>
@@ -38,7 +40,7 @@ function App() {
 
 export default App
 
-const MobileContainer = styled.div`
+const MobileWrapper = styled.div`
   font-family: 'SUIT', sans-serif;
   display: flex;
   flex-direction: column;
@@ -48,16 +50,9 @@ const MobileContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
   min-width: 340px;
   max-width: 430px;
-  /* width: 375px; */
-  min-height: 667px;
-  height: 100dvh;
-  max-height: 932px;
+  min-height: calc(var(--vh, 1vh) * 100);
   margin: auto;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-
+  position: relative;
   -ms-overflow-style: none;
   scrollbar-width: none;
 
