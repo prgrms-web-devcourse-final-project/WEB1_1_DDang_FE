@@ -6,9 +6,16 @@ import GenderSelectButton from '~components/GenderSelectButton'
 import { useState } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import Header from '~components/Header'
+import RegisterAvatarModal from '~modals/RegisterAvatarModal'
+import { useModalStore } from '~stores/modalStore'
 
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
+  // const [isAvatarMadalOpen, setIsAvatarModalOpen] = useState(true) //개발 중에는 true로 고정
+  const pushModal = useModalStore(state => state.pushModal)
+  const handleAvatarClick = () => {
+    pushModal(<RegisterAvatarModal />)
+  }
 
   const handleGenderSelect = (gender: 'male' | 'female') => {
     setSelectedGender(gender)
@@ -25,9 +32,9 @@ export default function Register() {
       <S.TextSection weight='700'>견주님에 대해{'\n'}알려주세요</S.TextSection>
 
       <S.AddOwnerAvatarBtnWrapper>
-        <S.AddOwnerAvatarBtn>
+        <S.AddOwnerAvatarBtn onClick={handleAvatarClick}>
           <img src={AddOwnerAvatar} alt='프로필 선택' />
-          <div>프로필 선택</div>
+          <div>아바타 선택</div>
         </S.AddOwnerAvatarBtn>
       </S.AddOwnerAvatarBtnWrapper>
 
@@ -51,6 +58,8 @@ export default function Register() {
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
       <ActionButton>다음</ActionButton>
+      {/* 개발할 때는 조건부 렌더링을 제거하고 직접 렌더링 */}
+      {/* {isAvatarMadalOpen && <RegisterAvatarModal onClose={handleCloseModal} />} */}
     </S.RegisterPage>
   )
 }
