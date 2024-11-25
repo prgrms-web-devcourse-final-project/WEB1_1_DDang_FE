@@ -1,6 +1,6 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
-import DogProfileSection from '~modals/RegisterDogModal/DogProfileSection'
+import SearchModal from '~modals/SearchModal'
 
 export default function RegisterDogPage() {
   return (
@@ -9,7 +9,7 @@ export default function RegisterDogPage() {
         <title>DDang | 반려견 정보 등록</title>
         <meta name='description' content='반려견의 정보를 등록하세요.' />
       </Helmet>
-      <DogProfileSection />
+      <SearchModal />
     </S.RegisterDogPage>
   )
 }
