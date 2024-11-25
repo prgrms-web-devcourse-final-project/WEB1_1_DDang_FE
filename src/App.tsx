@@ -25,12 +25,12 @@ function App() {
             Toggle Theme
           </button>
           <GlobalStyle />
-          <MobileWrapper>
+          <MobileContainer>
             <Suspense fallback={<Loader />}>
               <RouterProvider router={router} />
               <ModalContainer />
             </Suspense>
-          </MobileWrapper>
+          </MobileContainer>
           <PWABadge />
         </ThemeProvider>
       </HelmetProvider>
@@ -40,7 +40,7 @@ function App() {
 
 export default App
 
-const MobileWrapper = styled.div`
+const MobileContainer = styled.div`
   font-family: 'SUIT', sans-serif;
   display: flex;
   flex-direction: column;
