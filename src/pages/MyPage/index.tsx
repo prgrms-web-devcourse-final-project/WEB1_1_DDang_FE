@@ -1,22 +1,35 @@
+import { useState } from 'react'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import ProfileImage from 'assets/masterprofile.svg'
+import ProfileImage from 'assets/masterprofile.svg?react'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
+import SettingModal from '~pages/MyPage/SettingModal'
 
 export default function MyPage() {
   const theme = useTheme()
+  const [onClickSetting, setOnclickSetting] = useState(false)
+
+  const onSettingsClick = () => {
+    setOnclickSetting(true)
+  }
+
+  const onCloseSettingModal = () => {
+    setOnclickSetting(false)
+  }
+
   return (
     <S.MyPage>
       <Helmet>
-        <title>DDang | 마페</title>
+        <title>DDang | 마이페이지</title>
+        <meta name='robots' content='noindex' />
         <meta name='description' content='나의 반려견 정보와 산책 기록을 관리하세요.' />
       </Helmet>
       <S.HeaderContainer>
         마이페이지
-        <S.SettingIcon>
+        <S.SettingIcon onClick={onSettingsClick}>
           <IoSettingsOutline cursor='pointer' size={28} />
         </S.SettingIcon>
       </S.HeaderContainer>
@@ -24,7 +37,7 @@ export default function MyPage() {
       <S.MainContainer>
         <S.ProfileSection>
           <S.ProfileArea>
-            <img src={ProfileImage} />
+            <ProfileImage />
           </S.ProfileArea>
           <S.ProfileText>
             <Typo24 weight='800'>닉네임</Typo24>
@@ -38,7 +51,7 @@ export default function MyPage() {
           </S.ProfileText>
         </S.ProfileSection>
 
-        <S.CountSectioin>
+        <S.CountSection>
           <S.CountArea>
             <S.CountWrapperBig>23회</S.CountWrapperBig>
             <S.CountWrapperSmall>누적 산책 횟수</S.CountWrapperSmall>
@@ -53,7 +66,7 @@ export default function MyPage() {
             <S.CountWrapperBig>16회</S.CountWrapperBig>
             <S.CountWrapperSmall>강번따 횟수</S.CountWrapperSmall>
           </S.CountArea>
-        </S.CountSectioin>
+        </S.CountSection>
 
         <S.GangbunttaArea>
           <ToggleBox type='md' setting='gangbuntta' />
@@ -65,6 +78,7 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
+      <SettingModal isOpen={onClickSetting} onClose={onCloseSettingModal} />
     </S.MyPage>
   )
 }
