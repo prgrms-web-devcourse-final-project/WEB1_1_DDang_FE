@@ -13,7 +13,6 @@ const LAYOUT = {
   ICON_SIZE: '1.5rem',
   ICON_LEFT_PADDING: '1.5rem',
 } as const
-//height: 100%를 추가, padding을 clamp() 사용 반응형으로 조정
 export const LoginPage = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
@@ -25,7 +24,6 @@ export const LoginPage = styled.div`
 
   padding: clamp(1.5rem, 5vh, 3rem) 1.25rem;
 `
-//flex-grow: 1을 추가 margin 대신 flex를 활용하여 공간을 조절
 export const TitleSection = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: clamp(1.5rem, 4vw, 1.75rem);
@@ -55,7 +53,6 @@ export const Logo = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
 //소셜로그인
-//flex container로 변경하고 flex-grow: 1을 추가하여 남은 공간 활용
 export const SocialLoginSection = styled.div`
   width: 100%;
   max-width: 350px;
@@ -65,7 +62,6 @@ export const SocialLoginSection = styled.div`
   justify-content: center;
   margin-top: clamp(1rem, 3vh, 2rem);
 `
-//높이와 여백을 반응형으로 조정
 const SocialButtonBase = styled.div<{ weight: FontWeight }>`
   width: 100%;
   height: clamp(3rem, 8vh, 3.25rem);
