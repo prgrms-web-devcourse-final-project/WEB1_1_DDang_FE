@@ -50,6 +50,7 @@ const MobileContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.brand.lighten_3};
   min-width: 340px;
   max-width: 430px;
+
   min-height: 667px;
   height: 100dvh;
   max-height: 932px;

@@ -9,8 +9,10 @@ const SOCIAL_LOGIN_BUTTONS = [
 
 const TitleSection = () => (
   <S.TitleSection>
-    건강한 반려 생활{'\n'}
-    <S.BrandText>댕</S.BrandText>과 함께해요!
+    <span>
+      건강한 반려 생활{'\n'}
+      <S.BrandText>댕</S.BrandText>과 함께해요!
+    </span>
   </S.TitleSection>
 )
 
@@ -31,7 +33,7 @@ const SocialLoginButtons = (): JSX.Element => {
 
 export default function LoginPage() {
   return (
-    <S.LoginPageContainer>
+    <S.LoginPage>
       <Helmet>
         <title>DDang | 로그인</title>
         <meta name='robots' content='noindex' />
@@ -40,6 +42,6 @@ export default function LoginPage() {
       <TitleSection />
       <S.Logo>로고</S.Logo>
       <SocialLoginButtons />
-    </S.LoginPageContainer>
+    </S.LoginPage>
   )
 }
