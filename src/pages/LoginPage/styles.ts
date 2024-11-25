@@ -2,7 +2,6 @@ import { FontWeight, styled } from 'styled-components'
 import Kakao_Icon from '~assets/kakao_icon.svg?react'
 import Naver_Icon from '~assets/naver_icon.svg?react'
 import Google_Icon from '~assets/google_icon.svg?react'
-import { FOOTER_HEIGHT } from '~constants/layout'
 
 const SOCIAL_COLORS = {
   KAKAO: '#ffed16',
@@ -17,7 +16,7 @@ const LAYOUT = {
 
 export const LoginPageContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  min-height: calc(100dvh - ${FOOTER_HEIGHT}px);
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: space-between;
