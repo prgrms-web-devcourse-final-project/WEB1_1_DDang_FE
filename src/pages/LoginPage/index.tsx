@@ -41,6 +41,5 @@ export default function LoginPage() {
       <S.Logo>로고</S.Logo>
       <SocialLoginButtons />
     </S.LoginPageContainer>
-
   )
 }
