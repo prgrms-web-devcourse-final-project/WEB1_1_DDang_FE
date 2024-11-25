@@ -50,9 +50,16 @@ const MobileWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
   min-width: 340px;
   max-width: 430px;
-  min-height: calc(var(--vh, 1vh) * 100);
+
+  /* min-height: 667px; */
+  height: 100dvh;
+  max-height: 932px;
   margin: auto;
-  position: relative;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 
