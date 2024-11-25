@@ -3,7 +3,7 @@ import { ActionButton } from '~components/Button/ActionButton'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 import { Profile } from '~components/Profile'
-import Tag from '../components/Tag'
+import Tag from '~components/Tag'
 
 export default function CheckDogProfileSection() {
   const handleClickPrev = () => {}

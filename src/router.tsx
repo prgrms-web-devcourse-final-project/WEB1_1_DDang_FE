@@ -38,4 +38,8 @@ export const router = createBrowserRouter([
     path: '/register',
     element: <Pages.RegisterPage />,
   },
+  {
+    path: '/register/dog',
+    element: <Pages.RegisterDogPage />,
+  },
 ])
