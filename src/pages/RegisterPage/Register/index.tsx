@@ -15,7 +15,7 @@ export default function Register() {
   }
   const handleClickPrev = () => {}
   return (
-    <S.Register>
+    <S.RegisterPage>
       <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <Helmet>
         <title>DDang | 로그인</title>
@@ -51,6 +51,6 @@ export default function Register() {
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
       <ActionButton>다음</ActionButton>
-    </S.Register>
+    </S.RegisterPage>
   )
 }

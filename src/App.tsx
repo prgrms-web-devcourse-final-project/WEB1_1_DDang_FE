@@ -24,10 +24,10 @@ function App() {
             Toggle Theme
           </button>
           <GlobalStyle />
-          <MobileWrapper>
+          <MobileContainer>
             <RouterProvider router={router} />
             <ModalContainer />
-          </MobileWrapper>
+          </MobileContainer>
           <PWABadge />
         </ThemeProvider>
       </HelmetProvider>
@@ -37,7 +37,7 @@ function App() {
 
 export default App
 
-const MobileWrapper = styled.div`
+const MobileContainer = styled.div`
   font-family: 'SUIT', sans-serif;
   display: flex;
   flex-direction: column;
@@ -48,9 +48,15 @@ const MobileWrapper = styled.div`
   min-width: 340px;
   max-width: 430px;
   /* width: 375px; */
-  min-height: calc(var(--vh, 1vh) * 100);
+  min-height: 667px;
+  height: 100dvh;
+  max-height: 932px;
   margin: auto;
-  position: relative;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 

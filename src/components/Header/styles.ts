@@ -17,6 +17,7 @@ export const Header = styled.header<HeaderProps>`
   top: 0;
   left: 0;
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   z-index: ${HEADER_Z_INDEX};

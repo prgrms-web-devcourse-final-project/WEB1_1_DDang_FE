@@ -1,6 +1,6 @@
 import { FontWeight, styled } from 'styled-components'
 
-export const Register = styled.div`
+export const RegisterPage = styled.div`
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -58,7 +58,7 @@ export const OwnerProfileSection = styled.div`
   gap: 0.5rem;
   flex: 1;
   justify-content: center;
-
+  /* overflow-y: auto; */
   @media (max-height: 700px) {
     gap: 0.5rem;
   }
