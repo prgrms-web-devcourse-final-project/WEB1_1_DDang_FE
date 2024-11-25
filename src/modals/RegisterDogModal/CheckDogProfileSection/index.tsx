@@ -3,14 +3,14 @@ import { ActionButton } from '~components/Button/ActionButton'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 import { Profile } from '~components/Profile'
-import Tag from '../../../components/Tag'
+import Tag from '~components/Tag'
 
 export default function CheckDogProfileSection() {
   const handleClickPrev = () => {}
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
+      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <S.CheckDogProfileSection>
         <S.ProfileArea>
           <S.TypoWrapper>
@@ -21,6 +21,11 @@ export default function CheckDogProfileSection() {
             </Typo24>
           </S.TypoWrapper>
           <S.ProfileWrapper>
+            {/* 온라인 이미지여서 최적화 관련 uses-rel-preconnect 에러가 발생합니다! 일단 lighthouserc에서 warning으로 바꾸어 놓았습니다. 
+            차후 실제 이미지로 바꾸게 되면 관련 설정을 'uses-rel-preconnect': 'warn' 부분을 제거해서 에러를 활성화해주시고
+             index.html 파일에서 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin />과 같이 
+             url을 추가해주세요.
+             */}
             <Profile
               $size={180}
               $src={

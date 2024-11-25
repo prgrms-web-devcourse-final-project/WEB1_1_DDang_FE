@@ -2,11 +2,12 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { lightTheme, darkTheme } from '~/styles/theme'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import ModalContainer from '~modals/ModalContainer'
+import Loader from '~components/Loader'
 
 function App() {
   //* 다크모드 확장성 고려
@@ -25,8 +26,10 @@ function App() {
           </button>
           <GlobalStyle />
           <MobileWrapper>
-            <RouterProvider router={router} />
-            <ModalContainer />
+            <Suspense fallback={<Loader />}>
+              <RouterProvider router={router} />
+              <ModalContainer />
+            </Suspense>
           </MobileWrapper>
           <PWABadge />
         </ThemeProvider>
@@ -43,14 +46,19 @@ const MobileWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  color: ${({ theme }) => theme.colors.grayscale.font_1}; /* 기본 텍스트 색상 (Font_1) */
-  background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
+  color: ${({ theme }) => theme.colors.grayscale.font_1};
+  background-color: ${({ theme }) => theme.colors.brand.lighten_3};
   min-width: 340px;
   max-width: 430px;
-  /* width: 375px; */
-  min-height: calc(var(--vh, 1vh) * 100);
+  min-height: 667px;
+  height: 100dvh;
+  max-height: 932px;
   margin: auto;
-  position: relative;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 

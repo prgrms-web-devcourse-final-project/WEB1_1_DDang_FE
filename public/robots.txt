@@ -1,6 +1,2 @@
 User-agent: *
-Disallow: /login
-Disallow: /mypage
-Allow: /assets/
-Allow: /log/
-Allow: /walk/
+Disallow:

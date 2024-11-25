@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "pwa": "pwa-assets-generator --preset minimal public/test.svg",
     "format": "prettier --check --ignore-path .gitignore \"**/*.{ts,tsx}\"",
-    "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\""
+    "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\"",
+    "build-and-test": "npm run build && lhci autorun"
   },
   "dependencies": {
     "@types/ol": "^7.0.0",
