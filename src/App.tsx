@@ -25,12 +25,12 @@ function App() {
             Toggle Theme
           </button>
           <GlobalStyle />
-          <MobileWrapper>
+          <MobileContainer>
             <Suspense fallback={<Loader />}>
               <RouterProvider router={router} />
               <ModalContainer />
             </Suspense>
-          </MobileWrapper>
+          </MobileContainer>
           <PWABadge />
         </ThemeProvider>
       </HelmetProvider>
@@ -40,18 +40,18 @@ function App() {
 
 export default App
 
-const MobileWrapper = styled.div`
+const MobileContainer = styled.div`
   font-family: 'SUIT', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  color: ${({ theme }) => theme.colors.grayscale.font_1}; /* 기본 텍스트 색상 (Font_1) */
-  background-color: ${({ theme }) => theme.colors.brand.lighten_3}; /* 배경색 (GC_4) */
+  color: ${({ theme }) => theme.colors.grayscale.font_1};
+  background-color: ${({ theme }) => theme.colors.brand.lighten_3};
   min-width: 340px;
   max-width: 430px;
 
-  /* min-height: 667px; */
+  min-height: 667px;
   height: 100dvh;
   max-height: 932px;
   margin: auto;
