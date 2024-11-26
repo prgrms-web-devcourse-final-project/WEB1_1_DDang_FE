@@ -16,20 +16,19 @@ export const RegisterAvatarModal = styled.div`
   }
 `
 export const HeaderArea = styled(Header)`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1;
-  display: flex;
+  /* position: absolute; */
+  /* z-index: 1; */
+  /* display: flex; */
   justify-content: flex-end;
   width: 100%;
   padding-right: 20px;
   height: auto;
+  border-radius: 1px solid red;
 `
 
 export const TextSection = styled.text<{ weight: FontWeight }>`
   position: sticky;
-  top: 0;
+  margin-top: 2rem;
   flex-shrink: 0;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._20};
@@ -39,8 +38,6 @@ export const TextSection = styled.text<{ weight: FontWeight }>`
   padding: 1.5rem 0;
 `
 export const CustomActionButton = styled(ActionButton)`
-  /* position: sticky; */
-  /* bottom: 0; */
   font-weight: 700;
 `
 export const SelectCharacterSection = styled.div`
