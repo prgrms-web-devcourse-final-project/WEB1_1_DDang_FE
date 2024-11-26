@@ -1,7 +1,6 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import AddOwnerAvatar from '~assets/add-dog-picture.svg'
-import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { useState } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
@@ -11,7 +10,6 @@ import { useModalStore } from '~stores/modalStore'
 
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
-  // const [isAvatarMadalOpen, setIsAvatarModalOpen] = useState(true) //개발 중에는 true로 고정
   const pushModal = useModalStore(state => state.pushModal)
   const handleAvatarClick = () => {
     pushModal(<RegisterAvatarModal />)
@@ -57,9 +55,7 @@ export default function Register() {
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
-      <ActionButton>다음</ActionButton>
-      {/* 개발할 때는 조건부 렌더링을 제거하고 직접 렌더링 */}
-      {/* {isAvatarMadalOpen && <RegisterAvatarModal onClose={handleCloseModal} />} */}
+      <S.CustomActionButton>다음</S.CustomActionButton>
     </S.RegisterPage>
   )
 }

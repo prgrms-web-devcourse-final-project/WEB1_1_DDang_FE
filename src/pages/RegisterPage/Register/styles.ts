@@ -1,4 +1,5 @@
 import { FontWeight, styled } from 'styled-components'
+import { ActionButton } from '~components/Button/ActionButton'
 
 export const RegisterPage = styled.div`
   height: 100dvh;
@@ -117,4 +118,8 @@ export const GenderSelectBtnWrapper = styled.div`
   @media (max-height: 700px) {
     height: 52px;
   }
+`
+
+export const CustomActionButton = styled(ActionButton)`
+  font-weight: 700;
 `
