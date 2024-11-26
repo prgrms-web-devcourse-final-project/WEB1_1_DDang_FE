@@ -24,7 +24,7 @@ export default function RegisterAvatarModal() {
 
       <S.SelectCharacterSection>
         {avatarImages.map((avatar, index) => (
-          <S.CharacterArea key={index} onClick={() => handleSelectAvatar(index)}>
+          <S.CharacterArea key={index} index={index} onClick={() => handleSelectAvatar(index)}>
             <img src={avatar} alt={`avatar ${index + 1}`} />
             {selectedAvatar === index && (
               <S.SelectOverlay>

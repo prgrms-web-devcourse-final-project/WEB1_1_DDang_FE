@@ -65,7 +65,7 @@ export const SelectCharacterSection = styled.div`
   }
 `
 
-export const CharacterArea = styled.div<{ isSelected?: boolean }>`
+export const CharacterArea = styled.div<{ isSelected?: boolean; index: number }>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -79,9 +79,9 @@ export const CharacterArea = styled.div<{ isSelected?: boolean }>`
     width: 100%;
     height: auto;
     object-fit: contain;
+    transform: ${({ index }) => ([2, 3, 4, 6, 8, 9].includes(index) ? 'scale(1.1)' : 'scale(1)')};
   }
 `
-
 export const SelectOverlay = styled.div`
   position: absolute;
   top: 0;
