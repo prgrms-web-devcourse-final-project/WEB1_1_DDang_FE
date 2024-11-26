@@ -6,17 +6,27 @@ export const SearchModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: yellow;
+  padding-top: 140px;
+
+  @media (max-height: 750px) {
+    padding-top: 120px;
+  }
+
+  @media (max-height: 700px) {
+    padding-top: 100px;
+  }
 `
 
 export const SearchArea = styled.div`
   position: relative;
-  border: solid 1px red;
-  height: 47%;
-  margin: 80px 20px;
+  height: 45%;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 
   &::before {
-    content: '견종';
+    /* content: '견종'; */
     position: absolute;
     top: -26px;
     left: 2px;
@@ -41,4 +51,28 @@ export const SearchInput = styled.input`
   &::placeholder {
     font-weight: 400;
   }
+`
+
+export const SearchResultsWrapper = styled.div`
+  border-radius: 12px;
+  background-color: white;
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+`
+
+export const SearchResult = styled.div`
+  border-radius: 12px;
+  /* font-size: 15px; */
+  height: 55px;
+  padding: 16px 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.brand.lighten_3};
+  }
+`
+export const Highlight = styled.span`
+  color: ${({ theme }) => theme.colors.brand.darken};
+  font-weight: bold;
 `

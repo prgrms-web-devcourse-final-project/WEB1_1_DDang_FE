@@ -5,11 +5,16 @@ import GenderSelectButton from '~components/GenderSelectButton'
 import { Typo24 } from '~components/Typo/index'
 import Check from '~assets/check.svg'
 import Header from '~components/Header/index'
+import SearchModal from '~modals/SearchModal'
+import { useModalStore } from '~stores/modalStore'
 
 export default function DogProfileDetailSection() {
   const [isNeutered, setIsNeutered] = useState(false)
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
+  const [breed, setBreed] = useState('')
   const [weight, setWeight] = useState('')
+
+  const { pushModal, popModal } = useModalStore()
 
   const [displayValue, setDisplayValue] = useState('')
   const [inputType, setInputType] = useState('text')
@@ -46,11 +51,9 @@ export default function DogProfileDetailSection() {
     }
   }
 
-  const handleClickPrev = () => {}
-
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
+      <Header type='sm' onClickPrev={popModal} prevBtn />
       <S.DogProfileDetailSection>
         <S.TypoWrapper>
           <Typo24 weight='700'>
@@ -79,9 +82,11 @@ export default function DogProfileDetailSection() {
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>
-          <S.PickerBtn>견종 입력</S.PickerBtn>
+          <S.PickerBtn onClick={() => pushModal(<SearchModal setBreed={setBreed} />)} hasBreed={!!breed}>
+            {breed ? breed : '견종 입력'}
+          </S.PickerBtn>
           <S.WeightInput
-            placeholder='몸무게 입력'
+            placeholder='몸무게 입력 (kg)'
             type={inputType}
             value={displayValue}
             onChange={onChangeWeightInput}

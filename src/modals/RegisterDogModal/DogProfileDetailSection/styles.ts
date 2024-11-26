@@ -69,13 +69,14 @@ export const InputArea = styled.div`
   }
 `
 
-export const PickerBtn = styled.div`
+export const PickerBtn = styled.div<{ hasBreed: boolean }>`
   width: 100%;
   border: none;
   text-align: center;
   padding: 17px 32px;
   font-size: ${({ theme }) => theme.typography._20};
-  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  color: ${({ theme, hasBreed }) => (hasBreed ? 'black' : theme.colors.grayscale.font_3)};
+  font-weight: ${({ hasBreed }) => (hasBreed ? 'bold' : 'default')};
   cursor: pointer;
 `
 
