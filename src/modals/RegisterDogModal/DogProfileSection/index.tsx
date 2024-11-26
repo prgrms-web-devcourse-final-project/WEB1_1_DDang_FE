@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import Header from '~components/Header/index'
@@ -11,22 +11,14 @@ import { validateDogProfile } from '~utils/validateDogProfile'
 import DogProfileDetailSection from '../DogProfileDetailSection'
 import Toast from '~components/Toast'
 import { useToastStore } from '~/stores/toastStore'
+import { DogProfileType } from '~pages/RegisterPage/Dog'
 
-interface DogProfileType {
-  name: string
-  image: string | undefined
-  birth: string
-  intro: string
+interface Props {
+  dogProfile: DogProfileType
+  setDogProfile: (profile: DogProfileType | ((prev: DogProfileType) => DogProfileType)) => void
 }
 
-export default function DogProfileSection() {
-  const [dogProfile, setDogProfile] = useState<DogProfileType>({
-    name: '',
-    image: undefined,
-    birth: '',
-    intro: '',
-  })
-
+export default function DogProfileSection({ dogProfile, setDogProfile }: Props) {
   const { popModal, pushModal } = useModalStore()
   const { showToast } = useToastStore()
 
