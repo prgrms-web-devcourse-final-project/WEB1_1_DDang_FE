@@ -8,7 +8,20 @@ import Header from '~components/Header/index'
 import SearchModal from '~modals/SearchModal'
 import { useModalStore } from '~stores/modalStore'
 
+interface DogProfileType {
+  isNeutered: boolean
+  selectedGender: string | null
+  breed: string
+  weight: string
+}
+
 export default function DogProfileDetailSection() {
+  const [dogProfile, setDogProfile] = useState<DogProfileType>({
+    isNeutered: false,
+    selectedGender: null,
+    breed: '',
+    weight: '',
+  })
   const [isNeutered, setIsNeutered] = useState(false)
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [breed, setBreed] = useState('')
@@ -92,6 +105,7 @@ export default function DogProfileDetailSection() {
             onChange={onChangeWeightInput}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            hasWeight={!!weight}
           />
         </S.InputArea>
         <ActionButton>확인</ActionButton>

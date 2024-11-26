@@ -72,7 +72,6 @@ export const SearchResultsWrapper = styled.div`
 
 export const SearchResult = styled.div`
   border-radius: 12px;
-  /* font-size: 15px; */
   height: 55px;
   padding: 16px 20px;
   cursor: pointer;

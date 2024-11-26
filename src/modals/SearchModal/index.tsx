@@ -14,7 +14,7 @@ export default function SearchModal({ setBreed }: SearchModalProps) {
 
   useEffect(() => {
     if (searchTerm === '') {
-      setSearchResults([])
+      setSearchResults(breeds.breeds.sort((a, b) => a.localeCompare(b)))
       return
     }
 
@@ -53,6 +53,7 @@ export default function SearchModal({ setBreed }: SearchModalProps) {
           placeholder='견종을 검색하세요'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          autoFocus
         />
         <S.SearchResultsWrapper onClick={handleBreedClick}>
           {searchResults.map((result, index) => (
@@ -60,6 +61,7 @@ export default function SearchModal({ setBreed }: SearchModalProps) {
               {highlightText(result)}
             </S.SearchResult>
           ))}
+          <S.SearchResult data-breed='믹스견'>믹스견</S.SearchResult>
           <S.SearchResult data-breed='기타'>기타</S.SearchResult>
         </S.SearchResultsWrapper>
       </S.SearchArea>

@@ -3,7 +3,11 @@ import { styled } from 'styled-components'
 export const DogProfileDetailSection = styled.div`
   padding: 120px 20px 24px 20px;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  height: 100dvh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   display: flex;
   flex-direction: column;
@@ -80,13 +84,14 @@ export const PickerBtn = styled.div<{ hasBreed: boolean }>`
   cursor: pointer;
 `
 
-export const WeightInput = styled.input`
+export const WeightInput = styled.input<{ hasWeight: boolean }>`
   width: 100%;
   border: none;
   text-align: center;
   padding: 17px 32px;
   border-radius: 12px;
   font-size: ${({ theme }) => theme.typography._20};
+  font-weight: ${({ hasWeight }) => (hasWeight ? 'bold' : 'default')};
   &:focus {
     box-shadow: ${({ theme }) => `inset 0 0 0 1px ${theme.colors.grayscale.font_1}`};
   }
