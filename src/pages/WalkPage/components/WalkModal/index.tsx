@@ -91,7 +91,8 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
               {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
                 <>
                   <p>
-                    {(userInfo as RequestUserInfo).breed} | {(userInfo as RequestUserInfo).age} |{' '}
+                    {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
+                    {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
                     {(userInfo as RequestUserInfo).gender}
                   </p>
                 </>

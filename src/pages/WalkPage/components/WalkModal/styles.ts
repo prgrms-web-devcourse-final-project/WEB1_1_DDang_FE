@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { Box } from '~components/Box'
 import { ActionButton } from '~components/Button/ActionButton'
 import Report from '~assets/report.svg?react'
+import { Separator } from '~components/Separator'
 
 interface StyleProps {
   type: 'request' | 'accept' | 'complete' | 'progress' | 'friend' | 'report' | 'reportComplete' | 'walkRequest'
@@ -179,6 +180,8 @@ export const Info = styled.div<StyleProps>`
     color: ${({ theme }) => theme.colors.grayscale.font_2};
     font-weight: 500;
     margin: 0;
+    display: flex;
+    align-items: center;
   }
 
   ${({ type }) => {
@@ -350,4 +353,8 @@ export const Button = styled(ActionButton).attrs({
 export const SelectWrapper = styled.div`
   margin: 20px 0;
   width: 100%;
+`
+
+export const InfoSeparator = styled(Separator)`
+  margin: 0 4px;
 `
