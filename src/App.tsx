@@ -7,11 +7,14 @@ import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import ModalContainer from '~modals/ModalContainer'
+import useInitializeFirebase from '~hooks/useInitializeFirebase'
 
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
+
+  useInitializeFirebase()
 
   return (
     <>

@@ -4,20 +4,18 @@ import { NavigationRoute, registerRoute } from 'workbox-routing'
 
 declare let self: ServiceWorkerGlobalScope
 
+// Workbox 관련 이벤트 리스너
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
 })
 
-// self.__WB_MANIFEST is the default injection point
+// Precaching 설정
 precacheAndRoute(self.__WB_MANIFEST)
-
-// clean old assets
 cleanupOutdatedCaches()
 
-/** @type {RegExp[] | undefined} */
-let allowlist
-// in dev mode, we disable precaching to avoid caching issues
+// 개발 모드 allowlist 설정
+let allowlist: RegExp[] | undefined
 if (import.meta.env.DEV) allowlist = [/^\/$/]
 
-// to allow work offline
+// 오프라인 작동을 위한 라우트 등록
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html'), { allowlist }))
