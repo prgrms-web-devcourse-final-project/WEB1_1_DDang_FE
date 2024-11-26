@@ -1,17 +1,8 @@
 import * as S from './styles'
 import { useModalStore } from '~stores/modalStore'
-import Avatar1 from '~/assets/Avatar1.svg'
-import Avatar2 from '~/assets/Avatar2.svg'
-import Avatar3 from '~/assets/Avatar3.svg'
-import Avatar4 from '~/assets/Avatar4.svg'
-import Avatar5 from '~/assets/Avatar5.svg'
-import Avatar6 from '~/assets/Avatar6.svg'
-import Avatar7 from '~/assets/Avatar7.svg'
-import Avatar8 from '~/assets/Avatar8.svg'
-import Avatar9 from '~/assets/Avatar9.svg'
-import Avatar10 from '~/assets/Avatar10.svg'
 import CloseButton from '~components/Button/CloseButton'
 import { useState } from 'react'
+import * as avatars from '~/assets/avatars'
 
 export default function RegisterAvatarModal() {
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
@@ -21,7 +12,9 @@ export default function RegisterAvatarModal() {
   }
 
   const popModal = useModalStore(state => state.popModal)
-  const avatarImages = [Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9, Avatar10]
+
+  const avatarImages = Object.values(avatars)
+
   return (
     <S.RegisterAvatarModal>
       <S.HeaderArea type='lg'>
