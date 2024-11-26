@@ -1,11 +1,13 @@
 import { FontWeight, styled } from 'styled-components'
 import { ActionButton } from '~components/Button/ActionButton'
+import Header from '~components/Header'
 
 export const RegisterAvatarModal = styled.div`
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: 120px 20px 24px 20px;
+  padding: 20px 20px 24px 20px;
+  position: relative;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
@@ -13,9 +15,16 @@ export const RegisterAvatarModal = styled.div`
     gap: 0.5rem;
   }
 `
-
-export const CloseButton = styled.div`
-  border: 1px solid red;
+export const HeaderArea = styled(Header)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 20px;
+  height: auto;
 `
 
 export const TextSection = styled.text<{ weight: FontWeight }>`
@@ -27,6 +36,7 @@ export const TextSection = styled.text<{ weight: FontWeight }>`
   font-weight: ${({ weight }) => weight};
   white-space: pre-line;
   text-align: center;
+  padding: 1.5rem 0;
 `
 export const CustomActionButton = styled(ActionButton)`
   /* position: sticky; */
@@ -41,6 +51,7 @@ export const SelectCharacterSection = styled.div`
   padding: 1rem;
   width: 100%;
   overflow-y: auto;
+  border: 1px solid yellow;
 
   /* 스크롤바 스타일링 */
   &::-webkit-scrollbar {
@@ -63,9 +74,3 @@ export const CharacterArea = styled.div`
     object-fit: contain;
   }
 `
-
-// export const  = styled.text<{ weight: FontWeight }>``
-// export const  = styled.text<{ weight: FontWeight }>``
-// export const  = styled.text<{ weight: FontWeight }>``
-// export const  = styled.text<{ weight: FontWeight }>``
-// export const  = styled.text<{ weight: FontWeight }>``

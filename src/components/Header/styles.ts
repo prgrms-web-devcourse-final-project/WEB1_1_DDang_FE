@@ -28,5 +28,5 @@ export const HeaderPrevBtn = styled(PrevButton)`
 `
 export const HeaderCloseBtn = styled(CloseButton)`
   position: absolute;
-  right: 20px;
+  right: auto;
 `

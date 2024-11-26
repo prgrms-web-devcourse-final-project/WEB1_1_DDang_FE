@@ -3,13 +3,16 @@ import { useModalStore } from '~stores/modalStore'
 import Avatar1 from '~/assets/Avatar1.svg'
 import Avatar2 from '~/assets/Avatar2.svg'
 import Avatar3 from '~/assets/Avatar3.svg'
+import CloseButton from '~components/Button/CloseButton'
 
 export default function RegisterAvatarModal() {
   const popModal = useModalStore(state => state.popModal)
 
   return (
     <S.RegisterAvatarModal>
-      <S.CloseButton onClick={popModal}>닫기</S.CloseButton>
+      <S.HeaderArea type='lg'>
+        <CloseButton onClick={popModal}></CloseButton>
+      </S.HeaderArea>
       <S.TextSection weight='700'>맘에 드는{'\n'}캐릭터를 선택해 주세요.</S.TextSection>
 
       <S.SelectCharacterSection>
@@ -36,6 +39,12 @@ export default function RegisterAvatarModal() {
         </S.CharacterArea>
         <S.CharacterArea>
           <img src={Avatar2} alt='avatar 8' />
+        </S.CharacterArea>
+        <S.CharacterArea>
+          <img src={Avatar3} alt='avatar 9' />
+        </S.CharacterArea>
+        <S.CharacterArea>
+          <img src={Avatar1} alt='avatar 10' />
         </S.CharacterArea>
       </S.SelectCharacterSection>
 
