@@ -24,15 +24,6 @@ export const SearchArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-
-  &::before {
-    /* content: '견종'; */
-    position: absolute;
-    top: -26px;
-    left: 2px;
-    width: auto;
-    height: 30px;
-  }
 `
 
 export const SearchInput = styled.input`
@@ -59,6 +50,24 @@ export const SearchResultsWrapper = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 4px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.grayscale.gc_2};
+    border-radius: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.grayscale.font_1};
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 `
 
 export const SearchResult = styled.div`
