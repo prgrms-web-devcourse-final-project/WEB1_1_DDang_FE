@@ -18,13 +18,10 @@ export const RegisterAvatarModal = styled.div`
 
 export const HeaderArea = styled(Header)`
   justify-content: flex-end;
-  width: 100%;
-  padding-right: 1.25rem;
 `
 
 export const TextSection = styled.text<{ weight: FontWeight }>`
   margin-top: 1.9rem;
-  flex-shrink: 0;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._20};
   font-weight: ${({ weight }) => weight};
