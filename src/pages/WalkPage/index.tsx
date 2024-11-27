@@ -3,9 +3,12 @@ import MapComponent from './components/MapComponent'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function WalkPage() {
   const navigate = useNavigate()
+  const [_modalType, _setModalType] = useState<'request' | 'accept' | 'complete' | 'progress' | 'friend' | null>(null)
+  const [isModalOpen, _setIsModalOpen] = useState(false)
 
   return (
     <S.WalkPage>
@@ -19,12 +22,12 @@ export default function WalkPage() {
           <IoChevronBack size={24} />
         </S.BackButton>
         <S.LocationText>강남구 논현동</S.LocationText>
-        <S.ProfileImgWrapper>
-          <S.ProfileImg />
-        </S.ProfileImgWrapper>
+        <S.WalkerListButtonWrapper>
+          <S.WalkerListIcon />
+        </S.WalkerListButtonWrapper>
       </S.Header>
 
-      <MapComponent />
+      <MapComponent isModalOpen={isModalOpen} />
     </S.WalkPage>
   )
 }
