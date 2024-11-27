@@ -19,6 +19,8 @@ const slideDown = keyframes`
 `
 
 export const ModalOverlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 200;
   position: fixed;
   top: 0;
   left: 0;

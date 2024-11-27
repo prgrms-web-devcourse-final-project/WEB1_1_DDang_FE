@@ -1,5 +1,4 @@
 import * as S from './styles'
-import { useEffect } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import Header from '~components/Header/index'
@@ -33,8 +32,8 @@ export default function DogProfileSection() {
 
   return (
     <>
-      <Header type='sm' onClickPrev={popModal} prevBtn />
       <S.DogProfileSection>
+        <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.TypoWrapper>
           <Typo24 weight='700'>
             반려견 기본 정보를

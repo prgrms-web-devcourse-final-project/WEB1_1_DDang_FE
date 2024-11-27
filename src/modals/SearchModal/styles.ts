@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 export const SearchModalOverlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 400;
   position: fixed;
   top: 0;
   bottom: 0;
