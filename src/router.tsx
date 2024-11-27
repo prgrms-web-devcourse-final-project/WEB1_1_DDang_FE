@@ -32,6 +32,10 @@ export const router = createBrowserRouter([
         path: '/mypage',
         element: <Pages.MyPage />,
       },
+      {
+        path: '/profile/:id',
+        element: <Pages.ProfilePage />,
+      },
     ],
   },
   {
