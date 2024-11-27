@@ -1,7 +1,7 @@
 import { HiEllipsisVertical } from 'react-icons/hi2'
 import Header from '~components/Header'
 import { IncomingMessage, OutgoingMessage } from '~components/Message'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import SendMessageForm from '~components/SendMessageForm'
 import { Separator } from '~components/Separator'
 import { Typo11, Typo15 } from '~components/Typo'
@@ -20,7 +20,7 @@ export default function ChatModal({ userId }: ChatModalProps) {
     <S.ChatModal>
       <Header type='lg' prevBtn onClickPrev={popModal}>
         <S.ProfileWrapper>
-          <Profile $size={40} $src='empty' />
+          <Profile $size={40} $src='' userId={userId} />
           <S.TypoWrapper>
             <Typo15 $weight='700'>감자탕수육</Typo15>
             <S.DetailWrapper>

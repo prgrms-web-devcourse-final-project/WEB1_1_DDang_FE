@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import * as S from './styles'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 

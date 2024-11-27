@@ -6,7 +6,7 @@ import { LuClock5 } from 'react-icons/lu'
 import { Separator } from '~components/Separator'
 import { ActionButton } from '~components/Button/ActionButton'
 import { GrLocation } from 'react-icons/gr'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 
 export default function HomePage() {
   return (

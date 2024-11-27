@@ -2,7 +2,7 @@ import * as S from './styles'
 import { ActionButton } from '~components/Button/ActionButton'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import Tag from '~components/Tag'
 
 export default function CheckDogProfileSection() {
@@ -31,6 +31,7 @@ export default function CheckDogProfileSection() {
               $src={
                 'https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
               }
+              userId=''
             />
             <S.TagWrapper>
               <Tag content='밤톨' />

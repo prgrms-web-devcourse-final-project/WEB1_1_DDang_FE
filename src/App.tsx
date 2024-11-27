@@ -1,12 +1,11 @@
+import { Suspense, useState } from 'react'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { RouterProvider } from 'react-router-dom'
+import styled, { ThemeProvider } from 'styled-components'
 import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
-import { lightTheme, darkTheme } from '~/styles/theme'
-import { Suspense, useState } from 'react'
-import { RouterProvider } from 'react-router-dom'
-import styled, { ThemeProvider } from 'styled-components'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
-import ModalContainer from '~modals/ModalContainer'
+import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
 
 function App() {
@@ -28,7 +27,6 @@ function App() {
           <MobileContainer>
             <Suspense fallback={<Loader />}>
               <RouterProvider router={router} />
-              <ModalContainer />
             </Suspense>
           </MobileContainer>
           <PWABadge />

@@ -1,4 +1,4 @@
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo14, Typo17 } from '~components/Typo'
 import ChatModal from '~modals/ChatModal'
@@ -12,7 +12,7 @@ export default function FriendItem({ gender, name, profileImg, role, userId }: F
   const { pushModal } = useModalStore()
   return (
     <S.FriendItem>
-      <Profile $size={48} $src={profileImg} />
+      <Profile $size={48} $src={profileImg} userId={userId} />
       <S.TypoWrapper>
         <Typo17 $weight='700'>{name}</Typo17>
         <S.DetailWrapper>

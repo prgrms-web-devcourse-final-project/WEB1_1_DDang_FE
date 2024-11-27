@@ -2,7 +2,7 @@ import { ChatInfo } from '~types/social'
 import * as S from './styles'
 import { Separator } from '~components/Separator'
 import { Typo11, Typo13, Typo17 } from '~components/Typo'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import { useModalStore } from '~stores/modalStore'
 import ChatModal from '~modals/ChatModal'
 
@@ -13,7 +13,7 @@ export default function ChatItem({ gender, lastChat, name, profileImg, role, unr
 
   return (
     <S.ChatItem onClick={() => pushModal(<ChatModal userId={userId} />)}>
-      <Profile $src={profileImg} $size={48} />
+      <Profile $src={profileImg} $size={48} userId={userId} />
       <S.TypoWrapper>
         <S.UserInfoWrapper>
           <Typo17 $weight='700'>{name}</Typo17>
