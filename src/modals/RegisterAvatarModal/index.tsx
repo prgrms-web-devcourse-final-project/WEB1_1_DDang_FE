@@ -32,7 +32,6 @@ export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAva
         <CloseButton onClick={popModal}></CloseButton>
       </S.HeaderArea>
       <S.TextSection weight='700'>맘에 드는{'\n'}캐릭터를 선택해 주세요.</S.TextSection>
-
       <S.SelectCharacterSection>
         {avatarImages.map((avatar, index) => (
           <S.CharacterArea key={index} index={index} onClick={() => handleSelectAvatar(index)}>
@@ -47,11 +46,9 @@ export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAva
           </S.CharacterArea>
         ))}
       </S.SelectCharacterSection>
-      {selectedAvatar !== null ? (
-        <S.CustomActionButtonAfter onClick={handleSelectComplete}>선택</S.CustomActionButtonAfter>
-      ) : (
-        <S.CustomActionButtonBefore>선택</S.CustomActionButtonBefore>
-      )}
+      <S.CustomActionButton isSelected={selectedAvatar !== null} onClick={handleSelectComplete}>
+        선택
+      </S.CustomActionButton>
     </S.RegisterAvatarModal>
   )
 }

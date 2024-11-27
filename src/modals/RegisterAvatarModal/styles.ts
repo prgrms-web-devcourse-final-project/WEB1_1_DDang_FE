@@ -37,12 +37,13 @@ const BaseCustomActionButton = styled(ActionButton)`
   width: calc(100% - 2.5rem);
   z-index: 1;
 `
-
-export const CustomActionButtonAfter = styled(BaseCustomActionButton)``
-
-export const CustomActionButtonBefore = styled(BaseCustomActionButton)`
-  background-color: ${({ theme }) => theme.colors.brand.lighten_3};
-  color: ${({ theme }) => theme.colors.grayscale.font_2};
+export const CustomActionButton = styled(BaseCustomActionButton)<{ isSelected: boolean }>`
+  ${({ isSelected, theme }) =>
+    !isSelected &&
+    `
+    background-color: ${theme.colors.brand.lighten_3};
+    color: ${theme.colors.grayscale.font_2};
+  `}
 `
 
 export const SelectCharacterSection = styled.div`
