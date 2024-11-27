@@ -126,7 +126,7 @@ export const WalkButtonContainer = styled.div`
   z-index: 100;
 `
 
-export const StyledActionButton = styled(ActionButton)<WalkInfoContainerProps>`
+export const StyledActionButton = styled(ActionButton)<{ $isWalking: boolean }>`
   /* padding: 16px 40px; */
   font-size: 17px;
   min-width: 95px;
@@ -134,6 +134,12 @@ export const StyledActionButton = styled(ActionButton)<WalkInfoContainerProps>`
   background-color: ${({ theme, $isWalking }) =>
     $isWalking ? theme.colors.brand.lighten_2 : theme.colors.brand.default};
   color: ${({ theme, $isWalking }) => ($isWalking ? theme.colors.grayscale.font_1 : theme.colors.grayscale.gc_2)};
+
+  &:disabled {
+    /* opacity: 0.5; */
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 `
 
 export const CenterIcon = styled(Center)`
