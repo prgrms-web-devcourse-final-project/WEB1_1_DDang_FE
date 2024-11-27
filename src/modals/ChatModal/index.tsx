@@ -8,6 +8,46 @@ import { Typo11, Typo15 } from '~components/Typo'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 
+type ChatModalProps = {
+  userId: string
+}
+
+export default function ChatModal({ userId }: ChatModalProps) {
+  const { popModal } = useModalStore()
+  console.log('ChatModal', userId) //todo fetch by userId
+
+  return (
+    <S.ChatModal>
+      <Header type='lg' prevBtn onClickPrev={popModal}>
+        <S.ProfileWrapper>
+          <Profile $size={40} $src='empty' />
+          <S.TypoWrapper>
+            <Typo15 $weight='700'>감자탕수육</Typo15>
+            <S.DetailWrapper>
+              <Typo11 $color='font_2'>남자</Typo11>
+              <Separator $height={8} />
+              <Typo11 $color='font_2'>할아버지</Typo11>
+            </S.DetailWrapper>
+          </S.TypoWrapper>
+        </S.ProfileWrapper>
+        <S.EllipsisWrapper>
+          <HiEllipsisVertical size={28} />
+        </S.EllipsisWrapper>
+      </Header>
+
+      {chatDummyData.map(chat =>
+        chat.sender === '김민준' ? (
+          <OutgoingMessage key={chat.id}>{chat.message}</OutgoingMessage>
+        ) : (
+          <IncomingMessage key={chat.id}>{chat.message}</IncomingMessage>
+        )
+      )}
+
+      <SendMessageForm />
+    </S.ChatModal>
+  )
+}
+
 const chatDummyData = [
   {
     id: 0,
@@ -250,37 +290,3 @@ const chatDummyData = [
     isRead: false,
   },
 ]
-
-export default function ChatModal() {
-  const { popModal } = useModalStore()
-  return (
-    <S.ChatModal>
-      <Header type='lg' prevBtn onClickPrev={popModal}>
-        <S.ProfileWrapper>
-          <Profile $size={40} $src='empty' />
-          <S.TypoWrapper>
-            <Typo15 $weight='700'>감자탕수육</Typo15>
-            <S.DetailWrapper>
-              <Typo11 $color='font_2'>남자</Typo11>
-              <Separator $height={8} />
-              <Typo11 $color='font_2'>할아버지</Typo11>
-            </S.DetailWrapper>
-          </S.TypoWrapper>
-        </S.ProfileWrapper>
-        <S.EllipsisWrapper>
-          <HiEllipsisVertical size={28} />
-        </S.EllipsisWrapper>
-      </Header>
-
-      {chatDummyData.map(chat =>
-        chat.sender === '김민준' ? (
-          <OutgoingMessage key={chat.id}>{chat.message}</OutgoingMessage>
-        ) : (
-          <IncomingMessage key={chat.id}>{chat.message}</IncomingMessage>
-        )
-      )}
-
-      <SendMessageForm />
-    </S.ChatModal>
-  )
-}

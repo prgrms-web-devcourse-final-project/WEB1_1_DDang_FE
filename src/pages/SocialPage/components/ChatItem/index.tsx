@@ -3,12 +3,16 @@ import * as S from './styles'
 import { Separator } from '~components/Separator'
 import { Typo11, Typo13, Typo17 } from '~components/Typo'
 import { Profile } from '~components/Profile'
+import { useModalStore } from '~stores/modalStore'
+import ChatModal from '~modals/ChatModal'
 
 type ChatItemProps = ChatInfo
 
-export default function ChatItem({ gender, lastChat, name, profileImg, role, unreadChatCount }: ChatItemProps) {
+export default function ChatItem({ gender, lastChat, name, profileImg, role, unreadChatCount, userId }: ChatItemProps) {
+  const { pushModal } = useModalStore()
+
   return (
-    <S.ChatItem>
+    <S.ChatItem onClick={() => pushModal(<ChatModal userId={userId} />)}>
       <Profile $src={profileImg} $size={48} />
       <S.TypoWrapper>
         <S.UserInfoWrapper>

@@ -5,6 +5,8 @@ export type FriendInfo = {
   name: string
   gender: 'male' | 'female'
   role: string
+  id: string
+  userId: string
 }
 
 export type ChatInfo = {
@@ -14,4 +16,6 @@ export type ChatInfo = {
   role: string
   lastChat: string
   unreadChatCount: number
+  id: string
+  userId: string
 }

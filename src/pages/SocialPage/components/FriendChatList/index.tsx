@@ -10,11 +10,13 @@ type FriendChatListProps = {
 }
 
 export default function FriendChatList({ selectedTab, friendList, chatList }: FriendChatListProps) {
+  //todo fetch by userId
+
   return (
     <S.FriendChatList>
       {selectedTab === 'friendList'
-        ? friendList.map(friendInfo => <FriendItem {...friendInfo} />)
-        : chatList.map(chatInfo => <ChatItem {...chatInfo} />)}
+        ? friendList.map(friendInfo => <FriendItem key={friendInfo.id} {...friendInfo} />)
+        : chatList.map(chatInfo => <ChatItem key={chatInfo.id} {...chatInfo} />)}
     </S.FriendChatList>
   )
 }
