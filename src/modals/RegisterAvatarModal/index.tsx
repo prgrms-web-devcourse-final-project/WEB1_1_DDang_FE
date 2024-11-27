@@ -4,16 +4,27 @@ import CloseButton from '~components/Button/CloseButton'
 import { useState } from 'react'
 import * as avatars from '~/assets/avatars'
 
-export default function RegisterAvatarModal() {
-  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
+interface RegisterAvatarModalProps {
+  onSelectAvatar: (avatarSrc: string) => void
+  initialSelectedAvatar?: string | null
+}
+
+export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAvatar }: RegisterAvatarModalProps) {
+  const avatarImages: string[] = Object.values(avatars)
+  const popModal = useModalStore(state => state.popModal)
+  const initialIndex = initialSelectedAvatar ? avatarImages.findIndex(avatar => avatar === initialSelectedAvatar) : null
+  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(initialIndex)
 
   const handleSelectAvatar = (index: number) => {
     setSelectedAvatar(index)
   }
 
-  const popModal = useModalStore(state => state.popModal)
-
-  const avatarImages = Object.values(avatars)
+  const handleSelectComplete = () => {
+    if (selectedAvatar !== null) {
+      onSelectAvatar(avatarImages[selectedAvatar])
+      popModal()
+    }
+  }
 
   return (
     <S.RegisterAvatarModal>
@@ -36,8 +47,11 @@ export default function RegisterAvatarModal() {
           </S.CharacterArea>
         ))}
       </S.SelectCharacterSection>
-
-      <S.CustomActionButton>선택</S.CustomActionButton>
+      {selectedAvatar !== null ? (
+        <S.CustomActionButtonAfter onClick={handleSelectComplete}>선택</S.CustomActionButtonAfter>
+      ) : (
+        <S.CustomActionButtonBefore>선택</S.CustomActionButtonBefore>
+      )}
     </S.RegisterAvatarModal>
   )
 }

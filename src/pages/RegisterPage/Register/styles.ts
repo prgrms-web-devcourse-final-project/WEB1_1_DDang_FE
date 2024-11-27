@@ -6,11 +6,11 @@ export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 120px 20px 24px 20px;
+  padding: 7.5rem 1.25rem 1.5rem 1.25rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
-    padding: 76px 20px 16px;
+    padding: 4.75rem 1.25rem 1rem;
     gap: 0.5rem;
   }
 `
@@ -52,14 +52,39 @@ export const AddOwnerAvatarBtn = styled.div`
     height: 150px;
   }
 `
+export const Avatar = styled.div`
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  margin-top: 0.7rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.brand.darken};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-height: 700px) {
+    width: 150px;
+    height: 150px;
+  }
+`
 
 export const OwnerProfileSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   flex: 1;
   justify-content: center;
-  /* overflow-y: auto; */
   @media (max-height: 700px) {
     gap: 0.5rem;
   }
@@ -73,14 +98,14 @@ export const PositionChoiceBtn = styled.div`
   width: 100%;
   border: none;
   text-align: center;
-  padding: 17px 32px;
-  border-radius: 12px;
+  padding: 1.063rem 2rem;
+  border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
   color: ${({ theme }) => theme.colors.grayscale.font_3};
   cursor: pointer;
 
   @media (max-height: 700px) {
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
   }
 `
 
@@ -88,23 +113,25 @@ export const LocationBtn = styled.div`
   width: 100%;
   border: none;
   text-align: center;
-  padding: 17px 32px;
-  border-radius: 12px;
+  padding: 1.063rem 2rem;
+  border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
   color: ${({ theme }) => theme.colors.grayscale.font_3};
   cursor: pointer;
 
   @media (max-height: 700px) {
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
   }
 `
 
 export const GenderSelectBtnWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  height: 62px;
-
+  gap: 0.7rem;
+  height: 3.875rem;
+  width: 80%;
+  margin: 0 auto;
+  margin: 0.625rem auto;
   & > * {
     height: 100%;
   }
@@ -116,7 +143,7 @@ export const GenderSelectBtnWrapper = styled.div`
   }
 
   @media (max-height: 700px) {
-    height: 52px;
+    height: 3.25rem;
   }
 `
 

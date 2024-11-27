@@ -4,24 +4,33 @@ import AddOwnerAvatar from '~assets/add-dog-picture.svg'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { useState } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
-import Header from '~components/Header'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
+  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
   const pushModal = useModalStore(state => state.pushModal)
+
+  const handleSelectAvatar = (avatarSrc: string): void => {
+    setSelectedAvatar(avatarSrc)
+  }
+
   const handleAvatarClick = () => {
-    pushModal(<RegisterAvatarModal />)
+    pushModal(
+      <RegisterAvatarModal
+        onSelectAvatar={handleSelectAvatar}
+        initialSelectedAvatar={selectedAvatar} // 현재 선택된 아바타 전달
+      />
+    )
   }
 
   const handleGenderSelect = (gender: 'male' | 'female') => {
     setSelectedGender(gender)
   }
-  const handleClickPrev = () => {}
+
   return (
     <S.RegisterPage>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <Helmet>
         <title>DDang | 로그인</title>
         <meta name='description' content='DDang 서비스 로그인' />
@@ -30,10 +39,16 @@ export default function Register() {
       <S.TextSection weight='700'>견주님에 대해{'\n'}알려주세요</S.TextSection>
 
       <S.AddOwnerAvatarBtnWrapper>
-        <S.AddOwnerAvatarBtn onClick={handleAvatarClick}>
-          <img src={AddOwnerAvatar} alt='프로필 선택' />
-          <div>아바타 선택</div>
-        </S.AddOwnerAvatarBtn>
+        {selectedAvatar ? (
+          <S.Avatar onClick={handleAvatarClick}>
+            <img src={selectedAvatar} alt='선택된 아바타' />
+          </S.Avatar>
+        ) : (
+          <S.AddOwnerAvatarBtn onClick={handleAvatarClick}>
+            <img src={AddOwnerAvatar} alt='프로필 선택' />
+            <div>아바타 선택</div>
+          </S.AddOwnerAvatarBtn>
+        )}
       </S.AddOwnerAvatarBtnWrapper>
 
       <S.OwnerProfileSection>
@@ -55,6 +70,7 @@ export default function Register() {
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
+
       <S.CustomActionButton>다음</S.CustomActionButton>
     </S.RegisterPage>
   )
