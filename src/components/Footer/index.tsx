@@ -3,7 +3,6 @@ import { FaRegCalendarCheck } from 'react-icons/fa6'
 import { IoMdPeople } from 'react-icons/io'
 import { IoHomeSharp } from 'react-icons/io5'
 import { MdOutlineFamilyRestroom } from 'react-icons/md'
-import { Link } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
@@ -28,8 +27,8 @@ export default function Footer() {
     <S.Footer>
       <S.FooterNavList>
         {FOOTER_NAV_LIST.map(({ Icon, endpoint, typo }, index) => (
-          <S.FooterNavItem key={index}>
-            <Link to={endpoint}>{<Icon color={theme.colors.brand.default} size={28} />}</Link>
+          <S.FooterNavItem key={index} to={endpoint}>
+            <Icon color={theme.colors.brand.default} size={28} />
             <Typo11 $weight='500' $color='font_3'>
               {typo}
             </Typo11>

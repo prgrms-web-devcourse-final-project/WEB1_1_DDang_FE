@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { FOOTER_HEIGHT } from '~constants/layout'
 
@@ -13,12 +14,14 @@ export const Footer = styled.footer`
 export const FooterNavList = styled.ul`
   display: flex;
   justify-content: space-between;
+  height: 100%;
 `
 
-export const FooterNavItem = styled.li`
+export const FooterNavItem = styled(Link)`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 `
