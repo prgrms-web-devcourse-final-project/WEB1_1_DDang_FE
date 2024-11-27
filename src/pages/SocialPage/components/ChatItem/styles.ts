@@ -1,6 +1,7 @@
 import { styled } from 'styled-components'
 
 export const ChatItem = styled.div`
+  position: relative;
   padding: 16px 20px;
   display: flex;
   align-items: center;
