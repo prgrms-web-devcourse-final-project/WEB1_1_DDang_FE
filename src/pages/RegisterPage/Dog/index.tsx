@@ -1,48 +1,13 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
-import { useEffect, useState } from 'react'
 import { Typo24 } from '~components/Typo/index'
 import SelectSectionButton from './SelectSectionButton'
 import addDogProfile from '~assets/add-dog-profile.svg'
 import addFamilycode from '~assets/add-family-code.svg'
 import DogProfileSection from '~modals/RegisterDogModal/DogProfileSection'
 import FamilyCodeSection from '~modals/RegisterDogModal/FamilyCodeSection'
-import { useModalStore } from '~stores/modalStore'
-export interface DogProfileType {
-  name: string
-  image: string | undefined
-  birth: string
-  intro: string
-  gender: 'male' | 'female' | null
-  isNeutered: boolean
-  breed: string
-  weight: string
-}
 
 export default function RegisterDogPage() {
-  const { pushModal } = useModalStore()
-  const [dogProfile, setDogProfile] = useState<DogProfileType>({
-    name: '',
-    image: undefined,
-    birth: '',
-    intro: '',
-    gender: null,
-    isNeutered: false,
-    breed: '',
-    weight: '',
-  })
-
-  useEffect(() => {
-    console.log(dogProfile)
-  }, [dogProfile])
-
-  const handleDogProfileClick = () => {
-    pushModal(<DogProfileSection dogProfile={dogProfile} setDogProfile={setDogProfile} />)
-  }
-
-  const handleFamilyCodeClick = () => {
-    pushModal(<FamilyCodeSection />)
-  }
   return (
     <S.RegisterDogPage>
       <Helmet>
@@ -60,13 +25,13 @@ export default function RegisterDogPage() {
           title='반려견 프로필 추가하기'
           description='반려견 프로필을 추가해보세요'
           src={addDogProfile}
-          onClick={handleDogProfileClick}
+          modal={<DogProfileSection />}
         />
         <SelectSectionButton
           title='가족 반려견 등록하기'
           description='가족 코드를 등록해보세요'
           src={addFamilycode}
-          onClick={handleFamilyCodeClick}
+          modal={<FamilyCodeSection />}
         />
       </S.ButtonWrapper>
     </S.RegisterDogPage>

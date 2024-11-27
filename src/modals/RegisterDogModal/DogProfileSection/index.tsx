@@ -11,21 +11,15 @@ import { validateDogProfile } from '~utils/validateDogProfile'
 import DogProfileDetailSection from '../DogProfileDetailSection'
 import Toast from '~components/Toast'
 import { useToastStore } from '~/stores/toastStore'
-import { DogProfileType } from '~pages/RegisterPage/Dog'
+import { useDogProfileStore } from '~/stores/dogProfileStore'
 
-interface Props {
-  dogProfile: DogProfileType
-  setDogProfile: (profile: DogProfileType | ((prev: DogProfileType) => DogProfileType)) => void
-}
-
-export default function DogProfileSection({ dogProfile, setDogProfile }: Props) {
+export default function DogProfileSection() {
   const { popModal, pushModal } = useModalStore()
   const { showToast } = useToastStore()
+  const { dogProfile, setDogProfile } = useDogProfileStore()
 
   const handleDatePickerOpen = () => {
-    pushModal(
-      <DatePickerModal date={dogProfile.birth} setDate={date => setDogProfile(prev => ({ ...prev, birth: date }))} />
-    )
+    pushModal(<DatePickerModal date={dogProfile.birth} setDate={date => setDogProfile({ birth: date })} />)
   }
 
   const handleNextClick = () => {
@@ -47,12 +41,12 @@ export default function DogProfileSection({ dogProfile, setDogProfile }: Props) 
             <br /> 알려주세요!
           </Typo24>
         </S.TypoWrapper>
-        <DogImageUploader image={dogProfile.image} setImage={image => setDogProfile(prev => ({ ...prev, image }))} />
+        <DogImageUploader image={dogProfile.image} setImage={image => setDogProfile({ image })} />
         <S.InputArea>
           <S.NameInput
             placeholder='이름 입력'
             value={dogProfile.name}
-            onChange={e => setDogProfile(prev => ({ ...prev, name: e.target.value }))}
+            onChange={e => setDogProfile({ name: e.target.value })}
           />
           <S.DatePickerBtn onClick={handleDatePickerOpen} hasBirth={!!dogProfile.birth}>
             {dogProfile.birth || '생년월일 선택'}
@@ -60,7 +54,7 @@ export default function DogProfileSection({ dogProfile, setDogProfile }: Props) 
           <TwoLineInput
             placeholder='한줄 소개 입력'
             value={dogProfile.intro}
-            onChange={e => setDogProfile(prev => ({ ...prev, intro: e.target.value }))}
+            onChange={e => setDogProfile({ intro: e.target.value })}
           >
             한줄 소개 입력
           </TwoLineInput>

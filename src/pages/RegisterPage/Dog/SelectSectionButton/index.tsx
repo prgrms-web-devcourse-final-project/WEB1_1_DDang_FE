@@ -7,12 +7,14 @@ interface SelectSectionButtonProps {
   title: string
   description: string
   src: string
-  onClick: () => void
+  modal: ReactNode
 }
 
-export default function SelectSectionButton({ title, description, src, onClick }: SelectSectionButtonProps) {
+export default function SelectSectionButton({ title, description, src, modal }: SelectSectionButtonProps) {
+  const { pushModal } = useModalStore()
+
   return (
-    <S.SelectSectionButton onClick={onClick}>
+    <S.SelectSectionButton onClick={() => pushModal(modal)}>
       <S.TypoWrapper>
         <Typo20 weight='700'>{title}</Typo20>
       </S.TypoWrapper>

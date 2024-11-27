@@ -2,12 +2,10 @@ import * as S from './styles'
 import { useState, useEffect } from 'react'
 import breeds from '~/data/breeds.json'
 import { useModalStore } from '~/stores/modalStore'
+import { useDogProfileStore } from '~/stores/dogProfileStore'
 
-interface SearchModalProps {
-  setBreed: (breed: string) => void
-}
-
-export default function SearchModal({ setBreed }: SearchModalProps) {
+export default function SearchModal() {
+  const { setDogProfile } = useDogProfileStore()
   const { popModal } = useModalStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<string[]>([])
@@ -41,7 +39,7 @@ export default function SearchModal({ setBreed }: SearchModalProps) {
     const target = e.target as HTMLElement
     if (target.closest('[data-breed]')) {
       const breed = target.closest('[data-breed]')?.getAttribute('data-breed')
-      if (breed) setBreed(breed)
+      if (breed) setDogProfile({ breed })
       popModal()
     }
   }
