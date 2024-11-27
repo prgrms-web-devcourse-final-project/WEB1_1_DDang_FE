@@ -1,17 +1,18 @@
 import { BrandColors, FontWeight, GrayscaleColors, styled } from 'styled-components'
 
 type TypoProps = {
-  color?: keyof GrayscaleColors | keyof BrandColors
-  weight?: FontWeight
+  $color?: keyof GrayscaleColors | keyof BrandColors
+  $weight?: FontWeight
+  $textAlign?: 'left' | 'center' | 'right'
 }
 
 const Typo = styled.p<TypoProps>`
-  color: ${({ theme, color }) =>
-    theme.colors.grayscale[color as keyof GrayscaleColors] ||
-    theme.colors.brand[color as keyof BrandColors] ||
+  color: ${({ theme, $color }) =>
+    theme.colors.grayscale[$color as keyof GrayscaleColors] ||
+    theme.colors.brand[$color as keyof BrandColors] ||
     'inherit'};
-
-  font-weight: ${({ weight }) => (weight ? weight : 400)};
+  text-align: ${({ $textAlign = 'left' }) => $textAlign};
+  font-weight: ${({ $weight: weight }) => (weight ? weight : 400)};
 `
 
 export const Typo11 = styled(Typo)`

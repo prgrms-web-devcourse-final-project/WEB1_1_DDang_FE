@@ -18,7 +18,7 @@ export default function SettingModal({ isOpen, onClose }: SettingModalProps) {
           <PrevButton size={28} />
         </S.BackButton>
         <S.TitleWrap>
-          <Typo17 weight='700'>설정</Typo17>
+          <Typo17 $weight='700'>설정</Typo17>
         </S.TitleWrap>
       </S.Header>
 

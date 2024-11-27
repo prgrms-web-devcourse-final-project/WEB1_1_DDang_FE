@@ -259,11 +259,11 @@ export default function ChatModal() {
         <S.ProfileWrapper>
           <Profile $size={40} $src='empty' />
           <S.TypoWrapper>
-            <Typo15 weight='700'>감자탕수육</Typo15>
+            <Typo15 $weight='700'>감자탕수육</Typo15>
             <S.DetailWrapper>
-              <Typo11 color='font_2'>남자</Typo11>
+              <Typo11 $color='font_2'>남자</Typo11>
               <Separator $height={8} />
-              <Typo11 color='font_2'>할아버지</Typo11>
+              <Typo11 $color='font_2'>할아버지</Typo11>
             </S.DetailWrapper>
           </S.TypoWrapper>
         </S.ProfileWrapper>

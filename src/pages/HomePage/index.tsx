@@ -22,8 +22,8 @@ export default function HomePage() {
       </S.Header>
 
       <S.Visual>
-        <Typo24 weight='700'>오늘은 아빠랑</Typo24>
-        <Typo24 weight='700'>산책가는 날!</Typo24>
+        <Typo24 $weight='700'>오늘은 아빠랑</Typo24>
+        <Typo24 $weight='700'>산책가는 날!</Typo24>
       </S.Visual>
 
       <S.CharacterWrapper>
@@ -31,9 +31,9 @@ export default function HomePage() {
       </S.CharacterWrapper>
 
       <S.WalkInfoArea>
-        <Typo17 weight='700'>
+        <Typo17 $weight='700'>
           오늘 밤톨이가&nbsp;
-          <Typo17 as='span' weight='700' color='default'>
+          <Typo17 as='span' $weight='700' color='default'>
             1,293
           </Typo17>
           kcal 소비했어요!
@@ -41,16 +41,16 @@ export default function HomePage() {
         <S.WalkInfoWrapper>
           <S.WalkTime>
             <LuClock5 style={{ marginRight: 6 }} size={18} />
-            <Typo14 weight='700'>산책 시간&nbsp;</Typo14>
-            <Typo14 color='default' weight='700'>
+            <Typo14 $weight='700'>산책 시간&nbsp;</Typo14>
+            <Typo14 $color='default' $weight='700'>
               1시간
             </Typo14>
           </S.WalkTime>
           <Separator $height={20} />
           <S.WalkDistance>
             <GrLocation style={{ marginRight: 6 }} size={18} />
-            <Typo14 weight='700'>산책한 거리&nbsp;</Typo14>{' '}
-            <Typo14 as='span' color='default' weight='700'>
+            <Typo14 $weight='700'>산책한 거리&nbsp;</Typo14>{' '}
+            <Typo14 as='span' color='default' $weight='700'>
               3km
             </Typo14>
           </S.WalkDistance>

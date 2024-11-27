@@ -53,7 +53,7 @@ export default function DogProfileDetailSection() {
       <Header type='sm' onClickPrev={handleClickPrev} prevBtn />
       <S.DogProfileDetailSection>
         <S.TypoWrapper>
-          <Typo24 weight='700'>
+          <Typo24 $weight='700'>
             반려견 상세 정보를
             <br /> 알려주세요!
           </Typo24>

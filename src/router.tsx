@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
         element: <Pages.LogPage />,
       },
       {
+        path: '/social',
+        element: <Pages.SocialPage />,
+      },
+      {
         path: '/walk',
         element: <Pages.WalkPage />,
       },

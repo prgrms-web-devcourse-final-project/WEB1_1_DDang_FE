@@ -40,13 +40,13 @@ export default function MyPage() {
             <ProfileImage />
           </S.ProfileArea>
           <S.ProfileText>
-            <Typo24 weight='800'>닉네임</Typo24>
-            <Typo15 weight='400' style={{ color: theme.colors.grayscale.font_2 }}>
+            <Typo24 $weight='800'>닉네임</Typo24>
+            <Typo15 $weight='400' style={{ color: theme.colors.grayscale.font_2 }}>
               용산구 남영구 거주
             </Typo15>
             <S.TypoWrap>
-              <Typo13 weight='700'>남자</Typo13>
-              <Typo13 weight='700'>할아버지</Typo13>
+              <Typo13 $weight='700'>남자</Typo13>
+              <Typo13 $weight='700'>할아버지</Typo13>
             </S.TypoWrap>
           </S.ProfileText>
         </S.ProfileSection>

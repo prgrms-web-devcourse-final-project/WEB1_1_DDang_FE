@@ -14,7 +14,7 @@ export default function CheckDogProfileSection() {
       <S.CheckDogProfileSection>
         <S.ProfileArea>
           <S.TypoWrapper>
-            <Typo24 weight='700'>
+            <Typo24 $weight='700'>
               이 반려견이
               <br />
               맞나요?

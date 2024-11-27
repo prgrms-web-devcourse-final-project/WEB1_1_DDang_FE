@@ -10,7 +10,7 @@ export default function NotificationModal() {
     <S.NotificationModal>
       <PrevButton onClick={popModal} />
       <S.Header>
-        <Typo17 weight='700'>알림</Typo17>
+        <Typo17 $weight='700'>알림</Typo17>
       </S.Header>
       <NotificationList />
     </S.NotificationModal>
