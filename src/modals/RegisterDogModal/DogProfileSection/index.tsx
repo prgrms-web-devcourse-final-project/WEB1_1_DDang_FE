@@ -30,10 +30,24 @@ export default function DogProfileSection() {
     pushModal(<DogProfileDetailSection />)
   }
 
+  const handlePrevClick = () => {
+    setDogProfile({
+      name: '',
+      image: undefined,
+      birth: '',
+      intro: '',
+      gender: null,
+      isNeutered: false,
+      breed: '',
+      weight: '',
+    })
+    popModal()
+  }
+
   return (
     <>
       <S.DogProfileSection>
-        <Header type='sm' onClickPrev={popModal} prevBtn />
+        <Header type='sm' onClickPrev={handlePrevClick} prevBtn />
         <S.TypoWrapper>
           <Typo24 weight='700'>
             반려견 기본 정보를

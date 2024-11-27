@@ -1,9 +1,14 @@
 import { styled } from 'styled-components'
 
 export const FamilyCodeSection = styled.div`
+  z-index: 100;
   padding: 0 20px 24px 20px;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  height: 100dvh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   display: flex;
   flex-direction: column;
@@ -45,4 +50,8 @@ export const FamilyCodeInput = styled.input`
   &::placeholder {
     font-weight: 400;
   }
+`
+
+export const ToastWrapper = styled.div`
+  position: relative;
 `

@@ -107,3 +107,7 @@ export const WeightInput = styled.input<{ hasWeight: boolean }>`
     -moz-appearance: textfield;
   }
 `
+
+export const ToastWrapper = styled.div`
+  position: relative;
+`

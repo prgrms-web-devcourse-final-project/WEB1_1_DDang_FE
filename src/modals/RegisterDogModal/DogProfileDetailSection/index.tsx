@@ -8,10 +8,14 @@ import Header from '~components/Header/index'
 import SearchModal from '~modals/SearchModal'
 import { useModalStore } from '~stores/modalStore'
 import { useDogProfileStore } from '~/stores/dogProfileStore'
+import { validateDogDetailProfile } from '~utils/validateDogProfile'
+import { useToastStore } from '~stores/toastStore'
+import Toast from '~components/Toast'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
   const { pushModal, popModal } = useModalStore()
+  const { showToast } = useToastStore()
 
   const [displayValue, setDisplayValue] = useState('')
   const [inputType, setInputType] = useState('text')
@@ -46,6 +50,15 @@ export default function DogProfileDetailSection() {
     if (dogProfile.weight) {
       setDisplayValue(`${dogProfile.weight}kg`)
     }
+  }
+
+  const handleComfirmClick = () => {
+    const alertMessage = validateDogDetailProfile(dogProfile)
+    if (alertMessage) {
+      showToast(alertMessage)
+      return
+    }
+    console.log('이제 백엔드로 전송')
   }
 
   return (
@@ -92,7 +105,15 @@ export default function DogProfileDetailSection() {
             hasWeight={!!dogProfile.weight}
           />
         </S.InputArea>
-        <ActionButton>확인</ActionButton>
+        <S.ToastWrapper>
+          <ActionButton
+            $bgColor={validateDogDetailProfile(dogProfile) ? 'gc_1' : 'default'}
+            onClick={handleComfirmClick}
+          >
+            확인
+          </ActionButton>
+          <Toast />
+        </S.ToastWrapper>
       </S.DogProfileDetailSection>
     </>
   )
