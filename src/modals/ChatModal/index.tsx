@@ -7,6 +7,7 @@ import { Separator } from '~components/Separator'
 import { Typo11, Typo15 } from '~components/Typo'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
+import { useScrollToBottom } from '~hooks/useScrollToBottom'
 
 type ChatModalProps = {
   userId: string
@@ -15,9 +16,10 @@ type ChatModalProps = {
 export default function ChatModal({ userId }: ChatModalProps) {
   const { popModal } = useModalStore()
   console.log('ChatModal', userId) //todo fetch by userId
+  const ref = useScrollToBottom<HTMLDivElement>()
 
   return (
-    <S.ChatModal>
+    <S.ChatModal ref={ref}>
       <Header type='lg' prevBtn onClickPrev={popModal}>
         <S.ProfileWrapper>
           <Profile $size={40} $src='' userId={userId} />
