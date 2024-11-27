@@ -40,7 +40,7 @@ export default function DatePickerModal({ date, setDate }: DatePickerModalProps)
 
   return (
     <S.ModalOverlay onClick={close}>
-      <S.DatePickerModal isExiting={isExiting} onClick={handleModalClick}>
+      <S.DatePickerModal $isExiting={isExiting} onClick={handleModalClick}>
         <S.ConfirmBtn onClick={handleConfirmBtn}>확인</S.ConfirmBtn>
         <S.Divider />
         <DatePicker

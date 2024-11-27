@@ -30,11 +30,11 @@ export const ModalOverlay = styled.div`
   align-items: flex-end;
 `
 
-export const DatePickerModal = styled.div<{ isExiting: boolean }>`
+export const DatePickerModal = styled.div<{ $isExiting: boolean }>`
   background-color: white;
   width: 100%;
 
-  animation: ${({ isExiting }) => (isExiting ? slideDown : slideUp)} 0.3s ease-out;
+  animation: ${({ $isExiting }) => ($isExiting ? slideDown : slideUp)} 0.3s ease-out;
 
   > div {
     padding: 1rem;

@@ -85,14 +85,14 @@ export default function DogProfileDetailSection() {
             />
           </S.GenderSelectBtnWrapper>
           <S.CheckboxWrapper onClick={() => setDogProfile({ isNeutered: !dogProfile.isNeutered })}>
-            <S.CheckboxCircle isChecked={dogProfile.isNeutered}>
+            <S.CheckboxCircle $isChecked={dogProfile.isNeutered}>
               {dogProfile.isNeutered && <img src={Check} alt='check'></img>}
             </S.CheckboxCircle>
-            <S.CheckboxLabel isChecked={dogProfile.isNeutered}>중성화 했어요</S.CheckboxLabel>
+            <S.CheckboxLabel $isChecked={dogProfile.isNeutered}>중성화 했어요</S.CheckboxLabel>
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>
-          <S.PickerBtn onClick={() => pushModal(<SearchModal />)} hasBreed={!!dogProfile.breed}>
+          <S.PickerBtn onClick={() => pushModal(<SearchModal />)} $hasBreed={!!dogProfile.breed}>
             {dogProfile.breed || '견종 입력'}
           </S.PickerBtn>
           <S.WeightInput
@@ -102,7 +102,7 @@ export default function DogProfileDetailSection() {
             onChange={onChangeWeightInput}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            hasWeight={!!dogProfile.weight}
+            $hasWeight={!!dogProfile.weight}
           />
         </S.InputArea>
         <S.ToastWrapper>

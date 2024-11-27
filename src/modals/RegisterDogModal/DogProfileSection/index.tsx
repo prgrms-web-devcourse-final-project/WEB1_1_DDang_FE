@@ -61,7 +61,7 @@ export default function DogProfileSection() {
             value={dogProfile.name}
             onChange={e => setDogProfile({ name: e.target.value })}
           />
-          <S.DatePickerBtn onClick={handleDatePickerOpen} hasBirth={!!dogProfile.birth}>
+          <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birth}>
             {dogProfile.birth || '생년월일 선택'}
           </S.DatePickerBtn>
           <TwoLineInput
