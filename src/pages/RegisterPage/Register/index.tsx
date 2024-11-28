@@ -6,13 +6,14 @@ import { useState } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
+import { ActionButton } from '~components/Button/ActionButton'
 
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
   const pushModal = useModalStore(state => state.pushModal)
 
-  const handleSelectAvatar = (avatarSrc: string): void => {
+  const handleSelectAvatar = (avatarSrc: string) => {
     setSelectedAvatar(avatarSrc)
   }
 
@@ -71,7 +72,7 @@ export default function Register() {
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
 
-      <S.CustomActionButton>다음</S.CustomActionButton>
+      <ActionButton $fontWeight='700'>다음</ActionButton>
     </S.RegisterPage>
   )
 }
