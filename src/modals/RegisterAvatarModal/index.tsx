@@ -1,9 +1,8 @@
 import * as S from './styles'
 import { useModalStore } from '~stores/modalStore'
-import CloseButton from '~components/Button/CloseButton'
 import { useState } from 'react'
 import * as avatars from '~/assets/avatars'
-
+import Header from '~components/Header'
 interface RegisterAvatarModalProps {
   onSelectAvatar: (avatarSrc: string) => void
   initialSelectedAvatar?: string | null
@@ -28,9 +27,7 @@ export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAva
 
   return (
     <S.RegisterAvatarModal>
-      <S.HeaderArea type='lg' closeBtn>
-        <CloseButton onClick={popModal}></CloseButton>
-      </S.HeaderArea>
+      <Header type='lg' closeBtn onClickClose={popModal} />
       <S.TextSection weight='700'>맘에 드는{'\n'}캐릭터를 선택해 주세요.</S.TextSection>
       <S.SelectCharacterSection>
         {avatarImages.map((avatar, index) => (
