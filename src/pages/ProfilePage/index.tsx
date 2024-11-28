@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import * as S from './styles'
 import Profile from '~components/Profile'
-import { Typo11, Typo13, Typo15, Typo17, Typo20, Typo24 } from '~components/Typo'
 import { Separator } from '~components/Separator'
+import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
+import * as S from './styles'
 
 export default function ProfilePage() {
   const { id } = useParams()
@@ -24,6 +24,7 @@ export default function ProfilePage() {
           <Typo13 $weight='700'>{userInfo.role}</Typo13>
         </S.TypoWrapper>
       </S.ProfileArea>
+
       <S.WalkInfoArea>
         <S.WalkInfoWrapper>
           <Typo20 $weight='800'>{userInfo.walkCount}회</Typo20>
@@ -38,6 +39,7 @@ export default function ProfilePage() {
           <Typo13 $weight='500'>강번따 횟수</Typo13>
         </S.WalkInfoWrapper>
       </S.WalkInfoArea>
+
       <S.DogInfoArea>
         <S.DogInfoWrapper>
           <Profile $size={80} $src={dogInfo.profileImg} />
@@ -57,13 +59,14 @@ export default function ProfilePage() {
             </S.TypoWrapper>
           </S.DogDetailWrapper>
         </S.DogInfoWrapper>
+
         <S.OneLineIntro>
-          <Typo17 $weight='800' $color='default'>
+          <Typo15 $weight='800' $color='default'>
             우리 댕댕이를 소개해요!
-          </Typo17>
-          <Typo15 $weight='500' style={{ lineHeight: 1.2 }}>
-            {dogInfo.intro}
           </Typo15>
+          <Typo13 $weight='500' style={{ lineHeight: 1.2 }}>
+            {dogInfo.intro}
+          </Typo13>
         </S.OneLineIntro>
       </S.DogInfoArea>
     </S.ProfilePage>

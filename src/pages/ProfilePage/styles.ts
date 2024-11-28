@@ -13,7 +13,7 @@ export const ProfilePage = styled.div`
   gap: 12px;
   background: url(${DogFood}) no-repeat bottom 85px center;
   background-size: 40%;
-  @media screen and (max-height: 790px) {
+  @media screen and (max-height: 900px) {
     background: none;
   }
 `
@@ -76,5 +76,9 @@ export const OneLineIntro = styled(Box)`
   flex-direction: column;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.brand.lighten_3};
-  padding: 20px;
+  padding: 12px 20px;
+  border-top-left-radius: 0;
+  @media screen and (max-height: 750px) {
+    display: none;
+  }
 `
