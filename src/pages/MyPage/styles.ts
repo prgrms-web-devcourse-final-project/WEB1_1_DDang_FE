@@ -19,19 +19,6 @@ export const MainContainer = styled.div`
   box-sizing: border-box;
   overflow-y: auto;
 `
-
-export const ButtonArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: auto;
-  align-items: center;
-  width: 100%;
-`
-
-export const CustomActionButton = styled(ActionButton)`
-  width: 100%;
-`
-
 export const HeaderContainer = styled.div`
   width: 100%;
   height: 56px;
@@ -122,8 +109,4 @@ export const CountWrapperSmall = styled.div`
   font-size: ${({ theme }) => theme.typography._13};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-weight: 500;
-`
-export const GangbunttaArea = styled.div`
-  padding-top: 12px;
-  width: 100%;
 `

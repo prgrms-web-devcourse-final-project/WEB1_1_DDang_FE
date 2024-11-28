@@ -4,7 +4,7 @@ import { IoSettingsOutline } from 'react-icons/io5'
 import { useTheme } from 'styled-components'
 import ToggleBox from '~components/ToggleBox'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
-import SettingModal from '~pages/MyPage/SettingModal'
+import SettingModal from '~modals/SettingModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 
@@ -64,15 +64,6 @@ export default function MyPage() {
           </S.CountArea>
         </S.CountSection>
 
-        <S.GangbunttaArea>
-          <ToggleBox type='md' setting='gangbuntta' />
-        </S.GangbunttaArea>
-
-        <S.ButtonArea>
-          <S.CustomActionButton $type='semiRoundedRect' $bgColor='font_1'>
-            로그아웃
-          </S.CustomActionButton>
-        </S.ButtonArea>
       </S.MainContainer>
     </S.MyPage>
   )
