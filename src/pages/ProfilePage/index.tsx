@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import * as S from './styles'
 import Profile from '~components/Profile'
-import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
+import { Typo11, Typo13, Typo15, Typo17, Typo20, Typo24 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 
 export default function ProfilePage() {
@@ -39,22 +39,32 @@ export default function ProfilePage() {
         </S.WalkInfoWrapper>
       </S.WalkInfoArea>
       <S.DogInfoArea>
-        <Profile $size={80} $src={dogInfo.profileImg} />
-        <S.DogDetailWrapper>
-          <Typo20 $weight='700'>{dogInfo.name}</Typo20>
-          <S.TypoWrapper>
-            <Typo15 $weight='500'>{dogInfo.breed}</Typo15>
-            <Separator $height={8} />
-            <Typo15 $weight='500'>{dogInfo.age}살</Typo15>
-            <Separator $height={8} />
-            <Typo15 $weight='500'>{dogInfo.gender === 'male' ? '남' : '여'}</Typo15>
-          </S.TypoWrapper>
-          <S.TypoWrapper>
-            <Typo13>중성화 X</Typo13>
-            <Separator $height={8} />
-            <Typo13>3.4KG</Typo13>
-          </S.TypoWrapper>
-        </S.DogDetailWrapper>
+        <S.DogInfoWrapper>
+          <Profile $size={80} $src={dogInfo.profileImg} />
+          <S.DogDetailWrapper>
+            <S.TypoWrapper>
+              <Typo20 $weight='700'>{dogInfo.name}</Typo20>
+              <Typo15 $weight='400'>{dogInfo.breed}</Typo15>
+              <Separator $height={8} />
+              <Typo15 $weight='400'>{dogInfo.age}살</Typo15>
+              <Separator $height={8} />
+              <Typo15 $weight='400'>{dogInfo.gender === 'male' ? '남' : '여'}</Typo15>
+            </S.TypoWrapper>
+            <S.TypoWrapper>
+              <Typo13>중성화 X</Typo13>
+              <Separator $height={8} />
+              <Typo13>3.4KG</Typo13>
+            </S.TypoWrapper>
+          </S.DogDetailWrapper>
+        </S.DogInfoWrapper>
+        <S.OneLineIntro>
+          <Typo17 $weight='800' $color='default'>
+            우리 댕댕이를 소개해요!
+          </Typo17>
+          <Typo15 $weight='500' style={{ lineHeight: 1.2 }}>
+            {dogInfo.intro}
+          </Typo15>
+        </S.OneLineIntro>
       </S.DogInfoArea>
     </S.ProfilePage>
   )
@@ -79,4 +89,6 @@ const dogInfo = {
   neutered: false, // 중성화 여부
   weight: 3.4,
   profileImg: '',
+  intro: `우리아이 안 물어요 착해요. 
+강아지껌을 너무 좋아해요 같이 놀아요. `,
 }

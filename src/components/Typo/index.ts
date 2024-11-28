@@ -13,6 +13,7 @@ const Typo = styled.p<TypoProps>`
     'inherit'};
   text-align: ${({ $textAlign = 'left' }) => $textAlign};
   font-weight: ${({ $weight: weight }) => (weight ? weight : 400)};
+  white-space: pre-line;
 `
 
 export const Typo11 = styled(Typo)`
