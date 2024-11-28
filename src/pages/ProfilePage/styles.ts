@@ -15,6 +15,7 @@ export const ProfilePage = styled.div`
   background-size: 40%;
   @media screen and (max-height: 900px) {
     background: none;
+    gap: 24px;
   }
 `
 export const Header = styled(DefaultHeader)`
@@ -47,7 +48,9 @@ export const WalkInfoArea = styled(Box)`
   height: 96px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  flex-shrink: 0;
 `
 export const WalkInfoWrapper = styled.div`
   display: flex;
