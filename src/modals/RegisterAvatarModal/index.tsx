@@ -3,6 +3,8 @@ import { useModalStore } from '~stores/modalStore'
 import { useState } from 'react'
 import * as avatars from '~/assets/avatars'
 import Header from '~components/Header'
+import { ActionButton } from '~components/Button/ActionButton'
+
 interface RegisterAvatarModalProps {
   onSelectAvatar: (avatarSrc: string) => void
   initialSelectedAvatar?: string | null
@@ -27,25 +29,27 @@ export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAva
 
   return (
     <S.RegisterAvatarModal>
-      <Header type='lg' closeBtn onClickClose={popModal} />
+      <Header type='sm' closeBtn onClickClose={popModal} />
       <S.TextSection weight='700'>맘에 드는{'\n'}캐릭터를 선택해 주세요.</S.TextSection>
-      <S.SelectCharacterSection>
-        {avatarImages.map((avatar, index) => (
-          <S.CharacterArea key={index} index={index} onClick={() => handleSelectAvatar(index)}>
-            <img src={avatar} alt={`avatar ${index + 1}`} />
-            {selectedAvatar === index && (
-              <S.SelectOverlay>
-                <S.CheckIcon>
-                  <S.CheckPath />
-                </S.CheckIcon>
-              </S.SelectOverlay>
-            )}
-          </S.CharacterArea>
-        ))}
-      </S.SelectCharacterSection>
-      <S.CustomActionButton isSelected={selectedAvatar !== null} onClick={handleSelectComplete}>
-        선택
-      </S.CustomActionButton>
+      <S.SelectCharacterContainer>
+        <S.SelectCharacterSection>
+          {avatarImages.map((avatar, index) => (
+            <S.CharacterArea key={index} index={index} onClick={() => handleSelectAvatar(index)}>
+              <img src={avatar} alt={`avatar ${index + 1}`} />
+              {selectedAvatar === index && (
+                <S.SelectOverlay>
+                  <S.CheckIcon>
+                    <S.CheckPath />
+                  </S.CheckIcon>
+                </S.SelectOverlay>
+              )}
+            </S.CharacterArea>
+          ))}
+        </S.SelectCharacterSection>
+        <ActionButton disabled={selectedAvatar === null} onClick={handleSelectComplete} $fontWeight='700'>
+          선택
+        </ActionButton>
+      </S.SelectCharacterContainer>
     </S.RegisterAvatarModal>
   )
 }
