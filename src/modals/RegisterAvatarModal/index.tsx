@@ -28,7 +28,7 @@ export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAva
 
   return (
     <S.RegisterAvatarModal>
-      <S.HeaderArea type='lg'>
+      <S.HeaderArea type='lg' closeBtn>
         <CloseButton onClick={popModal}></CloseButton>
       </S.HeaderArea>
       <S.TextSection weight='700'>맘에 드는{'\n'}캐릭터를 선택해 주세요.</S.TextSection>
