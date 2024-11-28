@@ -7,6 +7,7 @@ export const ChatItem = styled.div`
   align-items: center;
   gap: 12px;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
+  cursor: pointer;
 `
 export const TypoWrapper = styled.div``
 export const UserInfoWrapper = styled.div`

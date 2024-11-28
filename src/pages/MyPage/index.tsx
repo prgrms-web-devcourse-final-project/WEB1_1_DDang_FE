@@ -1,23 +1,19 @@
-import { useState } from 'react'
-import * as S from './styles'
+import ProfileImage from 'assets/masterprofile.svg?react'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import ProfileImage from 'assets/masterprofile.svg?react'
-import { Typo13, Typo15, Typo24 } from '~components/Typo'
-import ToggleBox from '~components/ToggleBox'
 import { useTheme } from 'styled-components'
+import ToggleBox from '~components/ToggleBox'
+import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import SettingModal from '~pages/MyPage/SettingModal'
+import { useModalStore } from '~stores/modalStore'
+import * as S from './styles'
 
 export default function MyPage() {
   const theme = useTheme()
-  const [onClickSetting, setOnclickSetting] = useState(false)
+  const { pushModal } = useModalStore()
 
   const onSettingsClick = () => {
-    setOnclickSetting(true)
-  }
-
-  const onCloseSettingModal = () => {
-    setOnclickSetting(false)
+    pushModal(<SettingModal />)
   }
 
   return (
@@ -78,7 +74,6 @@ export default function MyPage() {
           </S.CustomActionButton>
         </S.ButtonArea>
       </S.MainContainer>
-      <SettingModal isOpen={onClickSetting} onClose={onCloseSettingModal} />
     </S.MyPage>
   )
 }
