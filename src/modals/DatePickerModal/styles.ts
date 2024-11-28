@@ -19,6 +19,8 @@ const slideDown = keyframes`
 `
 
 export const ModalOverlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 200;
   position: fixed;
   top: 0;
   left: 0;
@@ -28,11 +30,11 @@ export const ModalOverlay = styled.div`
   align-items: flex-end;
 `
 
-export const DatePickerModal = styled.div<{ isExiting: boolean }>`
+export const DatePickerModal = styled.div<{ $isExiting: boolean }>`
   background-color: white;
   width: 100%;
 
-  animation: ${({ isExiting }) => (isExiting ? slideDown : slideUp)} 0.3s ease-out;
+  animation: ${({ $isExiting }) => ($isExiting ? slideDown : slideUp)} 0.3s ease-out;
 
   > div {
     padding: 1rem;

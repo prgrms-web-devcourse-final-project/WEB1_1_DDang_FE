@@ -3,34 +3,15 @@ import { PrevButton } from '~components/Button/PrevButton/styles'
 import { Typo17 } from '~components/Typo'
 import ToggleArea from '~components/ToggleArea'
 import ToggleBox from '~components/ToggleBox'
-import { useEffect } from 'react'
-type SettingModalProps = {
-  isOpen: boolean
-  onClose: () => void
-}
+import { useModalStore } from '~stores/modalStore'
 
-export default function SettingModal({ isOpen, onClose }: SettingModalProps) {
-  useEffect(() => {
-    window.history.pushState(null, '', window.location.href)
-    const handlePopState = () => {
-      onClose()
-    }
-    window.addEventListener('popstate', handlePopState)
-    return () => {
-      window.removeEventListener('popstate', handlePopState)
-    }
-  }, [isOpen, onClose])
-  if (!isOpen) return null
+export default function SettingModal() {
+  const { popModal } = useModalStore()
 
   return (
     <S.SettingModalContainer>
       <S.Header>
-        {/* <S.BackButton onClick={onClose}> */}
-        <S.BackButton
-          onClick={() => {
-            window.history.back()
-          }}
-        >
+        <S.BackButton onClick={popModal}>
           <PrevButton size={28} />
         </S.BackButton>
         <S.TitleWrap>

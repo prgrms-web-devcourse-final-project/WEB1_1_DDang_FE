@@ -1,9 +1,14 @@
 import { styled } from 'styled-components'
 
 export const DogProfileSection = styled.div`
+  z-index: 100;
   padding: 120px 20px 24px 20px;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  height: 100dvh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   display: flex;
   flex-direction: column;
@@ -54,9 +59,9 @@ export const HiddenFileInput = styled.input`
   display: none;
 `
 
-export const DogImage = styled.img<{ hasImage: boolean }>`
+export const DogImage = styled.img<{ $hasImage: boolean }>`
   position: absolute;
-  z-index: ${({ hasImage }) => (hasImage ? '100' : '-100')};
+  z-index: ${({ $hasImage }) => ($hasImage ? '100' : '-100')};
   top: 0;
   left: 0;
   width: 100%;
@@ -91,14 +96,14 @@ export const NameInput = styled.input`
   }
 `
 
-export const DatePickerBtn = styled.div<{ hasBirth: boolean }>`
+export const DatePickerBtn = styled.div<{ $hasBirth: boolean }>`
   width: 100%;
   border: none;
   text-align: center;
   padding: 17px 32px;
   font-size: ${({ theme }) => theme.typography._20};
-  color: ${({ theme, hasBirth }) => (hasBirth ? 'black' : theme.colors.grayscale.font_3)};
-  font-weight: ${({ hasBirth }) => (hasBirth ? '700' : '400')};
+  color: ${({ theme, $hasBirth }) => ($hasBirth ? 'black' : theme.colors.grayscale.font_3)};
+  font-weight: ${({ $hasBirth }) => ($hasBirth ? '700' : '400')};
   cursor: pointer;
 `
 export const ActionButtonArea = styled.div`

@@ -27,7 +27,7 @@ export default function DogImageUploader({ image, setImage }: DogImageUploaderPr
         <img src={AddDogPicture} alt='반려견 사진 추가' />
         <div>반려견 사진 추가</div>
         <HiddenFileInput type='file' ref={fileInputRef} onChange={handleImageChange} />
-        {image && <DogImage src={image} alt='반려견 사진' hasImage />}
+        {image && <DogImage src={image} alt='반려견 사진' $hasImage />}
       </AddDogPictureBtn>
     </AddDogPictureBtnWrapper>
   )

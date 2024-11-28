@@ -1,6 +1,6 @@
 import { styled } from 'styled-components'
 
-export const ToastWrapper = styled.div<{ isVisible: boolean }>`
+export const ToastWrapper = styled.div<{ $isVisible: boolean }>`
   position: absolute;
   top: -50px;
 
@@ -8,8 +8,8 @@ export const ToastWrapper = styled.div<{ isVisible: boolean }>`
   display: flex;
   justify-content: center;
 
-  visibility: ${({ isVisible }) => (isVisible ? 'visiblie' : 'hidden')};
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  visibility: ${({ $isVisible }) => ($isVisible ? 'visiblie' : 'hidden')};
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
