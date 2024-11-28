@@ -16,10 +16,6 @@ export const RegisterAvatarModal = styled.div`
   }
 `
 
-export const HeaderArea = styled(Header)`
-  justify-content: flex-end;
-`
-
 export const TextSection = styled.text<{ weight: FontWeight }>`
   margin-top: 1.9rem;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
