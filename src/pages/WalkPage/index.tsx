@@ -39,7 +39,6 @@ export default function WalkPage() {
       </S.Header>
 
       <MapComponent isModalOpen={isModalOpen} />
-
       <WalkerListModal isOpen={isWalkerListOpen} onClose={handleWalkerListClose} isClosing={isClosing} />
     </S.WalkPage>
   )
