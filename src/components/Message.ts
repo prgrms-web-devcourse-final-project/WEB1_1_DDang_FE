@@ -6,6 +6,7 @@ const Message = styled.div`
   border-radius: 12px;
   white-space: pre-line;
   margin: 16px 0;
+  z-index: 1;
 `
 export const IncomingMessage = styled(Message)`
   width: fit-content;
