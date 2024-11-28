@@ -4,14 +4,15 @@ import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
 import Profile from '~components/Profile'
 import Tag from '~components/Tag'
+import { useModalStore } from '~stores/modalStore'
 
 export default function CheckDogProfileSection() {
-  const handleClickPrev = () => {}
+  const { popModal } = useModalStore()
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <S.CheckDogProfileSection>
+        <Header type='sm' onClickPrev={popModal} prevBtn={true} />
         <S.ProfileArea>
           <S.TypoWrapper>
             <Typo24 $weight='700'>
