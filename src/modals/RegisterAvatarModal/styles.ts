@@ -34,7 +34,7 @@ export const SelectCharacterSection = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: 0.7rem;
   padding: 0.1rem 0 5rem 1.2rem;
   margin-bottom: -1rem;
   width: 100%;
@@ -57,15 +57,15 @@ export const CharacterArea = styled.div<{ index: number }>`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: 9.063rem;
-  height: 9.063rem;
+  width: 9rem;
+  height: 9rem;
   border-radius: 50%;
 
   img {
     width: 100%;
     height: auto;
     object-fit: contain;
-    transform: ${({ index }) => ([2, 3, 4, 6, 8, 9].includes(index) ? 'scale(1.1)' : 'scale(1)')};
+    transform: ${({ index }) => ([2, 4, 5, 6, 8, 9].includes(index) ? 'scale(1.1)' : 'scale(1)')};
   }
 `
 export const SelectOverlay = styled.div`

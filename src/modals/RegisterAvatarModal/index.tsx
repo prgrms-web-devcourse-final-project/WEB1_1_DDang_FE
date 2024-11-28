@@ -13,7 +13,11 @@ interface RegisterAvatarModalProps {
 export default function RegisterAvatarModal({ onSelectAvatar, initialSelectedAvatar }: RegisterAvatarModalProps) {
   const avatarImages: string[] = Object.values(avatars)
   const popModal = useModalStore(state => state.popModal)
-  const initialIndex = initialSelectedAvatar ? avatarImages.findIndex(avatar => avatar === initialSelectedAvatar) : null
+  const initialIndex = initialSelectedAvatar
+    ? avatarImages.findIndex(avatar => avatar === initialSelectedAvatar) >= 0
+      ? avatarImages.findIndex(avatar => avatar === initialSelectedAvatar)
+      : null
+    : null
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(initialIndex)
 
   const handleSelectAvatar = (index: number) => {
