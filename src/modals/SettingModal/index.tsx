@@ -12,7 +12,7 @@ export default function SettingModal() {
     <S.SettingModalContainer>
       <Header type='sm' prevBtn onClickPrev={popModal}>
         <S.TitleWrap>
-          <Typo17 weight='700'>설정</Typo17>
+          <Typo17 $weight='700'>설정</Typo17>
         </S.TitleWrap>
       </Header>
 

@@ -1,13 +1,12 @@
 import { styled } from 'styled-components'
 import { Box } from '~components/Box'
-import { FOOTER_HEIGHT } from '~constants/layout'
 
 export const HomePage = styled.div`
   padding: 0 20px 31px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100dvh - ${FOOTER_HEIGHT}px);
+  height: calc(100% - 56px);
 `
 
 export const Header = styled.header`

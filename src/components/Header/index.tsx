@@ -10,6 +10,7 @@ type HeaderProps = {
   children?: ReactNode
   type: HeaderType
   className?: string
+  title?: string
 }
 
 export default function Header({
@@ -20,9 +21,11 @@ export default function Header({
   prevBtn,
   closeBtn,
   className,
+  title,
 }: HeaderProps) {
   return (
     <S.Header className={className} $type={type}>
+      {title ? <S.Title $weight='700'>{title}</S.Title> : null}
       {prevBtn ? <S.HeaderPrevBtn onClick={onClickPrev} /> : null}
       {closeBtn ? <S.HeaderCloseBtn onClick={onClickClose} /> : null}
       {children}

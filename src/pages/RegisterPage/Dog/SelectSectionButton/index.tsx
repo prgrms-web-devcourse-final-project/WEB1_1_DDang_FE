@@ -16,7 +16,7 @@ export default function SelectSectionButton({ title, description, src, modal }: 
   return (
     <S.SelectSectionButton onClick={() => pushModal(modal)}>
       <S.TypoWrapper>
-        <Typo20 weight='700'>{title}</Typo20>
+        <Typo20 $weight='700'>{title}</Typo20>
       </S.TypoWrapper>
       <S.Desc>{description}</S.Desc>
       <S.ImageWrapper>
