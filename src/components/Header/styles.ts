@@ -17,6 +17,7 @@ export const Header = styled.header<HeaderProps>`
   top: 0;
   left: 0;
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   z-index: ${HEADER_Z_INDEX};
@@ -27,5 +28,5 @@ export const HeaderPrevBtn = styled(PrevButton)`
 `
 export const HeaderCloseBtn = styled(CloseButton)`
   position: absolute;
-  right: 20px;
+  right: 1.25rem;
 `
