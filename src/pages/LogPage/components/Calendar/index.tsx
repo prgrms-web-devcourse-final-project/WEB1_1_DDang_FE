@@ -24,10 +24,10 @@ const Calendar: React.FC = () => {
         let finalHeight
         if (isOpen && newHeight > startHeight) finalHeight = startHeight
         else if (!isOpen && newHeight < startHeight) finalHeight = startHeight
-        else finalHeight = newHeight
+        else finalHeight = Math.min(newHeight, startHeight + 210)
         calendarRef.current.style.height = `${finalHeight}px`
 
-        if (finalHeight < startHeight - 100) setIsOpen(false)
+        if (finalHeight < startHeight - 200) setIsOpen(false)
         else if (finalHeight > startHeight + 100) setIsOpen(true)
       }
     }
@@ -50,7 +50,7 @@ const Calendar: React.FC = () => {
   }
 
   return (
-    <S.Calendar ref={calendarRef}>
+    <S.Calendar ref={calendarRef} onMouseDown={handleMouseDown} onTouchStart={handleMouseDown}>
       <S.CalendarHeader>
         <div>
           {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
@@ -59,7 +59,7 @@ const Calendar: React.FC = () => {
           <img src={arrowDown} alt='날짜 선택'></img>
         </S.DatePickerOpenBtn>
       </S.CalendarHeader>
-      <S.CalendarBody onMouseDown={handleMouseDown} onTouchStart={handleMouseDown}>
+      <S.CalendarBody>
         {weekDays.map((dayOfWeeks, index) => (
           <S.DayOfWeek key={index}>{dayOfWeeks}</S.DayOfWeek>
         ))}
