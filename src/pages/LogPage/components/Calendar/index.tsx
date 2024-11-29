@@ -5,14 +5,18 @@ import arrowDown from '~assets/arrow-down.svg'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
 
-const Calendar: React.FC = () => {
+export default function Calendar() {
   const { pushModal } = useModalStore()
   const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleClickDay = (day: number) => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))
+  const handleDateClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement
+    if (target.tagName === 'BUTTON' && target.dataset.date) {
+      const day = parseInt(target.dataset.date)
+      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))
+    }
   }
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
@@ -62,7 +66,7 @@ const Calendar: React.FC = () => {
           <img src={arrowDown} alt='날짜 선택'></img>
         </S.DatePickerOpenBtn>
       </S.CalendarHeader>
-      <S.CalendarBody>
+      <S.CalendarBody onClick={handleDateClick}>
         {weekDays.map((dayOfWeeks, index) => (
           <S.DayOfWeek key={index}>{dayOfWeeks}</S.DayOfWeek>
         ))}
@@ -73,7 +77,7 @@ const Calendar: React.FC = () => {
                 const isDisabled = (weekIdx === 0 && date > 7) || (weekIdx === 4 && date < 22)
                 const isActive = weekIdx === activeIndex[0] && dateIdx === activeIndex[1]
                 return (
-                  <S.Date key={dateIdx} onClick={() => handleClickDay(date)} disabled={isDisabled} $isActive={isActive}>
+                  <S.Date key={dateIdx} data-date={date} disabled={isDisabled} $isActive={isActive}>
                     {date}
                   </S.Date>
                 )
@@ -85,5 +89,3 @@ const Calendar: React.FC = () => {
     </S.Calendar>
   )
 }
-
-export default Calendar
