@@ -2,7 +2,6 @@ import ProfileImage from 'assets/masterprofile.svg?react'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { useTheme } from 'styled-components'
-import ToggleBox from '~components/ToggleBox'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import SettingModal from '~modals/SettingModal'
 import { useModalStore } from '~stores/modalStore'
@@ -63,7 +62,6 @@ export default function MyPage() {
             <S.CountWrapperSmall>강번따 횟수</S.CountWrapperSmall>
           </S.CountArea>
         </S.CountSection>
-
       </S.MainContainer>
     </S.MyPage>
   )

@@ -1,5 +1,4 @@
 import { styled } from 'styled-components'
-import { ActionButton } from '~components/Button/ActionButton'
 
 export const MyPage = styled.div`
   width: 375px;
