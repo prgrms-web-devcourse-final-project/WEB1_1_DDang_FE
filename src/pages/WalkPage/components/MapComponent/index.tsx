@@ -41,7 +41,7 @@ export default function MapComponent() {
   // const rotationRef = useRef<number>(0)
 
   // 위치 및 권한 관련 상태
-  const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
+  const [hasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
@@ -50,7 +50,7 @@ export default function MapComponent() {
   const [walkTime, setWalkTime] = useState<number>(0)
   const walkIntervalRef = useRef<number | null>(null)
   const [walkDistance, setWalkDistance] = useState<number>(0)
-  const [_positions, setPositions] = useState<{ lat: number; lng: number }[]>([])
+  const [, setPositions] = useState<{ lat: number; lng: number }[]>([])
 
   // 경로 관련 ref
   const routeLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
@@ -249,9 +249,11 @@ export default function MapComponent() {
             Math.pow(markerCoords[0] - mapCenter[0], 2) + Math.pow(markerCoords[1] - mapCenter[1], 2)
           )
 
-          //@ts-ignore
-          const pixelDistance = map.getView().getResolution() ? distance / map.getView().getResolution() : 0
-          setShowCenterButton(pixelDistance > 50)
+          const resolution = map.getView().getResolution()
+          if (resolution !== undefined) {
+            const pixelDistance = distance / resolution
+            setShowCenterButton(pixelDistance > 50)
+          }
         }
       }
     })
