@@ -3,12 +3,10 @@ import * as S from './styles'
 import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
 
-let maxHeight = 400
 const Calendar: React.FC = () => {
   const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  // const minHeight = calendarRef.current?.style.height
 
   const handleClickDay = (day: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))
@@ -22,11 +20,15 @@ const Calendar: React.FC = () => {
       if (calendarRef.current) {
         const currentY = 'clientY' in e ? e.clientY : e.touches[0].clientY
         const newHeight = startHeight + currentY - startY
-        const finalHeight = Math.min(maxHeight, Math.max(100, newHeight))
+
+        let finalHeight
+        if (isOpen && newHeight > startHeight) finalHeight = startHeight
+        else if (!isOpen && newHeight < startHeight) finalHeight = startHeight
+        else finalHeight = newHeight
         calendarRef.current.style.height = `${finalHeight}px`
 
-        if (finalHeight < 300) setIsOpen(false)
-        else if (finalHeight > 150) setIsOpen(true)
+        if (finalHeight < startHeight - 100) setIsOpen(false)
+        else if (finalHeight > startHeight + 100) setIsOpen(true)
       }
     }
 
@@ -39,11 +41,6 @@ const Calendar: React.FC = () => {
       if (calendarRef.current) {
         calendarRef.current.style.height = `fit-content`
       }
-      // if (calendarRef.current) {
-      //   const currentHeight = parseInt(calendarRef.current.style.height)
-      //   if (isOpen) maxHeight = currentHeight
-      //   else minHeight = currentHeight
-      // }
     }
 
     document.addEventListener('mousemove', doDrag)
@@ -62,7 +59,7 @@ const Calendar: React.FC = () => {
           <img src={arrowDown} alt='날짜 선택'></img>
         </S.DatePickerOpenBtn>
       </S.CalendarHeader>
-      <S.CalendarBody>
+      <S.CalendarBody onMouseDown={handleMouseDown} onTouchStart={handleMouseDown}>
         {weekDays.map((dayOfWeeks, index) => (
           <S.DayOfWeek key={index}>{dayOfWeeks}</S.DayOfWeek>
         ))}
@@ -82,7 +79,6 @@ const Calendar: React.FC = () => {
           ) : null
         )}
       </S.CalendarBody>
-      <S.CalenderDragHandler onMouseDown={handleMouseDown} onTouchStart={handleMouseDown} />
     </S.Calendar>
   )
 }

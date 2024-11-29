@@ -16,7 +16,6 @@
   "dependencies": {
     "@types/ol": "^7.0.0",
     "@types/react-textarea-autosize": "^8.0.0",
-    "date-fns": "^4.1.0",
     "ios-style-picker": "^0.0.6",
     "ol": "^10.2.1",
     "react": "^18.3.1",

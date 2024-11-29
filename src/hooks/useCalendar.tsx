@@ -1,4 +1,3 @@
-// import { getDaysInMonth } from 'date-fns'
 import React from 'react'
 
 const CALENDAR_LENGTH = 35

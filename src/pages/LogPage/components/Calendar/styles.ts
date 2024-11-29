@@ -22,7 +22,6 @@ export const Calendar = styled.div`
 `
 
 export const CalendarHeader = styled.div`
-  /* border: solid 1px blue; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,6 +43,7 @@ export const DatePickerOpenBtn = styled.button`
 `
 
 export const CalendarBody = styled.div`
+  cursor: grab;
   padding: 10px 24px 24px 24px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -76,13 +76,4 @@ export const Date = styled.button<{ $isActive: boolean }>`
     color: ${props => props.theme.colors.grayscale.font_4};
     cursor: default;
   }
-`
-
-export const CalenderDragHandler = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 24px;
-  left: 0;
-  bottom: 0;
-  cursor: grab;
 `
