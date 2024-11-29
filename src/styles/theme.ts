@@ -39,6 +39,7 @@ export const typography = {
   _14: '14px',
   _13: '13px',
   _11: '11px',
+  _9: '9px',
 } as const
 
 export const lightTheme: DefaultTheme = {

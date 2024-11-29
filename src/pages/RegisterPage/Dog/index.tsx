@@ -15,7 +15,7 @@ export default function RegisterDogPage() {
         <meta name='description' content='반려견의 정보를 등록하세요.' />
       </Helmet>
       <S.TypoWrapper>
-        <Typo24 weight='700'>
+        <Typo24 $weight='700'>
           키우는 반려견을 등록하고
           <br /> 즐거운 산책을 시작하세요!
         </Typo24>
