@@ -1,4 +1,4 @@
-import { getDaysInMonth } from 'date-fns'
+// import { getDaysInMonth } from 'date-fns'
 import React from 'react'
 
 const CALENDAR_LENGTH = 35
@@ -7,22 +7,23 @@ const MAX_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const WEEKDAYS = ['월', '화', '수', '목', '금', '토', '일']
 
 interface UseCalendarReturn {
+  activeIndex: number[]
   weekDays: string[]
   weekCalendarList: number[][]
   currentDate: Date
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>
 }
 
-const getDaysInMonth2 = (date: Date) => {
+const getDaysInMonth = (date: Date) => {
   if (date.getFullYear() % 4 === 0 && date.getMonth() === 1) return 29
   return MAX_DAYS[date.getMonth()]
 }
 
 export default function useCalendar(): UseCalendarReturn {
   const [currentDate, setCurrentDate] = React.useState<Date>(new Date())
-  const daysInCurrentMonth = getDaysInMonth2(currentDate)
+  const daysInCurrentMonth = getDaysInMonth(currentDate)
   const daysInPreviousMonth = getDaysInMonth(
-    new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDay())
+    new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate())
   )
   const firstDayInCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
 
@@ -47,7 +48,11 @@ export default function useCalendar(): UseCalendarReturn {
     return weeks
   }, [])
 
+  const currentPosition = previousMonthDays.length + currentDate.getDate() - 1
+  const activeIndex = [Math.floor(currentPosition / DAYS_IN_WEEK), currentPosition % DAYS_IN_WEEK]
+
   return {
+    activeIndex: activeIndex,
     weekDays: WEEKDAYS,
     weekCalendarList: weekCalendarList,
     currentDate: currentDate,

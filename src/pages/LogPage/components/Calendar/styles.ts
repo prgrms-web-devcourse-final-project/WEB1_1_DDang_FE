@@ -77,3 +77,12 @@ export const Date = styled.button<{ $isActive: boolean }>`
     cursor: default;
   }
 `
+
+export const CalenderDragHandler = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 24px;
+  left: 0;
+  bottom: 0;
+  cursor: grab;
+`
