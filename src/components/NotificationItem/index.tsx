@@ -10,8 +10,8 @@ export default function NotificationItem({ content, date }: NotificationItemProp
     <S.NotificationItem>
       <S.Dot />
       <S.TypoArea>
-        <Typo15 weight='700'>{content}</Typo15>
-        <Typo13 color='font_3'>{date.toISOString().slice(0, 10)}</Typo13>
+        <Typo15 $weight='700'>{content}</Typo15>
+        <Typo13 $color='font_3'>{date.toISOString().slice(0, 10)}</Typo13>
       </S.TypoArea>
     </S.NotificationItem>
   )

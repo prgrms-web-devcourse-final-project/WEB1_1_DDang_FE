@@ -52,4 +52,11 @@ export const ActionButton = styled.button<ActionButtonProps>`
   border-radius: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.borderRadius};
   font-size: ${({ theme, $type = 'capsule' }) => theme.typography[ACTION_BUTTON_STYLES[$type]?.fontSize]};
   font-weight: ${({ $fontWeight }) => $fontWeight};
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.brand.lighten_3};
+    color: ${({ theme }) => theme.colors.grayscale.font_2};
+    font-weight: ${({ $fontWeight }) => $fontWeight};
+    cursor: not-allowed;
+  }
 `

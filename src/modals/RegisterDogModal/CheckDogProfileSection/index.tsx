@@ -2,19 +2,20 @@ import * as S from './styles'
 import { ActionButton } from '~components/Button/ActionButton'
 import Header from '~components/Header/index'
 import { Typo24 } from '~components/Typo/index'
-import { Profile } from '~components/Profile'
+import Profile from '~components/Profile'
 import Tag from '~components/Tag'
+import { useModalStore } from '~stores/modalStore'
 
 export default function CheckDogProfileSection() {
-  const handleClickPrev = () => {}
+  const { popModal } = useModalStore()
 
   return (
     <>
-      <Header type='sm' onClickPrev={handleClickPrev} prevBtn={true} />
       <S.CheckDogProfileSection>
+        <Header type='sm' onClickPrev={popModal} prevBtn={true} />
         <S.ProfileArea>
           <S.TypoWrapper>
-            <Typo24 weight='700'>
+            <Typo24 $weight='700'>
               이 반려견이
               <br />
               맞나요?
@@ -31,6 +32,7 @@ export default function CheckDogProfileSection() {
               $src={
                 'https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
               }
+              userId=''
             />
             <S.TagWrapper>
               <Tag content='밤톨' />

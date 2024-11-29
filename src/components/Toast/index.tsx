@@ -1,4 +1,3 @@
-// components/Toast/index.tsx
 import * as S from './styles'
 import { useEffect } from 'react'
 import { useToastStore } from '~/stores/toastStore'
@@ -16,7 +15,7 @@ export default function Toast() {
   }, [isVisible])
 
   return (
-    <S.ToastWrapper isVisible={isVisible}>
+    <S.ToastWrapper $isVisible={isVisible}>
       <S.Toast>{content}</S.Toast>
     </S.ToastWrapper>
   )
