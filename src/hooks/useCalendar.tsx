@@ -27,7 +27,7 @@ export default function useCalendar(): UseCalendarReturn {
   const firstDayInCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
 
   const previousMonthDays = Array.from({
-    length: firstDayInCurrentMonth.getDay() - 1,
+    length: firstDayInCurrentMonth.getDay() ? firstDayInCurrentMonth.getDay() - 1 : 6,
   }).map((_, idx, prevList) => daysInPreviousMonth - prevList.length + 1 + idx)
 
   const currentMonthDays = Array.from({ length: daysInCurrentMonth }).map((_, idx) => idx + 1)

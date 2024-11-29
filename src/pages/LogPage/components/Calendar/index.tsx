@@ -2,8 +2,11 @@ import React, { useState, useRef } from 'react'
 import * as S from './styles'
 import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
+import { useModalStore } from '~stores/modalStore'
+import DatePickerModal from '~modals/DatePickerModal'
 
 const Calendar: React.FC = () => {
+  const { pushModal } = useModalStore()
   const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -55,7 +58,7 @@ const Calendar: React.FC = () => {
         <div>
           {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
         </div>
-        <S.DatePickerOpenBtn>
+        <S.DatePickerOpenBtn onClick={() => pushModal(<DatePickerModal date={currentDate} setDate={setCurrentDate} />)}>
           <img src={arrowDown} alt='날짜 선택'></img>
         </S.DatePickerOpenBtn>
       </S.CalendarHeader>
