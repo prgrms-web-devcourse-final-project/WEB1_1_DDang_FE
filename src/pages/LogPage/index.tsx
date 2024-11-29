@@ -1,8 +1,10 @@
+import * as S from './styles'
+// import { useState } from 'react'
 import Header from '~components/Header'
 import { Profile } from '~components/Profile'
-import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
+import Calendar from './components/Calendar'
 
 export default function LogPage() {
   return (
@@ -13,9 +15,12 @@ export default function LogPage() {
       </Helmet>
       <Header type={'sm'}>
         <Profile $size={32} $src='test.svg' />
-        <S.dogName>밤톨이 일기</S.dogName>
-        <S.graphImage src={GraphIcon} alt='' />
+        <S.DogName>밤톨이 일기</S.DogName>
+        <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' />
       </Header>
+      <S.CalendarWrapper>
+        <Calendar />
+      </S.CalendarWrapper>
     </S.LogPage>
   )
 }
