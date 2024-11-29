@@ -36,8 +36,3 @@ export const Title = styled(Typo17)`
   left: 50%;
   translate: -50%;
 `
-export const Title = styled(Typo17)`
-  position: absolute;
-  left: 50%;
-  translate: -50%;
-`
