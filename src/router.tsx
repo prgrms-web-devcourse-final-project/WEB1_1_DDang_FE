@@ -35,6 +35,10 @@ export const router = createBrowserRouter([
         element: <Pages.MyPage />,
       },
       {
+        path: '/familyddang',
+        element: <Pages.FamilyDDangPage />,
+      },
+      {
         path: '/profile/:id',
         element: <Pages.ProfilePage />,
       },
