@@ -1,103 +1,76 @@
 import { styled } from 'styled-components'
 import { Box } from '~components/Box'
-import Header from '~components/Header'
+import BasicHeader from '~components/Header'
+import { HEADER_HEIGHT, FOOTER_HEIGHT } from '~constants/layout'
 
 export const FamilyDDang = styled.div`
-  width: 375px;
-  height: 698px;
-  overflow: hidden;
-  position: relative;
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 0;
-`
-export const StyledHeader = styled(Header)`
-  background-color: ${({ theme }) => theme.colors.brand.lighten_3};
-`
-export const FamilyArea = styled(Box)`
-  width: 335px;
-  height: 420px;
-  flex-shrink: 0;
-`
-export const FamilySection = styled.div`
-  // 가족 정보 섹션 스타일
+  padding: ${HEADER_HEIGHT}px 20px ${FOOTER_HEIGHT + 20}px 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
-export const PhotoArea = styled.div`
-  // 사진 영역 스타일
+export const Header = styled(BasicHeader)`
+  background-color: ${({ theme }) => theme.colors.brand.lighten_3};
+`
+
+export const FamilySection = styled(Box)`
+  padding: 0.5rem 1.75rem;
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.75rem;
+`
+export const IconWrapper = styled.div`
+  margin-left: auto;
+  margin-top: 0.7rem;
+  cursor: pointer;
+`
+export const ProfileOneArea = styled.div`
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 0;
+
+  & + & {
+    border-top: 1px solid ${({ theme }) => theme.colors.grayscale.gc_2};
+  }
 `
 
 export const FamilyInfoArea = styled.div`
-  // 가족 정보 영역 스타일
+  gap: 1rem;
 `
-
-export const FirstLineWrapper = styled.div`
-  // 첫 번째 줄 래퍼 스타일
+export const LineWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
 `
-
-export const Nickname = styled.span`
-  // 닉네임 스타일
-`
-
-export const Role = styled.span`
-  // 역할 스타일
-`
-
-export const SecondLineWrapper = styled.div`
-  // 두 번째 줄 래퍼 스타일
-`
-
-export const WalkTime1 = styled.span`
-  // 산책 시간 1 스타일
-`
-
-export const WalkTime2 = styled.span`
-  // 산책 시간 2 스타일
-`
-
-export const ThirdLineWrapper = styled.div`
-  // 세 번째 줄 래퍼 스타일
-`
-
-export const WalkCnt1 = styled.span`
-  // 산책 횟수 1 스타일
-`
-
-export const WalkCnt2 = styled.span`
-  // 산책 횟수 2 스타일
-`
-
-export const EditIcon = styled.div`
-  // 편집 아이콘 스타일
+export const EditIconWrapper = styled.div`
+  width: 2rem;
+  height: 2rem;
+  background-color: ${({ theme }) => theme.colors.brand.lighten_2};
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: auto;
+  cursor: pointer;
 `
 
 export const InviteSection = styled(Box)`
-  display: inline-flex;
-  padding: 10px 12px 10px 20px;
-  justify-content: center;
+  padding: 0.6rem 1em 0.6rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  // 초대 섹션 스타일
+  gap: 2.5rem;
+  width: 100%;
 `
 
 export const InviteBtn = styled.button`
   display: flex;
-  padding: 7.5px 16px;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  gap: 0.6rem;
+  border-radius: 0.75rem;
   background: #ecf9da;
-  color: var(--Brand-Color-BC_sub, #6ca719);
-  font-family: 'SUIT Variable';
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 21px */
-  letter-spacing: -0.35px;
-  // 초대 버튼 스타일
-`
-
-export const CountSection = styled.div`
-  // 카운트 섹션 스타일
+  color: #6ca719;
+  line-height: 150%;
+  cursor: pointer;
 `

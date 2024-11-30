@@ -1,13 +1,10 @@
 import { styled } from 'styled-components'
 
 export const MyPage = styled.div`
-  width: 23.4375rem;
-  height: 43.625rem;
+  height: 100%;
   overflow: hidden;
   position: relative;
-  margin: 0 auto;
   box-sizing: border-box;
-  padding: 0;
 `
 
 export const MainContainer = styled.div`

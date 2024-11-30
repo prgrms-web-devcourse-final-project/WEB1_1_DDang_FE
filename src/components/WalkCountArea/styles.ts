@@ -1,7 +1,6 @@
 import { styled } from 'styled-components'
 
 export const CountSection = styled.div`
-  width: 100%;
   height: 6rem;
   flex-shrink: 0;
   margin-top: 0.75rem;
@@ -9,13 +8,13 @@ export const CountSection = styled.div`
   padding: 0.75rem 1rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   border-radius: 1rem;
+  justify-content: center;
 `
 
 export const CountArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.0625rem;
   width: 6.25rem;
   height: 4.5rem;
   flex-shrink: 0;
