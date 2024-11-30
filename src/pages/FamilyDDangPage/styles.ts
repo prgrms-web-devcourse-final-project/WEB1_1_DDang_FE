@@ -71,11 +71,30 @@ export const EditIcon = styled.div`
   // 편집 아이콘 스타일
 `
 
-export const InviteSection = styled.div`
+export const InviteSection = styled(Box)`
+  display: inline-flex;
+  padding: 10px 12px 10px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   // 초대 섹션 스타일
 `
 
 export const InviteBtn = styled.button`
+  display: flex;
+  padding: 7.5px 16px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: #ecf9da;
+  color: var(--Brand-Color-BC_sub, #6ca719);
+  font-family: 'SUIT Variable';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.35px;
   // 초대 버튼 스타일
 `
 

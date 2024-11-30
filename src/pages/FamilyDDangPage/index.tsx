@@ -5,6 +5,7 @@ import { MdEditLocationAlt } from 'react-icons/md'
 import { Typo14, Typo15, Typo17, Typo24 } from '~components/Typo'
 import { Box } from '~components/Box'
 import { MdOutlineModeEdit } from 'react-icons/md'
+import CountSection from '~components/WalkCountArea'
 
 export default function FamilyDDang() {
   return (
@@ -40,7 +41,7 @@ export default function FamilyDDang() {
           <Typo14 $weight='700'>초대</Typo14>
         </S.InviteBtn>
       </S.InviteSection>
-      <S.CountSection></S.CountSection>
+      <CountSection walkCount={80} totalDistance={204} gangCount={30} />
     </S.FamilyDDang>
   )
 }
