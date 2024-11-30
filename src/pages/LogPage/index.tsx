@@ -5,6 +5,8 @@ import { Profile } from '~components/Profile'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
 import Calendar from './components/Calendar'
+import WalkSummary from './components/WalkSummary'
+import TestImg from '~assets/masterprofile.svg'
 
 export default function LogPage() {
   return (
@@ -21,6 +23,48 @@ export default function LogPage() {
       <S.CalendarWrapper>
         <Calendar />
       </S.CalendarWrapper>
+      <S.WalkSummaryWrapper>
+        <WalkSummary
+          profileImg={TestImg}
+          userName='감자탕수육'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkDuration='1:10:10'
+          walkDistance={3.3}
+          calories={212}
+        />
+        <WalkSummary
+          profileImg={TestImg}
+          userName='감자탕수육'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkDuration='1:10:10'
+          walkDistance={3.3}
+          calories={212}
+        />
+        <WalkSummary
+          profileImg={TestImg}
+          userName='감자탕수육'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkDuration='1:10:10'
+          walkDistance={3.3}
+          calories={212}
+        />
+        <WalkSummary
+          profileImg={TestImg}
+          userName='감자탕수육'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkDuration='1:10:10'
+          walkDistance={3.3}
+          calories={212}
+        />
+        <WalkSummary
+          profileImg={TestImg}
+          userName='감자탕수육'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkDuration='1:10:10'
+          walkDistance={3.3}
+          calories={212}
+        />
+      </S.WalkSummaryWrapper>
     </S.LogPage>
   )
 }
