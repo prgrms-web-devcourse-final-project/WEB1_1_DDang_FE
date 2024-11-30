@@ -62,7 +62,9 @@ export default function Register() {
         <S.NickNameWrapper>
           <TwoLineInput placeholder='닉네임 입력' />
         </S.NickNameWrapper>
-        <S.PositionChoiceBtn onClick={handleRoleClick}>{selectedPosition || '가족 포지션 선택'}</S.PositionChoiceBtn>
+        <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!selectedPosition}>
+          {selectedPosition || '가족 포지션 선택'}
+        </S.PositionChoiceBtn>
         <S.LocationBtn>내 동네 불러오기</S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton

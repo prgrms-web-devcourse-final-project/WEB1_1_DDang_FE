@@ -93,14 +93,14 @@ export const NickNameWrapper = styled.div`
   width: 100%;
 `
 
-export const PositionChoiceBtn = styled.div`
+export const PositionChoiceBtn = styled.div<{ $hasSelected?: boolean }>`
   width: 100%;
   border: none;
   text-align: center;
   padding: 1rem 2rem;
   border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
-  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  color: ${({ theme, $hasSelected }) => ($hasSelected ? theme.colors.grayscale.font_1 : theme.colors.grayscale.font_3)};
   cursor: pointer;
 
   @media (max-height: 700px) {

@@ -7,8 +7,8 @@ export const DialogContainer = styled(Dialog)`
     bottom: 0;
     margin: 0;
     width: 100%;
-    max-width: 500px;
-    border-radius: 8px 8px 0 0;
+    max-width: 430px;
+    border-radius: 36px 36px 0px 0px;
   }
 `
 
@@ -26,9 +26,9 @@ export const StyledFormControlLabel = styled(FormControlLabel)`
 
 export const StyledRadio = styled(Radio)`
   &.MuiRadio-root {
-    color: #673ab7;
+    color: ${({ theme }) => theme.colors.brand.default};
     &.Mui-checked {
-      color: #673ab7;
+      color: ${({ theme }) => theme.colors.brand.default};
     }
   }
 `
@@ -43,7 +43,7 @@ export const ButtonContainer = styled.div`
 export const StyledButton = styled.button`
   background: none;
   border: none;
-  color: #673ab7;
+  color: ${({ theme }) => theme.colors.brand.default};
   font-weight: 500;
   padding: 8px 16px;
   cursor: pointer;

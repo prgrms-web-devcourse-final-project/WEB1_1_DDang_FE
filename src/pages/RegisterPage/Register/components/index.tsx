@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-// PositionChoiceDialog.tsx
+
 interface PositionChoiceDialogProps {
   onSelect: (position: string) => void
   initialValue?: string
