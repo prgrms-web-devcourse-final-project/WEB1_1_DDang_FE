@@ -7,8 +7,13 @@ import GraphIcon from '~/assets/graph.svg'
 import Calendar from './components/Calendar'
 import WalkSummary from './components/WalkSummary'
 import TestImg from '~assets/masterprofile.svg'
+import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
+import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
 
 export default function LogPage() {
+  const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
+  const randomIndex = Math.floor(Math.random() * images.length)
+  const randomImage = images[randomIndex]
   return (
     <S.LogPage>
       <Helmet>
@@ -35,35 +40,21 @@ export default function LogPage() {
         <WalkSummary
           profileImg={TestImg}
           userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
+          walkPhoto='https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
           walkDuration='1:10:10'
           walkDistance={3.3}
           calories={212}
         />
-        <WalkSummary
-          profileImg={TestImg}
-          userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
-          walkDuration='1:10:10'
-          walkDistance={3.3}
-          calories={212}
-        />
-        <WalkSummary
-          profileImg={TestImg}
-          userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
-          walkDuration='1:10:10'
-          walkDistance={3.3}
-          calories={212}
-        />
-        <WalkSummary
-          profileImg={TestImg}
-          userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
-          walkDuration='1:10:10'
-          walkDistance={3.3}
-          calories={212}
-        />
+        <S.NoWalkSummary>
+          {!randomIndex && (
+            <p>
+              산책 좀<br />
+              시켜주세요 주인님!
+            </p>
+          )}
+          <img src={randomImage} alt='산책 기록 없음' />
+          <p>산책 기록이 없어요</p>
+        </S.NoWalkSummary>
       </S.WalkSummaryWrapper>
     </S.LogPage>
   )
