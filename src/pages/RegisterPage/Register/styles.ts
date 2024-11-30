@@ -5,7 +5,7 @@ export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 7.5rem 1.25rem 1.5rem 1.25rem;
+  padding: 7.5rem 1.25rem 1.8rem 1.25rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
@@ -97,7 +97,7 @@ export const PositionChoiceBtn = styled.div`
   width: 100%;
   border: none;
   text-align: center;
-  padding: 1.063rem 2rem;
+  padding: 1rem 2rem;
   border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
   color: ${({ theme }) => theme.colors.grayscale.font_3};

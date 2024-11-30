@@ -7,11 +7,17 @@ import TwoLineInput from '~components/Input/TwoLineInput'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
-
+import PositionChoiceDialog from '~pages/RegisterPage/Register/components'
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
+  const [selectedPosition, setSelectedPosition] = useState<string | null>(null)
+
   const pushModal = useModalStore(state => state.pushModal)
+
+  const handleRoleClick = () => {
+    pushModal(<PositionChoiceDialog onSelect={setSelectedPosition} initialValue={selectedPosition ?? '엄마'} />)
+  }
 
   const handleSelectAvatar = (avatarSrc: string) => {
     setSelectedAvatar(avatarSrc)
@@ -56,7 +62,7 @@ export default function Register() {
         <S.NickNameWrapper>
           <TwoLineInput placeholder='닉네임 입력' />
         </S.NickNameWrapper>
-        <S.PositionChoiceBtn>가족 포지션 선택</S.PositionChoiceBtn>
+        <S.PositionChoiceBtn onClick={handleRoleClick}>{selectedPosition || '가족 포지션 선택'}</S.PositionChoiceBtn>
         <S.LocationBtn>내 동네 불러오기</S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
