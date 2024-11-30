@@ -60,17 +60,19 @@ export const InviteSection = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1rem;
   width: 100%;
 `
 
 export const InviteBtn = styled.button`
+  width: 57px;
+  height: 36px;
   display: flex;
-  padding: 0.5rem 1rem;
-  gap: 0.6rem;
+  padding: 0.5rem;
   border-radius: 0.75rem;
   background: #ecf9da;
-  color: #6ca719;
+  color: ${({ theme }) => theme.colors.brand.sub};
   line-height: 150%;
+  justify-content: center;
   cursor: pointer;
 `
