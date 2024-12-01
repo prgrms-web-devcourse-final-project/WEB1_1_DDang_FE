@@ -14,8 +14,10 @@
     "build-and-test": "npm run build && lhci autorun"
   },
   "dependencies": {
+    "@types/d3": "^7.4.3",
     "@types/ol": "^7.0.0",
     "@types/react-textarea-autosize": "^8.0.0",
+    "d3": "^7.9.0",
     "ios-style-picker": "^0.0.6",
     "ol": "^10.2.1",
     "react": "^18.3.1",

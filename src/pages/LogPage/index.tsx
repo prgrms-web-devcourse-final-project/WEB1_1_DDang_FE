@@ -5,15 +5,18 @@ import { Profile } from '~components/Profile'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
 import Calendar from './components/Calendar'
-import WalkSummary from './components/WalkSummary'
-import TestImg from '~assets/masterprofile.svg'
+// import WalkSummary from './components/WalkSummary'
+// import TestImg from '~assets/masterprofile.svg'
 import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
 import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
+import { useModalStore } from '~stores/modalStore'
+import WalkAnalysisModal from '~modals/WalkAnalysisModal'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
   const randomIndex = Math.floor(Math.random() * images.length)
   const randomImage = images[randomIndex]
+  const { pushModal } = useModalStore()
   return (
     <S.LogPage>
       <Helmet>
@@ -23,13 +26,13 @@ export default function LogPage() {
       <Header type={'sm'}>
         <Profile $size={32} $src='test.svg' />
         <S.DogName>밤톨이 일기</S.DogName>
-        <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' />
+        <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' onClick={() => pushModal(<WalkAnalysisModal />)} />
       </Header>
       <S.CalendarWrapper>
         <Calendar />
       </S.CalendarWrapper>
       <S.WalkSummaryWrapper>
-        <WalkSummary
+        {/* <WalkSummary
           profileImg={TestImg}
           userName='감자탕수육'
           walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
@@ -44,7 +47,7 @@ export default function LogPage() {
           walkDuration='1:10:10'
           walkDistance={3.3}
           calories={212}
-        />
+        /> */}
         <S.NoWalkSummary>
           {!randomIndex && (
             <p>
