@@ -43,7 +43,7 @@ export default function LogPage() {
         <WalkSummary
           profileImg={TestImg}
           userName='감자탕수육'
-          walkPhoto='https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
+          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
           walkDuration='1:10:10'
           walkDistance={3.3}
           calories={212}
