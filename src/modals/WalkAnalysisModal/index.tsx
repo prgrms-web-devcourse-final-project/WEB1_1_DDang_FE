@@ -30,14 +30,52 @@ export default function WalkAnalysisModal() {
         <S.Title>산책 분석</S.Title>
       </S.Header>
       <S.WalkAnalysisModal>
-        <S.BarChartWrapper>
-          <S.BarChartTitle>올해 월 별 산책기록</S.BarChartTitle>
-          <svg ref={lineChartRef} width='100%' height='100%'></svg>
-        </S.BarChartWrapper>
-        <S.BarChartWrapper>
-          <S.BarChartTitle>올해 가족별 산책 횟수</S.BarChartTitle>
-          <svg ref={barChartRef} width='100%' height='100%'></svg>
-        </S.BarChartWrapper>
+        <S.ChartArea>
+          <S.BarChartWrapper>
+            <S.BarChartTitle>올해 월 별 산책기록</S.BarChartTitle>
+            <svg ref={lineChartRef} width='100%' height='100%'></svg>
+          </S.BarChartWrapper>
+          <S.BarChartWrapper>
+            <S.BarChartTitle>올해 가족별 산책 횟수</S.BarChartTitle>
+            <svg ref={barChartRef} width='100%' height='100%'></svg>
+          </S.BarChartWrapper>
+        </S.ChartArea>
+        <S.StatisticsArea>
+          <S.Statistics>
+            <h3>총 산책 내역</h3>
+            <div>
+              <div>
+                <p>산책 시간</p>
+                <strong>20:00:00</strong>
+              </div>
+              <div>
+                <p>산책 기록</p>
+                <strong>120회</strong>
+              </div>
+              <div>
+                <p>산책 거리</p>
+                <strong>1200km</strong>
+              </div>
+            </div>
+          </S.Statistics>
+          <S.Statistics>
+            <h3>이번달 통계</h3>
+            <div>
+              <div>
+                <p>산책 시간</p>
+                <strong>20:00:00</strong>
+              </div>
+              <div>
+                <p>산책 기록</p>
+                <strong>120회</strong>
+              </div>
+              <div>
+                <p>산책 거리</p>
+                <strong>1200km</strong>
+              </div>
+            </div>
+          </S.Statistics>
+        </S.StatisticsArea>
       </S.WalkAnalysisModal>
     </>
   )

@@ -11,7 +11,6 @@ export const WalkAnalysisModal = styled.div`
 `
 
 export const Header = styled.header`
-  border: solid 1px red;
   position: fixed;
   background-color: ${props => props.theme.colors.brand.lighten_3};
   width: 100%;
@@ -36,8 +35,12 @@ export const Title = styled.h2`
   font-weight: 500;
 `
 
-export const LineChart = styled.div`
-  border: solid 1px red;
+export const ChartArea = styled.div`
+  margin-top: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `
 
 export const BarChartWrapper = styled.div`
@@ -52,7 +55,34 @@ export const BarChartTitle = styled.h3`
   font-weight: 500;
 `
 
-export const Bar = styled.rect`
-  width: 60px;
-  background-color: ${props => props.theme.colors.brand.lighten_1};
+export const StatisticsArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+`
+
+export const Statistics = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  height: 136px;
+  background-color: ${props => props.theme.colors.grayscale.gc_4};
+  border-radius: 12px;
+  padding: 20px 24px;
+
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  strong {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
 `
