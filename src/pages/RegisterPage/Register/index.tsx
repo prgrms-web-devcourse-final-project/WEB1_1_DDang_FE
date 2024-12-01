@@ -7,7 +7,7 @@ import TwoLineInput from '~components/Input/TwoLineInput'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
-import PositionChoiceDialog from '~modals/SelectRoleModal'
+import PositionChoiceModal from '~modals/PositionChoiceModal'
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
@@ -16,7 +16,7 @@ export default function Register() {
   const pushModal = useModalStore(state => state.pushModal)
 
   const handleRoleClick = () => {
-    pushModal(<PositionChoiceDialog onSelect={handleSelectPosition} initialValue={selectedPosition} />)
+    pushModal(<PositionChoiceModal onSelect={handleSelectPosition} initialValue={selectedPosition} />)
   }
 
   const handleSelectPosition = (positionSrc: string) => {

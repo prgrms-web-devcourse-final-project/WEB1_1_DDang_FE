@@ -4,16 +4,16 @@ import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
 
-interface PositionChoiceDialogProps {
+interface PositionChoiceModalProps {
   onSelect: (position: string) => void
   initialValue?: string | null
 }
 
-const PositionChoiceDialog = ({ onSelect, initialValue = '엄마' }: PositionChoiceDialogProps) => {
+export default function PositionChoiceModal({ onSelect, initialValue = 'null' }: PositionChoiceModalProps) {
   const [value, setValue] = useState(initialValue)
   const { popModal } = useModalStore()
 
-  const positions = ['엄마', '아빠', '할머니', '할아버지', '오빠', '언니', '형', '누나']
+  const positions = ['엄마', '아빠', '오빠', '언니', '형', '누나', '할머니', '할아버지']
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
 
@@ -43,4 +43,3 @@ const PositionChoiceDialog = ({ onSelect, initialValue = '엄마' }: PositionCho
     </S.DialogContainer>
   )
 }
-export default PositionChoiceDialog

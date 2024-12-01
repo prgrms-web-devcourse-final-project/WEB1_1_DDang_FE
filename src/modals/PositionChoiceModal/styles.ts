@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Dialog, Radio, FormControlLabel } from '@mui/material'
-import { ActionButton } from '~components/Button/ActionButton'
 
 export const DialogContainer = styled(Dialog)`
   .MuiDialog-paper {
@@ -61,7 +60,4 @@ export const ButtonContainer = styled.div`
   justify-content: flex-end;
   padding: 20px;
   gap: 8px;
-`
-export const StyledButton = styled(ActionButton)`
-
 `
