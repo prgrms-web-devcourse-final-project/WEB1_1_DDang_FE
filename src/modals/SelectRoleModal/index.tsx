@@ -1,24 +1,27 @@
+import * as S from './styles'
 import React, { useState } from 'react'
 import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
-import * as S from './styles'
+import { ActionButton } from '~components/Button/ActionButton'
 
 interface PositionChoiceDialogProps {
   onSelect: (position: string) => void
-  initialValue?: string
+  initialValue?: string | null
 }
 
 const PositionChoiceDialog = ({ onSelect, initialValue = '엄마' }: PositionChoiceDialogProps) => {
   const [value, setValue] = useState(initialValue)
   const { popModal } = useModalStore()
 
-  const positions = ['엄마', '아빠', '할머니', '할아버지', '오빠', '언니', '형']
+  const positions = ['엄마', '아빠', '할머니', '할아버지', '오빠', '언니', '형', '누나']
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
 
   const handleConfirm = () => {
-    onSelect(value)
-    popModal()
+    if (value !== null) {
+      onSelect(value)
+      popModal()
+    }
   }
 
   return (
@@ -32,8 +35,10 @@ const PositionChoiceDialog = ({ onSelect, initialValue = '엄마' }: PositionCho
       </RadioGroup>
 
       <S.ButtonContainer>
-        <S.StyledButton onClick={popModal}>취소</S.StyledButton>
-        <S.StyledButton onClick={handleConfirm}>확인</S.StyledButton>
+        <ActionButton onClick={popModal}>취소</ActionButton>
+        <ActionButton onClick={handleConfirm} disabled={!value} $fontWeight='700'>
+          확인
+        </ActionButton>
       </S.ButtonContainer>
     </S.DialogContainer>
   )

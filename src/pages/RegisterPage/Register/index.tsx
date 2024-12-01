@@ -7,7 +7,7 @@ import TwoLineInput from '~components/Input/TwoLineInput'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
-import PositionChoiceDialog from '~pages/RegisterPage/Register/components'
+import PositionChoiceDialog from '~modals/SelectRoleModal'
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
@@ -16,20 +16,19 @@ export default function Register() {
   const pushModal = useModalStore(state => state.pushModal)
 
   const handleRoleClick = () => {
-    pushModal(<PositionChoiceDialog onSelect={setSelectedPosition} initialValue={selectedPosition ?? '엄마'} />)
+    pushModal(<PositionChoiceDialog onSelect={handleSelectPosition} initialValue={selectedPosition} />)
+  }
+
+  const handleSelectPosition = (positionSrc: string) => {
+    setSelectedPosition(positionSrc)
+  }
+
+  const handleAvatarClick = () => {
+    pushModal(<RegisterAvatarModal onSelectAvatar={handleSelectAvatar} initialSelectedAvatar={selectedAvatar} />)
   }
 
   const handleSelectAvatar = (avatarSrc: string) => {
     setSelectedAvatar(avatarSrc)
-  }
-
-  const handleAvatarClick = () => {
-    pushModal(
-      <RegisterAvatarModal
-        onSelectAvatar={handleSelectAvatar}
-        initialSelectedAvatar={selectedAvatar} // 현재 선택된 아바타 전달
-      />
-    )
   }
 
   const handleGenderSelect = (gender: 'male' | 'female') => {
