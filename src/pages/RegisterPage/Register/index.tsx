@@ -2,16 +2,30 @@ import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import AddOwnerAvatar from '~assets/add-dog-picture.svg'
 import GenderSelectButton from '~components/GenderSelectButton'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import TwoLineInput from '~components/Input/TwoLineInput'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
 import PositionChoiceModal from '~modals/PositionChoiceModal'
+import { useGeolocation } from '~hooks/useGeolocation'
+
 export default function Register() {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null)
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null)
+  const { location, getCurrentLocation } = useGeolocation()
+  const [userLocation, setUserLocation] = useState<string | null>(null)
+
+  const handleLocationClick = () => {
+    getCurrentLocation()
+  }
+
+  useEffect(() => {
+    if (location.address) {
+      setUserLocation(location.address)
+    }
+  }, [location])
 
   const pushModal = useModalStore(state => state.pushModal)
 
@@ -64,7 +78,7 @@ export default function Register() {
         <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!selectedPosition}>
           {selectedPosition || '가족 포지션 선택'}
         </S.PositionChoiceBtn>
-        <S.LocationBtn>내 동네 불러오기</S.LocationBtn>
+        <S.LocationBtn onClick={handleLocationClick}>{userLocation || '내 동네 불러오기'}</S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
             gender='male'
