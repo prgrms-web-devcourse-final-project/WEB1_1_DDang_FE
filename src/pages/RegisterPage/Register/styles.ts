@@ -5,7 +5,7 @@ export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 7.5rem 1.25rem 1.8rem 1.25rem;
+  padding: 5.5rem 1.25rem 1.8rem 1.25rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
@@ -21,6 +21,7 @@ export const TextSection = styled.text<{ weight: FontWeight }>`
   font-weight: ${({ weight }) => weight};
   white-space: pre-line;
   text-align: center;
+  margin: 1rem 0;
 `
 
 export const AddOwnerAvatarBtnWrapper = styled.div`
@@ -81,7 +82,6 @@ export const Avatar = styled.div`
 export const OwnerProfileSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   flex: 1;
   justify-content: center;
   @media (max-height: 700px) {
@@ -108,14 +108,14 @@ export const PositionChoiceBtn = styled.div<{ $hasSelected?: boolean }>`
   }
 `
 
-export const LocationBtn = styled.div`
+export const LocationBtn = styled.div<{ $hasSelected?: boolean }>`
   width: 100%;
   border: none;
   text-align: center;
   padding: 1.063rem 2rem;
   border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
-  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  color: ${({ theme, $hasSelected }) => ($hasSelected ? theme.colors.grayscale.font_1 : theme.colors.grayscale.font_3)};
   cursor: pointer;
 
   @media (max-height: 700px) {
@@ -130,7 +130,7 @@ export const GenderSelectBtnWrapper = styled.div`
   height: 3.875rem;
   width: 80%;
   margin: 0 auto;
-  margin: 0.625rem auto;
+  margin: 1rem auto;
   & > * {
     height: 100%;
   }

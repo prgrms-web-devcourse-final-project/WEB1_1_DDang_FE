@@ -33,7 +33,6 @@ export const useGeolocation = () => {
           console.log('위치 확인:', latitude, longitude)
 
           const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY
-          console.log('API Key 확인:', apiKey) // 실제 운영 환경에서는 제거해야 함
 
           const response = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=ko&key=${apiKey}`
@@ -67,9 +66,9 @@ export const useGeolocation = () => {
         setLocation({ address: null, error: '위치 권한이 거부되었습니다.' })
       },
       {
-        enableHighAccuracy: false, // true에서 false로 변경
-        timeout: 10000, // 5000에서 10000으로 증가
-        maximumAge: 1000, // 0에서 1000으로 변경
+        enableHighAccuracy: false, // 위치 정보 정확도 설정. false설정 시 배터리 소모가 적고 더 빠르게 위치 파악
+        timeout: 10000, // 위치 정보 가져오는데 허용되는 최대 시간 10000 == 10초
+        maximumAge: 1000, // 캐시된 위치 정보를 사용할 수 있는 최대 시간 1000 == 1초
       }
     )
   }

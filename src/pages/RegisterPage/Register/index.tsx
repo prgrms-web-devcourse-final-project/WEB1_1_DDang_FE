@@ -78,7 +78,9 @@ export default function Register() {
         <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!selectedPosition}>
           {selectedPosition || '가족 포지션 선택'}
         </S.PositionChoiceBtn>
-        <S.LocationBtn onClick={handleLocationClick}>{userLocation || '내 동네 불러오기'}</S.LocationBtn>
+        <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!userLocation}>
+          {userLocation || '내 동네 불러오기'}
+        </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
             gender='male'
