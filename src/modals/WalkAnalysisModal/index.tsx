@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import * as S from './styles'
 import { useModalStore } from '~stores/modalStore'
 import Prev from '~assets/prev.svg'
-import { createBarChart } from './createChart'
+import { createBarChart, createLineChart } from './createChart'
 
 const barChartDummydata = [
   { name: '나', value: 2 },
@@ -12,15 +12,29 @@ const barChartDummydata = [
   { name: '할아버지', value: 1 },
 ]
 
+const lineChartData = [
+  { month: '1월', value: 0 },
+  { month: '2월', value: 3 },
+  { month: '3월', value: 2 },
+  { month: '4월', value: 3 },
+  { month: '5월', value: 4 },
+  { month: '6월', value: 3 },
+  { month: '7월', value: 3 },
+  { month: '8월', value: 1 },
+  { month: '9월', value: 4 },
+  { month: '10월', value: 5 },
+  { month: '11월', value: 4 },
+  { month: '12월', value: 3 },
+]
+
 export default function WalkAnalysisModal() {
   const { popModal } = useModalStore()
   const lineChartRef = useRef<SVGSVGElement | null>(null)
   const barChartRef = useRef<SVGSVGElement | null>(null)
 
   useEffect(() => {
-    if (barChartRef.current) {
-      createBarChart(barChartRef.current, barChartDummydata)
-    }
+    if (lineChartRef.current) createLineChart(lineChartRef.current, lineChartData)
+    if (barChartRef.current) createBarChart(barChartRef.current, barChartDummydata)
   }, [])
 
   return (
@@ -31,14 +45,14 @@ export default function WalkAnalysisModal() {
       </S.Header>
       <S.WalkAnalysisModal>
         <S.ChartArea>
-          <S.BarChartWrapper>
-            <S.BarChartTitle>올해 월 별 산책기록</S.BarChartTitle>
-            <svg ref={lineChartRef} width='100%' height='100%'></svg>
-          </S.BarChartWrapper>
-          <S.BarChartWrapper>
-            <S.BarChartTitle>올해 가족별 산책 횟수</S.BarChartTitle>
-            <svg ref={barChartRef} width='100%' height='100%'></svg>
-          </S.BarChartWrapper>
+          <S.ChartWrapper>
+            <S.ChartTitle>올해 월 별 산책기록</S.ChartTitle>
+            <S.Chart ref={lineChartRef} width='100%' height='100%'></S.Chart>
+          </S.ChartWrapper>
+          <S.ChartWrapper>
+            <S.ChartTitle>올해 가족별 산책 횟수</S.ChartTitle>
+            <S.Chart ref={barChartRef} width='100%' height='100%'></S.Chart>
+          </S.ChartWrapper>
         </S.ChartArea>
         <S.StatisticsArea>
           <S.Statistics>

@@ -43,16 +43,20 @@ export const ChartArea = styled.div`
   gap: 12px;
 `
 
-export const BarChartWrapper = styled.div`
+export const ChartWrapper = styled.div`
   background-color: ${props => props.theme.colors.grayscale.gc_4};
   height: 318px;
   border-radius: 12px;
   padding: 20px 24px;
 `
 
-export const BarChartTitle = styled.h3`
+export const ChartTitle = styled.h3`
   font-size: 20px;
   font-weight: 500;
+`
+
+export const Chart = styled.svg`
+  overflow: visible;
 `
 
 export const StatisticsArea = styled.div`

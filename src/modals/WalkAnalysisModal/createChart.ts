@@ -21,13 +21,15 @@ export function createBarChart(svgElement: SVGSVGElement, data: { name: string; 
     .nice()
     .range([height - margin.bottom, margin.top])
 
+  const tickValues = Array.from(new Set(yScale.ticks(5).map(Math.round)))
+
   svg
     .append('g')
     .attr('transform', `translate(${margin.left},0)`)
     .call(
       d3
         .axisLeft(yScale)
-        .ticks(5)
+        .tickValues(tickValues)
         .tickFormat(d => `${d}회`)
         .tickSize(0)
         .tickPadding(7)
@@ -49,7 +51,7 @@ export function createBarChart(svgElement: SVGSVGElement, data: { name: string; 
 
   svg.select('.domain').attr('stroke', '#F1F1F5')
 
-  yScale.ticks(5).forEach(tickValue => {
+  yScale.ticks(tickValues.length).forEach(tickValue => {
     svg
       .append('line')
       .attr('x1', margin.left)
@@ -79,4 +81,106 @@ export function createBarChart(svgElement: SVGSVGElement, data: { name: string; 
     .duration(1000)
     .attr('y', d => yScale(d.value))
     .attr('height', d => height - margin.bottom - yScale(d.value))
+}
+
+export function createLineChart(svgElement: SVGSVGElement, data: { month: string; value: number }[]) {
+  const svg = d3.select(svgElement)
+  const width = svgElement.clientWidth || 400
+  const height = svgElement.clientHeight || 237
+  const maxValue = Math.max(...data.map(item => item.value)).toString()
+  const margin = { top: 24, right: 12, bottom: 60, left: 21 + maxValue.length * 5 }
+
+  svg.selectAll('*').remove()
+
+  const xScale = d3
+    .scalePoint()
+    .domain(data.map(d => d.month))
+    .range([margin.left, width - margin.right])
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(data, d => d.value) as number])
+    .nice()
+    .range([height - margin.bottom, margin.top])
+
+  const tickValues = Array.from(new Set(yScale.ticks(5).map(Math.round)))
+
+  svg
+    .append('g')
+    .attr('transform', `translate(${margin.left},0)`)
+    .call(
+      d3
+        .axisLeft(yScale)
+        .tickValues(tickValues)
+        .tickFormat(d => `${d}회`)
+        .tickSize(0)
+        .tickPadding(7)
+    )
+    .selectAll('text')
+    .style('font-size', '11px')
+    .style('font-weight', 'bold')
+    .style('font-family', 'SUIT, sans-serif')
+
+  svg.select('.domain').remove()
+
+  svg
+    .append('g')
+    .attr('transform', `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(xScale).tickSize(0).tickPadding(12))
+    .selectAll('text')
+    .style('font-size', '11px')
+    .style('font-weight', 'bold')
+    .style('font-family', 'SUIT, sans-serif')
+
+  svg.select('.domain').attr('stroke', '#F1F1F5')
+
+  yScale.ticks(tickValues.length).forEach(tickValue => {
+    svg
+      .append('line')
+      .attr('x1', margin.left)
+      .attr('y1', yScale(tickValue))
+      .attr('x2', width - margin.right)
+      .attr('y2', yScale(tickValue))
+      .attr('stroke', '#F1F1F5')
+      .attr('stroke-width', 1)
+  })
+
+  const line = d3
+    .line<{ month: string; value: number }>()
+    .x(d => xScale(d.month) as number)
+    .y(d => yScale(d.value))
+
+  const path = svg
+    .append('path')
+    .datum(data)
+    .attr('fill', 'none')
+    .attr('stroke', '#ECB99A')
+    .attr('stroke-width', 2)
+    .attr('d', line)
+
+  const totalLength = path.node()?.getTotalLength() || 0
+
+  path
+    .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
+    .attr('stroke-dashoffset', totalLength)
+    .transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+    .attr('stroke-dashoffset', 0)
+
+  svg
+    .selectAll('.dot')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('class', 'dot')
+    .attr('opacity', 0)
+    .attr('cx', d => xScale(d.month) as number)
+    .attr('cy', d => yScale(d.value))
+    .attr('r', 4)
+    .attr('fill', '#783D16')
+    .transition()
+    .duration(1000)
+    .delay((_, i) => (i / data.length) * 800)
+    .attr('opacity', 1)
 }
