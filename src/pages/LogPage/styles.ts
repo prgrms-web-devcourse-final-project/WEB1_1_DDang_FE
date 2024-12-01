@@ -8,6 +8,12 @@ export const LogPage = styled.div`
   height: 100%;
 `
 
+export const ProfileImg = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+`
+
 export const DogName = styled.p`
   font-weight: bold;
   margin-left: 10px;
