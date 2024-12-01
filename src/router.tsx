@@ -31,6 +31,10 @@ export const router = createBrowserRouter([
         element: <Pages.WalkPage />,
       },
       {
+        path: '/walk-complete',
+        element: <Pages.WalkCompletePage />,
+      },
+      {
         path: '/mypage',
         element: <Pages.MyPage />,
       },

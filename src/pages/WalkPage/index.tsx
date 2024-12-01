@@ -3,9 +3,23 @@ import MapComponent from './components/MapComponent'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import WalkerListModal from '~pages/WalkPage/components/WalkerListModal'
 
 export default function WalkPage() {
   const navigate = useNavigate()
+  const [_modalType, _setModalType] = useState<'request' | 'accept' | 'complete' | 'progress' | 'friend' | null>(null)
+  const [isModalOpen, _setIsModalOpen] = useState(false)
+  const [isWalkerListOpen, setIsWalkerListOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
+
+  const handleWalkerListClose = () => {
+    setIsClosing(true)
+    setTimeout(() => {
+      setIsClosing(false)
+      setIsWalkerListOpen(false)
+    }, 300)
+  }
 
   return (
     <S.WalkPage>
@@ -19,12 +33,13 @@ export default function WalkPage() {
           <IoChevronBack size={24} />
         </S.BackButton>
         <S.LocationText>강남구 논현동</S.LocationText>
-        <S.ProfileImgWrapper>
-          <S.ProfileImg />
-        </S.ProfileImgWrapper>
+        <S.WalkerListButtonWrapper>
+          <S.WalkerListIcon onClick={() => setIsWalkerListOpen(true)} />
+        </S.WalkerListButtonWrapper>
       </S.Header>
 
-      <MapComponent />
+      <MapComponent isModalOpen={isModalOpen} />
+      <WalkerListModal isOpen={isWalkerListOpen} onClose={handleWalkerListClose} isClosing={isClosing} />
     </S.WalkPage>
   )
 }
