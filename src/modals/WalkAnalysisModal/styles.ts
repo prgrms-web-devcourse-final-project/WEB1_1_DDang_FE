@@ -52,10 +52,6 @@ export const BarChartTitle = styled.h3`
   font-weight: 500;
 `
 
-export const BarChart = styled.svg`
-  width: 100%;
-`
-
 export const Bar = styled.rect`
   width: 60px;
   background-color: ${props => props.theme.colors.brand.lighten_1};
