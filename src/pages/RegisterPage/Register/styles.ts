@@ -84,6 +84,7 @@ export const OwnerProfileSection = styled.div`
   flex-direction: column;
   flex: 1;
   justify-content: center;
+  padding-bottom: 2rem;
   @media (max-height: 700px) {
     gap: 0.5rem;
   }
@@ -126,10 +127,9 @@ export const LocationBtn = styled.div<{ $hasSelected?: boolean }>`
 export const GenderSelectBtnWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
-  height: 3.875rem;
-  width: 80%;
-  margin: 0 auto;
+  gap: 1rem;
+  height: 4rem;
+  width: 90%;
   margin: 1rem auto;
   & > * {
     height: 100%;
@@ -144,4 +144,8 @@ export const GenderSelectBtnWrapper = styled.div`
   @media (max-height: 700px) {
     height: 3.25rem;
   }
+`
+
+export const ToastWrapper = styled.div`
+  position: relative;
 `

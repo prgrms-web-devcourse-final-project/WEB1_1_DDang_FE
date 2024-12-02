@@ -12,13 +12,25 @@ import { useGeolocation } from '~hooks/useGeolocation'
 import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import RegisterDogPage from '~pages/RegisterPage/Dog'
-  
+import Toast from '~components/Toast'
+import { useToastStore } from '~stores/toastStore'
+
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
   const { location, getCurrentLocation } = useGeolocation()
   const pushModal = useModalStore(state => state.pushModal)
+  const { showToast } = useToastStore()
 
   const handleNextClick = () => {
+    const alertMessage = validateOwnerProfile(ownerProfile)
+    console.log('예외처리 확인 콘솔 : ', {
+      alertMessage,
+      ownerProfile,
+    })
+    if (alertMessage) {
+      showToast(alertMessage)
+      return
+    }
     pushModal(<RegisterDogPage />)
   }
 
@@ -100,14 +112,16 @@ export default function Register() {
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
-
-      <ActionButton
-        $fontWeight='700'
-        $bgColor={validateOwnerProfile(ownerProfile) ? 'gc_1' : 'default'}
-        onClick={handleNextClick}
-      >
-        다음
-      </ActionButton>
+      <S.ToastWrapper>
+        <ActionButton
+          $fontWeight='700'
+          $bgColor={validateOwnerProfile(ownerProfile) ? 'gc_1' : 'default'}
+          onClick={handleNextClick}
+        >
+          다음
+        </ActionButton>
+        <Toast />
+      </S.ToastWrapper>
     </S.RegisterPage>
   )
 }
