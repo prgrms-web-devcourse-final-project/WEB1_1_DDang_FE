@@ -21,9 +21,6 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   popModal: () => {
     // 모달이 제거될 때 히스토리 뒤로가기
-    if (get().modalList.length > 0) {
-      window.history.back()
-    }
     set(state => ({
       modalList: state.modalList.slice(0, -1),
     }))
