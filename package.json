@@ -14,6 +14,10 @@
     "build-and-test": "npm run build && lhci autorun"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.9",
+    "@mui/styled-engine-sc": "^6.1.9",
     "@types/ol": "^7.0.0",
     "@types/react-textarea-autosize": "^8.0.0",
     "ios-style-picker": "^0.0.6",
