@@ -31,40 +31,32 @@ export const getMarkerIconString = () => {
   return svgString
 }
 
-// 모달 상태를 props로 받도록 수정
-interface MapComponentProps {
+type MapComponentProps = {
   isModalOpen?: boolean
 }
 
 export default function MapComponent({ isModalOpen = false }: MapComponentProps) {
-  // 지도 관련 ref
   const mapRef = useRef<Map | null>(null)
   const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
   const watchPositionIdRef = useRef<number | null>(null)
   const vectorSourceRef = useRef<VectorSource>(new VectorSource())
   const markerRef = useRef<Feature | null>(null)
   const [showCenterButton, setShowCenterButton] = useState<boolean>(false)
-  // const rotationRef = useRef<number>(0)
-
-  // 위치 및 권한 관련 상태
   const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
-  // 산책 관련 상태 및 ref
   const [isWalking, setIsWalking] = useState<boolean>(false)
   const [walkTime, setWalkTime] = useState<number>(0)
   const walkIntervalRef = useRef<number | null>(null)
   const [walkDistance, setWalkDistance] = useState<number>(0)
   const [_positions, setPositions] = useState<{ lat: number; lng: number }[]>([])
 
-  // 경로 관련 ref
   const routeLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
   const routeSourceRef = useRef<VectorSource>(new VectorSource())
   const lastApiCallTimeRef = useRef<number>(Date.now())
   const accumulatedPositionsRef = useRef<{ lat: number; lng: number }[]>([])
 
-  // 거리 및 방향 관련 상태
   const [estimatedDistance, setEstimatedDistance] = useState<number>(0)
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
@@ -82,44 +74,37 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [])
 
-  // 나침반 권한 요청 함수
-  // const handleCompassPermission = async () => {
-  //   if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-  //     try {
-  //       const response = await (DeviceOrientationEvent as any).requestPermission()
-  //       setHasCompassPermission(response === 'granted')
-  //       if (response === 'granted') {
-  //         setAutoRotate(true)
-  //         rotateMap(lastHeadingRef.current)
-  //       }
-  //     } catch (error) {
-  //       console.error('나침반 권한 요청 실패:', error)
-  //     }
-  //   } else {
-  //     setHasCompassPermission(true)
-  //     setAutoRotate(true)
-  //   }
-  // }
+  const handleCompassPermission = async () => {
+    if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const response = await (DeviceOrientationEvent as any).requestPermission()
+        _setHasCompassPermission(response === 'granted')
+        if (response === 'granted') {
+          setAutoRotate(true)
+          rotateMap(lastHeadingRef.current)
+        }
+      } catch (error) {
+        console.error('나침반 권한 요청 실패:', error)
+      }
+    } else {
+      _setHasCompassPermission(true)
+      setAutoRotate(true)
+    }
+  }
 
-  // 위치 추적 오류 처리 함수
   const handleLocationError = (error: GeolocationPositionError) => {
     console.error('위치 추적 오류:', error.message)
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        // setLocationError('위치 권한이 거부되었습니다. 설정에서 권한을 허용해주세요.')
         break
       case error.POSITION_UNAVAILABLE:
-        // setLocationError('위치 정보를 사용할 수 없습니다. GPS 신호를 확인해주세요.')
         break
       case error.TIMEOUT:
-        // setLocationError('위치 정보 요청 시간이 초과되었습니다.')
         break
       default:
-      // setLocationError('위치 정보를 가져오는데 실패했습니다.')
     }
   }
 
-  // 화면 방향 변경 감지
   useEffect(() => {
     const handleOrientationChange = () => {
       setScreenOrientation(window.screen.orientation?.angle || 0)
@@ -131,7 +116,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [])
 
-  // 지도 회전 처리
   const rotateMap = (heading: number) => {
     if (!mapRef.current) return
 
@@ -151,13 +135,10 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         position => {
           const coords = [position.coords.longitude, position.coords.latitude]
 
-          // 지도 중심 이동
           mapRef.current?.getView().setCenter(fromLonLat(coords))
-
-          // SVG 마커 스타일 생성
           const markerStyle = new Style({
             image: new Icon({
-              anchor: [0.5, 1], // 핀 하단 중앙이 좌표에 위치하도록 설정
+              anchor: [0.5, 1],
               anchorXUnits: 'fraction',
               anchorYUnits: 'fraction',
               src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString())}`,
@@ -166,7 +147,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             }),
           })
 
-          // 마커 생성 및 추가
           if (!markerRef.current) {
             markerRef.current = new Feature({
               geometry: new Point(fromLonLat(coords)),
@@ -181,7 +161,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [])
 
-  // 나침반 이벤트 처리
   useEffect(() => {
     if (!hasCompassPermission) return
 
@@ -210,7 +189,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   }, [hasCompassPermission, screenOrientation, autoRotate])
 
   useEffect(() => {
-    // 벡터 레이어 생성 (현재 위치 표시용)
     const vectorLayer = new VectorLayer({
       source: vectorSourceRef.current,
       style: new Style({
@@ -229,10 +207,10 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       target: 'map',
       controls: [],
       layers: [
-        // Vworld 기본지도로 변경
         new TileLayer({
           source: new XYZ({
             url: 'https://api.vworld.kr/req/wmts/1.0.0/BB928B16-A080-3D6E-B214-93CC288E5528/Base/{z}/{y}/{x}.png',
+            crossOrigin: 'anonymous',
           }),
         }),
         vectorLayer,
@@ -257,36 +235,33 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             Math.pow(markerCoords[0] - mapCenter[0], 2) + Math.pow(markerCoords[1] - mapCenter[1], 2)
           )
 
-          //@ts-ignore
-          const pixelDistance = map.getView().getResolution() ? distance / map.getView().getResolution() : 0
-          setShowCenterButton(pixelDistance > 50)
+          const resolution = map.getView().getResolution()
+          if (resolution !== undefined) {
+            const pixelDistance = distance / resolution
+            setShowCenterButton(pixelDistance > 50)
+          }
         }
       }
     })
 
-    // 위치 추적 및 마커 업데이트
     const intervalId = setInterval(() => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           position => {
             setLocationError(null)
             const coords = [position.coords.longitude, position.coords.latitude]
-            // const accuracy = position.coords.accuracy
 
-            // 현재 위치에 마커 추가 또는 업데이트
             if (markerRef.current) {
               const point = markerRef.current.getGeometry() as Point
               const currentCoords = point.getCoordinates()
               const targetCoords = fromLonLat(coords)
 
-              // 마커 위치 애니메이션
-              const duration = 2000 // 애니메이션 지속 시간 (ms)
+              const duration = 2000
               const start = Date.now()
               const animate = () => {
                 const elapsed = Date.now() - start
                 const progress = Math.min(elapsed / duration, 1)
 
-                // easeOut 함수를 사용하여 부드러운 감속 효과
                 const easeProgress = easeOut(progress)
 
                 const x = currentCoords[0] + (targetCoords[0] - currentCoords[0]) * easeProgress
@@ -313,7 +288,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       }
     }, 5000)
 
-    // 경로 레이어 추가
     routeLayerRef.current = new VectorLayer({
       source: routeSourceRef.current,
       style: new Style({
@@ -327,13 +301,11 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     mapRef.current?.addLayer(routeLayerRef.current)
 
     return () => {
-      // 컴포넌트 언마운트 시 인터벌 정리
       clearInterval(intervalId)
       map.setTarget(undefined)
     }
   }, [])
 
-  // 현재 위치로 지도 중심 이동
   const handleCenterCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -351,7 +323,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             const currentCoords = point.getCoordinates()
             const targetCoords = fromLonLat(coords)
 
-            // 마커 위치 애니메이션
             const duration = 2000
             const start = Date.now()
             const animate = () => {
@@ -387,26 +358,23 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }
 
-  // 시간 포맷팅 (00:00:00)
   const formatTime = (seconds: number): string => {
     const hours = Math.floor(seconds / 3600)
     const minutes = Math.floor((seconds % 3600) / 60)
+    const remainingSeconds = seconds % 60
 
-    if (hours > 0) {
-      return `${hours}시간 ${minutes}분`
-    }
-    return `${minutes}분`
+    const pad = (num: number): string => num.toString().padStart(2, '0')
+
+    return `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`
   }
 
-  // 거리 포맷팅 (km)
   const formatDistance = (meters: number): string => {
     if (meters < 1000) {
       return `${Math.round(meters)}m`
     }
-    return `${(meters / 1000).toFixed(1)} km`
+    return `${(meters / 1000).toFixed(1)}km`
   }
 
-  // 두 지점 간의 직선 거리를 계산하는 함수 (Haversine formula) -> 실제 거리 계산이 불가능 할 때 사용
   const calculateDirectDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
     const R = 6371e3
     const φ1 = (lat1 * Math.PI) / 180
@@ -420,9 +388,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     return R * c
   }
 
-  // shouldCallApi 함수 수정
   const shouldCallApi = (newPosition: { lat: number; lng: number }): boolean => {
-    // 첫 번째 위치는 무조건 저장
     if (accumulatedPositionsRef.current.length === 0) return true
 
     const lastPosition = accumulatedPositionsRef.current[accumulatedPositionsRef.current.length - 1]
@@ -432,24 +398,18 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     return distance >= MIN_DISTANCE || timeElapsed >= MIN_TIME_INTERVAL
   }
 
-  // 위치 데이터 정확도 필터링
   const filterPosition = (position: GeolocationPosition): boolean => {
     const isAccurate = position.coords.accuracy <= MIN_ACCURACY
-
-    // 도로 근처에 있는지 확인하는 로직 추가 가능
-    // 예: 주요 도로와의 거리를 계산하여 필터링
 
     return isAccurate
   }
 
-  // 직선 거리로 추정치 업데이트
   const updateEstimatedDistance = () => {
     const positions = accumulatedPositionsRef.current
     if (positions.length < 2) return
 
-    let totalDistance = walkDistance // 이전까지의 실제 거리
+    let totalDistance = walkDistance
 
-    // 마지막 API 호출 이후의 거리를 직거리로 계산
     for (let i = 1; i < positions.length; i++) {
       const distance = calculateDirectDistance(
         positions[i - 1].lat,
@@ -463,7 +423,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     setEstimatedDistance(totalDistance)
   }
 
-  // 실제 산책에서 사용할 위치 마커 추가 함수
   const addWalkLocationMarker = (coordinates: number[]) => {
     const marker = new Feature({
       geometry: new Point(coordinates),
@@ -484,10 +443,142 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     vectorSourceRef.current.addFeature(marker)
   }
 
-  // handleWalkToggle 함수 수정 (테스트 모드 부분은 그대로 유지)
-  const handleWalkToggle = () => {
+  const captureMap = async (): Promise<string> => {
+    if (!mapRef.current) return ''
+
+    const view = mapRef.current.getView()
+    const currentCenter = view.getCenter()
+    const currentZoom = view.getZoom()
+    const currentRotation = view.getRotation()
+
+    return new Promise(resolve => {
+      view.animate(
+        {
+          rotation: 0,
+          duration: 250,
+        },
+        () => {
+          setTimeout(() => {
+            const mapElement = document.getElementById('map')
+            if (!mapElement) {
+              resolve('')
+              return
+            }
+
+            const outputCanvas = document.createElement('canvas')
+            const context = outputCanvas.getContext('2d')
+            if (!context) {
+              resolve('')
+              return
+            }
+
+            const mapSize = mapRef.current?.getSize()
+            if (!mapSize) {
+              resolve('')
+              return
+            }
+
+            const pixelRatio = window.devicePixelRatio || 1
+            outputCanvas.width = mapSize[0] * pixelRatio
+            outputCanvas.height = mapSize[1] * pixelRatio
+
+            context.scale(pixelRatio, pixelRatio)
+
+            const layers = mapElement.querySelectorAll('.ol-layer canvas')
+            Array.from(layers).forEach(canvas => {
+              const canvasElement = canvas as HTMLCanvasElement
+              if (canvasElement.width > 0) {
+                const opacity = canvasElement.parentElement?.style.opacity || canvasElement.style.opacity
+                context.globalAlpha = opacity === '' ? 1 : Number(opacity)
+
+                const transform = canvasElement.style.transform
+                const matrix = transform
+                  .match(/^matrix\(([^\(]*)\)$/)?.[1]
+                  ?.split(',')
+                  .map(Number)
+
+                if (matrix) {
+                  context.setTransform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5])
+                  context.drawImage(canvasElement, 0, 0)
+                }
+              }
+            })
+
+            const imageData = context.getImageData(0, 0, outputCanvas.width, outputCanvas.height)
+            const bounds = getContentBounds(imageData)
+
+            const croppedCanvas = document.createElement('canvas')
+            const croppedContext = croppedCanvas.getContext('2d')
+            if (!croppedContext) {
+              resolve('')
+              return
+            }
+
+            croppedCanvas.width = (bounds.right - bounds.left + 20) * pixelRatio
+            croppedCanvas.height = (bounds.bottom - bounds.top + 20) * pixelRatio
+
+            croppedContext.drawImage(
+              outputCanvas,
+              bounds.left - 10,
+              bounds.top - 10,
+              bounds.right - bounds.left + 20,
+              bounds.bottom - bounds.top + 20,
+              0,
+              0,
+              croppedCanvas.width,
+              croppedCanvas.height
+            )
+
+            if (currentCenter && currentZoom && currentRotation !== undefined) {
+              view.setCenter(currentCenter)
+              view.setZoom(currentZoom)
+              view.setRotation(currentRotation)
+            }
+
+            try {
+              const imageUrl = croppedCanvas.toDataURL('image/png')
+              resolve(imageUrl)
+            } catch (err) {
+              console.error('지도 이미지 생성 실패:', err)
+              resolve('')
+            }
+          }, 300)
+        }
+      )
+    })
+  }
+
+  const getContentBounds = (imageData: ImageData) => {
+    const { width, height, data } = imageData
+    let minX = width
+    let minY = height
+    let maxX = 0
+    let maxY = 0
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const alpha = data[(y * width + x) * 4 + 3]
+        if (alpha > 0) {
+          minX = Math.min(minX, x)
+          minY = Math.min(minY, y)
+          maxX = Math.max(maxX, x)
+          maxY = Math.max(maxY, y)
+        }
+      }
+    }
+
+    return {
+      left: minX,
+      top: minY,
+      right: maxX,
+      bottom: maxY,
+    }
+  }
+
+  const handleWalkToggle = async () => {
     if (!isWalking) {
-      // 실제 산책 시작
+      handleCompassPermission()
+
       setIsWalking(true)
       setAutoRotate(true)
       setPositions([])
@@ -495,13 +586,10 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       setEstimatedDistance(0)
       accumulatedPositionsRef.current = []
 
-      // 기존 경로와 마커 초기화
       routeSourceRef.current.clear()
       vectorSourceRef.current.clear()
 
-      // 현재 방향으로 즉시 회전
       rotateMap(lastHeadingRef.current)
-      // 위치 추적 시작
       watchPositionIdRef.current = navigator.geolocation.watchPosition(
         (position: GeolocationPosition) => {
           if (!filterPosition(position)) return
@@ -513,7 +601,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
           const coordinates = fromLonLat([newPosition.lng, newPosition.lat])
 
-          // 현재 위치 마커 업데이트 (실시간 위치 표시용)
           if (currentLocationMarkerRef.current) {
             const point = currentLocationMarkerRef.current.getGeometry() as Point
             point.setCoordinates(coordinates)
@@ -541,7 +628,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             })
           }
 
-          // API 요청 조건을 만족할 때만 좌표 저장 및 경로 계산
           if (shouldCallApi(newPosition)) {
             accumulatedPositionsRef.current.push(newPosition)
             addWalkLocationMarker(coordinates)
@@ -563,48 +649,37 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         }
       )
 
-      // 타이머 시작
       walkIntervalRef.current = window.setInterval(() => {
         setWalkTime(prev => prev + 1)
       }, 1000)
     } else {
-      // 산책 종료
       setIsWalking(false)
       setAutoRotate(false)
 
-      // 위치 추적 중지
       if (watchPositionIdRef.current !== null) {
         navigator.geolocation.clearWatch(watchPositionIdRef.current)
         watchPositionIdRef.current = null
       }
 
-      // 타이머 정지
       if (walkIntervalRef.current) {
         clearInterval(walkIntervalRef.current)
         walkIntervalRef.current = null
       }
 
-      // 산책 요약 정보 저장 및 모달 표시
-      setWalkSummary({
-        time: walkTime,
-        distance: walkDistance || estimatedDistance,
-        coordinates: accumulatedPositionsRef.current,
-      })
-      setShowSummaryModal(true)
+      const mapImage = await captureMap()
 
-      // 지도를 북쪽 방향으로 다시 회전
-      if (mapRef.current) {
-        mapRef.current.getView().animate({
-          rotation: 0,
-          duration: 500,
-        })
+      const walkCompleteData = {
+        time: formatTime(walkTime),
+        distance: formatDistance(walkDistance || estimatedDistance),
+        mapImage: mapImage,
       }
 
-      navigate('/walk-complete')
+      navigate('/walk-complete', {
+        state: walkCompleteData,
+      })
     }
   }
 
-  // 실제 산책용 거리 계산 함수 (테스트 모드의 calculateRealDistance는 그대로 유지)
   const calculateWalkingDistance = async (positions: { lat: number; lng: number }[]) => {
     if (positions.length < 2) return
 
@@ -620,14 +695,11 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         return
       }
 
-      // 새로운 구간의 거리를 누적
       const segmentDistance = response.data.features[0].properties.summary.distance
       setWalkDistance(prev => prev + segmentDistance)
 
-      // 새 경로 구간 그리기
       const routeCoords = response.data.features[0].geometry.coordinates.map((coord: number[]) => fromLonLat(coord))
 
-      // 첫 번째 경로가 아닌 경우 append 모드로 그리기
       const isFirstRoute = routeSourceRef.current.getFeatures().length === 0
       drawRoute(routeCoords, !isFirstRoute)
 
@@ -638,7 +710,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }
 
-  // 컴포넌트 언마운트 시 인터벌 정리
   useEffect(() => {
     return () => {
       if (walkIntervalRef.current) {
@@ -650,14 +721,13 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [])
 
-  // drawRoute 함수를 수정하여 이전 경로를 유지하면서 새로운 경로를 추가하는 함수로 변경
   const drawRoute = (coordinates: number[][], append: boolean = false) => {
     const routeStyle = new Style({
       stroke: new Stroke({
-        color: '#FF6B6B', // 경로 색상 변경
-        width: 5, // 경로 두께 증가
-        lineCap: 'round', // 경로 끝부분을 둥글게
-        lineJoin: 'round', // 경로 연결부분을 둥글게
+        color: '#FF6B6B',
+        width: 5,
+        lineCap: 'round',
+        lineJoin: 'round',
       }),
     })
 
@@ -680,7 +750,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }
 
-  // 모달 관련 상태 추가
   const [showSummaryModal, setShowSummaryModal] = useState<boolean>(false)
   const [walkSummary, setWalkSummary] = useState<{
     time: number
@@ -710,7 +779,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             $bgColor={isWalking ? 'font_1' : 'default'}
             $fontWeight='700'
             $isWalking={isWalking}
-            disabled={isModalOpen} // 모달이 열려있을 때 버튼 비활성화
+            disabled={isModalOpen}
           >
             {isWalking ? '산책 끝' : '산책 시작'}
           </S.StyledActionButton>
@@ -727,7 +796,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             $bgColor={isWalking ? 'font_1' : 'default'}
             $fontWeight='700'
             $isWalking={isWalking}
-            disabled={isModalOpen} // 모달이 열려있을 때 버튼 비활성화
+            disabled={isModalOpen}
           >
             {isWalking ? '산책 끝' : '산책 시작'}
           </S.StyledActionButton>
