@@ -18,7 +18,7 @@ export const FamilySection = styled(Box)`
   padding: 0.5rem 1.75rem;
   width: 100%;
   height: auto;
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 `
 export const IconWrapper = styled.div`
   margin-left: auto;
