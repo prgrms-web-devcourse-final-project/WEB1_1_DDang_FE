@@ -5,15 +5,14 @@ import { DatePicker } from 'ios-style-picker'
 import '/node_modules/ios-style-picker/dist/style.css'
 
 interface DatePickerModalProps {
-  date: string
-  setDate: (birth: string) => void
+  date: Date | null
+  setDate: (birth: Date) => void
 }
 
 export default function DatePickerModal({ date, setDate }: DatePickerModalProps) {
   const { popModal } = useModalStore()
   const [isExiting, setIsExiting] = useState(false)
-  const [currentSelected, setCurrentSelected] = useState('')
-
+  const [currentSelected, setCurrentSelected] = useState<Date>(date || new Date())
   const close = () => {
     setIsExiting(true)
     setTimeout(() => {
@@ -30,14 +29,6 @@ export default function DatePickerModal({ date, setDate }: DatePickerModalProps)
     e.stopPropagation()
   }
 
-  const generateInitDate = () => {
-    if (date) {
-      const [year, month, day] = date.split('. ').map(Number)
-      return new Date(year, month - 1, day)
-    }
-    return new Date()
-  }
-
   return (
     <S.ModalOverlay onClick={close}>
       <S.DatePickerModal $isExiting={isExiting} onClick={handleModalClick}>
@@ -47,9 +38,9 @@ export default function DatePickerModal({ date, setDate }: DatePickerModalProps)
           fromDate={new Date(2000, 0, 1)}
           toDate={new Date(new Date().getFullYear(), 11, 31)}
           infinite
-          initDate={generateInitDate()}
+          initDate={date || new Date()}
           onChange={(y, m, d) => {
-            setCurrentSelected([y, m, d].join('. '))
+            setCurrentSelected(new Date(y, m - 1, d))
           }}
         />
       </S.DatePickerModal>

@@ -32,7 +32,7 @@ export default function FamilyCodeSection() {
         </S.PrevBtnWrapper>
         <S.InputArea>
           <S.TypoWrapper>
-            <Typo24 $weight='700'>
+            <Typo24 $weight='700' $textAlign='center'>
               가족에게 받은
               <br />
               코드를 입력해 주세요.

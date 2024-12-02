@@ -34,7 +34,7 @@ export default function DogProfileSection() {
     setDogProfile({
       name: '',
       image: undefined,
-      birth: '',
+      birth: null,
       intro: '',
       gender: null,
       isNeutered: false,
@@ -49,7 +49,7 @@ export default function DogProfileSection() {
       <S.DogProfileSection>
         <Header type='sm' onClickPrev={handlePrevClick} prevBtn />
         <S.TypoWrapper>
-          <Typo24 $weight='700'>
+          <Typo24 $weight='700' $textAlign='center'>
             반려견 기본 정보를
             <br /> 알려주세요!
           </Typo24>
@@ -62,7 +62,9 @@ export default function DogProfileSection() {
             onChange={e => setDogProfile({ name: e.target.value })}
           />
           <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birth}>
-            {dogProfile.birth || '생년월일 선택'}
+            {dogProfile.birth
+              ? [dogProfile.birth.getFullYear(), dogProfile.birth.getMonth() + 1, dogProfile.birth.getDate()].join('. ')
+              : '생년월일 선택'}
           </S.DatePickerBtn>
           <TwoLineInput
             placeholder='한줄 소개 입력'
