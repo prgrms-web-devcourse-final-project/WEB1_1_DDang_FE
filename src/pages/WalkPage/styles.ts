@@ -53,7 +53,7 @@ export const LocationText = styled.div`
   font-style: bold;
 `
 
-export const ProfileImgWrapper = styled.div`
+export const WalkerListButtonWrapper = styled.div`
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -61,7 +61,7 @@ export const ProfileImgWrapper = styled.div`
   background-color: #f0f0f0;
 `
 
-export const ProfileImg = styled(DogProfile)`
+export const WalkerListIcon = styled(DogProfile)`
   width: 100%;
   height: 100%;
 `

@@ -16,6 +16,7 @@ import XYZ from 'ol/source/XYZ'
 import ReactDOMServer from 'react-dom/server'
 import * as S from '~pages/WalkPage/styles'
 import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
+import { useNavigate } from 'react-router-dom'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
@@ -30,7 +31,12 @@ export const getMarkerIconString = () => {
   return svgString
 }
 
-export default function MapComponent() {
+// 모달 상태를 props로 받도록 수정
+interface MapComponentProps {
+  isModalOpen?: boolean
+}
+
+export default function MapComponent({ isModalOpen = false }: MapComponentProps) {
   // 지도 관련 ref
   const mapRef = useRef<Map | null>(null)
   const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
@@ -41,7 +47,7 @@ export default function MapComponent() {
   // const rotationRef = useRef<number>(0)
 
   // 위치 및 권한 관련 상태
-  const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
+  const [hasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
@@ -50,7 +56,7 @@ export default function MapComponent() {
   const [walkTime, setWalkTime] = useState<number>(0)
   const walkIntervalRef = useRef<number | null>(null)
   const [walkDistance, setWalkDistance] = useState<number>(0)
-  const [_positions, setPositions] = useState<{ lat: number; lng: number }[]>([])
+  const [, setPositions] = useState<{ lat: number; lng: number }[]>([])
 
   // 경로 관련 ref
   const routeLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
@@ -62,6 +68,8 @@ export default function MapComponent() {
   const [estimatedDistance, setEstimatedDistance] = useState<number>(0)
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     return () => {
@@ -249,9 +257,11 @@ export default function MapComponent() {
             Math.pow(markerCoords[0] - mapCenter[0], 2) + Math.pow(markerCoords[1] - mapCenter[1], 2)
           )
 
-          //@ts-ignore
-          const pixelDistance = map.getView().getResolution() ? distance / map.getView().getResolution() : 0
-          setShowCenterButton(pixelDistance > 50)
+          const resolution = map.getView().getResolution()
+          if (resolution !== undefined) {
+            const pixelDistance = distance / resolution
+            setShowCenterButton(pixelDistance > 50)
+          }
         }
       }
     })
@@ -591,6 +601,8 @@ export default function MapComponent() {
           duration: 500,
         })
       }
+
+      navigate('/walk-complete')
     }
   }
 
@@ -700,6 +712,7 @@ export default function MapComponent() {
             $bgColor={isWalking ? 'font_1' : 'default'}
             $fontWeight='700'
             $isWalking={isWalking}
+            disabled={isModalOpen} // 모달이 열려있을 때 버튼 비활성화
           >
             {isWalking ? '산책 끝' : '산책 시작'}
           </S.StyledActionButton>
@@ -716,6 +729,7 @@ export default function MapComponent() {
             $bgColor={isWalking ? 'font_1' : 'default'}
             $fontWeight='700'
             $isWalking={isWalking}
+            disabled={isModalOpen} // 모달이 열려있을 때 버튼 비활성화
           >
             {isWalking ? '산책 끝' : '산책 시작'}
           </S.StyledActionButton>

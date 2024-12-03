@@ -1,7 +1,7 @@
 import styled, { BrandColors, FontWeight, GrayscaleColors, Typography } from 'styled-components'
 
 type BgColorType =
-  | Extract<keyof BrandColors, 'default' | 'lighten_2'>
+  | Extract<keyof BrandColors, 'default' | 'lighten_2' | 'lighten_3'>
   | Extract<keyof GrayscaleColors, 'gc_4' | 'gc_1' | 'font_1'>
 
 type ActionButtonProps = {
@@ -19,6 +19,7 @@ type ActionButtonStyles = {
 const ACTION_BUTTON_FONT_COLORS: Record<BgColorType, keyof GrayscaleColors> = {
   default: 'gc_4',
   lighten_2: 'font_1',
+  lighten_3: 'font_1',
   font_1: 'gc_4',
   gc_4: 'font_1',
   gc_1: 'font_4',
@@ -51,4 +52,11 @@ export const ActionButton = styled.button<ActionButtonProps>`
   border-radius: ${({ $type = 'capsule' }) => ACTION_BUTTON_STYLES[$type]?.borderRadius};
   font-size: ${({ theme, $type = 'capsule' }) => theme.typography[ACTION_BUTTON_STYLES[$type]?.fontSize]};
   font-weight: ${({ $fontWeight }) => $fontWeight};
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.brand.lighten_3};
+    color: ${({ theme }) => theme.colors.grayscale.font_2};
+    font-weight: ${({ $fontWeight }) => $fontWeight};
+    cursor: not-allowed;
+  }
 `

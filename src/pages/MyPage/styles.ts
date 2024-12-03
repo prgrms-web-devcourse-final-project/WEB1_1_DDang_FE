@@ -1,48 +1,31 @@
 import { styled } from 'styled-components'
-import { ActionButton } from '~components/Button/ActionButton'
 
 export const MyPage = styled.div`
-  width: 375px;
-  height: 698px;
+  height: 100%;
   overflow: hidden;
   position: relative;
-  margin: 0 auto;
   box-sizing: border-box;
-  padding: 0;
 `
 
 export const MainContainer = styled.div`
   display: flex;
-  padding: 0 20px;
-  height: calc(100% - 56px);
+  padding: 0 1.25rem;
+  height: calc(100% - 3.5rem);
   flex-direction: column;
   box-sizing: border-box;
   overflow-y: auto;
 `
 
-export const ButtonArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: auto;
-  align-items: center;
-  width: 100%;
-`
-
-export const CustomActionButton = styled(ActionButton)`
-  width: 100%;
-`
-
 export const HeaderContainer = styled.div`
   width: 100%;
-  height: 56px;
+  height: 3.5rem;
   flex-shrink: 0;
-  /* border: 1px solid red; */
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._17};
   text-align: center;
   font-weight: 700;
   line-height: 150%;
-  padding: 15px 20px;
+  padding: 0.9375rem 1.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,78 +35,76 @@ export const HeaderContainer = styled.div`
 
 export const SettingIcon = styled.div`
   position: absolute;
-  right: 20px;
+  right: 1.25rem;
   display: flex;
   align-items: center;
   cursor: pointer;
   top: 50%;
   transform: translateY(-50%);
 `
+
 export const ProfileSection = styled.div`
   width: 100%;
-  height: 285px;
+  height: 17.8125rem;
   flex-shrink: 0;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-  border-radius: 16px;
+  border-radius: 1rem;
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 0 1.25rem;
 `
-//프로필정보
+
 export const ProfileArea = styled.div`
-  width: 140px;
-  height: 140px;
+  width: 8.75rem;
+  height: 8.75rem;
   flex-shrink: 0;
-  margin: 24px auto;
+  margin: 1.5rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
 `
+
 export const ProfileText = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translateY(-10px);
-  gap: 3.5px;
+  transform: translateY(-0.625rem);
+  gap: 0.21875rem;
 `
 
 export const TypoWrap = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 0.625rem;
 `
-//횟수 정보
+
 export const CountArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
-  width: 100px;
-  height: 72px;
+  gap: 0.0625rem;
+  width: 6.25rem;
+  height: 4.5rem;
   flex-shrink: 0;
-  /* border: 1px solid red; */
 `
+
 export const CountSection = styled(ProfileSection)`
   width: 100%;
-  height: 96px;
+  height: 6rem;
   flex-shrink: 0;
-  margin-top: 12px;
+  margin-top: 0.75rem;
   display: flex;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
 `
 
 export const CountWrapperBig = styled.div`
   font-size: ${({ theme }) => theme.typography._20};
   font-weight: 800;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
-  padding-top: 8px;
+  padding-top: 0.5rem;
 `
 
 export const CountWrapperSmall = styled.div`
   font-size: ${({ theme }) => theme.typography._13};
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-weight: 500;
-`
-export const GangbunttaArea = styled.div`
-  padding-top: 12px;
-  width: 100%;
 `
