@@ -24,18 +24,47 @@ export default function Calendar() {
     const startHeight = calendarRef.current ? calendarRef.current.offsetHeight : 0
 
     const doDrag = (e: MouseEvent | TouchEvent) => {
-      if (calendarRef.current) {
-        const currentY = 'clientY' in e ? e.clientY : e.touches[0].clientY
-        const newHeight = startHeight + currentY - startY
+      const calendar = calendarRef.current
+      if (!calendar) {
+        return
+      }
 
-        let finalHeight
-        if (isOpen && newHeight > startHeight) finalHeight = startHeight
-        else if (!isOpen && newHeight < startHeight) finalHeight = startHeight
-        else finalHeight = Math.min(newHeight, startHeight + 210)
-        calendarRef.current.style.height = `${finalHeight}px`
+      const currentY = 'clientY' in e ? e.clientY : e.touches[0].clientY
+      const heightDelta = currentY - startY
+      const newHeight = startHeight + heightDelta
+      const finalHeight = calculateFinalHeight(newHeight)
 
-        if (finalHeight < startHeight - 200) setIsOpen(false)
-        else if (finalHeight > startHeight + 100) setIsOpen(true)
+      calendar.style.height = `${finalHeight}px`
+
+      updateOpenState(finalHeight)
+    }
+
+    const calculateFinalHeight = (newHeight: number) => {
+      const MAX_ADDITIONAL_HEIGHT = 210
+
+      if (isOpen && newHeight > startHeight) {
+        return startHeight
+      }
+
+      if (!isOpen && newHeight < startHeight) {
+        return startHeight
+      }
+
+      return Math.min(newHeight, startHeight + MAX_ADDITIONAL_HEIGHT)
+    }
+
+    const updateOpenState = (height: number) => {
+      const CLOSE_THRESHOLD = 200
+      const OPEN_THRESHOLD = 100
+
+      if (height < startHeight - CLOSE_THRESHOLD) {
+        setIsOpen(false)
+        return
+      }
+
+      if (height > startHeight + OPEN_THRESHOLD) {
+        setIsOpen(true)
+        return
       }
     }
 

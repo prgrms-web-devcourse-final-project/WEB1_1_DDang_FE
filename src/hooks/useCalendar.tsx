@@ -38,14 +38,16 @@ export default function useCalendar(): UseCalendarReturn {
 
   const fullCalendarDays = previousMonthDays.concat(currentMonthDays, nextMonthDays)
 
-  const weekCalendarList = fullCalendarDays.reduce((weeks: number[][], day, idx) => {
-    const weekIndex = Math.floor(idx / DAYS_IN_WEEK)
-    if (!weeks[weekIndex]) {
-      weeks[weekIndex] = []
+  const weekCalendarList = fullCalendarDays.reduce((weeks: number[][], day) => {
+    const lastWeek = weeks[weeks.length - 1]
+    const isLastWeekIncomplete = lastWeek && lastWeek.length < DAYS_IN_WEEK
+
+    if (isLastWeekIncomplete) {
+      return [...weeks.slice(0, -1), [...lastWeek, day]]
     }
-    weeks[weekIndex].push(day)
-    return weeks
-  }, [])
+
+    return [...weeks, [day]]
+  }, [] as number[][])
 
   const currentPosition = previousMonthDays.length + currentDate.getDate() - 1
   const activeIndex = [Math.floor(currentPosition / DAYS_IN_WEEK), currentPosition % DAYS_IN_WEEK]
