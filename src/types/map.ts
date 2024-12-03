@@ -10,6 +10,6 @@ export const GEO_OPTIONS = {
   maximumAge: 1000,
 }
 
-export const MIN_ACCURACY = 20
-export const MIN_DISTANCE = 20
-export const MIN_TIME_INTERVAL = 10000
+export const MIN_ACCURACY = 30
+export const MIN_DISTANCE = 10
+export const MIN_TIME_INTERVAL = 20000

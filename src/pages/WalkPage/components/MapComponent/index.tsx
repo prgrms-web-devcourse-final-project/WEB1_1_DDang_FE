@@ -17,13 +17,14 @@ import ReactDOMServer from 'react-dom/server'
 import * as S from '~pages/WalkPage/styles'
 import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
 import { useNavigate } from 'react-router-dom'
+import { useWebSocket } from '~/WebSocketContext'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
 const geoOptions = {
   enableHighAccuracy: true,
   timeout: 10000,
-  maximumAge: 1000,
+  maximumAge: 5000,
 }
 
 export const getMarkerIconString = () => {
@@ -61,7 +62,21 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
 
+  const [currentAccuracy, setCurrentAccuracy] = useState<number | null>(null)
+
   const navigate = useNavigate()
+
+  const { subscribe, publish, isConnected } = useWebSocket()
+
+  const memberEmail = 'mkh6793@naver.com'
+
+  useEffect(() => {
+    if (isConnected) {
+      subscribe(`/sub/walk/${memberEmail}`, message => {
+        console.log('수신된 메시지:', message.body)
+      })
+    }
+  }, [isConnected])
 
   useEffect(() => {
     return () => {
@@ -401,6 +416,9 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const filterPosition = (position: GeolocationPosition): boolean => {
     const isAccurate = position.coords.accuracy <= MIN_ACCURACY
 
+    const accuracy = position.coords.accuracy
+    setCurrentAccuracy(accuracy)
+
     return isAccurate
   }
 
@@ -604,6 +622,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
           if (currentLocationMarkerRef.current) {
             const point = currentLocationMarkerRef.current.getGeometry() as Point
             point.setCoordinates(coordinates)
+            vectorSourceRef.current.changed()
           } else {
             currentLocationMarkerRef.current = new Feature({
               geometry: new Point(coordinates),
@@ -631,6 +650,11 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
           if (shouldCallApi(newPosition)) {
             accumulatedPositionsRef.current.push(newPosition)
             addWalkLocationMarker(coordinates)
+
+            publish('/pub/api/v1/walk-alone', {
+              latitude: newPosition.lat,
+              longitude: newPosition.lng,
+            })
 
             if (accumulatedPositionsRef.current.length >= 2) {
               const lastTwoPositions = accumulatedPositionsRef.current.slice(-2)
@@ -757,9 +781,40 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     coordinates: { lat: number; lng: number }[]
   } | null>(null)
 
+  useEffect(() => {
+    let intervalId: number | null = null
+
+    // 산책 중이 아닐 때만 주기적으로 위치 업데이트
+    if (!isWalking && navigator.geolocation) {
+      intervalId = window.setInterval(() => {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setLocationError(null)
+            const coords = [position.coords.longitude, position.coords.latitude]
+
+            if (markerRef.current) {
+              const point = markerRef.current.getGeometry() as Point
+              point.setCoordinates(fromLonLat(coords))
+              vectorSourceRef.current.changed()
+            }
+          },
+          handleLocationError,
+          geoOptions
+        )
+      }, 10000)
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [isWalking])
+
   return (
     <S.MapContainer>
       <S.Map id='map' />
+      {currentAccuracy && <S.AccuracyIndicator>{currentAccuracy.toFixed(1)}m</S.AccuracyIndicator>}
       {locationError && <S.LocationErrorMessage>{locationError}</S.LocationErrorMessage>}
       {showCenterButton && (
         <S.CenterButton onClick={handleCenterCurrentLocation}>
