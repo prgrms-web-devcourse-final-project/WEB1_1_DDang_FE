@@ -22,7 +22,6 @@ export const HeaderContainer = styled.div`
   width: 100%;
   height: 56px;
   flex-shrink: 0;
-  /* border: 1px solid red; */
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-size: ${({ theme }) => theme.typography._17};
   text-align: center;
@@ -86,7 +85,6 @@ export const CountArea = styled.div`
   width: 100px;
   height: 72px;
   flex-shrink: 0;
-  /* border: 1px solid red; */
 `
 export const CountSection = styled(ProfileSection)`
   width: 100%;

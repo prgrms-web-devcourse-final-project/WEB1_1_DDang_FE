@@ -1,5 +1,5 @@
 import { fetchMypage } from '~apis/myPage/fetchMypage'
-import ProfileImage from 'assets/masterprofile.svg?react'
+// import ProfileImage from 'assets/masterprofile.svg?react'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { useTheme } from 'styled-components'

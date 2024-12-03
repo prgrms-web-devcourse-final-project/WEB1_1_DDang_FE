@@ -19,7 +19,7 @@ export default function ProfilePage() {
           {userInfo.location} 거주
         </Typo15>
         <S.TypoWrapper $gap={8}>
-          <Typo13 $weight='700'>{userInfo.gender === 'male' ? '남자' : '여자'}</Typo13>
+          <Typo13 $weight='700'>{userInfo.gender === 'MALE' ? '남자' : '여자'}</Typo13>
           <Separator $height={8} />
           <Typo13 $weight='700'>{userInfo.role}</Typo13>
         </S.TypoWrapper>

@@ -1,4 +1,3 @@
-// fetchMypage.ts
 import { AxiosError } from 'axios'
 import { axiosInstance } from '~apis/axiosInstance'
 import { APIResponse, ErrorResponse } from '~types/apiResponse'

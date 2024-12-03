@@ -14,24 +14,42 @@ import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import RegisterDogPage from '~pages/RegisterPage/Dog'
 import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
+import { useSearchParams } from 'react-router-dom'
+import { createRegister } from '~apis/register/createRegister'
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
   const { location, getCurrentLocation } = useGeolocation()
   const pushModal = useModalStore(state => state.pushModal)
   const { showToast } = useToastStore()
+  const [searchParams] = useSearchParams()
+  const email = searchParams.get('email') || ''
+  const provider = searchParams.get('provider') || ''
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     const alertMessage = validateOwnerProfile(ownerProfile)
-    console.log('예외처리 확인 콘솔 : ', {
-      alertMessage,
-      ownerProfile,
-    })
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    pushModal(<RegisterDogPage />)
+
+    try {
+      const registerData = {
+        email,
+        provider,
+        name: ownerProfile.nickName,
+        birthDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
+        gender: ownerProfile.gender as 'MALE' | 'FEMALE',
+        address: ownerProfile.location,
+        familyRole: 'BROTHER',
+        profileImg: ownerProfile.avatar || '',
+      } as const
+
+      await createRegister(registerData)
+      pushModal(<RegisterDogPage />)
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
+    }
   }
 
   const handleLocationClick = () => {
@@ -59,7 +77,7 @@ export default function Register() {
     )
   }
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setOwnerProfile({ gender })
   }
 
@@ -101,14 +119,14 @@ export default function Register() {
         </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
-            gender='male'
-            isActive={ownerProfile.gender === 'male'}
-            onClick={() => handleGenderSelect('male')}
+            gender='MALE'
+            isActive={ownerProfile.gender === 'MALE'}
+            onClick={() => handleGenderSelect('MALE')}
           />
           <GenderSelectButton
-            gender='female'
-            isActive={ownerProfile.gender === 'female'}
-            onClick={() => handleGenderSelect('female')}
+            gender='FEMALE'
+            isActive={ownerProfile.gender === 'FEMALE'}
+            onClick={() => handleGenderSelect('FEMALE')}
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
