@@ -146,24 +146,28 @@ export type CommonAPIRequest = Member &
     totalWalkTimeSecond: number
   }
 
-export type CommonAPIResponse = {
-  dog: Dog
-  dogs: Dog[]
-  dogWalkCount: number
-  dogAge: number
-  walkWithDogInfo: OtherDog
-  walk: Walk
-  memberName: string
-  dogName: string
-  count: number
-  memberInfo: Pick<Member, 'memberId' | 'email' | 'name'>
-  members: Member[]
-  isMatched: BooleanString
-  memberGender: Gender
-  memberProfileImg: string
-  points: string
-  positionList: Position[]
-  memberEmail: string
-  chat: Chat
-  family: Family
-}
+export type CommonAPIResponse = BasicInfo &
+  Member &
+  Chat &
+  Family &
+  Walk &
+  Position &
+  Dog &
+  OtherDog & {
+    dog: Dog
+    dogs: Dog[]
+    dogWalkCount: number
+    dogAge: number
+    walkWithDogInfo: OtherDog
+    memberName: string
+    dogName: string
+    count: number
+    memberInfo: Pick<Member, 'memberId' | 'email' | 'name'>
+    members: Pick<Member, 'memberId' | 'email' | 'name' | 'gender' | 'familyRole' | 'profileImg'>
+    isMatched: BooleanString
+    memberGender: Gender
+    memberProfileImg: string
+    points: string
+    positionList: Position[]
+    memberEmail: string
+  }
