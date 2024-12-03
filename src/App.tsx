@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
@@ -6,12 +6,33 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
+import { fetchWalkSchedules } from '~apis/walkSchedule/fetchWalkSchedules'
 import Loader from '~components/Loader'
 
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
+  useEffect(() => {
+    fetchWalkSchedules({}).then(data => {
+      console.log(data)
+    })
+    // fetch('https://ddang.shop/api/v1/walk-schedules', {
+    //   method: 'GET', // 요청 메소드를 명시적으로 설정할 수 있습니다.
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     // Authorization:
+    //   },
+    //   // credentials: 'include', // 자격 증명을 모든 요청에 포함
+    // })
+    //   .then(response => response.json()) // 응답을 JSON으로 변환
+    //   .then(data => {
+    //     console.log(data) // 데이터를 콘솔에 출력
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error) // 오류를 콘솔에 출력
+    //   })
+  }, [])
   return (
     <>
       <HelmetProvider>
