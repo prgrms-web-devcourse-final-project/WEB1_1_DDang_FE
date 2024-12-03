@@ -4,13 +4,13 @@ export const RegisterAvatarModal = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 3.5rem 0.938rem 1.5rem 1.25rem; // 상단 패딩 증가
+  padding: 3.5rem 0.938rem 1.5rem 1.25rem;
   position: relative;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   overflow: hidden;
 
   @media (max-height: 700px) {
-    padding: 3.3rem 1.25rem 1rem; // 상단 패딩 증가
+    padding: 3.3rem 1.25rem 1rem;
     gap: 0.5rem;
   }
 `
@@ -86,8 +86,8 @@ export const CheckIcon = styled.svg.attrs({
   fill: 'none',
   xmlns: 'http://www.w3.org/2000/svg',
 })`
-  width: 3.438rem; // 55px
-  height: 3.438rem; // 55px
+  width: 3.438rem;
+  height: 3.438rem;
 `
 export const CheckPath = styled.path.attrs({
   d: 'M6 24L18 36L42 12',

@@ -13,6 +13,7 @@ export default function DatePickerModal({ date, setDate }: DatePickerModalProps)
   const { popModal } = useModalStore()
   const [isExiting, setIsExiting] = useState(false)
   const [currentSelected, setCurrentSelected] = useState<Date>(date || new Date())
+
   const close = () => {
     setIsExiting(true)
     setTimeout(() => {

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/apiResponse'
+import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
 export interface FetchWalkDatesRequest {}

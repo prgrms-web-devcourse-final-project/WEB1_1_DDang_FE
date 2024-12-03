@@ -8,8 +8,9 @@ import WalkerListModal from '~pages/WalkPage/components/WalkerListModal'
 
 export default function WalkPage() {
   const navigate = useNavigate()
-  const [_modalType, _setModalType] = useState<'request' | 'accept' | 'complete' | 'progress' | 'friend' | null>(null)
-  const [isModalOpen, _setIsModalOpen] = useState(false)
+  // const [_modalType, _setModalType] = useState<'request' | 'accept' | 'complete' | 'progress' | 'friend' | null>(null)
+  // const [isModalOpen, _setIsModalOpen] = useState(false)
+  const [isModalOpen] = useState(false)
   const [isWalkerListOpen, setIsWalkerListOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
 
