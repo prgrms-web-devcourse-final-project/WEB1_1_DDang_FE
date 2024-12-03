@@ -14,18 +14,18 @@ import { fromLonLat } from 'ol/proj'
 import { easeOut } from 'ol/easing'
 import XYZ from 'ol/source/XYZ'
 import ReactDOMServer from 'react-dom/server'
-import * as S from '~pages/WalkPage/styles'
+import * as S from './styles'
 import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
 import { useNavigate } from 'react-router-dom'
 import { useWebSocket } from '~/WebSocketContext'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
-const geoOptions = {
+const getGeoOptions = () => ({
   enableHighAccuracy: true,
   timeout: 10000,
   maximumAge: 5000,
-}
+})
 
 export const getMarkerIconString = () => {
   const svgString = ReactDOMServer.renderToString(<S.MapPinIcon />)
@@ -72,9 +72,21 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
   useEffect(() => {
     if (isConnected) {
+      // 구독
       subscribe(`/sub/walk/${memberEmail}`, message => {
         console.log('수신된 메시지:', message.body)
       })
+
+      // 발행
+      // publish('/pub/api/v1/proposal', {
+      //   otherMemberEmail: 'mkh6793@naver.com',
+      //   comment: '같이 산책 해요 :)',
+      // })
+
+      // publish('/pub/api/v1/walk-alone', {
+      //   latitude: 37.5665,
+      //   longitude: 126.978,
+      // })
     }
   }, [isConnected])
 
@@ -171,7 +183,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
           }
         },
         handleLocationError,
-        geoOptions
+        getGeoOptions()
       )
     }
   }, [])
@@ -191,17 +203,32 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         heading = (heading + screenOrientation) % 360
       }
 
-      lastHeadingRef.current = heading
-
-      rotateMap(heading)
+      const headingDiff = Math.abs(heading - lastHeadingRef.current)
+      if (headingDiff > 5) {
+        lastHeadingRef.current = heading
+        rotateMap(heading)
+      }
     }
 
-    window.addEventListener('deviceorientation', handleDeviceOrientation, true)
+    const throttledHandler = throttle(handleDeviceOrientation, 100)
+
+    window.addEventListener('deviceorientation', throttledHandler, true)
 
     return () => {
-      window.removeEventListener('deviceorientation', handleDeviceOrientation, true)
+      window.removeEventListener('deviceorientation', throttledHandler, true)
     }
   }, [hasCompassPermission, screenOrientation, autoRotate])
+
+  const throttle = (func: Function, limit: number) => {
+    let inThrottle: boolean
+    return function (this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => (inThrottle = false), limit)
+      }
+    }
+  }
 
   useEffect(() => {
     const vectorLayer = new VectorLayer({
@@ -298,7 +325,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             }
           },
           handleLocationError,
-          geoOptions
+          getGeoOptions()
         )
       }
     }, 5000)
@@ -368,7 +395,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         error => {
           console.error('위치 정보를 가져오는데 실패했습니다:', error)
         },
-        geoOptions
+        getGeoOptions()
       )
     }
   }
@@ -667,10 +694,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
           updateEstimatedDistance()
         },
         handleLocationError,
-        {
-          ...geoOptions,
-          maximumAge: 10000,
-        }
+        getGeoOptions()
       )
 
       walkIntervalRef.current = window.setInterval(() => {
@@ -799,7 +823,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             }
           },
           handleLocationError,
-          geoOptions
+          getGeoOptions()
         )
       }, 10000)
     }
@@ -809,7 +833,30 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         clearInterval(intervalId)
       }
     }
-  }, [isWalking])
+  }, [isWalking]) // isWalking 의존성 추가
+
+  // const MIN_DISTANCE_CHANGE = 10; // 미터 단위
+  // let lastPosition = null;
+
+  // const handlePositionUpdate = (position: GeolocationPosition) => {
+  //   if (!lastPosition) {
+  //     lastPosition = position;
+  //     return true;
+  //   }
+
+  //   const distance = calculateDirectDistance(
+  //     lastPosition.coords.latitude,
+  //     lastPosition.coords.longitude,
+  //     position.coords.latitude,
+  //     position.coords.longitude
+  //   );
+
+  //   if (distance >= MIN_DISTANCE_CHANGE) {
+  //     lastPosition = position;
+  //     return true;
+  //   }
+  //   return false;
+  // };
 
   return (
     <S.MapContainer>
@@ -823,7 +870,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       )}
 
       {isWalking ? (
-        <S.WalkControlContainer>
+        <S.WalkControlContainer $isWalking={isWalking}>
           <S.InfoBox>
             <S.InfoValue>{formatTime(walkTime)}</S.InfoValue>
           </S.InfoBox>
@@ -844,7 +891,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
           </S.InfoBox>
         </S.WalkControlContainer>
       ) : (
-        <S.WalkControlContainer style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+        <S.WalkControlContainer $isWalking={isWalking}>
           <S.StyledActionButton
             onClick={handleWalkToggle}
             $type='capsule'
