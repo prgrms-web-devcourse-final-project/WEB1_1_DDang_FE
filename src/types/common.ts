@@ -4,3 +4,4 @@ export type DayOfWeek = 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDA
 export type NotificationType = 'WALK' | 'CHAT' | 'FRIEND'
 export type Provider = 'GOOGLE' | 'NAVER' | 'KAKAO'
 export type ChatType = 'TALK' | 'SYSTEM'
+export type BooleanString = 'TRUE' | 'FALSE'
