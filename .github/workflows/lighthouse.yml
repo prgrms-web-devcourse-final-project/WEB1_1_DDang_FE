@@ -38,6 +38,9 @@ jobs:
           NODE_AUTH_TOKEN: ''
 
       - name: Build project
+        run: npm run lint
+
+      - name: Build project
         run: npm run build
 
       - name: Run Lighthouse CI

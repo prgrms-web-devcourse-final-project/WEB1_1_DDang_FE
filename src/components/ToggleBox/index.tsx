@@ -24,7 +24,7 @@ export default function ToggleBox({ setting, type }: ToggleBoxProps) {
   return (
     <S.ToggleBox $type={type}>
       <S.MainArea>
-        <SelectedTypo weight='700'>{SETTINGS_INFO[setting].title}</SelectedTypo>
+        <SelectedTypo $weight='700'>{SETTINGS_INFO[setting].title}</SelectedTypo>
         {SETTINGS_INFO[setting].desc && <Typo15>{SETTINGS_INFO[setting].desc}</Typo15>}
       </S.MainArea>
       <Toggle id={setting} setting={setting} />
