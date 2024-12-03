@@ -3,7 +3,7 @@ import styled from 'styled-components'
 type ProfileProps = {
   $size: number
   $src: string
-  $userId?: string
+  $userId?: number
 }
 
 export const Profile = styled.div<ProfileProps>`

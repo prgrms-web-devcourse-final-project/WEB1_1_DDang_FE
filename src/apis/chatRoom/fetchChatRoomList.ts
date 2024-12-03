@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/apiResponse'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
-import { ChatInfo } from '~types/social'
 
-export type FetchChatRoomListResponse = ChatInfo
+export type FetchChatRoomListResponse = Array<
+  Pick<CommonAPIResponse, 'chatRoomId' | 'name' | 'lastMessage' | 'unreadMessageCount' | 'members'>
+>
 
 export const fetchChatRoomList = async (): Promise<APIResponse<FetchChatRoomListResponse>> => {
   try {

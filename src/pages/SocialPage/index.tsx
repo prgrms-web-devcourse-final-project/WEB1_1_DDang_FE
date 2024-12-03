@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Typo15 } from '~components/Typo'
 import FriendChatList from '~pages/SocialPage/components/FriendChatList'
-import { ChatInfo, FriendInfo } from '~types/social'
+import { FriendInfo } from '~types/social'
 import * as S from './styles'
+import { fetchChatRoomList, FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
+  const [chatList, setChatList] = useState<FetchChatRoomListResponse>([])
+
+  useEffect(() => {
+    fetchChatRoomList().then(data => setChatList(data.data))
+  }, [])
 
   return (
     <S.SocialPage>
@@ -36,115 +42,81 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '1',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '2',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '3',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '4',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '5',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '6',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '7',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '8',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '9',
-    role: '이모',
+    role: '',
   },
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '10',
-    role: '이모',
-  },
-]
-const chatList: ChatInfo[] = [
-  {
-    name: '감자탕수육',
-    chatRoomId: 14231,
-    lastMessage: '마지막 채팅 텍스트입니다',
-    unreadMessageCount: 15,
-    members: [
-      {
-        memberId: 0,
-        email: 'test@abc.com',
-        name: 'NAME',
-      },
-    ],
-    profileImg: '',
-    role: '이모',
-    gender: 'female',
-  },
-  {
-    name: '감자탕수육',
-    chatRoomId: 14231,
-    lastMessage: '마지막 채팅 텍스트입니다',
-    unreadMessageCount: 15,
-    members: [
-      {
-        memberId: 0,
-        email: 'test@abc.com',
-        name: 'NAME',
-      },
-    ],
-    profileImg: '',
-    role: '이모',
-    gender: 'female',
+    role: '',
   },
 ]

@@ -1,21 +1,18 @@
 import ChatItem from '~pages/SocialPage/components/ChatItem'
 import FriendItem from '~pages/SocialPage/components/FriendItem'
-import { ChatInfo, FriendInfo, SocialTabs } from '~types/social'
+import { FriendInfo, SocialTabs } from '~types/social'
 import * as S from './styles'
-import { useEffect } from 'react'
-import { fetchChatRoomList } from '~apis/chatRoom/fetchChatRoomList'
+import { FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
 
 type FriendChatListProps = {
   selectedTab: SocialTabs
   friendList: FriendInfo[]
-  chatList: ChatInfo[]
+  chatList: FetchChatRoomListResponse
 }
 
 export default function FriendChatList({ selectedTab, friendList, chatList }: FriendChatListProps) {
   //todo fetch by userId
-  useEffect(() => {
-    fetchChatRoomList().then(data => console.log(data))
-  }, [])
+
   return (
     <S.FriendChatList>
       {selectedTab === 'friendList'
