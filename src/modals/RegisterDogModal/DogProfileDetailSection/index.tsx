@@ -66,9 +66,10 @@ export default function DogProfileDetailSection() {
         birthDate: dogProfile.birth as Date,
         weight: parseFloat(dogProfile.weight),
         gender: dogProfile.gender?.toUpperCase() as 'MALE' | 'FEMALE',
-        profileImg: dogProfile.image || '',
+        profileImg:
+          'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR_LukTVYQBmhxXr02u71BR60FmFj07wR0GH7ryW5kCHLWef4BznpT7CfjR5Uyukevf30ivmnrohj9tBcjmSZUiqw',
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
-        familyId: 0,
+        familyId: null,
         comment: dogProfile.intro,
       }
 

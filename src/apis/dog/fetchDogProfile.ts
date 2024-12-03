@@ -2,18 +2,7 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/apiResponse'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export interface CreateDogProfileRequest {
-  name: string
-  breed: string
-  birthDate: Date
-  weight: number
-  gender: 'MALE' | 'FEMALE'
-  profileImg: string
-  isNeutered: 'TRUE' | 'FALSE'
-  familyId: null
-  comment: string
-}
-interface CreateDogProfileResponse {
+interface DogProfileDetail {
   dogId: number
   name: string
   breed: string
@@ -26,24 +15,24 @@ interface CreateDogProfileResponse {
   comment: string
 }
 
-export const createDogProfile = async (
-  req: CreateDogProfileRequest
-): Promise<APIResponse<CreateDogProfileResponse>> => {
+export interface FetchDogProfileResponse {
+  data: DogProfileDetail
+}
+
+export const fetchDogProfile = async (id: number): Promise<APIResponse<FetchDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.post<APIResponse<CreateDogProfileResponse>>('/dogs/create', req)
+    const { data } = await axiosInstance.get<APIResponse<FetchDogProfileResponse>>(`/dogs/${id}`)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response, request } = error as AxiosError<ErrorResponse>
 
       if (response) {
-        // 서버에서 응답이 왔지만 에러가 발생한 경우
-        console.error('반려견 등록 오류:', response.data)
+        console.error('반려견 조회 오류:', response.data)
         throw new Error(response.data.message ?? '요청 실패')
       }
 
       if (request) {
-        // 요청 자체가 실패한 경우 : 네트워크 연결 문제나 CORS 에러와 같은 클라이언트 측 문제
         console.error('요청 에러:', request)
         throw new Error('네트워크 연결을 확인해주세요')
       }
