@@ -10,12 +10,14 @@ import * as S from './styles'
 import { useScrollToBottom } from '~hooks/useScrollToBottom'
 
 type ChatModalProps = {
-  userId: string
+  chatRoomId: number
+  userId: number
 }
 
-export default function ChatModal({ userId }: ChatModalProps) {
+export default function ChatModal({ chatRoomId, userId }: ChatModalProps) {
   const { popModal } = useModalStore()
-  console.log('ChatModal', userId) //todo fetch by userId
+  console.log('chatRoomId', chatRoomId) //todo fetch by chatRoomId
+  console.log('userId', userId) //todo fetch by userId
   const ref = useScrollToBottom<HTMLDivElement>()
 
   return (

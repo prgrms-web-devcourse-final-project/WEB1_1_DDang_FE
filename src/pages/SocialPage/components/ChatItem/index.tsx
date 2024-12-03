@@ -8,12 +8,21 @@ import ChatModal from '~modals/ChatModal'
 
 type ChatItemProps = ChatInfo
 
-export default function ChatItem({ gender, lastChat, name, profileImg, role, unreadChatCount, userId }: ChatItemProps) {
+export default function ChatItem({
+  gender,
+  lastMessage,
+  name,
+  profileImg,
+  role,
+  unreadMessageCount,
+  members,
+  chatRoomId,
+}: ChatItemProps) {
   const { pushModal } = useModalStore()
 
   return (
-    <S.ChatItem onClick={() => pushModal(<ChatModal userId={userId} />)}>
-      <Profile $src={profileImg} $size={48} userId={userId} />
+    <S.ChatItem onClick={() => pushModal(<ChatModal chatRoomId={chatRoomId} userId={members[0].memberId} />)}>
+      <Profile $src={profileImg} $size={48} userId={members[0].memberId} />
       <S.TypoWrapper>
         <S.UserInfoWrapper>
           <Typo17 $weight='700'>{name}</Typo17>
@@ -27,10 +36,10 @@ export default function ChatItem({ gender, lastChat, name, profileImg, role, unr
             </Typo13>
           </S.DetailWrapper>
         </S.UserInfoWrapper>
-        {lastChat}
+        {lastMessage}
       </S.TypoWrapper>
       <S.UnreadChatCount>
-        <Typo11>{unreadChatCount}</Typo11>
+        <Typo11>{unreadMessageCount}</Typo11>
       </S.UnreadChatCount>
     </S.ChatItem>
   )

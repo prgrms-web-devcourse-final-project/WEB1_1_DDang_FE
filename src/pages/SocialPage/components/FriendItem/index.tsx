@@ -25,7 +25,7 @@ export default function FriendItem({ gender, name, profileImg, role, userId }: F
           </Typo14>
         </S.DetailWrapper>
       </S.TypoWrapper>
-      <S.MessageBtn onClick={() => pushModal(<ChatModal userId={userId} />)}>
+      <S.MessageBtn onClick={() => pushModal(<ChatModal chatRoomId={userId} />)}>
         <Typo14 $weight='700' $color='font_1'>
           메시지
         </Typo14>

@@ -9,13 +9,20 @@ export type FriendInfo = {
   userId: string
 }
 
+//todo 백엔드 맞춰 수정
 export type ChatInfo = {
-  profileImg: string
+  chatRoomId: number
   name: string
+  lastMessage: string
+  profileImg: string
+  unreadMessageCount: number
+  members: [
+    {
+      memberId: number
+      email: string
+      name: string
+    },
+  ]
   gender: 'male' | 'female'
   role: string
-  lastChat: string
-  unreadChatCount: number
-  id: string
-  userId: string
 }
