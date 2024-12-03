@@ -103,7 +103,7 @@ export type CommonAPIRequest = {
   /** 메시지 내용 @example "안녕하세요!" */
   message: string
   /** 읽은 메시지 ID 목록 @example null */
-  readMessageIds: null
+  readMessageIds: number[]
   /** 총 산책 거리 (미터) @example 1200 */
   totalDistanceMeter: number
   /** 총 산책 시간 (초) @example 1800 */
