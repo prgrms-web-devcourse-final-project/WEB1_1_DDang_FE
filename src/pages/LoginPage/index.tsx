@@ -1,10 +1,27 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 
+const BACKEND_URL = 'https://ddang.shop'
+
 const SOCIAL_LOGIN_BUTTONS = [
-  { Component: S.Kakao, Icon: S.KakaoIcon, text: '카카오계정 로그인' },
-  { Component: S.Naver, Icon: S.NaverIcon, text: '네이버로 로그인' },
-  { Component: S.Google, Icon: S.GoogleIcon, text: '구글로 로그인' },
+  {
+    Component: S.Kakao,
+    Icon: S.KakaoIcon,
+    text: '카카오계정 로그인',
+    href: `${BACKEND_URL}/oauth2/authorization/kakao`,
+  },
+  {
+    Component: S.Naver,
+    Icon: S.NaverIcon,
+    text: '네이버로 로그인',
+    href: `${BACKEND_URL}/oauth2/authorization/naver`,
+  },
+  {
+    Component: S.Google,
+    Icon: S.GoogleIcon,
+    text: '구글로 로그인',
+    href: `${BACKEND_URL}/oauth2/authorization/google`,
+  },
 ] as const
 
 const TitleSection = () => (
@@ -17,10 +34,14 @@ const TitleSection = () => (
 )
 
 const SocialLoginButtons = (): JSX.Element => {
+  const handleLogin = (href: string) => {
+    window.location.href = href
+  }
+
   return (
     <S.SocialLoginSection>
-      {SOCIAL_LOGIN_BUTTONS.map(({ Component, Icon, text }) => (
-        <Component key={text} weight='700'>
+      {SOCIAL_LOGIN_BUTTONS.map(({ Component, Icon, text, href }) => (
+        <Component key={text} weight='700' onClick={() => handleLogin(href)}>
           <div style={{ position: 'relative', width: '100%' }}>
             <Icon />
             <div style={{ textAlign: 'center' }}>{text}</div>

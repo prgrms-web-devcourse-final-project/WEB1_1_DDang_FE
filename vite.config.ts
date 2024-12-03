@@ -2,13 +2,13 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { compression } from 'vite-plugin-compression2'
 import dts from 'vite-plugin-dts'
-// import mkcert from 'vite-plugin-mkcert'
+import mkcert from 'vite-plugin-mkcert'
 import { VitePWA } from 'vite-plugin-pwa'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
-export default defineConfig(() =>
+export default defineConfig(({ mode }) =>
   // { mode }
   {
     return {
@@ -35,7 +35,7 @@ export default defineConfig(() =>
       plugins: [
         react(),
         tsconfigPaths(),
-        // ...(mode === 'development' ? [mkcert()] : []),
+        ...(mode === 'development' ? [mkcert()] : []),
         svgr(),
         dts(),
         compression(),
