@@ -2,11 +2,10 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/apiResponse'
 import { axiosInstance } from '~apis/axiosInstance'
 
-// 반려견 등록 요청 인터페이스
-interface CreateDogProfileRequest {
+export interface CreateDogProfileRequest {
   name: string
   breed: string
-  birthDate: string // YYYY-MM-DD 형식
+  birthDate: Date
   weight: number
   gender: 'MALE' | 'FEMALE'
   profileImg: string
@@ -14,8 +13,6 @@ interface CreateDogProfileRequest {
   familyId: number
   comment: string
 }
-
-// 반려견 등록 응답 인터페이스
 interface CreateDogProfileResponse {
   dogId: number
   name: string
@@ -29,15 +26,11 @@ interface CreateDogProfileResponse {
   comment: string
 }
 
-// 반려견 등록 함수
 export const createDogProfile = async (
   req: CreateDogProfileRequest
 ): Promise<APIResponse<CreateDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.post<APIResponse<CreateDogProfileResponse>>(
-      '/dogs/create', // API 엔드포인트
-      req
-    )
+    const { data } = await axiosInstance.post<APIResponse<CreateDogProfileResponse>>('/dogs/create', req)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {

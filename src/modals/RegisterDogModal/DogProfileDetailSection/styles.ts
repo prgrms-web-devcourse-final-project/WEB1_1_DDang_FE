@@ -49,6 +49,7 @@ export const CheckboxWrapper = styled.div`
 `
 
 export const CheckboxCircle = styled.div<{ $isChecked: boolean }>`
+  border: solid 1px red;
   width: 24px;
   height: 24px;
   border: 2px solid ${({ $isChecked }) => ($isChecked ? '#000' : '#ccc')};

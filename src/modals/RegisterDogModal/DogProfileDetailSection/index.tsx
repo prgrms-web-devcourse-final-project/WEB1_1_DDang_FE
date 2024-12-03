@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { Typo24 } from '~components/Typo/index'
-import Check from '~assets/check.svg'
+import Check from '~assets/is-neutered-check.svg'
 import Header from '~components/Header/index'
 import SearchModal from '~modals/SearchModal'
 import { useModalStore } from '~stores/modalStore'
@@ -11,6 +11,7 @@ import { useDogProfileStore } from '~/stores/dogProfileStore'
 import { validateDogDetailProfile } from '~utils/validateDogProfile'
 import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
+import { createDogProfile, CreateDogProfileRequest } from '~apis/dog/createDogProfile'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
@@ -52,13 +53,36 @@ export default function DogProfileDetailSection() {
     }
   }
 
-  const handleComfirmClick = () => {
+  const handleComfirmClick = async () => {
     const alertMessage = validateDogDetailProfile(dogProfile)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    console.log('이제 백엔드로 전송')
+    try {
+      const createDogProfileRequest: CreateDogProfileRequest = {
+        name: dogProfile.name,
+        breed: dogProfile.breed,
+        birthDate: dogProfile.birth as Date,
+        weight: parseFloat(dogProfile.weight),
+        gender: dogProfile.gender?.toUpperCase() as 'MALE' | 'FEMALE',
+        profileImg: dogProfile.image || '',
+        isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
+        familyId: 0,
+        comment: dogProfile.intro,
+      }
+
+      const response = await createDogProfile(createDogProfileRequest)
+
+      if (response.code === 200) {
+        // 이제 홈으로 이동
+        showToast('반려견 등록이 완료되었습니다')
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showToast(error.message)
+      } else showToast('반려견 등록이 실패했습니다.')
+    }
   }
 
   return (
