@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/apiResponse'
+import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
 interface DeleteDogProfileResponse {
-  data: Record<string, never> // 빈 객체를 나타내는 타입
+  data: Record<string, never>
 }
 
 export const deleteDogProfile = async (id: number): Promise<APIResponse<DeleteDogProfileResponse>> => {

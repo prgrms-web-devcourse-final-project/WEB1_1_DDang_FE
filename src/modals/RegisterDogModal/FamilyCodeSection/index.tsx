@@ -9,19 +9,25 @@ import CheckDogProfileSection from '../CheckDogProfileSection'
 import { useToastStore } from '~stores/toastStore'
 import { validateFamilyCode } from '~utils/validateDogProfile'
 import Toast from '~components/Toast'
+import { joinFamily } from '~apis/family/joinFamily'
 
 export default function FamilyCodeSection() {
   const { pushModal, popModal } = useModalStore()
   const [familyCode, setFamilyCode] = useState('')
   const { showToast } = useToastStore()
 
-  const handleClickNext = () => {
+  const handleClickNext = async () => {
     const alertMessage = validateFamilyCode(familyCode)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    pushModal(<CheckDogProfileSection />)
+    try {
+      const response = await joinFamily('ABC12345')
+      if (response.code === 200) pushModal(<CheckDogProfileSection />)
+    } catch (error) {
+      if (error instanceof Error) showToast(error.message)
+    }
   }
   return (
     <>

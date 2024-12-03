@@ -18,7 +18,7 @@ export default function DogProfileDetailSection() {
   const { pushModal, popModal } = useModalStore()
   const { showToast } = useToastStore()
 
-  const [displayValue, setDisplayValue] = useState('')
+  const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
 
   const handleGenderSelect = (gender: 'male' | 'female') => {
@@ -74,8 +74,7 @@ export default function DogProfileDetailSection() {
       }
 
       const response = await createDogProfile(createDogProfileRequest)
-
-      if (response.code === 200) {
+      if (response.code == 201) {
         // 이제 홈으로 이동
         showToast('반려견 등록이 완료되었습니다')
       }

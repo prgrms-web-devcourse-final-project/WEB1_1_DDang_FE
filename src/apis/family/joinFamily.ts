@@ -2,22 +2,22 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export interface FetchWalkDatesRequest {}
-
-interface FetchWalkDatesResponse {
-  data: string[] // "YYYY-MM-DD" 형식의 날짜 배열
+interface JoinFamilyResponse {
+  familyId: number
+  memberId: number
+  familyName: string
 }
 
-export const fetchWalkDates = async (): Promise<APIResponse<FetchWalkDatesResponse>> => {
+export const joinFamily = async (inviteCode: string): Promise<APIResponse<JoinFamilyResponse>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchWalkDatesResponse>>('/log/total/month')
+    const { data } = await axiosInstance.post<APIResponse<JoinFamilyResponse>>('/family/join', { inviteCode })
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response, request } = error as AxiosError<ErrorResponse>
 
       if (response) {
-        console.error('산책 날짜 조회 오류:', response.data)
+        console.error('가족 참여 오류:', response.data)
         throw new Error(response.data.message ?? '요청 실패')
       }
 

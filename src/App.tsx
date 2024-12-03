@@ -7,8 +7,8 @@ import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
-// import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
-// import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
+import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
+import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
 
 function App() {
   //* 다크모드 확장성 고려
@@ -16,12 +16,12 @@ function App() {
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
 
   useEffect(() => {
-    // deleteDogProfile(2).then(response => {
+    // deleteDogProfile(6).then(response => {
     //   console.log(response)
     // })
-    // fetchDogProfile(2).then(response => {
-    //   console.log(response)
-    // })
+    fetchDogProfile(6).then(response => {
+      console.log(response)
+    })
   }, [])
   return (
     <>
