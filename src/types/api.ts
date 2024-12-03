@@ -1,5 +1,14 @@
 import { ChatType, Gender, FamilyRole, DayOfWeek, Provider, BooleanString } from '~types/common'
 
+export type APIResponse<T> = {
+  code: number
+  status: string
+  message: string
+  data: T
+}
+
+export type ErrorResponse = APIResponse<null>
+
 export type Dog = {
   /** 강아지 ID @example 1 */
   dogId: number
@@ -103,7 +112,7 @@ export type CommonAPIRequest = {
   /** 메시지 내용 @example "안녕하세요!" */
   message: string
   /** 읽은 메시지 ID 목록 @example null */
-  readMessageIds: number[]
+  readMessageIds: null
   /** 총 산책 거리 (미터) @example 1200 */
   totalDistanceMeter: number
   /** 총 산책 시간 (초) @example 1800 */
