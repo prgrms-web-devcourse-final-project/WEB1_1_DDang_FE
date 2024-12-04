@@ -4,7 +4,7 @@ import { useRef } from 'react'
 
 interface DogImageUploaderProps {
   image: string | undefined
-  setImage: (image: string) => void
+  setImage: (update: { image: string; imageFile: File }) => void
 }
 
 export default function DogImageUploader({ image, setImage }: DogImageUploaderProps) {
@@ -15,7 +15,10 @@ export default function DogImageUploader({ image, setImage }: DogImageUploaderPr
     if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        setImage(reader.result as string)
+        setImage({
+          image: reader.result as string,
+          imageFile: file,
+        })
       }
       reader.readAsDataURL(file)
     }

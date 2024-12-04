@@ -11,7 +11,8 @@ import { useDogProfileStore } from '~/stores/dogProfileStore'
 import { validateDogDetailProfile } from '~utils/validateDogProfile'
 import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
-import { createDogProfile, CreateDogProfileRequest } from '~apis/dog/createDogProfile'
+import { createDogProfile } from '~apis/dog/createDogProfile'
+import { dateToString } from '~utils/dateFormat'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
@@ -59,29 +60,39 @@ export default function DogProfileDetailSection() {
       showToast(alertMessage)
       return
     }
+
     try {
-      const createDogProfileRequest: CreateDogProfileRequest = {
+      const formData = new FormData()
+      const requestData = {
         name: dogProfile.name,
         breed: dogProfile.breed,
-        birthDate: dogProfile.birth as Date,
-        weight: parseFloat(dogProfile.weight),
-        gender: dogProfile.gender?.toUpperCase() as 'MALE' | 'FEMALE',
-        profileImg:
-          'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR_LukTVYQBmhxXr02u71BR60FmFj07wR0GH7ryW5kCHLWef4BznpT7CfjR5Uyukevf30ivmnrohj9tBcjmSZUiqw',
+        birthDate: dateToString(dogProfile.birth!),
+        weight: dogProfile.weight,
+        gender: dogProfile.gender?.toUpperCase() || '',
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
-        familyId: null,
+        familyId: '0',
         comment: dogProfile.intro,
       }
+      formData.append(
+        'request',
+        new Blob([JSON.stringify(requestData)], {
+          type: 'application/json',
+        })
+      )
+      if (dogProfile.imageFile) {
+        formData.append('file', dogProfile.imageFile)
+      }
 
-      const response = await createDogProfile(createDogProfileRequest)
-      if (response.code == 201) {
-        // 이제 홈으로 이동
+      const response = await createDogProfile(formData)
+
+      if (response.code === 201) {
+        // 홈으로 이동
         showToast('반려견 등록이 완료되었습니다')
       }
     } catch (error) {
       if (error instanceof Error) {
         showToast(error.message)
-      } else showToast('반려견 등록이 실패했습니다.')
+      }
     }
   }
 
