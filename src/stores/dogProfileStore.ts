@@ -10,7 +10,7 @@ export const useDogProfileStore = create<DogProfileStore>(set => ({
   dogProfile: {
     name: '',
     image: undefined,
-    birth: '',
+    birth: null,
     intro: '',
     gender: null,
     isNeutered: false,
