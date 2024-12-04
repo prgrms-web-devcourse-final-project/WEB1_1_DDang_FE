@@ -43,10 +43,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const vectorSourceRef = useRef<VectorSource>(new VectorSource())
   const markerRef = useRef<Feature | null>(null)
   const [showCenterButton, setShowCenterButton] = useState<boolean>(false)
-  // const rotationRef = useRef<number>(0)
-
-  // 위치 및 권한 관련 상태
-  const [hasCompassPermission] = useState<boolean>(false)
+  const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
@@ -54,7 +51,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const [walkTime, setWalkTime] = useState<number>(0)
   const walkIntervalRef = useRef<number | null>(null)
   const [walkDistance, setWalkDistance] = useState<number>(0)
-  const [, setPositions] = useState<{ lat: number; lng: number }[]>([])
+  const [_positions, setPositions] = useState<{ lat: number; lng: number }[]>([])
 
   const routeLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
   const routeSourceRef = useRef<VectorSource>(new VectorSource())
@@ -75,21 +72,9 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
   useEffect(() => {
     if (isConnected) {
-      // 구독
       subscribe(`/sub/walk/${memberEmail}`, message => {
         console.log('수신된 메시지:', message.body)
       })
-
-      // 발행
-      // publish('/pub/api/v1/proposal', {
-      //   otherMemberEmail: 'mkh6793@naver.com',
-      //   comment: '같이 산책 해요 :)',
-      // })
-
-      // publish('/pub/api/v1/walk-alone', {
-      //   latitude: 37.5665,
-      //   longitude: 126.978,
-      // })
     }
   }, [isConnected])
 
@@ -541,7 +526,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
                 const transform = canvasElement.style.transform
                 const matrix = transform
-                  .match(/^matrix\(([^(]*)\)$/)?.[1]
+                  .match(/^matrix\(([^\(]*)\)$/)?.[1]
                   ?.split(',')
                   .map(Number)
 
@@ -811,7 +796,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   useEffect(() => {
     let intervalId: number | null = null
 
-    // 산책 중이 아닐 때만 주기적으로 위치 업데이트
     if (!isWalking && navigator.geolocation) {
       intervalId = window.setInterval(() => {
         navigator.geolocation.getCurrentPosition(
@@ -836,30 +820,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         clearInterval(intervalId)
       }
     }
-  }, [isWalking]) // isWalking 의존성 추가
-
-  // const MIN_DISTANCE_CHANGE = 10; // 미터 단위
-  // let lastPosition = null;
-
-  // const handlePositionUpdate = (position: GeolocationPosition) => {
-  //   if (!lastPosition) {
-  //     lastPosition = position;
-  //     return true;
-  //   }
-
-  //   const distance = calculateDirectDistance(
-  //     lastPosition.coords.latitude,
-  //     lastPosition.coords.longitude,
-  //     position.coords.latitude,
-  //     position.coords.longitude
-  //   );
-
-  //   if (distance >= MIN_DISTANCE_CHANGE) {
-  //     lastPosition = position;
-  //     return true;
-  //   }
-  //   return false;
-  // };
+  }, [isWalking])
 
   return (
     <S.MapContainer>
