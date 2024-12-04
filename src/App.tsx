@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
@@ -12,12 +12,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient()
+import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
+import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
 
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
 
+
+  useEffect(() => {
+    // deleteDogProfile(6).then(response => {
+    //   console.log(response)
+    // })
+    fetchDogProfile(6).then(response => {
+      console.log(response)
+    })
+  }, [])
   return (
     <>
       <WebSocketProvider>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { Typo24 } from '~components/Typo/index'
-import Check from '~assets/check.svg'
+import Check from '~assets/is-neutered-check.svg'
 import Header from '~components/Header/index'
 import SearchModal from '~modals/SearchModal'
 import { useModalStore } from '~stores/modalStore'
@@ -11,13 +11,14 @@ import { useDogProfileStore } from '~/stores/dogProfileStore'
 import { validateDogDetailProfile } from '~utils/validateDogProfile'
 import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
+import { createDogProfile, CreateDogProfileRequest } from '~apis/dog/createDogProfile'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
   const { pushModal, popModal } = useModalStore()
   const { showToast } = useToastStore()
 
-  const [displayValue, setDisplayValue] = useState('')
+  const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
 
   const handleGenderSelect = (gender: 'male' | 'female') => {
@@ -52,13 +53,36 @@ export default function DogProfileDetailSection() {
     }
   }
 
-  const handleComfirmClick = () => {
+  const handleComfirmClick = async () => {
     const alertMessage = validateDogDetailProfile(dogProfile)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    console.log('이제 백엔드로 전송')
+    try {
+      const createDogProfileRequest: CreateDogProfileRequest = {
+        name: dogProfile.name,
+        breed: dogProfile.breed,
+        birthDate: dogProfile.birth as Date,
+        weight: parseFloat(dogProfile.weight),
+        gender: dogProfile.gender?.toUpperCase() as 'MALE' | 'FEMALE',
+        profileImg:
+          'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR_LukTVYQBmhxXr02u71BR60FmFj07wR0GH7ryW5kCHLWef4BznpT7CfjR5Uyukevf30ivmnrohj9tBcjmSZUiqw',
+        isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
+        familyId: null,
+        comment: dogProfile.intro,
+      }
+
+      const response = await createDogProfile(createDogProfileRequest)
+      if (response.code == 201) {
+        // 이제 홈으로 이동
+        showToast('반려견 등록이 완료되었습니다')
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showToast(error.message)
+      } else showToast('반려견 등록이 실패했습니다.')
+    }
   }
 
   return (
@@ -66,7 +90,7 @@ export default function DogProfileDetailSection() {
       <S.DogProfileDetailSection>
         <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.TypoWrapper>
-          <Typo24 $weight='700'>
+          <Typo24 $weight='700' $textAlign='center'>
             반려견 상세 정보를
             <br /> 알려주세요!
           </Typo24>

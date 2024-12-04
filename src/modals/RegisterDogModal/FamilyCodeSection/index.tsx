@@ -9,19 +9,25 @@ import CheckDogProfileSection from '../CheckDogProfileSection'
 import { useToastStore } from '~stores/toastStore'
 import { validateFamilyCode } from '~utils/validateDogProfile'
 import Toast from '~components/Toast'
+import { joinFamily } from '~apis/family/joinFamily'
 
 export default function FamilyCodeSection() {
   const { pushModal, popModal } = useModalStore()
   const [familyCode, setFamilyCode] = useState('')
   const { showToast } = useToastStore()
 
-  const handleClickNext = () => {
+  const handleClickNext = async () => {
     const alertMessage = validateFamilyCode(familyCode)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    pushModal(<CheckDogProfileSection />)
+    try {
+      const response = await joinFamily('ABC12345')
+      if (response.code === 200) pushModal(<CheckDogProfileSection />)
+    } catch (error) {
+      if (error instanceof Error) showToast(error.message)
+    }
   }
   return (
     <>
@@ -32,7 +38,7 @@ export default function FamilyCodeSection() {
         </S.PrevBtnWrapper>
         <S.InputArea>
           <S.TypoWrapper>
-            <Typo24 $weight='700'>
+            <Typo24 $weight='700' $textAlign='center'>
               가족에게 받은
               <br />
               코드를 입력해 주세요.

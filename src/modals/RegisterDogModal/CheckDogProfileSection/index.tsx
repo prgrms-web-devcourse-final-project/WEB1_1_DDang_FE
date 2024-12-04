@@ -15,7 +15,7 @@ export default function CheckDogProfileSection() {
         <Header type='sm' onClickPrev={popModal} prevBtn={true} />
         <S.ProfileArea>
           <S.TypoWrapper>
-            <Typo24 $weight='700'>
+            <Typo24 $weight='700' $textAlign='center'>
               이 반려견이
               <br />
               맞나요?
