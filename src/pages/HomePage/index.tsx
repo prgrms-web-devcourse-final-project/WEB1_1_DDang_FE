@@ -1,24 +1,23 @@
-import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { GoBell } from 'react-icons/go'
-import { Typo14, Typo17, Typo24 } from '~components/Typo'
-import { LuClock5 } from 'react-icons/lu'
-import { Separator } from '~components/Separator'
-import { ActionButton } from '~components/Button/ActionButton'
 import { GrLocation } from 'react-icons/gr'
+import { LuClock5 } from 'react-icons/lu'
+import { useHomePageData } from '~apis/main/useHomePageData'
+import { ActionButton } from '~components/Button/ActionButton'
+import Loader from '~components/Loader'
 import Profile from '~components/Profile'
-import { fetchHomePageData, FetchHomePageDataResponse } from '~apis/main/fetchHomePageData'
-import { useEffect, useState } from 'react'
-import { useModalStore } from '~stores/modalStore'
+import { Separator } from '~components/Separator'
+import { Typo14, Typo17, Typo24 } from '~components/Typo'
 import NotificationModal from '~modals/NotificationModal'
+import { useModalStore } from '~stores/modalStore'
+import * as S from './styles'
 
 export default function HomePage() {
-  const [data, setData] = useState<FetchHomePageDataResponse>()
   const { pushModal } = useModalStore()
+  const { data, isLoading, isError } = useHomePageData()
 
-  useEffect(() => {
-    fetchHomePageData().then(data => setData(data.data))
-  }, [])
+  if (isLoading) return <Loader />
+  if (isError) return <div>Error fetching homepage data</div>
 
   return (
     <S.HomePage>
