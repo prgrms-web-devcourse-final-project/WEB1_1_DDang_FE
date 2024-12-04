@@ -526,7 +526,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
                 const transform = canvasElement.style.transform
                 const matrix = transform
-                  .match(/^matrix\(([^\(]*)\)$/)?.[1]
+                  .match(/^matrix\(([^(]*)\)$/)?.[1]
                   ?.split(',')
                   .map(Number)
 
