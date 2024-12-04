@@ -34,7 +34,7 @@ export default function DogProfileSection() {
     setDogProfile({
       name: '',
       image: undefined,
-      birth: '',
+      birth: null,
       intro: '',
       gender: null,
       isNeutered: false,
@@ -62,7 +62,9 @@ export default function DogProfileSection() {
             onChange={e => setDogProfile({ name: e.target.value })}
           />
           <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birth}>
-            {dogProfile.birth || '생년월일 선택'}
+            {dogProfile.birth
+              ? [dogProfile.birth.getFullYear(), dogProfile.birth.getMonth() + 1, dogProfile.birth.getDate()].join('. ')
+              : '생년월일 선택'}
           </S.DatePickerBtn>
           <TwoLineInput
             placeholder='한줄 소개 입력'

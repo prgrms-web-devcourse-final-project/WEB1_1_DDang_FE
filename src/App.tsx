@@ -7,35 +7,40 @@ import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { WebSocketProvider } from '~/WebSocketContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 const queryClient = new QueryClient()
 
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
+
   return (
     <>
-      <HelmetProvider>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <Helmet>
-              <title>DDang</title>
-              <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-            </Helmet>
-            <button onClick={toggleTheme} hidden>
-              Toggle Theme
-            </button>
-            <GlobalStyle />
-            <MobileContainer>
-              <Suspense fallback={<Loader />}>
-                <RouterProvider router={router} />
-              </Suspense>
-            </MobileContainer>
-            <PWABadge />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </HelmetProvider>
+      <WebSocketProvider>
+        <HelmetProvider>
+          <ThemeProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>
+              <Helmet>
+                <title>DDang</title>
+                <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
+              </Helmet>
+              <button onClick={toggleTheme} hidden>
+                Toggle Theme
+              </button>
+              <GlobalStyle />
+              <MobileContainer>
+                <Suspense fallback={<Loader />}>
+                  <RouterProvider router={router} />
+                </Suspense>
+              </MobileContainer>
+              <PWABadge />
+            </QueryClientProvider>
+          </ThemeProvider>
+        </HelmetProvider>
+      </WebSocketProvider>
     </>
   )
 }

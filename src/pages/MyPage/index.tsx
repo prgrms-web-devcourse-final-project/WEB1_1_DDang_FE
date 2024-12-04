@@ -7,7 +7,7 @@ import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import SettingModal from '~modals/SettingModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { useQuery } from 'react-query' // react-query 대신 @tanstack/react-query 사용
+import CountSection from '~components/WalkCountArea'
 
 export default function MyPage() {
   const { data } = useQuery({
@@ -57,23 +57,11 @@ export default function MyPage() {
           </S.ProfileText>
         </S.ProfileSection>
 
-        <S.CountSection>
-          <S.CountArea>
-            <S.CountWrapperBig>{myPageData?.walkCount}회</S.CountWrapperBig>
-            <S.CountWrapperSmall>누적 산책 횟수</S.CountWrapperSmall>
-          </S.CountArea>
-
-          <S.CountArea>
-            <S.CountWrapperBig>{myPageData?.totalDistance}km</S.CountWrapperBig>
-            <S.CountWrapperSmall>총 산책거리</S.CountWrapperSmall>
-          </S.CountArea>
-
-          <S.CountArea>
-            <S.CountWrapperBig>{myPageData?.countWalksWithMember}회</S.CountWrapperBig>
-            <S.CountWrapperSmall>강번따 횟수</S.CountWrapperSmall>
-          </S.CountArea>
-        </S.CountSection>
+        <CountSection walkCount={23} totalDistance={32} gangCount={16} />
       </S.MainContainer>
+      {/* <S.CountWrapperBig>{myPageData?.walkCount}회</S.CountWrapperBig>
+      <S.CountWrapperBig>{myPageData?.totalDistance}km</S.CountWrapperBig>
+      <S.CountWrapperBig>{myPageData?.countWalksWithMember}회</S.CountWrapperBig> */}
     </S.MyPage>
   )
 }
