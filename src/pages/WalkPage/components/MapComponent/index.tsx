@@ -219,7 +219,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [hasCompassPermission, screenOrientation, autoRotate])
 
-  const throttle = (func: Function, limit: number) => {
+  const throttle = (func: Function, limit: number): ((...args: any[]) => void) => {
     let inThrottle: boolean
     return function (this: any, ...args: any[]) {
       if (!inThrottle) {
@@ -538,7 +538,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
                 const transform = canvasElement.style.transform
                 const matrix = transform
-                  .match(/^matrix\(([^\(]*)\)$/)?.[1]
+                  .match(/^matrix\(([^(]*)\)$/)?.[1]
                   ?.split(',')
                   .map(Number)
 
