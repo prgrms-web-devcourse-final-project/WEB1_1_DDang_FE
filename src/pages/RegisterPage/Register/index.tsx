@@ -16,6 +16,28 @@ import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
 import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
+import { GiConsoleController } from 'react-icons/gi'
+
+type FamilyRole =
+  | 'MOTHER'
+  | 'FATHER'
+  | 'ELDER_BROTHER'
+  | 'OLDER_BROTHER'
+  | 'ELDER_SISTER'
+  | 'OLDER_SISTER'
+  | 'GRANDFATHER'
+  | 'GRANDMOTHER'
+
+const positionLabelMap: Record<FamilyRole, string> = {
+  MOTHER: '엄마',
+  FATHER: '아빠',
+  ELDER_BROTHER: '형',
+  OLDER_BROTHER: '오빠',
+  ELDER_SISTER: '언니',
+  OLDER_SISTER: '누나',
+  GRANDFATHER: '할아버지',
+  GRANDMOTHER: '할머니',
+}
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
@@ -27,6 +49,7 @@ export default function Register() {
   const provider = searchParams.get('provider') || ''
 
   const handleNextClick = async () => {
+    console.log(ownerProfile)
     const alertMessage = validateOwnerProfile(ownerProfile)
     if (alertMessage) {
       showToast(alertMessage)
@@ -41,7 +64,16 @@ export default function Register() {
         birthDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
         address: ownerProfile.location,
-        familyRole: 'BROTHER',
+        // familyRole: mapPositionToFamilyRole(ownerProfile.position),
+        familyRole: ownerProfile.position as
+          | 'MOTHER'
+          | 'FATHER'
+          | 'ELDER_BROTHER'
+          | 'OLDER_BROTHER'
+          | 'ELDER_SISTER'
+          | 'OLDER_SISTER'
+          | 'GRANDFATHER'
+          | 'GRANDMOTHER',
         profileImg: ownerProfile.avatar || '',
       } as const
 
@@ -112,7 +144,7 @@ export default function Register() {
           />
         </S.NickNameWrapper>
         <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!ownerProfile.position}>
-          {ownerProfile.position || '가족 포지션 선택'}
+          {ownerProfile.position ? positionLabelMap[ownerProfile.position as FamilyRole] : '가족 포지션 선택'}
         </S.PositionChoiceBtn>
         <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!ownerProfile.location}>
           {ownerProfile.location || '내 동네 불러오기'}

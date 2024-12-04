@@ -4,7 +4,15 @@ import { axiosInstance } from '~apis/axiosInstance'
 
 type Provider = string
 type Gender = 'MALE' | 'FEMALE'
-type FamilyRole = 'BROTHER' | 'MOTHER' | 'FATHER' | 'SISTER'
+type FamilyRole =
+  | 'MOTHER'
+  | 'FATHER'
+  | 'ELDER_BROTHER'
+  | 'OLDER_BROTHER'
+  | 'ELDER_SISTER'
+  | 'OLDER_SISTER'
+  | 'GRANDFATHER'
+  | 'GRANDMOTHER'
 
 interface CreateRegisterRequest {
   email: string
