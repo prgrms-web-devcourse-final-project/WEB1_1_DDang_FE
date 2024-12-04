@@ -36,6 +36,11 @@ type MapComponentProps = {
   isModalOpen?: boolean
 }
 
+// DeviceOrientationEvent 타입 확장
+interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
+  webkitCompassHeading?: number
+}
+
 export default function MapComponent({ isModalOpen = false }: MapComponentProps) {
   const mapRef = useRef<Map | null>(null)
   const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
@@ -71,27 +76,36 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
   useEffect(() => {
     if (isConnected) {
-      subscribe(`/sub/walk/${memberEmail}`, message => {
+      const handleMessage = (message: { body: string }) => {
         console.log('수신된 메시지:', message.body)
-      })
+      }
+
+      subscribe(`/sub/walk/${memberEmail}`, handleMessage)
     }
-  }, [isConnected])
+  }, [isConnected, subscribe, memberEmail])
 
   useEffect(() => {
+    const currentVectorSource = vectorSourceRef.current
+
     return () => {
       if (currentLocationMarkerRef.current) {
-        vectorSourceRef.current.removeFeature(currentLocationMarkerRef.current)
+        currentVectorSource.removeFeature(currentLocationMarkerRef.current)
       }
       if (markerRef.current) {
-        vectorSourceRef.current.removeFeature(markerRef.current)
+        currentVectorSource.removeFeature(markerRef.current)
       }
     }
   }, [])
 
   const handleCompassPermission = async () => {
-    if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+    const deviceOrientation = DeviceOrientationEvent as {
+      prototype: DeviceOrientationEvent
+      requestPermission?: () => Promise<'granted' | 'denied' | 'default'>
+    }
+
+    if (deviceOrientation.requestPermission) {
       try {
-        const response = await (DeviceOrientationEvent as any).requestPermission()
+        const response = await deviceOrientation.requestPermission()
         setHasCompassPermission(response === 'granted')
         if (response === 'granted') {
           setAutoRotate(true)
@@ -178,13 +192,13 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   useEffect(() => {
     if (!hasCompassPermission) return
 
-    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
+    const handleDeviceOrientation = (event: ExtendedDeviceOrientationEvent) => {
       if (!autoRotate) return
 
       let heading = 0
 
-      if ((event as any).webkitCompassHeading) {
-        heading = (event as any).webkitCompassHeading
+      if (event.webkitCompassHeading !== undefined) {
+        heading = event.webkitCompassHeading
       } else if (event.alpha) {
         heading = 360 - event.alpha
         heading = (heading + screenOrientation) % 360
@@ -197,7 +211,9 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       }
     }
 
-    const throttledHandler = throttle(handleDeviceOrientation, 100)
+    const throttledHandler = throttle((event: unknown) => {
+      handleDeviceOrientation(event as ExtendedDeviceOrientationEvent)
+    }, 100)
 
     window.addEventListener('deviceorientation', throttledHandler, true)
 
@@ -206,15 +222,15 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [hasCompassPermission, screenOrientation, autoRotate])
 
-  const throttle = (func: (...args: any[]) => void, limit: number): ((...args: any[]) => void) => {
-    let inThrottle: boolean
-    return function (this: any, ...args: any[]) {
+  const throttle = <T extends (...args: unknown[]) => void>(func: T, limit: number): T => {
+    let inThrottle = false
+    return function (this: unknown, ...args: Parameters<T>) {
       if (!inThrottle) {
         func.apply(this, args)
         inThrottle = true
         setTimeout(() => (inThrottle = false), limit)
       }
-    }
+    } as T
   }
 
   useEffect(() => {
