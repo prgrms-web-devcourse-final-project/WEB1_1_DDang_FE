@@ -1,14 +1,39 @@
+import { useLocation } from 'react-router-dom'
 import * as S from './styles'
 
-const walkData = {
-  date: '2024.12.14',
-  time: '1:10:00',
-  distance: '2.4km',
-  calories: '200kcal',
-  mapImage: 'https://imagedelivery.net/CJyrB-EkqcsF2D6ApJzEBg/6d853db2-fb51-465c-eaa8-e9e38be01f00/public',
+interface WalkCompleteData {
+  date: string
+  time: string
+  distance: string
+  calories: string
+  mapImage: string
 }
 
 export default function WalkCompletePage() {
+  const location = useLocation()
+  const walkData: WalkCompleteData = {
+    date: new Date()
+      .toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+      .replace(/\. /g, '.'),
+    time: location.state?.time || '00:00:00',
+    distance: location.state?.distance || '0m',
+    calories: '200kcal',
+    mapImage: location.state?.mapImage || '',
+  }
+
+  console.log(walkData)
+
+  const getMinutesFromTime = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number)
+    return hours * 60 + minutes
+  }
+
+  const walkTimeInMinutes = getMinutesFromTime(walkData.time)
+
   return (
     <S.WalkCompletePage>
       <S.Date>{walkData.date}</S.Date>
@@ -16,7 +41,7 @@ export default function WalkCompletePage() {
       <S.Title>
         견주닉넴과 밤톨이가
         <br />
-        <span>30분</span>동안 산책했어요.
+        <span>{walkTimeInMinutes}분</span>동안 산책했어요.
       </S.Title>
       <S.DogImageArea>
         <S.DogImage />
@@ -38,7 +63,7 @@ export default function WalkCompletePage() {
       </S.WalkStats>
 
       <S.MapSection>
-        <img src={walkData.mapImage} alt='산책 경로' />
+        <img src={`${walkData.mapImage}`} alt='산책 경로' style={{ width: '100%', height: '100%' }} />
       </S.MapSection>
     </S.WalkCompletePage>
   )
