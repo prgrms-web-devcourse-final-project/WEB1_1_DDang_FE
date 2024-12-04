@@ -8,9 +8,7 @@ interface FamilyMemberWalk {
   count: number
 }
 
-interface FamilyYearlyWalksResponse {
-  data: FamilyMemberWalk[]
-}
+type FamilyYearlyWalksResponse = FamilyMemberWalk[]
 
 export const fetchFamilyYearlyWalks = async (): Promise<APIResponse<FamilyYearlyWalksResponse>> => {
   try {

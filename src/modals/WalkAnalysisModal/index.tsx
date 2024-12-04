@@ -1,40 +1,85 @@
-import { useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as S from './styles'
 import { useModalStore } from '~stores/modalStore'
 import Prev from '~assets/prev.svg'
 import { createBarChart, createLineChart } from './createChart'
+import { fetchMonthlyWalks } from '~apis/log/fetchMonthlyWalks'
+import { fetchFamilyYearlyWalks } from '~apis/log/fetchFamilyYearlyWalks'
+import { fetchTotalWalkRecords } from '~apis/log/fetchTotalWalkRecords'
+import { fetchCurrentMonthWalks } from '~apis/log/fetchCurrentMonthWalks'
+interface FamilyMemberWalk {
+  memberId: number
+  familyRole: string
+  count: number
+}
 
-const barChartDummydata = [
-  { name: '나', value: 2 },
-  { name: '누나', value: 4 },
-  { name: '엄마', value: 5 },
-  { name: '아빠', value: 2 },
-  { name: '할아버지', value: 1 },
-]
+interface ChartData {
+  month: string
+  value: number
+}
 
-const lineChartData = [
-  { month: '1월', value: 0 },
-  { month: '2월', value: 3 },
-  { month: '3월', value: 2 },
-  { month: '4월', value: 3 },
-  { month: '5월', value: 4 },
-  { month: '6월', value: 3 },
-  { month: '7월', value: 3 },
-  { month: '8월', value: 1 },
-  { month: '9월', value: 4 },
-  { month: '10월', value: 5 },
-  { month: '11월', value: 4 },
-  { month: '12월', value: 3 },
-]
+interface FamilyChartData {
+  name: string
+  value: number
+}
+
+const formatMonthlyData = (data: number[]): ChartData[] =>
+  data.map((value, index) => ({
+    month: `${index + 1}월`,
+    value,
+  }))
+
+const formatFamilyData = (data: FamilyMemberWalk[]): FamilyChartData[] =>
+  data.map(({ familyRole, count }) => ({
+    name: familyRole,
+    value: count,
+  }))
 
 export default function WalkAnalysisModal() {
   const { popModal } = useModalStore()
   const lineChartRef = useRef<SVGSVGElement | null>(null)
   const barChartRef = useRef<SVGSVGElement | null>(null)
+  const [walkStats, setWalkStats] = useState({
+    total: {
+      timeDuration: { hours: 0, minutes: 0, seconds: 0 },
+      walkCount: 0,
+      totalDistanceKilo: 0,
+    },
+    monthly: {
+      timeDuration: { hours: 0, minutes: 0, seconds: 0 },
+      walkCount: 0,
+      totalDistanceKilo: 0,
+    },
+  })
 
   useEffect(() => {
-    if (lineChartRef.current) createLineChart(lineChartRef.current, lineChartData)
-    if (barChartRef.current) createBarChart(barChartRef.current, barChartDummydata)
+    const fetchAndCreateCharts = async () => {
+      try {
+        const [monthlyWalks, familyWalks, totalWalks, currentMonthWalks] = await Promise.all([
+          fetchMonthlyWalks(),
+          fetchFamilyYearlyWalks(),
+          fetchTotalWalkRecords(),
+          fetchCurrentMonthWalks(),
+        ])
+
+        setWalkStats({
+          total: totalWalks.data,
+          monthly: currentMonthWalks.data,
+        })
+
+        if (lineChartRef.current) {
+          createLineChart(lineChartRef.current, formatMonthlyData(monthlyWalks.data))
+        }
+
+        if (barChartRef.current) {
+          createBarChart(barChartRef.current, formatFamilyData(familyWalks.data))
+        }
+      } catch (error) {
+        console.error('차트 데이터 로딩 실패:', error)
+      }
+    }
+
+    fetchAndCreateCharts()
   }, [])
 
   return (
@@ -60,15 +105,19 @@ export default function WalkAnalysisModal() {
             <div>
               <div>
                 <p>산책 시간</p>
-                <strong>20:00:00</strong>
+                <strong>
+                  {walkStats.total.timeDuration.hours.toString().padStart(2, '0')}:
+                  {walkStats.total.timeDuration.minutes.toString().padStart(2, '0')}:
+                  {walkStats.total.timeDuration.seconds.toString().padStart(2, '0')}
+                </strong>
               </div>
               <div>
                 <p>산책 기록</p>
-                <strong>120회</strong>
+                <strong>{walkStats.total.walkCount}회</strong>
               </div>
               <div>
                 <p>산책 거리</p>
-                <strong>1200km</strong>
+                <strong>{walkStats.total.totalDistanceKilo}km</strong>
               </div>
             </div>
           </S.Statistics>
@@ -77,15 +126,19 @@ export default function WalkAnalysisModal() {
             <div>
               <div>
                 <p>산책 시간</p>
-                <strong>20:00:00</strong>
+                <strong>
+                  {walkStats.monthly.timeDuration.hours.toString().padStart(2, '0')}:
+                  {walkStats.monthly.timeDuration.minutes.toString().padStart(2, '0')}:
+                  {walkStats.monthly.timeDuration.seconds.toString().padStart(2, '0')}
+                </strong>
               </div>
               <div>
                 <p>산책 기록</p>
-                <strong>120회</strong>
+                <strong>{walkStats.monthly.walkCount}회</strong>
               </div>
               <div>
                 <p>산책 거리</p>
-                <strong>1200km</strong>
+                <strong>{walkStats.monthly.totalDistanceKilo}km</strong>
               </div>
             </div>
           </S.Statistics>
