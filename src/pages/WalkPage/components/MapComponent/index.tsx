@@ -207,7 +207,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }, [hasCompassPermission, screenOrientation, autoRotate])
 
-  const throttle = (func: Function, limit: number): ((...args: any[]) => void) => {
+  const throttle = (func: (...args: any[]) => void, limit: number): ((...args: any[]) => void) => {
     let inThrottle: boolean
     return function (this: any, ...args: any[]) {
       if (!inThrottle) {
@@ -666,10 +666,15 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             accumulatedPositionsRef.current.push(newPosition)
             addWalkLocationMarker(coordinates)
 
-            publish('/pub/api/v1/walk-alone', {
-              latitude: newPosition.lat,
-              longitude: newPosition.lng,
-            })
+            try {
+              publish('/pub/api/v1/walk-alone', {
+                latitude: newPosition.lat,
+                longitude: newPosition.lng,
+              })
+              console.log('웹소켓 발행 성공')
+            } catch (error) {
+              console.error('웹소켓 발행 실패:', error)
+            }
 
             if (accumulatedPositionsRef.current.length >= 2) {
               const lastTwoPositions = accumulatedPositionsRef.current.slice(-2)
