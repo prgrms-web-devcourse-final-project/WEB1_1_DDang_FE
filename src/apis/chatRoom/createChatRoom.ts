@@ -11,6 +11,10 @@ export type CreateChatRoomResponse = Pick<
   'chatRoomId' | 'name' | 'lastMessage' | 'unreadMessageCount' | 'members'
 >
 
+/**
+ * 새로운 채팅방을 생성하고, 채팅방 정보를 반환합니다.
+ *? 이미 동일한 맴버와의 채팅방이 있다면, 해당 채팅방을 반환합니다.
+ */
 export const createChatRoom = async (req: CreateChatRoomRequest): Promise<APIResponse<CreateChatRoomResponse>> => {
   try {
     const { data } = await axiosInstance.post<APIResponse<CreateChatRoomResponse>>(`/chat/rooms`, req)

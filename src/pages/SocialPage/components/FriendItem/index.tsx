@@ -1,23 +1,17 @@
+import { useCreateChatRoom } from '~apis/chatRoom/useCreateChatRoom'
+import { FetchFriendListResponse } from '~apis/friend/fetchFriendList'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo14, Typo17 } from '~components/Typo'
-import ChatModal from '~modals/ChatModal'
-import { useModalStore } from '~stores/modalStore'
-import * as S from './styles'
-import { FetchFriendListResponse } from '~apis/friend/fetchFriendList'
-import { createChatRoom } from '~apis/chatRoom/createChatRoom'
-import { useEffect, useState } from 'react'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import * as S from './styles'
 
 type FriendItemProps = FetchFriendListResponse[number]
 
 export default function FriendItem({ gender, name, profileImg, memberId, familyRole }: FriendItemProps) {
-  const { pushModal } = useModalStore()
-  const [chatRoomId, setChatRoomId] = useState(-1)
+  const { createRoom } = useCreateChatRoom()
 
-  useEffect(() => {
-    createChatRoom({ opponentMemberId: memberId }).then(data => setChatRoomId(data.data.chatRoomId))
-  }, [memberId])
+  const onClickMessageBtn = () => createRoom({ opponentMemberId: memberId })
 
   return (
     <S.FriendItem>
@@ -34,7 +28,7 @@ export default function FriendItem({ gender, name, profileImg, memberId, familyR
           </Typo14>
         </S.DetailWrapper>
       </S.TypoWrapper>
-      <S.MessageBtn onClick={() => pushModal(<ChatModal chatRoomId={chatRoomId} userId={memberId} />)}>
+      <S.MessageBtn onClick={onClickMessageBtn}>
         <Typo14 $weight='700' $color='font_1'>
           메시지
         </Typo14>
