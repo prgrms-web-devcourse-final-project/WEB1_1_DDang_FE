@@ -7,6 +7,7 @@ import { Separator } from '~components/Separator'
 import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import * as S from './styles'
+import { Helmet } from 'react-helmet-async'
 
 export default function ProfilePage() {
   const { id = '0' } = useParams()
@@ -19,6 +20,10 @@ export default function ProfilePage() {
 
   return (
     <S.ProfilePage>
+      <Helmet>
+        <title>DDang | {data?.name}</title>
+        <meta name='description' content={`${data?.name}님의 프로필 정보와 반려견을 확인하세요.`} />
+      </Helmet>
       <S.Header type='sm' prevBtn onClickPrev={() => navigate(-1)} title={data?.name} />
 
       <S.ProfileArea>
