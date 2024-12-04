@@ -5,9 +5,9 @@ import Profile from '~components/Profile'
 import SendMessageForm from '~components/SendMessageForm'
 import { Separator } from '~components/Separator'
 import { Typo11, Typo15 } from '~components/Typo'
+import { useScrollToBottom } from '~hooks/useScrollToBottom'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { useScrollToBottom } from '~hooks/useScrollToBottom'
 
 type ChatModalProps = {
   chatRoomId: number
@@ -47,7 +47,7 @@ export default function ChatModal({ chatRoomId, userId }: ChatModalProps) {
         )
       )}
 
-      <SendMessageForm />
+      <SendMessageForm chatCount={0} chatRoomId={chatRoomId} />
     </S.ChatModal>
   )
 }

@@ -6,5 +6,5 @@ export type FriendInfo = {
   gender: 'MALE' | 'FEMALE'
   role: string
   id: string
-  userId: string
+  userId: number
 }

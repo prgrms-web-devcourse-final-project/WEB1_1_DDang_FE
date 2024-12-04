@@ -20,7 +20,7 @@ export default function FamilyDDang() {
 
       <S.FamilySection>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar10} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar10} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family1Info.nickName}</Typo17>
@@ -49,7 +49,7 @@ export default function FamilyDDang() {
           </S.EditIconWrapper>
         </S.ProfileOneArea>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar3} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar3} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family2Info.nickName}</Typo17>
