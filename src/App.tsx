@@ -20,7 +20,6 @@ function App() {
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
 
-
   useEffect(() => {
     // deleteDogProfile(6).then(response => {
     //   console.log(response)

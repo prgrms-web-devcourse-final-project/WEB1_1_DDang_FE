@@ -1,7 +1,8 @@
 import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
-
+// import { useSearchParams } from 'react-router-dom'
+// import { useEffect } from 'react'
 type Provider = string
 type Gender = 'MALE' | 'FEMALE'
 type FamilyRole =
@@ -57,6 +58,7 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
     })
     if (data) {
       alert('견주정보 입력 완료')
+
       console.log(data)
     }
     return data

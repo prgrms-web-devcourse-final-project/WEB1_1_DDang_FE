@@ -21,7 +21,7 @@ export default function DogProfileDetailSection() {
   const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setDogProfile({ gender })
   }
 
@@ -60,31 +60,34 @@ export default function DogProfileDetailSection() {
       return
     }
     try {
-      const createDogProfileRequest: CreateDogProfileRequest = {
+      // CreateDogProfileRequest 형식에 맞게 데이터 구성
+      const dogData: CreateDogProfileRequest = {
         name: dogProfile.name,
         breed: dogProfile.breed,
         birthDate: dogProfile.birth as Date,
         weight: parseFloat(dogProfile.weight),
-        gender: dogProfile.gender?.toUpperCase() as 'MALE' | 'FEMALE',
-        profileImg:
-          'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR_LukTVYQBmhxXr02u71BR60FmFj07wR0GH7ryW5kCHLWef4BznpT7CfjR5Uyukevf30ivmnrohj9tBcjmSZUiqw',
+        gender: dogProfile.gender as 'MALE' | 'FEMALE',
+        profileImg: dogProfile.image as File, // File 타입으로 전달
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
         familyId: null,
         comment: dogProfile.intro,
       }
 
-      const response = await createDogProfile(createDogProfileRequest)
-      if (response.code == 201) {
-        // 이제 홈으로 이동
+      // createDogProfile 함수 호출
+      const response = await createDogProfile(dogData, dogProfile.image as File)
+
+      if (response.code === 201) {
         showToast('반려견 등록이 완료되었습니다')
+        // 성공 후 추가 처리 (예: 홈으로 이동)
       }
     } catch (error) {
       if (error instanceof Error) {
         showToast(error.message)
-      } else showToast('반려견 등록이 실패했습니다.')
+      } else {
+        showToast('반려견 등록이 실패했습니다.')
+      }
     }
   }
-
   return (
     <>
       <S.DogProfileDetailSection>
@@ -98,14 +101,14 @@ export default function DogProfileDetailSection() {
         <S.GenderBtnArea>
           <S.GenderSelectBtnWrapper>
             <GenderSelectButton
-              gender='male'
-              isActive={dogProfile.gender === 'male'}
-              onClick={() => handleGenderSelect('male')}
+              gender='MALE'
+              isActive={dogProfile.gender === 'MALE'}
+              onClick={() => handleGenderSelect('MALE')}
             />
             <GenderSelectButton
-              gender='female'
-              isActive={dogProfile.gender === 'female'}
-              onClick={() => handleGenderSelect('female')}
+              gender='FEMALE'
+              isActive={dogProfile.gender === 'FEMALE'}
+              onClick={() => handleGenderSelect('FEMALE')}
             />
           </S.GenderSelectBtnWrapper>
           <S.CheckboxWrapper onClick={() => setDogProfile({ isNeutered: !dogProfile.isNeutered })}>

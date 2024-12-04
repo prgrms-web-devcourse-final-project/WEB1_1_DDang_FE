@@ -1,9 +1,9 @@
 export interface DogProfileType {
   name: string
-  image: string | undefined
+  image: File | undefined
   birth: Date | null
   intro: string
-  gender: 'male' | 'female' | null
+  gender: 'MALE' | 'FEMALE' | null
   isNeutered: boolean
   breed: string
   weight: string
