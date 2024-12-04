@@ -16,6 +16,7 @@ import { fetchFamilyYearlyWalks } from '~apis/log/fetchFamilyYearlyWalks'
 import { fetchTotalWalkRecords } from '~apis/log/fetchTotalWalkRecords'
 import { fetchCurrentMonthWalks } from '~apis/log/fetchCurrentMonthWalks'
 import { fetchWalkDetail } from '~apis/log/fetchWalkDetail'
+import { dateToString, stringToDate } from '~utils/dateFormat'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
@@ -31,9 +32,9 @@ export default function LogPage() {
       const res4 = await fetchTotalWalkRecords()
       const res5 = await fetchCurrentMonthWalks()
       const formattedDate = new Date().toISOString().split('T')[0]
-      const datee = new Date(2024, 2, 3)
-      console.log(datee.toISOString().split('T')[0])
-      console.log(datee.getFullYear(), datee.getMonth() + 1, datee.getDate())
+      const datee = dateToString(new Date())
+      console.log(datee)
+      console.log(stringToDate(datee))
       const res6 = await fetchWalkDetail(formattedDate)
       console.log('산책한 날짜 리스트', res1)
       console.log('올해 월별 산책 기록 조회', res2)
