@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '~components/Header'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
@@ -10,7 +10,6 @@ import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
 import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
 import { useModalStore } from '~stores/modalStore'
 import WalkAnalysisModal from '~modals/WalkAnalysisModal'
-import { fetchWalkDates } from '~apis/log/fetchWalkDates'
 
 import { fetchWalkDetail } from '~apis/log/fetchWalkDetail'
 import { dateToString } from '~utils/dateFormat'
@@ -20,20 +19,21 @@ export default function LogPage() {
   const randomIndex = Math.floor(Math.random() * images.length)
   const randomImage = images[randomIndex]
   const { pushModal } = useModalStore()
-
+  const [date, setDate] = useState<Date>(new Date())
   useEffect(() => {
-    const fetchData = async () => {
-      const res1 = await fetchWalkDates()
-
-      const formattedDate = dateToString(new Date())
-      const res6 = await fetchWalkDetail(formattedDate)
-      console.log('산책한 날짜 리스트', res1)
-
-      console.log('산책 내역 상세 조회', res6)
+    const getWalkDetail = async () => {
+      console.log(date)
+      try {
+        const walkDetail = await fetchWalkDetail(dateToString(date))
+        console.log('산책 내역 상세 조회', walkDetail)
+      } catch (e) {
+        console.error(e)
+      }
     }
 
-    fetchData()
-  }, [])
+    getWalkDetail()
+  }, [date])
+
   return (
     <S.LogPage>
       <Helmet>
@@ -46,7 +46,7 @@ export default function LogPage() {
         <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' onClick={() => pushModal(<WalkAnalysisModal />)} />
       </Header>
       <S.CalendarWrapper>
-        <Calendar />
+        <Calendar setDate={setDate} />
       </S.CalendarWrapper>
       <S.WalkSummaryWrapper>
         {/* <WalkSummary

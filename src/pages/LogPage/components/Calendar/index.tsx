@@ -1,15 +1,54 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import * as S from './styles'
 import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
+import { dateToString } from '~utils/dateFormat'
+import { fetchWalkDates } from '~apis/log/fetchWalkDates'
 
-export default function Calendar() {
+interface CalendarProps {
+  setDate: (date: Date) => void
+}
+
+export default function Calendar({ setDate }: CalendarProps) {
   const { pushModal } = useModalStore()
   const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [walkDates, setWalkDates] = useState<string[]>([])
+
+  const hasWalkRecord = (walkDates: string[], date: number) => {
+    return walkDates.some(walkDate => {
+      const [y, m, d] = walkDate.split('-').map(Number)
+      if (y != currentDate.getFullYear()) return false
+      if (m != currentDate.getMonth() + 1) return false
+      if (d != date) return false
+      return true
+    })
+  }
+
+  useEffect(() => {
+    setDate(currentDate)
+  }, [currentDate])
+
+  useEffect(() => {
+    const getWalkDates = async () => {
+      try {
+        const response = await fetchWalkDates()
+        if (Array.isArray(response.data)) {
+          console.log(response.data)
+          setWalkDates(response.data)
+        } else {
+          console.error('Unexpected response format:', response)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    getWalkDates()
+  }, [])
 
   const handleDateClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement
@@ -106,7 +145,13 @@ export default function Calendar() {
                 const isDisabled = (weekIdx === 0 && date > 7) || (weekIdx === 4 && date < 22)
                 const isActive = weekIdx === activeIndex[0] && dateIdx === activeIndex[1]
                 return (
-                  <S.Date key={dateIdx} data-date={date} disabled={isDisabled} $isActive={isActive}>
+                  <S.Date
+                    key={dateIdx}
+                    data-date={date}
+                    disabled={isDisabled}
+                    $isActive={isActive}
+                    $hasWalkRecord={hasWalkRecord(walkDates, date)}
+                  >
                     {date}
                   </S.Date>
                 )
