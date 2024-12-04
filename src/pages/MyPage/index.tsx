@@ -8,6 +8,7 @@ import SettingModal from '~modals/SettingModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 import CountSection from '~components/WalkCountArea'
+import { useQuery } from '@tanstack/react-query'
 
 export default function MyPage() {
   const { data } = useQuery({
