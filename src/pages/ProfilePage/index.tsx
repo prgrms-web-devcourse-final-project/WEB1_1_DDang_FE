@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchProfile } from '~apis/member/useFetchProfile'
 import DogProfile from '~components/DogProfile'
@@ -7,7 +8,6 @@ import { Separator } from '~components/Separator'
 import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import * as S from './styles'
-import { Helmet } from 'react-helmet-async'
 
 export default function ProfilePage() {
   const { id = '0' } = useParams()
