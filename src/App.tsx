@@ -38,24 +38,6 @@ function App() {
                 </Suspense>
               </MobileContainer>
               <PWABadge />
-            </QueryClientProvider>
-        <HelmetProvider>
-          <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              <Helmet>
-                <title>DDang</title>
-                <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-              </Helmet>
-              <button onClick={toggleTheme} hidden>
-                Toggle Theme
-              </button>
-              <GlobalStyle />
-              <MobileContainer>
-                <Suspense fallback={<Loader />}>
-                  <RouterProvider router={router} />
-                </Suspense>
-              </MobileContainer>
-              <PWABadge />
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </ThemeProvider>

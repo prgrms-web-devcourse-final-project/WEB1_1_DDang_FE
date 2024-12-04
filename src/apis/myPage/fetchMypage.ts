@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 import { axiosInstance } from '~apis/axiosInstance'
-import { APIResponse, ErrorResponse } from '~types/apiResponse'
+import { APIResponse, ErrorResponse } from '~types/api'
 
 interface GetDogInfoResponse {
   memberId: number
