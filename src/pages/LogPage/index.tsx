@@ -10,12 +10,26 @@ import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
 import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
 import { useModalStore } from '~stores/modalStore'
 import WalkAnalysisModal from '~modals/WalkAnalysisModal'
+import { useEffect } from 'react'
+import { fetchWalkDates } from '~apis/log/fetchWalkDates'
+import { fetchWalkLogByDate } from '~apis/log/fetchWalkLogByDate'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
   const randomIndex = Math.floor(Math.random() * images.length)
   const randomImage = images[randomIndex]
   const { pushModal } = useModalStore()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res1 = await fetchWalkDates()
+      // const res2 = await fetchWalkLogByDate(new Date().toISOString())
+      console.log(res1)
+      // console.log(res2)
+    }
+
+    fetchData()
+  }, [])
   return (
     <S.LogPage>
       <Helmet>
