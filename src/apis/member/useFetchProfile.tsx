@@ -6,5 +6,6 @@ export const useFetchProfile = (memberId: number): UseQueryResult<FetchProfileRe
     queryKey: ['profile', memberId],
     queryFn: () => fetchProfile({ memberId }).then(data => data.data),
     enabled: !!memberId,
+    staleTime: 1000 * 60 * 5, // 5분
   })
 }

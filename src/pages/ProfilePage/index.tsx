@@ -12,8 +12,9 @@ export default function ProfilePage() {
   const { id = '0' } = useParams()
   const navigate = useNavigate()
 
-  const { data, isLoading, isError } = useFetchProfile(+id)
+  const { data, isLoading, isError, isFetching } = useFetchProfile(+id)
 
+  if (isFetching) return <div>isFetching</div>
   if (isLoading) return <Loader />
   if (isError) return <div>Error fetching profile</div>
 
