@@ -1,6 +1,8 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIRequest, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
+
+export type FetchProfileRequest = Pick<CommonAPIRequest, 'memberId'>
 
 export type FetchProfileResponse = Pick<
   CommonAPIResponse,
@@ -16,9 +18,9 @@ export type FetchProfileResponse = Pick<
   | 'dog'
 >
 
-export const fetchProfile = async (): Promise<APIResponse<FetchProfileResponse>> => {
+export const fetchProfile = async ({ memberId }: FetchProfileRequest): Promise<APIResponse<FetchProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchProfileResponse>>(`/member/mypage`)
+    const { data } = await axiosInstance.get<APIResponse<FetchProfileResponse>>(`/member/${memberId}`)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {

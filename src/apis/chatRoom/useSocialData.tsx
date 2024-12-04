@@ -7,11 +7,11 @@ export function useSocialData() {
     queries: [
       {
         queryKey: ['chatRoomList'],
-        queryFn: () => fetchChatRoomList().then(response => response.data),
+        queryFn: () => fetchChatRoomList().then(res => res.data),
       },
       {
         queryKey: ['friendList'],
-        queryFn: () => fetchFriendList().then(response => response.data),
+        queryFn: () => fetchFriendList().then(res => res.data),
       },
     ],
   })

@@ -1,28 +1,21 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useFetchProfile } from '~apis/member/useFetchProfile'
+import DogProfile from '~components/DogProfile'
+import Loader from '~components/Loader'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
-import * as S from './styles'
-import DogProfile from '~components/DogProfile'
-import { useEffect, useState } from 'react'
-import { fetchProfile, FetchProfileResponse } from '~apis/member/fetchProfile'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import * as S from './styles'
 
 export default function ProfilePage() {
-  const { id } = useParams()
+  const { id = '0' } = useParams()
   const navigate = useNavigate()
 
-  const [data, setData] = useState<FetchProfileResponse>()
+  const { data, isLoading, isError } = useFetchProfile(+id)
 
-  console.log('memberId:', id)
-
-  useEffect(() => {
-    //todo 현재 마이페이지 api임. todo id 이용한 fetch 함수로 바꿔야 함
-    fetchProfile().then(data => {
-      console.log(data.data)
-      setData(data.data)
-    })
-  }, [])
+  if (isLoading) return <Loader />
+  if (isError) return <div>Error fetching profile</div>
 
   return (
     <S.ProfilePage>
