@@ -15,8 +15,8 @@ export default function FamilyDDang() {
           <MdOutlineEditLocation cursor='pointer' size={28} />
         </S.IconWrapper>
       </S.Header>
-
-      <DogProfile />
+      {/* 데이터 바인딩 시 props 넣어주세요 */}
+      <DogProfile name={''} gender={'MALE'} profileImg={''} birthDate={''} breed={''} comment={''} />
 
       <S.FamilySection>
         <S.ProfileOneArea>
