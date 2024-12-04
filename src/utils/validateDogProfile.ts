@@ -16,7 +16,7 @@ export const validateDogProfile = (dogProfile: DogProfileType): string | null =>
   if (!dogProfile.birth) return '반려견의 생일을 입력해주세요'
   if (isFutureDate(dogProfile.birth)) return '생일은 미래 날짜를 선택할 수 없습니다'
   if (!dogProfile.intro) return '한줄 소개를 적어주세요'
-  if (dogProfile.intro.length > 40) return '한줄 소개는 최대 40자까지만 적어주세요'
+  if (dogProfile.intro.length > 30) return '한줄 소개는 최대 30자까지만 적어주세요'
   return null
 }
 
