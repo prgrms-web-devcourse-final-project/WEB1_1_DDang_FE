@@ -6,6 +6,7 @@ import { MdOutlineFamilyRestroom } from 'react-icons/md'
 import { useTheme } from 'styled-components'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
+import { useNavigate } from 'react-router-dom'
 
 const FOOTER_NAV_LIST = [
   { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
