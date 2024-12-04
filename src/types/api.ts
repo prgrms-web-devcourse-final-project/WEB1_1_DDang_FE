@@ -13,7 +13,7 @@ export type BasicInfo = {
   /** 이름 @example "홍길동" */
   name: string
   /** 생년월일 @example "1990-01-01" */
-  birthDate: string
+  // birthDate: string
   /** 성별 @example "MALE" */
   gender: Gender
 }

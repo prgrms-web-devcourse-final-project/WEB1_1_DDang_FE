@@ -61,7 +61,7 @@ export default function Register() {
         email,
         provider,
         name: ownerProfile.nickName,
-        birthDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
+        // birthDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
         address: ownerProfile.location,
         // familyRole: mapPositionToFamilyRole(ownerProfile.position),

@@ -18,7 +18,7 @@ interface CreateRegisterRequest {
   email: string
   provider: string
   name: string
-  birthDate: string
+  // birthDate: string
   gender: Gender
   address: string
   familyRole: FamilyRole
@@ -28,7 +28,7 @@ interface CreateRegisterRequest {
   email: string
   provider: Provider
   name: string
-  birthDate: string
+  // birthDate: string
   gender: Gender
   address: string
   familyRole: FamilyRole
@@ -40,7 +40,7 @@ interface CreateRegisterResponse {
   name: string
   email: string
   provider: Provider
-  birthDate: string
+  // birthDate: string
   gender: Gender
   address: string
   familyRole: FamilyRole
@@ -55,6 +55,10 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
       provider: req.provider as Provider,
       familyRole: req.familyRole as FamilyRole,
     })
+    if (data) {
+      alert('견주정보 입력 완료')
+      console.log(data)
+    }
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
