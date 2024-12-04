@@ -1,19 +1,10 @@
-import { useEffect, useState } from 'react'
-import { fetchChatRoomList, FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
-import { fetchFriendList, FetchFriendListResponse } from '~apis/friend/fetchFriendList'
+import { useState } from 'react'
 import { Typo15 } from '~components/Typo'
 import FriendChatList from '~pages/SocialPage/components/FriendChatList'
 import * as S from './styles'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
-  const [chatList, setChatList] = useState<FetchChatRoomListResponse>([])
-  const [friendList, setFriendList] = useState<FetchFriendListResponse>([])
-
-  useEffect(() => {
-    fetchChatRoomList().then(data => setChatList(data.data))
-    fetchFriendList().then(data => setFriendList(data.data))
-  }, [])
 
   return (
     <S.SocialPage>
@@ -35,7 +26,7 @@ export default function SocialPage() {
           <S.TabUnderBar $selectedTab={selectedTab} />
         </S.TabArea>
       </S.Header>
-      <FriendChatList selectedTab={selectedTab} chatList={chatList} friendList={friendList} />
+      <FriendChatList selectedTab={selectedTab} />
     </S.SocialPage>
   )
 }

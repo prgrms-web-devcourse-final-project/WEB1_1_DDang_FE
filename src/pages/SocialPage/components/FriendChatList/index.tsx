@@ -1,18 +1,16 @@
-import { FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
-import { FetchFriendListResponse } from '~apis/friend/fetchFriendList'
 import ChatItem from '~pages/SocialPage/components/ChatItem'
 import FriendItem from '~pages/SocialPage/components/FriendItem'
 import { SocialTabs } from '~types/social'
 import * as S from './styles'
+import { useSocialData } from '~apis/chatRoom/useSocialData'
 
 type FriendChatListProps = {
   selectedTab: SocialTabs
-  friendList: FetchFriendListResponse
-  chatList: FetchChatRoomListResponse
 }
 
-export default function FriendChatList({ selectedTab, friendList, chatList }: FriendChatListProps) {
+export default function FriendChatList({ selectedTab }: FriendChatListProps) {
   //todo fetch by userId
+  const { chatList, friendList, isError, isLoading } = useSocialData()
 
   return (
     <S.FriendChatList>
