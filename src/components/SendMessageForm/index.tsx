@@ -5,9 +5,9 @@ import { CommonAPIResponse } from '~types/api'
 
 type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   chatCount: number
-} & Pick<CommonAPIResponse, 'chatRoomId'>
+} & Partial<Pick<CommonAPIResponse, 'chatRoomId'>>
 
-export default function SendMessageForm({ chatCount, ...rest }: SendMessageFormProps) {
+export default function SendMessageForm({ chatRoomId, chatCount, ...rest }: SendMessageFormProps) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (rest.onSubmit) rest.onSubmit(e)
@@ -19,6 +19,7 @@ export default function SendMessageForm({ chatCount, ...rest }: SendMessageFormP
       //* 채팅 전송 웹소켓
     }
   }
+  console.log('chatRoomId:', chatRoomId)
   return (
     <S.SendMessageForm onSubmit={onSubmit} {...rest}>
       <S.ChatInput placeholder='채팅 내용 입력' />
