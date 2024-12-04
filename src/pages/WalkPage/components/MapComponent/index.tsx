@@ -43,7 +43,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const vectorSourceRef = useRef<VectorSource>(new VectorSource())
   const markerRef = useRef<Feature | null>(null)
   const [showCenterButton, setShowCenterButton] = useState<boolean>(false)
-  const [hasCompassPermission, _setHasCompassPermission] = useState<boolean>(false)
+  const [hasCompassPermission, setHasCompassPermission] = useState<boolean>(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const [screenOrientation, setScreenOrientation] = useState<number>(window.screen.orientation?.angle || 0)
 
@@ -51,7 +51,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const [walkTime, setWalkTime] = useState<number>(0)
   const walkIntervalRef = useRef<number | null>(null)
   const [walkDistance, setWalkDistance] = useState<number>(0)
-  const [_positions, setPositions] = useState<{ lat: number; lng: number }[]>([])
 
   const routeLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
   const routeSourceRef = useRef<VectorSource>(new VectorSource())
@@ -93,7 +92,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     if (DeviceOrientationEvent && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
       try {
         const response = await (DeviceOrientationEvent as any).requestPermission()
-        _setHasCompassPermission(response === 'granted')
+        setHasCompassPermission(response === 'granted')
         if (response === 'granted') {
           setAutoRotate(true)
           rotateMap(lastHeadingRef.current)
@@ -102,7 +101,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
         console.error('나침반 권한 요청 실패:', error)
       }
     } else {
-      _setHasCompassPermission(true)
+      setHasCompassPermission(true)
       setAutoRotate(true)
     }
   }
@@ -614,7 +613,6 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
       setIsWalking(true)
       setAutoRotate(true)
-      setPositions([])
       setWalkDistance(0)
       setEstimatedDistance(0)
       accumulatedPositionsRef.current = []
