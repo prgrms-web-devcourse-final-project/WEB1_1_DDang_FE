@@ -9,6 +9,7 @@ import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
 import { WebSocketProvider } from '~/WebSocketContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient()
 
@@ -20,24 +21,25 @@ function App() {
   return (
     <>
       <WebSocketProvider>
-      <HelmetProvider>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <Helmet>
-              <title>DDang</title>
-              <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-            </Helmet>
-            <button onClick={toggleTheme} hidden>
-              Toggle Theme
-            </button>
-            <GlobalStyle />
-            <MobileContainer>
-              <Suspense fallback={<Loader />}>
-                <RouterProvider router={router} />
-              </Suspense>
-            </MobileContainer>
-            <PWABadge />
-           </QueryClientProvider>
+        <HelmetProvider>
+          <ThemeProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>
+              <Helmet>
+                <title>DDang</title>
+                <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
+              </Helmet>
+              <button onClick={toggleTheme} hidden>
+                Toggle Theme
+              </button>
+              <GlobalStyle />
+              <MobileContainer>
+                <Suspense fallback={<Loader />}>
+                  <RouterProvider router={router} />
+                </Suspense>
+              </MobileContainer>
+              <PWABadge />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
           </ThemeProvider>
         </HelmetProvider>
       </WebSocketProvider>
