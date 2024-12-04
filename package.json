@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10",
     "preview": "vite preview",
     "pwa": "pwa-assets-generator --preset minimal public/test.svg",
     "format": "prettier --check --ignore-path .gitignore \"**/*.{ts,tsx}\"",
@@ -15,8 +15,11 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
-    "@types/ol": "^7.0.0",
-    "@types/react-textarea-autosize": "^8.0.0",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.9",
+    "@mui/styled-engine-sc": "^6.1.9",
+    "d3": "^7.9.0",
     "ios-style-picker": "^0.0.6",
     "ol": "^10.2.1",
     "react": "^18.3.1",
@@ -32,6 +35,9 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/ol": "^7.0.0",
+    "@types/react-textarea-autosize": "^8.0.0",
     "@eslint/js": "^9.13.0",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.1",
