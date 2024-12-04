@@ -42,8 +42,7 @@ export const WalkInfoWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
-  gap: 6px;
-  padding: 0 6px;
+  gap: 4px;
 `
 export const WalkTime = styled.div`
   display: flex;
