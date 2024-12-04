@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
+import { fetchChatRoomList, FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
+import { fetchFriendList, FetchFriendListResponse } from '~apis/friend/fetchFriendList'
 import { Typo15 } from '~components/Typo'
 import FriendChatList from '~pages/SocialPage/components/FriendChatList'
-import { FriendInfo } from '~types/social'
 import * as S from './styles'
-import { fetchChatRoomList, FetchChatRoomListResponse } from '~apis/chatRoom/fetchChatRoomList'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
   const [chatList, setChatList] = useState<FetchChatRoomListResponse>([])
+  const [friendList, setFriendList] = useState<FetchFriendListResponse>([])
 
   useEffect(() => {
     fetchChatRoomList().then(data => setChatList(data.data))
+    fetchFriendList().then(data => setFriendList(data.data))
   }, [])
 
   return (
@@ -37,86 +39,3 @@ export default function SocialPage() {
     </S.SocialPage>
   )
 }
-
-const friendList: FriendInfo[] = [
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '1',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '2',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '3',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '4',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '5',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '6',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '7',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '8',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '9',
-    role: '',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 12345,
-    id: '10',
-    role: '',
-  },
-]
