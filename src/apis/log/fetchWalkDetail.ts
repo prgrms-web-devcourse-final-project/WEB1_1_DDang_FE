@@ -9,19 +9,17 @@ interface TimeDuration {
 }
 
 interface WalkDetail {
+  name: string
   points: string
   timeDuration: TimeDuration
+  profileImg: string
   totalCalorie: number
   totalDistanceMeter: number
 }
 
-interface WalkDetailResponse {
-  data: WalkDetail[]
-}
-
-export const fetchWalkDetail = async (date: string): Promise<APIResponse<WalkDetailResponse>> => {
+export const fetchWalkDetail = async (date: string): Promise<APIResponse<WalkDetail[]>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<WalkDetailResponse>>('/log/date', {
+    const { data } = await axiosInstance.get<APIResponse<WalkDetail[]>>('/log/date', {
       params: {
         selectDate: date,
       },

@@ -7,6 +7,7 @@ import Prev from '~assets/prev.svg'
 import { useModalStore } from '~stores/modalStore'
 import { createBarChart, createLineChart } from './createChart'
 import * as S from './styles'
+import { formatTime } from '~utils/dateFormat'
 interface FamilyMemberWalk {
   memberId: number
   familyRole: string
@@ -20,6 +21,7 @@ interface ChartData {
 
 interface FamilyChartData {
   name: string
+  familyPosition: string
   value: number
 }
 
@@ -30,8 +32,9 @@ const formatMonthlyData = (data: number[]): ChartData[] =>
   }))
 
 const formatFamilyData = (data: FamilyMemberWalk[]): FamilyChartData[] =>
-  data.map(({ familyRole, count }) => ({
-    name: familyRole,
+  data.map(({ familyRole, count }, index) => ({
+    name: '이름' + index,
+    familyPosition: familyRole,
     value: count,
   }))
 
@@ -61,6 +64,7 @@ export default function WalkAnalysisModal() {
           fetchTotalWalkRecords(),
           fetchCurrentMonthWalks(),
         ])
+        console.log(familyWalks.data)
 
         setWalkStats({
           total: totalWalks.data,
@@ -106,9 +110,11 @@ export default function WalkAnalysisModal() {
               <div>
                 <p>산책 시간</p>
                 <strong>
-                  {walkStats.total.timeDuration.hours.toString().padStart(2, '0')}:
-                  {walkStats.total.timeDuration.minutes.toString().padStart(2, '0')}:
-                  {walkStats.total.timeDuration.seconds.toString().padStart(2, '0')}
+                  {formatTime(
+                    walkStats.total.timeDuration.hours,
+                    walkStats.total.timeDuration.minutes,
+                    walkStats.total.timeDuration.seconds
+                  )}
                 </strong>
               </div>
               <div>
@@ -127,9 +133,11 @@ export default function WalkAnalysisModal() {
               <div>
                 <p>산책 시간</p>
                 <strong>
-                  {walkStats.monthly.timeDuration.hours.toString().padStart(2, '0')}:
-                  {walkStats.monthly.timeDuration.minutes.toString().padStart(2, '0')}:
-                  {walkStats.monthly.timeDuration.seconds.toString().padStart(2, '0')}
+                  {formatTime(
+                    walkStats.monthly.timeDuration.hours,
+                    walkStats.monthly.timeDuration.minutes,
+                    walkStats.monthly.timeDuration.seconds
+                  )}
                 </strong>
               </div>
               <div>
