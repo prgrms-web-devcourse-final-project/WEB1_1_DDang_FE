@@ -71,7 +71,7 @@ export const MapPinIcon = styled(MapPin)`
   height: 100%;
 `
 
-export const WalkControlContainer = styled.div`
+export const WalkControlContainer = styled.div<WalkInfoContainerProps>`
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -81,10 +81,10 @@ export const WalkControlContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   gap: 24px;
-  background-color: white;
+  background-color: ${({ $isWalking }: { $isWalking: boolean }) => ($isWalking ? 'white' : 'transparent')};
   padding: 12px 24px;
   border-radius: 100px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ $isWalking }: { $isWalking: boolean }) => ($isWalking ? '0px 0px 10px rgba(0, 0, 0, 0.1)' : 'none')};
   min-width: fit-content;
   width: calc(100% - 40px);
 `

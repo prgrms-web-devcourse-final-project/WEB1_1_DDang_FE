@@ -7,6 +7,7 @@ import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
+import { WebSocketProvider } from '~/WebSocketContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
@@ -15,8 +16,10 @@ function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
+
   return (
     <>
+      <WebSocketProvider>
       <HelmetProvider>
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
@@ -34,9 +37,10 @@ function App() {
               </Suspense>
             </MobileContainer>
             <PWABadge />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </HelmetProvider>
+           </QueryClientProvider>
+          </ThemeProvider>
+        </HelmetProvider>
+      </WebSocketProvider>
     </>
   )
 }
