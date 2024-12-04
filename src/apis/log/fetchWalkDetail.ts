@@ -8,24 +8,20 @@ interface TimeDuration {
   seconds: number
 }
 
-interface WalkLogDetail {
+interface WalkDetail {
   points: string
   timeDuration: TimeDuration
   totalCalorie: number
   totalDistanceMeter: number
 }
 
-export interface FetchWalkLogByDateRequest {
-  date: string
+interface WalkDetailResponse {
+  data: WalkDetail[]
 }
 
-interface FetchWalkLogByDateResponse {
-  data: WalkLogDetail[]
-}
-
-export const fetchWalkLogByDate = async (date: string): Promise<APIResponse<FetchWalkLogByDateResponse>> => {
+export const fetchWalkDetail = async (date: string): Promise<APIResponse<WalkDetailResponse>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchWalkLogByDateResponse>>('/log/date', {
+    const { data } = await axiosInstance.get<APIResponse<WalkDetailResponse>>('/log/date', {
       params: {
         selectDate: date,
       },
@@ -36,7 +32,7 @@ export const fetchWalkLogByDate = async (date: string): Promise<APIResponse<Fetc
       const { response, request } = error as AxiosError<ErrorResponse>
 
       if (response) {
-        console.error('산책 내역 조회 오류:', response.data)
+        console.error('산책 상세 내역 조회 오류:', response.data)
         throw new Error(response.data.message ?? '요청 실패')
       }
 

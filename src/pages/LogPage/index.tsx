@@ -1,5 +1,5 @@
 import * as S from './styles'
-// import { useState } from 'react'
+import { useEffect } from 'react'
 import Header from '~components/Header'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
@@ -10,9 +10,12 @@ import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
 import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
 import { useModalStore } from '~stores/modalStore'
 import WalkAnalysisModal from '~modals/WalkAnalysisModal'
-import { useEffect } from 'react'
 import { fetchWalkDates } from '~apis/log/fetchWalkDates'
-import { fetchWalkLogByDate } from '~apis/log/fetchWalkLogByDate'
+import { fetchMonthlyWalks } from '~apis/log/fetchMonthlyWalks'
+import { fetchFamilyYearlyWalks } from '~apis/log/fetchFamilyYearlyWalks'
+import { fetchTotalWalkRecords } from '~apis/log/fetchTotalWalkRecords'
+import { fetchCurrentMonthWalks } from '~apis/log/fetchCurrentMonthWalks'
+import { fetchWalkDetail } from '~apis/log/fetchWalkDetail'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
@@ -23,9 +26,21 @@ export default function LogPage() {
   useEffect(() => {
     const fetchData = async () => {
       const res1 = await fetchWalkDates()
-      // const res2 = await fetchWalkLogByDate(new Date().toISOString())
-      console.log(res1)
-      // console.log(res2)
+      const res2 = await fetchMonthlyWalks()
+      const res3 = await fetchFamilyYearlyWalks()
+      const res4 = await fetchTotalWalkRecords()
+      const res5 = await fetchCurrentMonthWalks()
+      const formattedDate = new Date().toISOString().split('T')[0]
+      const datee = new Date(2024, 2, 3)
+      console.log(datee.toISOString().split('T')[0])
+      console.log(datee.getFullYear(), datee.getMonth() + 1, datee.getDate())
+      const res6 = await fetchWalkDetail(formattedDate)
+      console.log('산책한 날짜 리스트', res1)
+      console.log('올해 월별 산책 기록 조회', res2)
+      console.log('올해 가족별 산책 기록', res3)
+      console.log('총 산책 리스트', res4)
+      console.log('이번달 산책 기록 조회', res5)
+      console.log('산책 내역 상세 조회', res6)
     }
 
     fetchData()
