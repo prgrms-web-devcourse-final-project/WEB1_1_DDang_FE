@@ -7,6 +7,7 @@ import * as S from './styles'
 import { FetchFriendListResponse } from '~apis/friend/fetchFriendList'
 import { createChatRoom } from '~apis/chatRoom/createChatRoom'
 import { useEffect, useState } from 'react'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 type FriendItemProps = FetchFriendListResponse[number]
 
@@ -29,7 +30,7 @@ export default function FriendItem({ gender, name, profileImg, memberId, familyR
           </Typo14>
           <Separator $height={8} />
           <Typo14 $color='font_2' $weight='500'>
-            {familyRole}
+            {FAMILY_ROLE[familyRole]}
           </Typo14>
         </S.DetailWrapper>
       </S.TypoWrapper>
