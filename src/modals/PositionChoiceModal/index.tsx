@@ -1,5 +1,5 @@
 import * as S from './styles'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'

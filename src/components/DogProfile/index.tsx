@@ -1,36 +1,29 @@
 import * as S from './styles'
 import { Typo13, Typo15, Typo20 } from '~components/Typo'
 import { Separator } from '~components/Separator'
-import { fetchMypage, GetDogInfoResponse } from '~apis/myPage/fetchMypage'
-import { APIResponse } from '~types/api'
 import Profile from '~components/Profile'
-import { useQuery } from '@tanstack/react-query'
-export default function DogProfile() {
-  const { data } = useQuery<APIResponse<GetDogInfoResponse>>({
-    queryKey: ['myPage'],
-    queryFn: fetchMypage,
-  })
 
-  const dogInfo = data?.data?.dog
-
+interface DogProfileProps {
+  name: string
+  gender: 'MALE' | 'FEMALE'
+  profileImg: string
+  birthDate: string
+  breed: string
+  comment: string
+}
+export default function DogProfile({ name, gender, profileImg, birthDate, breed, comment }: DogProfileProps) {
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>
-        <Profile $size={80} $src={dogInfo?.profileImg} />
+        <Profile $size={80} $src={profileImg} />
         <S.DogDetailWrapper>
           <S.TypoWrapper>
-            <Typo20 $weight='700'>{dogInfo?.name}</Typo20>
-            <Typo15 $weight='400'>{dogInfo?.breed}</Typo15>
+            <Typo20 $weight='700'>{name}</Typo20>
+            <Typo15 $weight='400'>{breed}</Typo15>
             <Separator $height={8} />
-            {/* birthDate를 나이로 변환하는 로직 필요 */}
-            <Typo15 $weight='400'>{dogInfo?.birthDate}살</Typo15>
+            <Typo15 $weight='400'>{birthDate}살</Typo15>
             <Separator $height={8} />
-            <Typo15 $weight='400'>{dogInfo?.gender === 'MALE' ? '남' : '여'}</Typo15>
-          </S.TypoWrapper>
-          <S.TypoWrapper>
-            <Typo13>중성화 {dogInfo?.isNeutered === 'TRUE' ? 'O' : 'X'}</Typo13>
-            <Separator $height={8} />
-            <Typo13>{dogInfo?.weight}KG</Typo13>
+            <Typo15 $weight='400'>{gender === 'MALE' ? '남' : '여'}</Typo15>
           </S.TypoWrapper>
         </S.DogDetailWrapper>
       </S.DogInfoWrapper>
@@ -40,7 +33,7 @@ export default function DogProfile() {
           우리 댕댕이를 소개해요!
         </Typo15>
         <Typo13 $weight='500' style={{ lineHeight: 1.2 }}>
-          {dogInfo?.comment}
+          {comment}
         </Typo13>
       </S.OneLineIntro>
     </S.DogInfoArea>
