@@ -1,7 +1,11 @@
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchProfile } from '~apis/member/useFetchProfile'
 import DogProfile from '~components/DogProfile'
+import ErrorFallback from '~components/ErrorFallback'
 import Loader from '~components/Loader'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
@@ -9,19 +13,13 @@ import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import * as S from './styles'
 
-export default function ProfilePage() {
-  const { id = '0' } = useParams()
+function ProfileContent({ id }: { id: number }) {
+  const { data } = useFetchProfile(+id)
   const navigate = useNavigate()
-
-  const { data, isLoading, isError } = useFetchProfile(+id)
-
-  if (isLoading) return <Loader />
-  if (isError) return <div>Error fetching profile</div>
-
   return (
     <S.ProfilePage>
       <Helmet>
-        <title>DDang | {data?.name}</title>
+        <title>{`DDang | ${data?.name}`}</title>
         <meta name='description' content={`${data?.name}님의 프로필 정보와 반려견을 확인하세요.`} />
       </Helmet>
       <S.Header type='sm' prevBtn onClickPrev={() => navigate(-1)} title={data?.name} />
@@ -56,5 +54,21 @@ export default function ProfilePage() {
 
       {data && <DogProfile {...data.dog} />}
     </S.ProfilePage>
+  )
+}
+
+export default function ProfilePage() {
+  const { id = '0' } = useParams()
+
+  return (
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+          <Suspense fallback={<Loader />}>
+            <ProfileContent id={+id} />
+          </Suspense>
+        </ErrorBoundary>
+      )}
+    </QueryErrorResetBoundary>
   )
 }
