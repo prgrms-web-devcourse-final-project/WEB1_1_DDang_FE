@@ -283,3 +283,29 @@ export const TransparentWalkControlContainer = styled(WalkControlContainer)`
   background-color: transparent;
   box-shadow: none;
 `
+
+export const AccuracyIndicator = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  border-radius: 12px;
+
+  color: black;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 1000;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`
+
+export const AccuracyDot = styled.span<{ $level: 'excellent' | 'good' | 'fair' | 'poor' }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+  display: inline-block;
+`

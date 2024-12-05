@@ -12,12 +12,13 @@ import { validateDogDetailProfile } from '~utils/validateDogProfile'
 import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
 import { createDogProfile } from '~apis/dog/createDogProfile'
-import { dateToString } from '~utils/dateFormat'
+import { useNavigate } from 'react-router-dom'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
   const { pushModal, popModal } = useModalStore()
   const { showToast } = useToastStore()
+  const navigate = useNavigate()
 
   const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
@@ -29,7 +30,7 @@ export default function DogProfileDetailSection() {
   const onChangeWeightInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value === '') {
-      setDogProfile({ weight: '' })
+      setDogProfile({ weight: 0 })
       setDisplayValue('')
       return
     }
@@ -37,14 +38,14 @@ export default function DogProfileDetailSection() {
     if (/^\d*\.?\d*$/.test(value)) {
       const formatted = value.includes('.') ? value.match(/^\d*\.?\d{0,2}/)![0] : value
 
-      setDogProfile({ weight: formatted })
+      setDogProfile({ weight: Number(formatted) })
       setDisplayValue(inputType === 'number' ? formatted : `${formatted}kg`)
     }
   }
 
   const handleFocus = () => {
     setInputType('number')
-    setDisplayValue(dogProfile.weight)
+    setDisplayValue(dogProfile.weight.toString())
   }
 
   const handleBlur = () => {
@@ -66,12 +67,12 @@ export default function DogProfileDetailSection() {
       const requestData = {
         name: dogProfile.name,
         breed: dogProfile.breed,
-        birthDate: dateToString(dogProfile.birthDate!),
+        birthDate: dogProfile.birthDate,
         weight: dogProfile.weight,
-        gender: dogProfile.gender?.toUpperCase() || '',
-        isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
-        familyId: '0',
-        comment: dogProfile.intro.trim(),
+        gender: dogProfile.gender,
+        isNeutered: dogProfile.isNeutered,
+        familyId: null,
+        comment: dogProfile.comment!.trim(),
       }
       formData.append(
         'request',
@@ -79,9 +80,9 @@ export default function DogProfileDetailSection() {
           type: 'application/json',
         })
       )
-      if (dogProfile.imageFile) {
-        console.log(dogProfile.imageFile)
-        formData.append('profileImgFile', dogProfile.imageFile)
+      if (dogProfile.profileImgFile) {
+        console.log(dogProfile.profileImgFile)
+        formData.append('profileImgFile', dogProfile.profileImgFile)
       }
 
       const response = await createDogProfile(formData)
@@ -89,6 +90,8 @@ export default function DogProfileDetailSection() {
       if (response.code === 201) {
         // 홈으로 이동
         showToast('반려견 등록이 완료되었습니다')
+        navigate('/')
+        // 성공 후 추가 처리 (예: 홈으로 이동)
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -96,7 +99,6 @@ export default function DogProfileDetailSection() {
       }
     }
   }
-
   return (
     <>
       <S.DogProfileDetailSection>
@@ -120,11 +122,13 @@ export default function DogProfileDetailSection() {
               onClick={() => handleGenderSelect('FEMALE')}
             />
           </S.GenderSelectBtnWrapper>
-          <S.CheckboxWrapper onClick={() => setDogProfile({ isNeutered: !dogProfile.isNeutered })}>
-            <S.CheckboxCircle $isChecked={dogProfile.isNeutered}>
+          <S.CheckboxWrapper
+            onClick={() => setDogProfile({ isNeutered: dogProfile.isNeutered == 'TRUE' ? 'FALSE' : 'TRUE' })}
+          >
+            <S.CheckboxCircle $isChecked={dogProfile.isNeutered == 'TRUE'}>
               {dogProfile.isNeutered && <img src={Check} alt='check'></img>}
             </S.CheckboxCircle>
-            <S.CheckboxLabel $isChecked={dogProfile.isNeutered}>중성화 했어요</S.CheckboxLabel>
+            <S.CheckboxLabel $isChecked={dogProfile.isNeutered == 'TRUE'}>중성화 했어요</S.CheckboxLabel>
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>

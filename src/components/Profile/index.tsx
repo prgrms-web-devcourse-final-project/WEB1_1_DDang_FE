@@ -4,11 +4,11 @@ import { useModalStore } from '~stores/modalStore'
 
 type ProfileProps = {
   $size: number
-  $src: string
-  userId?: string
+  $src?: string
+  userId?: number
 }
 
-export default function Profile({ $size, $src, userId }: ProfileProps) {
+export default function Profile({ $size, $src = '', userId }: ProfileProps) {
   const { clearModal } = useModalStore()
   const navigate = useNavigate()
   const onClick = () => {

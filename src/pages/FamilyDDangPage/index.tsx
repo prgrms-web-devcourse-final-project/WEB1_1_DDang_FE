@@ -6,8 +6,17 @@ import CountSection from '~components/WalkCountArea'
 import { Avatar10, Avatar3 } from '~assets/avatars'
 import Profile from '~components/Profile'
 import DogProfile from '~components/DogProfile'
+import { useQuery } from '@tanstack/react-query'
+import { fetchMypage, GetDogInfoResponse } from '~apis/myPage/fetchMypage'
+import { APIResponse } from '~types/api'
 
 export default function FamilyDDang() {
+  const { data } = useQuery<APIResponse<GetDogInfoResponse>>({
+    queryKey: ['myPage'],
+    queryFn: fetchMypage,
+  })
+  const dogInfo = data?.data?.dog
+
   return (
     <S.FamilyDDang>
       <S.Header type='sm' title='패밀리댕'>
@@ -16,11 +25,21 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
-      <DogProfile />
-
+      {dogInfo && (
+        <DogProfile
+          name={dogInfo.name}
+          gender={dogInfo.gender}
+          profileImg={dogInfo.profileImg}
+          birthDate={dogInfo.birthDate}
+          breed={dogInfo.breed}
+          comment={dogInfo.comment}
+          isNeutered={dogInfo.isNeutered}
+          weight={dogInfo.weight}
+        />
+      )}
       <S.FamilySection>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar10} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar10} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family1Info.nickName}</Typo17>
@@ -49,7 +68,7 @@ export default function FamilyDDang() {
           </S.EditIconWrapper>
         </S.ProfileOneArea>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar3} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar3} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family2Info.nickName}</Typo17>

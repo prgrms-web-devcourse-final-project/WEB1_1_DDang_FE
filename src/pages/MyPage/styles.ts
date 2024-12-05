@@ -15,6 +15,9 @@ export const MainContainer = styled.div`
   box-sizing: border-box;
   overflow-y: auto;
 `
+export const DogProfileWrapper = styled.div`
+  margin-top: 0.8rem;
+`
 
 export const HeaderContainer = styled.div`
   width: 100%;

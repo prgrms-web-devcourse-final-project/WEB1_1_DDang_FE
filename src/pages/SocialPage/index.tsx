@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Typo15 } from '~components/Typo'
 import FriendChatList from '~pages/SocialPage/components/FriendChatList'
-import { ChatInfo, FriendInfo } from '~types/social'
 import * as S from './styles'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from '~components/ErrorFallback'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import Loader from '~components/Loader'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
@@ -27,192 +30,15 @@ export default function SocialPage() {
           <S.TabUnderBar $selectedTab={selectedTab} />
         </S.TabArea>
       </S.Header>
-      <FriendChatList selectedTab={selectedTab} chatList={chatList} friendList={friendList} />
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <Suspense fallback={<Loader />}>
+              <FriendChatList selectedTab={selectedTab} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </S.SocialPage>
   )
 }
-
-const friendList: FriendInfo[] = [
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '1',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '2',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '3',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '4',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '5',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '6',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '7',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '8',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '9',
-    role: '이모',
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '10',
-    role: '이모',
-  },
-]
-const chatList: ChatInfo[] = [
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '1',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '2',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '3',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '4',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '5',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '6',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '7',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '8',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '9',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-  {
-    profileImg: '',
-    name: '감자탕수육',
-    gender: 'FEMALE',
-    userId: 'dummyUserId',
-    id: '10',
-    role: '이모',
-    lastChat: '마지막 채팅 텍스트입니다',
-    unreadChatCount: 15,
-  },
-]

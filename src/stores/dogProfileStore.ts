@@ -9,14 +9,15 @@ interface DogProfileStore {
 export const useDogProfileStore = create<DogProfileStore>(set => ({
   dogProfile: {
     name: '',
-    image: undefined,
-    imageFile: undefined,
-    birthDate: null,
-    intro: '',
+    profileImg: undefined,
+    profileImgFile: undefined,
+    birthDate: undefined,
+    comment: '',
     gender: null,
-    isNeutered: false,
+    isNeutered: 'FALSE',
     breed: '',
-    weight: '',
+    weight: 0,
+    familyId: null,
   },
   setDogProfile: update =>
     set(state => ({

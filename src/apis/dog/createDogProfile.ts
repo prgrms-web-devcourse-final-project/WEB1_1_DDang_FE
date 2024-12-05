@@ -9,7 +9,7 @@ interface CreateDogProfileResponse {
   birthDate: string
   weight: number
   gender: 'MALE' | 'FEMALE'
-  profileImg: string
+  profileImg: File
   isNeutered: 'TRUE' | 'FALSE'
   familyId: number
   comment: string
