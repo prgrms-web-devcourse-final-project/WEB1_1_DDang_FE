@@ -23,7 +23,7 @@ export default function ChatItem({ gender, lastChat, name, profileImg, role, unr
             </Typo13>
             <Separator $height={8} />
             <Typo13 $color='font_2' $weight='500'>
-              {gender === 'male' ? '남' : '여'}
+              {gender === 'MALE' ? '남' : '여'}
             </Typo13>
           </S.DetailWrapper>
         </S.UserInfoWrapper>

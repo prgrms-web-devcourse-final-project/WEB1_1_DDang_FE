@@ -36,7 +36,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '1',
     role: '이모',
@@ -44,7 +44,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '2',
     role: '이모',
@@ -52,7 +52,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '3',
     role: '이모',
@@ -60,7 +60,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '4',
     role: '이모',
@@ -68,7 +68,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '5',
     role: '이모',
@@ -76,7 +76,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '6',
     role: '이모',
@@ -84,7 +84,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '7',
     role: '이모',
@@ -92,7 +92,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '8',
     role: '이모',
@@ -100,7 +100,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '9',
     role: '이모',
@@ -108,7 +108,7 @@ const friendList: FriendInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '10',
     role: '이모',
@@ -118,7 +118,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '1',
     role: '이모',
@@ -128,7 +128,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '2',
     role: '이모',
@@ -138,7 +138,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '3',
     role: '이모',
@@ -148,7 +148,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '4',
     role: '이모',
@@ -158,7 +158,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '5',
     role: '이모',
@@ -168,7 +168,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '6',
     role: '이모',
@@ -178,7 +178,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '7',
     role: '이모',
@@ -188,7 +188,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '8',
     role: '이모',
@@ -198,7 +198,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '9',
     role: '이모',
@@ -208,7 +208,7 @@ const chatList: ChatInfo[] = [
   {
     profileImg: '',
     name: '감자탕수육',
-    gender: 'female',
+    gender: 'FEMALE',
     userId: 'dummyUserId',
     id: '10',
     role: '이모',

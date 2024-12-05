@@ -7,8 +7,6 @@ import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
 import Loader from '~components/Loader'
-import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
-import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
 
 function App() {
   //* 다크모드 확장성 고려

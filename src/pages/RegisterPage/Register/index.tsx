@@ -59,7 +59,7 @@ export default function Register() {
     )
   }
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setOwnerProfile({ gender })
   }
 
@@ -101,14 +101,14 @@ export default function Register() {
         </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
-            gender='male'
-            isActive={ownerProfile.gender === 'male'}
-            onClick={() => handleGenderSelect('male')}
+            gender='MALE'
+            isActive={ownerProfile.gender === 'MALE'}
+            onClick={() => handleGenderSelect('MALE')}
           />
           <GenderSelectButton
-            gender='female'
-            isActive={ownerProfile.gender === 'female'}
-            onClick={() => handleGenderSelect('female')}
+            gender='FEMALE'
+            isActive={ownerProfile.gender === 'FEMALE'}
+            onClick={() => handleGenderSelect('FEMALE')}
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>

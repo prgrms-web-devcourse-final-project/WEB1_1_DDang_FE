@@ -22,7 +22,7 @@ export default function DogProfileDetailSection() {
   const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setDogProfile({ gender })
   }
 
@@ -66,7 +66,7 @@ export default function DogProfileDetailSection() {
       const requestData = {
         name: dogProfile.name,
         breed: dogProfile.breed,
-        birthDate: dateToString(dogProfile.birth!),
+        birthDate: dateToString(dogProfile.birthDate!),
         weight: dogProfile.weight,
         gender: dogProfile.gender?.toUpperCase() || '',
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
@@ -110,14 +110,14 @@ export default function DogProfileDetailSection() {
         <S.GenderBtnArea>
           <S.GenderSelectBtnWrapper>
             <GenderSelectButton
-              gender='male'
-              isActive={dogProfile.gender === 'male'}
-              onClick={() => handleGenderSelect('male')}
+              gender='MALE'
+              isActive={dogProfile.gender === 'MALE'}
+              onClick={() => handleGenderSelect('MALE')}
             />
             <GenderSelectButton
-              gender='female'
-              isActive={dogProfile.gender === 'female'}
-              onClick={() => handleGenderSelect('female')}
+              gender='FEMALE'
+              isActive={dogProfile.gender === 'FEMALE'}
+              onClick={() => handleGenderSelect('FEMALE')}
             />
           </S.GenderSelectBtnWrapper>
           <S.CheckboxWrapper onClick={() => setDogProfile({ isNeutered: !dogProfile.isNeutered })}>

@@ -1,10 +1,10 @@
 export interface DogProfileType {
   name: string
-  image: string | undefined
-  imageFile: File | undefined
-  birth: Date | null
+  image?: string
+  imageFile?: File
+  birthDate: Date | null
   intro: string
-  gender: 'male' | 'female' | null
+  gender: 'MALE' | 'FEMALE' | null
   isNeutered: boolean
   breed: string
   weight: string

@@ -15,7 +15,7 @@ export default function DogProfile() {
             <Separator $height={8} />
             <Typo15 $weight='400'>{dogInfo.age}살</Typo15>
             <Separator $height={8} />
-            <Typo15 $weight='400'>{dogInfo.gender === 'male' ? '남' : '여'}</Typo15>
+            <Typo15 $weight='400'>{dogInfo.gender === 'MALE' ? '남' : '여'}</Typo15>
           </S.TypoWrapper>
           <S.TypoWrapper>
             <Typo13>중성화 X</Typo13>
@@ -41,7 +41,7 @@ const dogInfo = {
   name: '밤톨이',
   breed: '포메라니안',
   age: 4,
-  gender: 'male',
+  gender: 'MALE',
   neutered: false, // 중성화 여부
   weight: 3.4,
   profileImg: '',
