@@ -15,12 +15,12 @@ export default function FamilyDDang() {
           <MdOutlineEditLocation cursor='pointer' size={28} />
         </S.IconWrapper>
       </S.Header>
-
-      <DogProfile />
+      {/* 데이터 바인딩 시 props 넣어주세요 */}
+      <DogProfile name={''} gender={'MALE'} profileImg={''} birthDate={''} breed={''} comment={''} />
 
       <S.FamilySection>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar10} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar10} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family1Info.nickName}</Typo17>
@@ -49,7 +49,7 @@ export default function FamilyDDang() {
           </S.EditIconWrapper>
         </S.ProfileOneArea>
         <S.ProfileOneArea>
-          <Profile $size={64} $src={Avatar3} userId='temp-user-id' />
+          <Profile $size={64} $src={Avatar3} userId={1} />
           <S.FamilyInfoArea>
             <S.LineWrapper>
               <Typo17 $weight='700'>{family2Info.nickName}</Typo17>

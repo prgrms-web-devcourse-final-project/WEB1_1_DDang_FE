@@ -1,11 +1,30 @@
 import { Typo14 } from '~components/Typo'
 import * as S from './styles'
+import { createChatRoom } from '~apis/chatRoom/createChatRoom'
+import { CommonAPIResponse } from '~types/api'
 
-type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement>
+type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
+  chatCount: number
+} & Partial<Pick<CommonAPIResponse, 'chatRoomId'>>
 
-export default function SendMessageForm({ ...rest }: SendMessageFormProps) {
+export default function SendMessageForm({ chatRoomId, chatCount, ...rest }: SendMessageFormProps) {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (rest.onSubmit) {
+      rest.onSubmit(e)
+      return
+    }
+
+    if (chatCount === 0) {
+      //* 채팅방 생성
+      await createChatRoom({ opponentMemberId: 123 })
+    }
+    //* 채팅 전송 웹소켓
+    console.log('chatRoomId:', chatRoomId)
+  }
+
   return (
-    <S.SendMessageForm {...rest}>
+    <S.SendMessageForm onSubmit={onSubmit} {...rest}>
       <S.ChatInput placeholder='채팅 내용 입력' />
       <S.SendBtn>
         <Typo14 $weight='700'>전송</Typo14>

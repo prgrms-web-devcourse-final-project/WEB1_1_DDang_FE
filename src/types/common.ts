@@ -1,13 +1,7 @@
+import { FAMILY_ROLE } from '~constants/familyRole'
+
 export type Gender = 'MALE' | 'FEMALE'
-export type FamilyRole =
-  | 'FATHER'
-  | 'MOTHER'
-  | 'OLDER_BROTHER'
-  | 'ELDER_BROTHER'
-  | 'ELDER_SISTER'
-  | 'OLDER_SISTER'
-  | 'GRANDMOTHER'
-  | 'GRANDFATHER'
+export type FamilyRole = keyof typeof FAMILY_ROLE
 export type DayOfWeek = 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY'
 export type NotificationType = 'WALK' | 'CHAT' | 'FRIEND'
 export type Provider = 'GOOGLE' | 'NAVER' | 'KAKAO'

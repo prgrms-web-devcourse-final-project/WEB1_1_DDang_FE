@@ -1,7 +1,7 @@
 import * as S from './styles'
 import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
-import PrevButton from '~components/Button/PrevButton'
+import { PrevBtn } from '~components/Button/PrevBtn'
 import { Typo24 } from '~components/Typo/index'
 import Header from '~components/Header/index'
 import { useModalStore } from '~stores/modalStore'
@@ -34,7 +34,7 @@ export default function FamilyCodeSection() {
       <S.FamilyCodeSection>
         <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.PrevBtnWrapper>
-          <PrevButton />
+          <PrevBtn />
         </S.PrevBtnWrapper>
         <S.InputArea>
           <S.TypoWrapper>

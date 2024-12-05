@@ -65,6 +65,7 @@ export type Member = BasicInfo & {
   familyRole: FamilyRole
   /** 프로필 이미지 URL @example "https://example.com/profile.jpg" */
   profileImg: string
+  memberProfileImgUrl: string
 }
 
 export type Position = {
@@ -163,7 +164,7 @@ export type CommonAPIResponse = BasicInfo &
     dogName: string
     count: number
     memberInfo: Pick<Member, 'memberId' | 'email' | 'name'>
-    members: Pick<Member, 'memberId' | 'email' | 'name' | 'gender' | 'familyRole' | 'profileImg'>
+    members: Pick<Member, 'memberId' | 'email' | 'name' | 'gender' | 'familyRole' | 'profileImg'>[]
     isMatched: BooleanString
     memberGender: Gender
     memberProfileImg: string
