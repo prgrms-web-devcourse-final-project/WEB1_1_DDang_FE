@@ -1,134 +1,65 @@
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useCallback, useEffect, useRef } from 'react'
+import { fetchNotificationList, FetchNotificationListResponse } from '~apis/notification/fetchNotificationList'
+import Loader from '~components/Loader'
 import NotificationItem from '~components/NotificationItem'
+import { queryKey } from '~constants/queryKey'
+import { APIResponse } from '~types/api'
 import * as S from './styles'
 
-const notificationList = [
-  {
-    content: '엄마 산책 시켜주세요!',
-    date: new Date('2024-11-21 09:38:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 07:13:04'),
-  },
-  {
-    content: '다 함께 즐거운 순간!',
-    date: new Date('2024-11-21 01:32:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 11:51:04'),
-  },
-  {
-    content: '다 함께 즐거운 순간!',
-    date: new Date('2024-11-21 06:26:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 18:00:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 04:24:04'),
-  },
-  {
-    content: '오늘의 미션을 완료했어요!',
-    date: new Date('2024-11-21 16:10:04'),
-  },
-  {
-    content: '내일 날씨가 좋으면 산책해요!',
-    date: new Date('2024-11-21 13:44:04'),
-  },
-  {
-    content: '엄마 산책 시켜주세요!',
-    date: new Date('2024-11-21 18:35:04'),
-  },
-  {
-    content: '다 함께 즐거운 순간!',
-    date: new Date('2024-11-21 20:32:04'),
-  },
-  {
-    content: '내일 날씨가 좋으면 산책해요!',
-    date: new Date('2024-11-21 20:29:04'),
-  },
-  {
-    content: '이번 주 미션을 완료할 거예요!',
-    date: new Date('2024-11-21 16:24:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 04:00:04'),
-  },
-  {
-    content: '다 함께 즐거운 순간!',
-    date: new Date('2024-11-21 20:15:04'),
-  },
-  {
-    content: '오늘 기분이 어때요?',
-    date: new Date('2024-11-21 13:07:04'),
-  },
-  {
-    content: '엄마 나와 함께 놀아요!',
-    date: new Date('2024-11-21 12:04:04'),
-  },
-  {
-    content: '산책이 너무 좋아요!',
-    date: new Date('2024-11-21 07:04:04'),
-  },
-  {
-    content: '엄마 나와 함께 놀아요!',
-    date: new Date('2024-11-21 07:22:04'),
-  },
-  {
-    content: '오늘 기분이 어때요?',
-    date: new Date('2024-11-21 09:32:04'),
-  },
-  {
-    content: '오늘 빼먹지 말고 산책!',
-    date: new Date('2024-11-21 14:29:04'),
-  },
-  {
-    content: '엄마 나와 함께 놀아요!',
-    date: new Date('2024-11-21 11:32:04'),
-  },
-  {
-    content: '밥은 언제 먹어?',
-    date: new Date('2024-11-21 23:44:04'),
-  },
-  {
-    content: '내일 날씨가 좋으면 산책해요!',
-    date: new Date('2024-11-21 01:33:04'),
-  },
-  {
-    content: '다 함께 즐거운 순간!',
-    date: new Date('2024-11-21 19:34:04'),
-  },
-  {
-    content: '엄마 나와 함께 놀아요!',
-    date: new Date('2024-11-21 13:40:04'),
-  },
-  {
-    content: '이번 주 미션을 완료할 거예요!',
-    date: new Date('2024-11-21 14:05:04'),
-  },
-  {
-    content: '밥은 언제 먹어?',
-    date: new Date('2024-11-21 01:02:04'),
-  },
-  {
-    content: '이번 주 미션을 완료할 거예요!',
-    date: new Date('2024-11-21 04:02:04'),
-  },
-  {
-    content: '엄마 산책 시켜주세요!',
-    date: new Date('2024-11-21 22:11:04'),
-  },
-]
 export default function NotificationList() {
+  const observerRef = useRef<HTMLDivElement>(null)
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+    APIResponse<FetchNotificationListResponse>
+  >({
+    queryKey: queryKey.notification(),
+    queryFn: async ({ pageParam = 0 }) => {
+      if (pageParam !== 0) await new Promise(resolve => setTimeout(resolve, 1000))
+      return await fetchNotificationList({ page: pageParam as number })
+    },
+    getNextPageParam: lastPage => {
+      return lastPage.data.last ? undefined : lastPage.data.number + 1
+    },
+    initialPageParam: 0,
+  })
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries
+      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage()
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage]
+  )
+
+  useEffect(() => {
+    const element = observerRef.current
+    const option = { threshold: 0.5 }
+
+    const observer = new IntersectionObserver(handleObserver, option)
+    if (element) observer.observe(element)
+
+    return () => {
+      if (element) observer.unobserve(element)
+    }
+  }, [handleObserver])
+
   return (
     <S.NotificationList>
-      {notificationList.map((notification, index) => (
-        <NotificationItem content={notification.content} date={notification.date} key={index} />
-      ))}
+      {data?.pages.map(page =>
+        page.data?.content.map(notification => (
+          <NotificationItem
+            key={notification.notificationId}
+            content={notification.content}
+            date={new Date(notification.createdAt || '2024-12-05')}
+          />
+        ))
+      )}
+      <div ref={observerRef} style={{ height: '20px' }}>
+        {isFetchingNextPage && <Loader />}
+      </div>
     </S.NotificationList>
   )
 }
