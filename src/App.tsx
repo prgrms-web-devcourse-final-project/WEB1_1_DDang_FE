@@ -12,7 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient()
-import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
+// import { deleteDogProfile } from '~apis/dog/deleteDogProfile'
 import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
 
 function App() {

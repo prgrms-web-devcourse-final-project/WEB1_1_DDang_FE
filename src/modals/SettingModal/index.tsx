@@ -6,7 +6,6 @@ import { useModalStore } from '~stores/modalStore'
 import Header from '~components/Header'
 import { ActionButton } from '~components/Button/ActionButton'
 import { deleteMember } from '~apis/myPage/deleteMember'
-import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 export default function SettingModal() {
