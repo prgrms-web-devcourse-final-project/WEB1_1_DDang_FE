@@ -13,17 +13,40 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
   const [message, setMessage] = useState('')
   const { publish, isConnected } = useWebSocket()
 
+  const convertGenderToKorean = (gender: string) => {
+    return gender === 'MALE' ? '남' : '여'
+  }
+
   const handleConfirm = () => {
     if (type === 'request') {
       const proposalData = {
         otherMemberId: userInfo.email,
         message,
       }
-
       publish('/pub/api/v1/proposal', proposalData)
+      onClose()
+    } else if (type === 'accept') {
+      const decisionData = {
+        otherEmail: (userInfo as RequestUserInfo).email,
+        decision: 'ACCEPT',
+      }
+      publish('/pub/api/v1/decision', decisionData)
       onClose()
     } else {
       onConfirm()
+    }
+  }
+
+  const handleCancel = () => {
+    if (type === 'accept') {
+      const decisionData = {
+        otherEmail: (userInfo as RequestUserInfo).email,
+        decision: 'DENY',
+      }
+      publish('/pub/api/v1/decision', decisionData)
+      onClose()
+    } else {
+      onCancel?.()
     }
   }
 
@@ -102,26 +125,29 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
         {type !== 'accept' && type === 'friend' && <div className='date'>2024.12.14</div>}
 
         {type !== 'progress' && type !== 'report' && type !== 'reportComplete' && (
-          <S.UserInfo type={type}>
-            <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
-            <S.Info type={type}>
-              <h3>{userInfo.name}</h3>
-              {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
-                <>
-                  <p>
-                    {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
-                    {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
-                    {(userInfo as RequestUserInfo).gender}
-                  </p>
-                </>
-              ) : (
-                <>
-                  {(userInfo as OtherUserInfo).location && <p>{(userInfo as OtherUserInfo).location}</p>}
-                  {(userInfo as OtherUserInfo).time && <p>{(userInfo as OtherUserInfo).time}</p>}
-                </>
-              )}
-            </S.Info>
-          </S.UserInfo>
+          <>
+            <S.UserInfo type={type}>
+              <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
+              <S.Info type={type}>
+                <h3>{userInfo.name}</h3>
+                {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
+                  <>
+                    <p>
+                      {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
+                      {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
+                      {convertGenderToKorean((userInfo as RequestUserInfo).gender)}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {(userInfo as OtherUserInfo).location && <p>{(userInfo as OtherUserInfo).location}</p>}
+                    {(userInfo as OtherUserInfo).time && <p>{(userInfo as OtherUserInfo).time}</p>}
+                  </>
+                )}
+              </S.Info>
+            </S.UserInfo>
+            {type === 'accept' && <S.ProposalMessage>{(userInfo as RequestUserInfo).comment}</S.ProposalMessage>}
+          </>
         )}
 
         {type === 'report' && (
@@ -155,7 +181,7 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
 
         <S.ButtonGroup type={type}>
           {modalContent?.cancelText && (
-            <S.Button type={type} variant='cancel' onClick={onCancel}>
+            <S.Button type={type} variant='cancel' onClick={handleCancel}>
               {modalContent.cancelText}
             </S.Button>
           )}

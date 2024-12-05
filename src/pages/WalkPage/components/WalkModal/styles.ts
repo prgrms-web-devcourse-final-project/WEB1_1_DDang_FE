@@ -144,7 +144,7 @@ export const UserInfo = styled.div<StyleProps>`
   }}
 `
 
-export const Avatar = styled.div<StyleProps>`
+export const Avatar = styled.img<StyleProps>`
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -223,6 +223,18 @@ export const Info = styled.div<StyleProps>`
         `
     }
   }}
+`
+
+export const ProposalMessage = styled.div`
+  background-color: ${({ theme }) => theme.colors.grayscale.gc_3};
+  border-radius: 16px;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  width: 100%;
+  text-align: left;
+  line-height: 1.5;
 `
 
 export const Message = styled.p<StyleProps>`

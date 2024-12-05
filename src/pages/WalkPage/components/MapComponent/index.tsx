@@ -18,6 +18,7 @@ import * as S from './styles'
 import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
 import { useNavigate } from 'react-router-dom'
 import { useWebSocket } from '~/WebSocketContext'
+import WalkModal from '~pages/WalkPage/components/WalkModal'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
@@ -32,7 +33,6 @@ export const getMarkerIconString = () => {
   return svgString
 }
 
-// DeviceOrientationEvent 타입 확장
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
   webkitCompassHeading?: number
 }
@@ -47,6 +47,21 @@ export type NearbyWalker = {
   dogGender: 'MALE' | 'FEMALE'
   memberId: number
   memberEmail: string
+}
+
+export type ProposalResponse = {
+  code: number
+  message: string
+  data: {
+    dogId: number
+    dogName: string
+    dogBreed: string
+    dogProfileImg: string
+    comment: string
+    dogGender: string
+    dogAge: number
+    email: string
+  }
 }
 
 type MapComponentProps = {
@@ -79,6 +94,18 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
 
+  const [showProposalModal, setShowProposalModal] = useState(true)
+  const [proposalInfo, setProposalInfo] = useState<ProposalResponse['data'] | null>({
+    dogId: 1,
+    dogName: '몽이',
+    dogBreed: '골든 리트리버',
+    dogProfileImg: 'https://placedog.net/200/200?id=1',
+    comment: '같이 산책 해요 :)',
+    dogGender: 'MALE',
+    dogAge: 5,
+    email: 'example@example.com',
+  })
+
   const [currentAccuracy, setCurrentAccuracy] = useState<number | null>(null)
 
   const navigate = useNavigate()
@@ -93,14 +120,20 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
         try {
           const response = JSON.parse(message.body)
           if (response.code === 1000 && response.data) {
-            const newWalker = response.data as NearbyWalker
-            setNearbyWalkers((prev: NearbyWalker[]) => {
-              const exists = prev.some(walker => walker.dogId === newWalker.dogId)
-              if (!exists) {
-                return [...prev, newWalker]
-              }
-              return prev
-            })
+            if (response.type === 'proposal') {
+              const proposalData = response.data as ProposalResponse['data']
+              setProposalInfo(proposalData)
+              setShowProposalModal(true)
+            } else {
+              const newWalker = response.data as NearbyWalker
+              setNearbyWalkers((prev: NearbyWalker[]) => {
+                const exists = prev.some(walker => walker.dogId === newWalker.dogId)
+                if (!exists) {
+                  return [...prev, newWalker]
+                }
+                return prev
+              })
+            }
           } else {
             setNearbyWalkers([])
           }
@@ -956,6 +989,30 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
             </S.ModalButton>
           </S.ModalContent>
         </S.ModalOverlay>
+      )}
+
+      {showProposalModal && proposalInfo && (
+        <WalkModal
+          type='accept'
+          userInfo={{
+            name: proposalInfo.dogName,
+            breed: proposalInfo.dogBreed,
+            profileImg: proposalInfo.dogProfileImg,
+            age: proposalInfo.dogAge,
+            gender: proposalInfo.dogGender,
+            email: proposalInfo.email,
+            comment: proposalInfo.comment,
+          }}
+          onClose={() => setShowProposalModal(false)}
+          onConfirm={() => {
+            // TODO: 수락 로직 구현
+            setShowProposalModal(false)
+          }}
+          onCancel={() => {
+            // TODO: 거절 로직 구현
+            setShowProposalModal(false)
+          }}
+        />
       )}
     </S.MapContainer>
   )

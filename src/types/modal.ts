@@ -11,6 +11,7 @@ export type RequestUserInfo = {
   gender: string
   profileImg?: string
   email?: string
+  comment?: string
 }
 
 export type OtherUserInfo = {
