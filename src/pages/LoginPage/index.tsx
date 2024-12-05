@@ -11,17 +11,17 @@ const SOCIAL_LOGIN_BUTTONS = [
     href: `${BACKEND_URL}/oauth2/authorization/kakao`,
   },
   {
-    Component: S.Naver,
-    Icon: S.NaverIcon,
-    text: '네이버로 로그인',
-    href: `${BACKEND_URL}/oauth2/authorization/naver`,
-  },
-  {
     Component: S.Google,
     Icon: S.GoogleIcon,
     text: '구글로 로그인',
     href: `${BACKEND_URL}/oauth2/authorization/google`,
   },
+  // {
+  //   Component: S.Naver,
+  //   Icon: S.NaverIcon,
+  //   text: '네이버로 로그인',
+  //   href: `${BACKEND_URL}/oauth2/authorization/naver`,
+  // },
 ] as const
 
 const TitleSection = () => (
