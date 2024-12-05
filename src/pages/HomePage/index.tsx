@@ -1,41 +1,41 @@
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
 import { GoBell } from 'react-icons/go'
 import { GrLocation } from 'react-icons/gr'
 import { LuClock5 } from 'react-icons/lu'
 import { useHomePageData } from '~apis/main/useHomePageData'
+import DogHand from '~assets/dog_hand.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
+import ErrorFallback from '~components/ErrorFallback'
 import Loader from '~components/Loader'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo14, Typo17, Typo24 } from '~components/Typo'
+import { FAMILY_ROLE } from '~constants/familyRole'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { FAMILY_ROLE } from '~constants/familyRole'
-import DogHand from '~assets/dog_hand.svg?react'
 
-export default function HomePage() {
+function HomeContent() {
+  const { data } = useHomePageData()
   const { pushModal } = useModalStore()
-  const { data, isLoading, isError } = useHomePageData()
-
-  if (isLoading) return <Loader />
-  if (isError) return <div>Error fetching homepage data</div>
 
   return (
-    <S.HomePage>
-      <Helmet>
-        <title>DDang | 반려견 산책 서비스</title>
-        <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-      </Helmet>
-
+    <>
       <S.Header>
-        <Profile $size={32} $src={data?.profileImg || ''} />
+        <Profile $size={32} $src={data?.memberProfileImgUrl || ''} />
         <GoBell cursor='pointer' size={28} onClick={() => pushModal(<NotificationModal />)} />
       </S.Header>
 
       <S.Visual>
-        <Typo24 $weight='700'>오늘은 {data && FAMILY_ROLE[data.familyRole]}랑</Typo24>
-        <Typo24 $weight='700'>산책가는 날!</Typo24>
+        <Typo24 $weight='700' $textAlign='center'>
+          오늘은 {data && FAMILY_ROLE[data.familyRole]}랑
+        </Typo24>
+        <Typo24 $weight='700' $textAlign='center'>
+          산책가는 날!
+        </Typo24>
       </S.Visual>
 
       <S.CharacterWrapper>
@@ -45,7 +45,7 @@ export default function HomePage() {
       <S.WalkInfoArea>
         <Typo17 $weight='700'>
           오늘 {data?.dogName}가&nbsp;
-          <Typo17 as='span' $weight='700' color='default'>
+          <Typo17 as='span' $weight='700' $color='default'>
             {data?.totalCalorie}
           </Typo17>
           kcal 소비했어요!
@@ -72,6 +72,25 @@ export default function HomePage() {
       <ActionButton $fontWeight='700' $type='roundedRect'>
         산책 시작하기
       </ActionButton>
+    </>
+  )
+}
+export default function HomePage() {
+  return (
+    <S.HomePage>
+      <Helmet>
+        <title>DDang | 반려견 산책 서비스</title>
+        <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
+      </Helmet>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <Suspense fallback={<Loader />}>
+              <HomeContent />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </S.HomePage>
   )
 }

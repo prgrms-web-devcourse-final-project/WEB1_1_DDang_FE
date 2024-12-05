@@ -18,7 +18,6 @@ export const Header = styled.header`
 
 export const Visual = styled.div`
   margin-top: 24px;
-  text-align: center;
 `
 export const CharacterWrapper = styled.div`
   margin: 8px auto 0;
