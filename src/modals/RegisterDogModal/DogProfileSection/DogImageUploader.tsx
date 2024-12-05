@@ -2,8 +2,8 @@ import { AddDogPictureBtnWrapper, AddDogPictureBtn, HiddenFileInput, DogImage } 
 import AddDogPicture from '~assets/add-dog-picture.svg'
 import { useRef } from 'react'
 interface DogImageUploaderProps {
-  image: File | undefined
-  setImage: (image: File) => void
+  image: string | undefined
+  setImage: (update: { image: string; imageFile: File }) => void
 }
 
 export default function DogImageUploader({ image, setImage }: DogImageUploaderProps) {
@@ -12,7 +12,14 @@ export default function DogImageUploader({ image, setImage }: DogImageUploaderPr
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      setImage(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImage({
+          image: reader.result as string,
+          imageFile: file,
+        })
+      }
+      reader.readAsDataURL(file)
     }
   }
 

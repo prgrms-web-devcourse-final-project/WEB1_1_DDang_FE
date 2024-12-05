@@ -34,6 +34,7 @@ export default function DogProfileSection() {
     setDogProfile({
       name: '',
       image: undefined,
+      imageFile: undefined,
       birth: null,
       intro: '',
       gender: null,
@@ -54,7 +55,7 @@ export default function DogProfileSection() {
             <br /> 알려주세요!
           </Typo24>
         </S.TypoWrapper>
-        <DogImageUploader image={dogProfile.image} setImage={image => setDogProfile({ image })} />
+        <DogImageUploader image={dogProfile.image} setImage={update => setDogProfile(update)} />
         <S.InputArea>
           <S.NameInput
             placeholder='이름 입력'

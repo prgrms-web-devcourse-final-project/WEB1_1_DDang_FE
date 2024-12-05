@@ -2,17 +2,6 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export interface CreateDogProfileRequest {
-  name: string
-  breed: string
-  birthDate: Date
-  weight: number
-  gender: 'MALE' | 'FEMALE'
-  profileImg: File // string에서 File로 변경
-  isNeutered: 'TRUE' | 'FALSE'
-  familyId: null
-  comment: string
-}
 interface CreateDogProfileResponse {
   dogId: number
   name: string
@@ -26,29 +15,8 @@ interface CreateDogProfileResponse {
   comment: string
 }
 
-export const createDogProfile = async (
-  dogData: CreateDogProfileRequest,
-  imageFile: File
-): Promise<APIResponse<CreateDogProfileResponse>> => {
+export const createDogProfile = async (formData: FormData): Promise<APIResponse<CreateDogProfileResponse>> => {
   try {
-    const formData = new FormData()
-
-    // 이미지 파일 추가
-    formData.append('profileImg', imageFile)
-
-    // 나머지 데이터 추가
-    const dogInfo = {
-      name: dogData.name,
-      breed: dogData.breed,
-      birthDate: dogData.birthDate,
-      weight: dogData.weight,
-      gender: dogData.gender,
-      isNeutered: dogData.isNeutered,
-      familyId: dogData.familyId,
-      comment: dogData.comment,
-    }
-    formData.append('dogInfo', new Blob([JSON.stringify(dogInfo)], { type: 'application/json' }))
-
     const { data } = await axiosInstance.post<APIResponse<CreateDogProfileResponse>>('/dogs/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -56,6 +24,21 @@ export const createDogProfile = async (
     })
     return data
   } catch (error) {
-    throw error
+    if (error instanceof AxiosError) {
+      const { response, request } = error as AxiosError<ErrorResponse>
+
+      if (response) {
+        console.error('반려견 등록 오류:', response.data)
+        throw new Error(response.data.message ?? '요청 실패')
+      }
+
+      if (request) {
+        console.error('요청 에러:', request)
+        throw new Error('네트워크 연결을 확인해주세요')
+      }
+    }
+
+    console.error('예상치 못한 에러:', error)
+    throw new Error('다시 시도해주세요')
   }
 }

@@ -10,6 +10,7 @@ export const useDogProfileStore = create<DogProfileStore>(set => ({
   dogProfile: {
     name: '',
     image: undefined,
+    imageFile: undefined,
     birth: null,
     intro: '',
     gender: null,
@@ -17,8 +18,8 @@ export const useDogProfileStore = create<DogProfileStore>(set => ({
     breed: '',
     weight: '',
   },
-  setDogProfile: profile =>
+  setDogProfile: update =>
     set(state => ({
-      dogProfile: { ...state.dogProfile, ...profile },
+      dogProfile: { ...state.dogProfile, ...update },
     })),
 }))
