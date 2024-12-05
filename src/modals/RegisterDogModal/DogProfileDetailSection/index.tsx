@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
-  const { pushModal, popModal } = useModalStore()
+  const { pushModal, popModal, clearModal } = useModalStore()
   const { showToast } = useToastStore()
   const navigate = useNavigate()
 
@@ -89,7 +89,8 @@ export default function DogProfileDetailSection() {
 
       if (response.code === 201) {
         // 홈으로 이동
-        showToast('반려견 등록이 완료되었습니다')
+        alert('반려견 등록 완료')
+        clearModal()
         navigate('/')
         // 성공 후 추가 처리 (예: 홈으로 이동)
       }
