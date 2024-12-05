@@ -3,23 +3,15 @@ import React, { useState } from 'react'
 import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
+import { FamilyRole } from '~types/common'
 
 interface PositionChoiceModalProps {
   onSelect: (position: string) => void
   initialValue?: string | null
 }
-
 interface Position {
   label: string
-  value:
-    | 'MOTHER'
-    | 'FATHER'
-    | 'ELDER_BROTHER'
-    | 'OLDER_BROTHER'
-    | 'ELDER_SISTER'
-    | 'OLDER_SISTER'
-    | 'GRANDFATHER'
-    | 'GRANDMOTHER'
+  value: FamilyRole
 }
 
 const positions: Position[] = [
@@ -36,10 +28,6 @@ const positions: Position[] = [
 export default function PositionChoiceModal({ onSelect, initialValue = 'null' }: PositionChoiceModalProps) {
   const [value, setValue] = useState(initialValue)
   const { popModal } = useModalStore()
-
-  // const positions = ['엄마', '아빠', '형', '오빠', '언니', '누나', '할머니', '할아버지']
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
 
   const handleConfirm = () => {
     if (value !== null) {

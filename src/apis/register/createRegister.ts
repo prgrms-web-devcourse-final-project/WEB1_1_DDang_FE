@@ -1,20 +1,7 @@
 import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
-
-// import { useSearchParams } from 'react-router-dom'
-// import { useEffect } from 'react'
-type Provider = string
-type Gender = 'MALE' | 'FEMALE'
-type FamilyRole =
-  | 'MOTHER'
-  | 'FATHER'
-  | 'ELDER_BROTHER'
-  | 'OLDER_BROTHER'
-  | 'ELDER_SISTER'
-  | 'OLDER_SISTER'
-  | 'GRANDFATHER'
-  | 'GRANDMOTHER'
+import { FamilyRole, Gender, Provider } from '~types/common'
 
 interface CreateRegisterRequest {
   email: string

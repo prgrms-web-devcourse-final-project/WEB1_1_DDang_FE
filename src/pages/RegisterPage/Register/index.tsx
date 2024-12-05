@@ -15,16 +15,7 @@ import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
 import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
-
-type FamilyRole =
-  | 'MOTHER'
-  | 'FATHER'
-  | 'ELDER_BROTHER'
-  | 'OLDER_BROTHER'
-  | 'ELDER_SISTER'
-  | 'OLDER_SISTER'
-  | 'GRANDFATHER'
-  | 'GRANDMOTHER'
+import { FamilyRole } from '~types/common'
 
 const positionLabelMap: Record<FamilyRole, string> = {
   MOTHER: '엄마',
