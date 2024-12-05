@@ -31,6 +31,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   clearModal: () => {
     set({ modalList: [] })
     // 모든 모달 제거 시 히스토리 초기화
-    window.history.go(-get().modalList.length)
+    const modalCount = get().modalList.length
+    if (modalCount) window.history.go(-modalCount)
   },
 }))

@@ -5,17 +5,19 @@ import Profile from '~components/Profile'
 import SendMessageForm from '~components/SendMessageForm'
 import { Separator } from '~components/Separator'
 import { Typo11, Typo15 } from '~components/Typo'
+import { useScrollToBottom } from '~hooks/useScrollToBottom'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { useScrollToBottom } from '~hooks/useScrollToBottom'
 
 type ChatModalProps = {
-  userId: string
+  chatRoomId: number
+  userId: number
 }
 
-export default function ChatModal({ userId }: ChatModalProps) {
+export default function ChatModal({ chatRoomId, userId }: ChatModalProps) {
   const { popModal } = useModalStore()
-  console.log('ChatModal', userId) //todo fetch by userId
+  console.log('chatRoomId', chatRoomId) //todo fetch by chatRoomId
+  console.log('userId', userId) //todo fetch by userId
   const ref = useScrollToBottom<HTMLDivElement>()
 
   return (
@@ -45,7 +47,7 @@ export default function ChatModal({ userId }: ChatModalProps) {
         )
       )}
 
-      <SendMessageForm />
+      <SendMessageForm chatCount={0} chatRoomId={chatRoomId} />
     </S.ChatModal>
   )
 }
