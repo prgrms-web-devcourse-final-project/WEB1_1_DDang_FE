@@ -46,9 +46,6 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
       familyRole: req.familyRole as FamilyRole,
     })
 
-    // 토큰 저장 로직 추가
-    // const urlParams = new URLSearchParams(window.location.search)
-    // const accessToken = urlParams.get('accessToken')
     const accessToken = response.headers['authorization']
     const refreshToken = response.headers['refresh']
     if (accessToken) {
@@ -57,10 +54,6 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
       if (refreshToken) {
         localStorage.setItem('refreshToken', refreshToken)
       }
-      // URL에서 토큰 제거
-      // const newUrl = new URL(window.location.href)
-      // newUrl.searchParams.delete('accessToken')
-      // window.history.replaceState({}, '', newUrl.toString())
     }
 
     if (response.data) {

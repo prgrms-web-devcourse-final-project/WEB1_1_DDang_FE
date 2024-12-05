@@ -2,7 +2,6 @@ import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import AddOwnerAvatar from '~assets/add-dog-picture.svg'
 import GenderSelectButton from '~components/GenderSelectButton'
-import { useEffect } from 'react'
 import { Input } from '~components/Input'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
@@ -16,7 +15,6 @@ import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
 import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
-import { GiConsoleController } from 'react-icons/gi'
 
 type FamilyRole =
   | 'MOTHER'
@@ -62,11 +60,11 @@ export default function Register() {
         name: ownerProfile.nickName,
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
         address: ownerProfile.location,
-        familyRole: ownerProfile.position as FamilyRole, // FamilyRole 타입으로 명시적 캐스팅
+        familyRole: ownerProfile.position as FamilyRole,
         profileImg: ownerProfile.avatar || '',
       }
 
-      const response = await createRegister(registerData) // registerData 전달
+      const response = await createRegister(registerData)
       if (response.code === 201) {
         pushModal(<RegisterDogPage />)
       }
@@ -82,23 +80,6 @@ export default function Register() {
     }
   }
 
-  // useEffect(() => {
-  //   if (location.address) {
-  //     setOwnerProfile({ location: location.address })
-  //   }
-  //   const accessToken = searchParams.get('accessToken')
-  //   if (accessToken) {
-  //     try {
-  //       localStorage.setItem('token', accessToken)
-  //       // URL에서 토큰 제거
-  //       const newUrl = new URL(window.location.href)
-  //       newUrl.searchParams.delete('accessToken')
-  //       window.history.replaceState({}, '', newUrl.toString())
-  //     } catch (error) {
-  //       console.error('Failed to store token:', error)
-  //     }
-  //   }
-  // }, [searchParams])
   const handleRoleClick = () => {
     pushModal(
       <PositionChoiceModal onSelect={position => setOwnerProfile({ position })} initialValue={ownerProfile.position} />
