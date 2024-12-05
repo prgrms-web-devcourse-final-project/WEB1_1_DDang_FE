@@ -2,7 +2,7 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type DeleteMemberResponse = {}
+export type DeleteMemberResponse = Record<string, never>
 
 export const deleteMember = async (): Promise<APIResponse<DeleteMemberResponse>> => {
   try {
