@@ -6,9 +6,10 @@ type WalkerListModalProps = {
   onClose: () => void
   isClosing: boolean
   walkers: NearbyWalker[]
+  onWalkRequest: (walker: NearbyWalker) => void
 }
 
-export default function WalkerListModal({ isOpen, onClose, isClosing, walkers }: WalkerListModalProps) {
+export default function WalkerListModal({ isOpen, onClose, isClosing, walkers, onWalkRequest }: WalkerListModalProps) {
   if (!isOpen) return null
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -44,7 +45,12 @@ export default function WalkerListModal({ isOpen, onClose, isClosing, walkers }:
                       </S.WalkCount>
                     </S.InfoArea>
                   </S.ProfileArea>
-                  <S.WalkBtn $type='roundedRect' $bgColor='lighten_3' $fontWeight='700'>
+                  <S.WalkBtn
+                    $type='roundedRect'
+                    $bgColor='lighten_3'
+                    $fontWeight='700'
+                    onClick={() => onWalkRequest(walker)}
+                  >
                     강번따
                   </S.WalkBtn>
                 </S.WalkerItem>

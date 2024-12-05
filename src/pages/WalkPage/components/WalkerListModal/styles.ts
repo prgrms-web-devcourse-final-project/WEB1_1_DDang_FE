@@ -111,6 +111,13 @@ export const ProfileCircle = styled.div`
   border-radius: 50%;
   background-color: #ffe4d6;
   margin-right: 12px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `
 
 export const InfoArea = styled.div`

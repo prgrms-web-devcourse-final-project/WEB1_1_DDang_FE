@@ -2,6 +2,7 @@ import { SetStateAction, useState, useEffect } from 'react'
 import * as S from './styles'
 import Select from '~components/Select'
 import { WalkModalProps, RequestUserInfo, OtherUserInfo } from '~types/modal'
+import { useWebSocket } from '~/WebSocketContext'
 
 const reportOptions = [
   { value: 'dog', label: '강아지가 사나워요.' },
@@ -9,6 +10,23 @@ const reportOptions = [
 ]
 
 const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalProps) => {
+  const [message, setMessage] = useState('')
+  const { publish, isConnected } = useWebSocket()
+
+  const handleConfirm = () => {
+    if (type === 'request') {
+      const proposalData = {
+        otherMemberId: userInfo.email,
+        message,
+      }
+
+      publish('/pub/api/v1/proposal', proposalData)
+      onClose()
+    } else {
+      onConfirm()
+    }
+  }
+
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
@@ -85,7 +103,7 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
 
         {type !== 'progress' && type !== 'report' && type !== 'reportComplete' && (
           <S.UserInfo type={type}>
-            <S.Avatar type={type} />
+            <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
             <S.Info type={type}>
               <h3>{userInfo.name}</h3>
               {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
@@ -141,7 +159,7 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
               {modalContent.cancelText}
             </S.Button>
           )}
-          <S.Button type={type} variant='confirm' onClick={onConfirm}>
+          <S.Button type={type} variant='confirm' onClick={handleConfirm}>
             {modalContent?.confirmText}
           </S.Button>
         </S.ButtonGroup>

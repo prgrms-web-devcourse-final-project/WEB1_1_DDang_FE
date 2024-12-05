@@ -7,8 +7,10 @@ export type BaseModalProps = {
 export type RequestUserInfo = {
   name: string
   breed: string
-  age: string
+  age: number
   gender: string
+  profileImg?: string
+  email?: string
 }
 
 export type OtherUserInfo = {
