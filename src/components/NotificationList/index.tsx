@@ -1,16 +1,18 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useRef } from 'react'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { fetchNotificationList, FetchNotificationListResponse } from '~apis/notification/fetchNotificationList'
 import Loader from '~components/Loader'
 import NotificationItem from '~components/NotificationItem'
 import { queryKey } from '~constants/queryKey'
+import useObserver from '~hooks/useObserver'
 import { APIResponse } from '~types/api'
 import * as S from './styles'
 
 export default function NotificationList() {
-  const observerRef = useRef<HTMLDivElement>(null)
+  const { observerRef } = useObserver<HTMLDivElement>({
+    callback: () => hasNextPage && !isFetchingNextPage && fetchNextPage(),
+  })
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useSuspenseInfiniteQuery<
     APIResponse<FetchNotificationListResponse>
   >({
     queryKey: queryKey.notification(),
@@ -23,28 +25,6 @@ export default function NotificationList() {
     },
     initialPageParam: 0,
   })
-
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [target] = entries
-      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage()
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
-  )
-
-  useEffect(() => {
-    const element = observerRef.current
-    const option = { threshold: 0.5 }
-
-    const observer = new IntersectionObserver(handleObserver, option)
-    if (element) observer.observe(element)
-
-    return () => {
-      if (element) observer.unobserve(element)
-    }
-  }, [handleObserver])
 
   return (
     <S.NotificationList>
