@@ -16,6 +16,7 @@ import * as S from './styles'
 function ProfileContent({ id }: { id: number }) {
   const { data } = useFetchProfile(+id)
   const navigate = useNavigate()
+
   return (
     <S.ProfilePage>
       <Helmet>

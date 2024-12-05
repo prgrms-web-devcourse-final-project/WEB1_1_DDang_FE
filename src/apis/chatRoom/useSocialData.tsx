@@ -1,16 +1,17 @@
 import { useSuspenseQueries } from '@tanstack/react-query'
 import { fetchChatRoomList } from '~apis/chatRoom/fetchChatRoomList'
 import { fetchFriendList } from '~apis/friend/fetchFriendList'
+import { queryKey } from '~constants/queryKey'
 
 export function useSocialData() {
   const results = useSuspenseQueries({
     queries: [
       {
-        queryKey: ['chatRoomList'],
+        queryKey: queryKey.social.chatRoomList(),
         queryFn: () => fetchChatRoomList().then(res => res.data),
       },
       {
-        queryKey: ['friendList'],
+        queryKey: queryKey.social.friendList(),
         queryFn: () => fetchFriendList().then(res => res.data),
       },
     ],
