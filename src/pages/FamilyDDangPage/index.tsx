@@ -25,14 +25,18 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
-      <DogProfile
-        name={dogInfo?.name || ''}
-        gender={dogInfo?.gender || 'MALE'}
-        profileImg={dogInfo?.profileImg || ''}
-        birthDate={dogInfo?.birthDate || ''}
-        breed={dogInfo?.breed || ''}
-        comment={dogInfo?.comment || ''}
-      />
+      {dogInfo && (
+        <DogProfile
+          name={dogInfo.name}
+          gender={dogInfo.gender}
+          image={dogInfo.profileImg}
+          birth={new Date(dogInfo.birthDate)}
+          breed={dogInfo.breed}
+          intro={dogInfo.comment}
+          isNeutered={dogInfo.isNeutered === 'TRUE'}
+          weight={dogInfo.weight.toString()}
+        />
+      )}
       <S.FamilySection>
         <S.ProfileOneArea>
           <Profile $size={64} $src={Avatar10} userId={1} />

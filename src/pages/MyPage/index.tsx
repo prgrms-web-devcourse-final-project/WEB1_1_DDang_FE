@@ -61,7 +61,18 @@ export default function MyPage() {
 
         <CountSection walkCount={23} totalDistance={32} gangCount={16} />
         <S.DogProfileWrapper>
-          <DogProfile />
+          {myPageData?.dog && (
+            <DogProfile
+              name={myPageData.dog.name}
+              gender={myPageData.dog.gender}
+              image={myPageData.dog.profileImg}
+              birth={new Date(myPageData.dog.birthDate)}
+              breed={myPageData.dog.breed}
+              intro={myPageData.dog.comment}
+              isNeutered={myPageData.dog.isNeutered === 'TRUE'}
+              weight={myPageData.dog.weight.toString()}
+            />
+          )}
         </S.DogProfileWrapper>
       </S.MainContainer>
 
