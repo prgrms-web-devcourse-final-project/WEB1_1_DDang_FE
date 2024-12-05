@@ -16,12 +16,12 @@ function App() {
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
 
   useEffect(() => {
-    // deleteDogProfile(6).then(response => {
+    // deleteDogProfile(10).then(response => {
     //   console.log(response)
     // })
-    fetchDogProfile(6).then(response => {
-      console.log(response)
-    })
+    // fetchDogProfile(6).then(response => {
+    //   console.log(response)
+    // })
   }, [])
   return (
     <>

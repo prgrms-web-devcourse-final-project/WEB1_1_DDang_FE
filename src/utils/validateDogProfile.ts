@@ -14,10 +14,7 @@ export const validateDogProfile = (dogProfile: DogProfileType): string | null =>
   if (!HangeulRegex.test(dogProfile.name) || dogProfile.name.length > 10) return '최대 10자의 한글이름만 사용해 주세요'
   if (!dogProfile.image) return '반려견의 사진을 등록해주세요'
   if (dogProfile.imageFile && !dogProfile.imageFile.type.startsWith('image/')) return '올바른 이미지 파일이 아닙니다'
-  // if (dogProfile.imageFile && dogProfile.imageFile.size > 5 * 1024 * 1024) return '이미지 크기는 5MB 이하여야 합니다'
-  // const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
-  // if (dogProfile.imageFile && !allowedTypes.includes(dogProfile.imageFile.type))
-  //   return 'JPG, PNG, GIF 형식의 이미지만 업로드 가능합니다'
+  if (dogProfile.imageFile && dogProfile.imageFile.size > 5 * 1024 * 1024) return '이미지 크기는 5MB 이하여야 합니다'
   if (!dogProfile.birth) return '반려견의 생일을 입력해주세요'
   if (isFutureDate(dogProfile.birth)) return '생일은 미래 날짜를 선택할 수 없습니다'
   if (!dogProfile.intro) return '한줄 소개를 적어주세요'

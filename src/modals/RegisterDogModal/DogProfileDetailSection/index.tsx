@@ -80,7 +80,8 @@ export default function DogProfileDetailSection() {
         })
       )
       if (dogProfile.imageFile) {
-        formData.append('file', dogProfile.imageFile)
+        console.log(dogProfile.imageFile)
+        formData.append('profileImgFile', dogProfile.imageFile)
       }
 
       const response = await createDogProfile(formData)
