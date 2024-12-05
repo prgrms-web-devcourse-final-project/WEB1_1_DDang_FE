@@ -10,11 +10,12 @@ interface TimeDuration {
 
 interface WalkDetail {
   name: string
-  points: string
-  timeDuration: TimeDuration
   profileImg: string
+  timeDuration: TimeDuration
   totalCalorie: number
   totalDistanceMeter: number
+  walkId: number
+  walkImg: string
 }
 
 export const fetchWalkDetail = async (date: string): Promise<APIResponse<WalkDetail[]>> => {

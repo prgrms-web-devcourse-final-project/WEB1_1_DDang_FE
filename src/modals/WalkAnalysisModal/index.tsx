@@ -11,6 +11,7 @@ import { formatTime } from '~utils/dateFormat'
 interface FamilyMemberWalk {
   memberId: number
   familyRole: string
+  name: string
   count: number
 }
 
@@ -32,8 +33,8 @@ const formatMonthlyData = (data: number[]): ChartData[] =>
   }))
 
 const formatFamilyData = (data: FamilyMemberWalk[]): FamilyChartData[] =>
-  data.map(({ familyRole, count }, index) => ({
-    name: '이름' + index,
+  data.map(({ name, familyRole, count }) => ({
+    name: name,
     familyPosition: familyRole,
     value: count,
   }))

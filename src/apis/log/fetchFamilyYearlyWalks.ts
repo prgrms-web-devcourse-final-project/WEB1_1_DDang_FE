@@ -5,6 +5,7 @@ import { axiosInstance } from '~apis/axiosInstance'
 interface FamilyMemberWalk {
   memberId: number
   familyRole: 'FATHER' | 'MOTHER' | 'SON' | 'DAUGHTER'
+  name: string
   count: number
 }
 

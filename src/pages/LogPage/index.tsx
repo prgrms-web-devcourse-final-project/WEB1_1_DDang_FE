@@ -20,11 +20,12 @@ interface TimeDuration {
 
 interface WalkDetail {
   name: string
-  points: string
-  timeDuration: TimeDuration
   profileImg: string
+  timeDuration: TimeDuration
   totalCalorie: number
   totalDistanceMeter: number
+  walkId: number
+  walkImg: string
 }
 
 export default function LogPage() {
@@ -37,10 +38,8 @@ export default function LogPage() {
 
   useEffect(() => {
     const getWalkDetail = async () => {
-      console.log(date)
       try {
         const response = await fetchWalkDetail(dateToString(date))
-        console.log('산책 내역 상세 조회', response.data)
         setWalkDetails(response.data)
       } catch (e) {
         console.error(e)
@@ -65,18 +64,18 @@ export default function LogPage() {
         <Calendar setDate={setDate} />
       </S.CalendarWrapper>
       <S.WalkSummaryWrapper>
-        {walkDetails?.map((walkDetail, index) => (
+        {walkDetails?.map(walkDetail => (
           <WalkSummary
-            key={index}
+            key={walkDetail.walkId}
             profileImg={walkDetail.profileImg}
             userName={walkDetail.name}
-            walkPhoto={walkDetail.profileImg}
+            walkPhoto={walkDetail.walkImg}
             walkDuration={formatTime(
               walkDetail.timeDuration.hours,
               walkDetail.timeDuration.minutes,
               walkDetail.timeDuration.seconds
             )}
-            walkDistance={walkDetail.totalDistanceMeter}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
             calories={walkDetail.totalCalorie}
           />
         ))}
