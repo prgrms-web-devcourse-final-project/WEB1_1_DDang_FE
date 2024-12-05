@@ -11,12 +11,12 @@ export const useDogProfileStore = create<DogProfileStore>(set => ({
     name: '',
     image: undefined,
     imageFile: undefined,
-    birthDate: null,
+    birthDate: undefined,
     intro: '',
     gender: null,
-    isNeutered: false,
+    isNeutered: 'FALSE',
     breed: '',
-    weight: '',
+    weight: 0,
   },
   setDogProfile: update =>
     set(state => ({

@@ -3,9 +3,10 @@ import { Typo13, Typo15, Typo20 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 import Profile from '~components/Profile'
 import { DogProfileType } from '~types/dogProfile'
+import { stringToDate } from '~utils/dateFormat'
 
 //날짜 계산 로직
-const calculateAge = (birthDate: Date | null): number => {
+const calculateAge = (birthDate?: Date): number => {
   if (!birthDate) return 0
   const today = new Date()
   const birth = new Date(birthDate)
@@ -18,7 +19,7 @@ const calculateAge = (birthDate: Date | null): number => {
   return age
 }
 export default function DogProfile({ name, gender, image, birthDate, breed, intro }: DogProfileType) {
-  const age = calculateAge(birthDate)
+  const age = calculateAge(stringToDate(birthDate!))
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>

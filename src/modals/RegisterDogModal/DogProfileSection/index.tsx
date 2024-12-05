@@ -11,6 +11,7 @@ import DogProfileDetailSection from '../DogProfileDetailSection'
 import Toast from '~components/Toast'
 import { useToastStore } from '~/stores/toastStore'
 import { useDogProfileStore } from '~/stores/dogProfileStore'
+import { stringToDate, dateToString } from '~utils/dateFormat'
 
 export default function DogProfileSection() {
   const { popModal, pushModal } = useModalStore()
@@ -18,7 +19,12 @@ export default function DogProfileSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
 
   const handleDatePickerOpen = () => {
-    pushModal(<DatePickerModal date={dogProfile.birthDate} setDate={date => setDogProfile({ birthDate: date })} />)
+    pushModal(
+      <DatePickerModal
+        date={stringToDate(dogProfile.birthDate!)}
+        setDate={date => setDogProfile({ birthDate: dateToString(date) })}
+      />
+    )
   }
 
   const handleNextClick = () => {
@@ -35,7 +41,7 @@ export default function DogProfileSection() {
       name: '',
       image: undefined,
       imageFile: undefined,
-      birthDate: null,
+      birthDate: '',
       intro: '',
       gender: null,
       isNeutered: false,
@@ -63,13 +69,7 @@ export default function DogProfileSection() {
             onChange={e => setDogProfile({ name: e.target.value })}
           />
           <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birthDate}>
-            {dogProfile.birthDate
-              ? [
-                  dogProfile.birthDate.getFullYear(),
-                  dogProfile.birthDate.getMonth() + 1,
-                  dogProfile.birthDate.getDate(),
-                ].join('. ')
-              : '생년월일 선택'}
+            {dogProfile.birthDate?.split('-').join('. ')}
           </S.DatePickerBtn>
           <TwoLineInput
             placeholder='한줄 소개 입력'

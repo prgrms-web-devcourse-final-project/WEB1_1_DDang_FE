@@ -68,7 +68,7 @@ export default function DogProfileDetailSection() {
       const requestData = {
         name: dogProfile.name,
         breed: dogProfile.breed,
-        birthDate: dateToString(dogProfile.birthDate!),
+        birthDate: dogProfile.birthDate!,
         weight: dogProfile.weight,
         gender: dogProfile.gender?.toUpperCase() || '',
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',

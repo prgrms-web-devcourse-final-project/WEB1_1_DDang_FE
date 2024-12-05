@@ -30,7 +30,7 @@ export default function FamilyDDang() {
           name={dogInfo.name}
           gender={dogInfo.gender}
           image={dogInfo.profileImg}
-          birthDate={new Date(dogInfo.birthDate)}
+          birthDate={dogInfo.birthDate}
           breed={dogInfo.breed}
           intro={dogInfo.comment}
           isNeutered={dogInfo.isNeutered === 'TRUE'}
