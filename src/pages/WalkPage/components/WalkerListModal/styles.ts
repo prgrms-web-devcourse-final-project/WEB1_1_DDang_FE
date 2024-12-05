@@ -158,3 +158,11 @@ export const WalkBtn = styled(ActionButton)`
 export const WalkListSeparator = styled(Separator)`
   margin: 0 4px;
 `
+
+export const NoWalkersMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  font-size: ${({ theme }) => theme.typography._17};
+  font-weight: 500;
+`

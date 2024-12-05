@@ -1,5 +1,5 @@
 import { IoChevronBack } from 'react-icons/io5'
-import MapComponent from './components/MapComponent'
+import MapComponent, { NearbyWalker } from './components/MapComponent'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,8 @@ export default function WalkPage() {
   const [isModalOpen] = useState(false)
   const [isWalkerListOpen, setIsWalkerListOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+
+  const [nearbyWalkers, setNearbyWalkers] = useState<NearbyWalker[]>([])
 
   const handleWalkerListClose = () => {
     setIsClosing(true)
@@ -39,8 +41,13 @@ export default function WalkPage() {
         </S.WalkerListButtonWrapper>
       </S.Header>
 
-      <MapComponent isModalOpen={isModalOpen} />
-      <WalkerListModal isOpen={isWalkerListOpen} onClose={handleWalkerListClose} isClosing={isClosing} />
+      <MapComponent isModalOpen={isModalOpen} setNearbyWalkers={setNearbyWalkers} />
+      <WalkerListModal
+        isOpen={isWalkerListOpen}
+        onClose={handleWalkerListClose}
+        isClosing={isClosing}
+        walkers={nearbyWalkers}
+      />
     </S.WalkPage>
   )
 }

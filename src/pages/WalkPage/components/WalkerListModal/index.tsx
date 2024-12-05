@@ -1,12 +1,14 @@
+import { NearbyWalker } from '~pages/WalkPage/components/MapComponent'
 import * as S from './styles'
 
-interface WalkerListModalProps {
+type WalkerListModalProps = {
   isOpen: boolean
   onClose: () => void
   isClosing: boolean
+  walkers: NearbyWalker[]
 }
 
-export default function WalkerListModal({ isOpen, onClose, isClosing }: WalkerListModalProps) {
+export default function WalkerListModal({ isOpen, onClose, isClosing, walkers }: WalkerListModalProps) {
   if (!isOpen) return null
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -20,24 +22,25 @@ export default function WalkerListModal({ isOpen, onClose, isClosing }: WalkerLi
       <S.WalkerListContainer className={isClosing ? 'closing' : ''}>
         <S.ModalTitle>강번따 리스트</S.ModalTitle>
         <S.WalkerListSection>
-          <S.WalkerList>
-            {Array(10)
-              .fill(0)
-              .map((_, i) => (
-                <S.WalkerItem key={i}>
+          {walkers.length > 0 ? (
+            <S.WalkerList>
+              {walkers.map(walker => (
+                <S.WalkerItem key={walker.dogId}>
                   <S.ProfileArea>
-                    <S.ProfileCircle />
+                    <S.ProfileCircle>
+                      <img src={walker.dogProfileImg} alt={walker.dogName} />
+                    </S.ProfileCircle>
                     <S.InfoArea>
-                      <S.Name>밤돌이</S.Name>
+                      <S.Name>{walker.dogName}</S.Name>
                       <S.Details>
-                        <S.Detail>포메라니안</S.Detail>
+                        <S.Detail>{walker.breed}</S.Detail>
                         <S.WalkListSeparator $height={8} />
-                        <S.Detail>4살</S.Detail>
+                        <S.Detail>{walker.dogAge}살</S.Detail>
                         <S.WalkListSeparator $height={8} />
-                        <S.Detail>남</S.Detail>
+                        <S.Detail>{walker.dogGender === 'MALE' ? '남' : '여'}</S.Detail>
                       </S.Details>
                       <S.WalkCount>
-                        산책 횟수 <p>&nbsp;4회</p>
+                        산책 횟수 <p>&nbsp;{walker.dogWalkCount}회</p>
                       </S.WalkCount>
                     </S.InfoArea>
                   </S.ProfileArea>
@@ -46,7 +49,10 @@ export default function WalkerListModal({ isOpen, onClose, isClosing }: WalkerLi
                   </S.WalkBtn>
                 </S.WalkerItem>
               ))}
-          </S.WalkerList>
+            </S.WalkerList>
+          ) : (
+            <S.NoWalkersMessage>주변에 산책 가능한 유저가 없습니다.</S.NoWalkersMessage>
+          )}
         </S.WalkerListSection>
       </S.WalkerListContainer>
     </S.Overlay>

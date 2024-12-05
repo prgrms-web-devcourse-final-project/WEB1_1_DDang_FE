@@ -32,16 +32,29 @@ export const getMarkerIconString = () => {
   return svgString
 }
 
-type MapComponentProps = {
-  isModalOpen?: boolean
-}
-
 // DeviceOrientationEvent 타입 확장
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
   webkitCompassHeading?: number
 }
 
-export default function MapComponent({ isModalOpen = false }: MapComponentProps) {
+export type NearbyWalker = {
+  dogId: number
+  dogProfileImg: string
+  dogName: string
+  breed: string
+  dogWalkCount: number
+  dogAge: number
+  dogGender: 'MALE' | 'FEMALE'
+  memberId: number
+  memberEmail: string
+}
+
+type MapComponentProps = {
+  isModalOpen?: boolean
+  setNearbyWalkers: React.Dispatch<React.SetStateAction<NearbyWalker[]>>
+}
+
+export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: MapComponentProps) {
   const mapRef = useRef<Map | null>(null)
   const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
   const watchPositionIdRef = useRef<number | null>(null)
@@ -77,7 +90,23 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   useEffect(() => {
     if (isConnected) {
       const handleMessage = (message: { body: string }) => {
-        console.log('수신된 메시지:', message.body)
+        try {
+          const response = JSON.parse(message.body)
+          if (response.code === 1000 && response.data) {
+            const newWalker = response.data as NearbyWalker
+            setNearbyWalkers((prev: NearbyWalker[]) => {
+              const exists = prev.some(walker => walker.dogId === newWalker.dogId)
+              if (!exists) {
+                return [...prev, newWalker]
+              }
+              return prev
+            })
+          } else {
+            setNearbyWalkers([])
+          }
+        } catch (error) {
+          console.error('메시지 파싱 실패:', error)
+        }
       }
 
       subscribe(`/sub/walk/${memberEmail}`, handleMessage)
