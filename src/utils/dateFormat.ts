@@ -12,5 +12,6 @@ export const stringToDate = (dateString: string): Date => {
 }
 
 export const formatTime = (hours: number, minutes: number, seconds: number) => {
-  return [hours, minutes, seconds].map(t => String(t).padStart(2, '0')).join(':')
+  const paddedLength = hours < 100 ? 2 : String(hours).length
+  return [hours, minutes, seconds].map(t => String(t).padStart(paddedLength, '0')).join(':')
 }

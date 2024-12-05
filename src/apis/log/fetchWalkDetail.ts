@@ -1,22 +1,11 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-interface TimeDuration {
-  hours: number
-  minutes: number
-  seconds: number
-}
-
-interface WalkDetail {
-  name: string
-  profileImg: string
-  timeDuration: TimeDuration
-  totalCalorie: number
-  totalDistanceMeter: number
-  walkId: number
-  walkImg: string
-}
+export type WalkDetail = Pick<
+  CommonAPIResponse,
+  'name' | 'profileImg' | 'timeDuration' | 'totalCalorie' | 'totalDistanceMeter' | 'walkId' | 'walkImg'
+>
 
 export const fetchWalkDetail = async (date: string): Promise<APIResponse<WalkDetail[]>> => {
   try {

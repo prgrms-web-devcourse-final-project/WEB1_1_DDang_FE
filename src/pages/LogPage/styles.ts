@@ -4,7 +4,7 @@ export const LogPage = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-bottom: 66px;
+  margin-bottom: 56px;
   height: 100%;
 `
 

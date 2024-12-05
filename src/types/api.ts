@@ -77,6 +77,8 @@ export type Position = {
 }
 
 export type Walk = {
+  walkId: number
+  walkImg: string
   /** 산책 시간 정보 */
   timeDuration: Time
   /** 산책 일정 ID @example 1 */
@@ -163,7 +165,7 @@ export type CommonAPIResponse = BasicInfo &
     dogName: string
     count: number
     memberInfo: Pick<Member, 'memberId' | 'email' | 'name'>
-    members: Pick<Member, 'memberId' | 'email' | 'name' | 'gender' | 'familyRole' | 'profileImg'>
+    members: Pick<Member, 'memberId' | 'email' | 'name' | 'gender' | 'familyRole' | 'profileImg'>[]
     isMatched: BooleanString
     memberGender: Gender
     memberProfileImg: string

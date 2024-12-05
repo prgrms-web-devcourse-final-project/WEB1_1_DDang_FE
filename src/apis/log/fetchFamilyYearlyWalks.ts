@@ -1,15 +1,10 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-interface FamilyMemberWalk {
-  memberId: number
-  familyRole: 'FATHER' | 'MOTHER' | 'SON' | 'DAUGHTER'
-  name: string
-  count: number
-}
+export type FamilyMemberWalk = Pick<CommonAPIResponse, 'memberId' | 'familyRole' | 'name' | 'count'>
 
-type FamilyYearlyWalksResponse = FamilyMemberWalk[]
+export type FamilyYearlyWalksResponse = FamilyMemberWalk[]
 
 export const fetchFamilyYearlyWalks = async (): Promise<APIResponse<FamilyYearlyWalksResponse>> => {
   try {

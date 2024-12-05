@@ -2,16 +2,4 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "editor.tokenColorCustomizations": {
-    "textMateRules": [
-      {
-        "scope": ["comment", "comment punctuation.definition.comment"],
-        "settings": {
-          "foreground": "#EFDC05",
-          "fontStyle": ""
-        }
-      }
-    ],
-    "comments": ""
-  }
 }

@@ -10,28 +10,28 @@ import { useModalStore } from '~stores/modalStore'
 import { dateToString, formatTime } from '~utils/dateFormat'
 import Calendar from './components/Calendar'
 import WalkSummary from './components/WalkSummary'
+import { WalkDetail } from '~apis/log/fetchWalkDetail'
 import * as S from './styles'
 
-interface TimeDuration {
-  hours: number
-  minutes: number
-  seconds: number
-}
+// interface TimeDuration {
+//   hours: number
+//   minutes: number
+//   seconds: number
+// }
 
-interface WalkDetail {
-  name: string
-  profileImg: string
-  timeDuration: TimeDuration
-  totalCalorie: number
-  totalDistanceMeter: number
-  walkId: number
-  walkImg: string
-}
+// interface WalkDetail {
+//   name: string
+//   profileImg: string
+//   timeDuration: TimeDuration
+//   totalCalorie: number
+//   totalDistanceMeter: number
+//   walkId: number
+//   walkImg: string
+// }
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
-  const randomIndex = Math.floor(Math.random() * images.length)
-  const randomImage = images[randomIndex]
+  const randomImage = images[Math.floor(Math.random() * images.length)]
   const { pushModal } = useModalStore()
   const [date, setDate] = useState<Date>(new Date())
   const [walkDetails, setWalkDetails] = useState<WalkDetail[]>()
@@ -79,89 +79,8 @@ export default function LogPage() {
             calories={walkDetail.totalCalorie}
           />
         ))}
-        {walkDetails?.map(walkDetail => (
-          <WalkSummary
-            key={walkDetail.walkId}
-            profileImg={walkDetail.profileImg}
-            userName={walkDetail.name}
-            walkPhoto={walkDetail.walkImg}
-            walkDuration={formatTime(
-              walkDetail.timeDuration.hours,
-              walkDetail.timeDuration.minutes,
-              walkDetail.timeDuration.seconds
-            )}
-            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
-            calories={walkDetail.totalCalorie}
-          />
-        ))}
-        {walkDetails?.map(walkDetail => (
-          <WalkSummary
-            key={walkDetail.walkId}
-            profileImg={walkDetail.profileImg}
-            userName={walkDetail.name}
-            walkPhoto={walkDetail.walkImg}
-            walkDuration={formatTime(
-              walkDetail.timeDuration.hours,
-              walkDetail.timeDuration.minutes,
-              walkDetail.timeDuration.seconds
-            )}
-            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
-            calories={walkDetail.totalCalorie}
-          />
-        ))}
-        {walkDetails?.map(walkDetail => (
-          <WalkSummary
-            key={walkDetail.walkId}
-            profileImg={walkDetail.profileImg}
-            userName={walkDetail.name}
-            walkPhoto={walkDetail.walkImg}
-            walkDuration={formatTime(
-              walkDetail.timeDuration.hours,
-              walkDetail.timeDuration.minutes,
-              walkDetail.timeDuration.seconds
-            )}
-            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
-            calories={walkDetail.totalCalorie}
-          />
-        ))}
-        {walkDetails?.map(walkDetail => (
-          <WalkSummary
-            key={walkDetail.walkId}
-            profileImg={walkDetail.profileImg}
-            userName={walkDetail.name}
-            walkPhoto={walkDetail.walkImg}
-            walkDuration={formatTime(
-              walkDetail.timeDuration.hours,
-              walkDetail.timeDuration.minutes,
-              walkDetail.timeDuration.seconds
-            )}
-            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
-            calories={walkDetail.totalCalorie}
-          />
-        ))}
-        {walkDetails?.map(walkDetail => (
-          <WalkSummary
-            key={walkDetail.walkId}
-            profileImg={walkDetail.profileImg}
-            userName={walkDetail.name}
-            walkPhoto={walkDetail.walkImg}
-            walkDuration={formatTime(
-              walkDetail.timeDuration.hours,
-              walkDetail.timeDuration.minutes,
-              walkDetail.timeDuration.seconds
-            )}
-            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
-            calories={walkDetail.totalCalorie}
-          />
-        ))}
         {!walkDetails?.length && (
           <S.NoWalkSummary>
-            {/* {!randomIndex && (
-              <p>
-                산책 좀<br />
-                시켜주세요 주인님!
-              </p>
-            )} */}
             <img src={randomImage} alt='산책 기록 없음' />
             <p>산책 기록이 없어요</p>
           </S.NoWalkSummary>

@@ -7,13 +7,8 @@ import Prev from '~assets/prev.svg'
 import { useModalStore } from '~stores/modalStore'
 import { createBarChart, createLineChart } from './createChart'
 import * as S from './styles'
-import { formatTime } from '~utils/dateFormat'
-interface FamilyMemberWalk {
-  memberId: number
-  familyRole: string
-  name: string
-  count: number
-}
+import { FamilyMemberWalk } from '~apis/log/fetchFamilyYearlyWalks'
+import Statistics from './components/Statistics'
 
 interface ChartData {
   month: string
@@ -105,52 +100,8 @@ export default function WalkAnalysisModal() {
           </S.ChartWrapper>
         </S.ChartArea>
         <S.StatisticsArea>
-          <S.Statistics>
-            <h3>총 산책 내역</h3>
-            <div>
-              <div>
-                <p>산책 시간</p>
-                <strong>
-                  {formatTime(
-                    walkStats.total.timeDuration.hours,
-                    walkStats.total.timeDuration.minutes,
-                    walkStats.total.timeDuration.seconds
-                  )}
-                </strong>
-              </div>
-              <div>
-                <p>산책 기록</p>
-                <strong>{walkStats.total.walkCount}회</strong>
-              </div>
-              <div>
-                <p>산책 거리</p>
-                <strong>{walkStats.total.totalDistanceKilo}km</strong>
-              </div>
-            </div>
-          </S.Statistics>
-          <S.Statistics>
-            <h3>이번달 통계</h3>
-            <div>
-              <div>
-                <p>산책 시간</p>
-                <strong>
-                  {formatTime(
-                    walkStats.monthly.timeDuration.hours,
-                    walkStats.monthly.timeDuration.minutes,
-                    walkStats.monthly.timeDuration.seconds
-                  )}
-                </strong>
-              </div>
-              <div>
-                <p>산책 기록</p>
-                <strong>{walkStats.monthly.walkCount}회</strong>
-              </div>
-              <div>
-                <p>산책 거리</p>
-                <strong>{walkStats.monthly.totalDistanceKilo}km</strong>
-              </div>
-            </div>
-          </S.Statistics>
+          <Statistics title={'총 산책 내역'} stats={walkStats.total} />
+          <Statistics title={'이번달 통계'} stats={walkStats.monthly} />
         </S.StatisticsArea>
       </S.WalkAnalysisModal>
     </>

@@ -8,6 +8,7 @@ module.exports = {
         // 'http://localhost:4173/walk',
         'http://localhost:4173/login',
         'http://localhost:4173/mypage',
+        'http://localhost:4173/profile/:id',
       ],
       numberOfRuns: 2,
       startServerReadyPattern: 'Local',
