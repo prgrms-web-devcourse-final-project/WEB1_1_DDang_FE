@@ -21,7 +21,7 @@ export default function DogProfileSection() {
   const handleDatePickerOpen = () => {
     pushModal(
       <DatePickerModal
-        date={stringToDate(dogProfile.birthDate!)}
+        date={dogProfile.birthDate ? stringToDate(dogProfile.birthDate) : new Date()}
         setDate={date => setDogProfile({ birthDate: dateToString(date) })}
       />
     )
@@ -69,7 +69,7 @@ export default function DogProfileSection() {
             onChange={e => setDogProfile({ name: e.target.value })}
           />
           <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birthDate}>
-            {dogProfile.birthDate?.split('-').join('. ')}
+            {dogProfile.birthDate?.split('-').join('. ') || '생년월일 선택'}
           </S.DatePickerBtn>
           <TwoLineInput
             placeholder='한줄 소개 입력'

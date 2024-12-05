@@ -126,7 +126,7 @@ export default function DogProfileDetailSection() {
             onClick={() => setDogProfile({ isNeutered: dogProfile.isNeutered == 'TRUE' ? 'FALSE' : 'TRUE' })}
           >
             <S.CheckboxCircle $isChecked={dogProfile.isNeutered == 'TRUE'}>
-              {dogProfile.isNeutered && <img src={Check} alt='check'></img>}
+              {dogProfile.isNeutered == 'TRUE' && <img src={Check} alt='check'></img>}
             </S.CheckboxCircle>
             <S.CheckboxLabel $isChecked={dogProfile.isNeutered == 'TRUE'}>중성화 했어요</S.CheckboxLabel>
           </S.CheckboxWrapper>
@@ -138,7 +138,7 @@ export default function DogProfileDetailSection() {
           <S.WeightInput
             placeholder='몸무게 입력 (kg)'
             type={inputType}
-            value={displayValue}
+            value={displayValue == '0' ? '' : displayValue}
             onChange={onChangeWeightInput}
             onFocus={handleFocus}
             onBlur={handleBlur}
