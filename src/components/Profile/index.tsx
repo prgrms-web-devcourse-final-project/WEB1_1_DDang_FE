@@ -5,7 +5,7 @@ import { useModalStore } from '~stores/modalStore'
 type ProfileProps = {
   $size: number
   $src: string
-  userId?: string
+  userId?: number
 }
 
 export default function Profile({ $size, $src, userId }: ProfileProps) {

@@ -1,22 +1,21 @@
+import { useSocialData } from '~apis/chatRoom/useSocialData'
 import ChatItem from '~pages/SocialPage/components/ChatItem'
 import FriendItem from '~pages/SocialPage/components/FriendItem'
-import { ChatInfo, FriendInfo, SocialTabs } from '~types/social'
+import { SocialTabs } from '~types/social'
 import * as S from './styles'
 
 type FriendChatListProps = {
   selectedTab: SocialTabs
-  friendList: FriendInfo[]
-  chatList: ChatInfo[]
 }
 
-export default function FriendChatList({ selectedTab, friendList, chatList }: FriendChatListProps) {
-  //todo fetch by userId
+export default function FriendChatList({ selectedTab }: FriendChatListProps) {
+  const { chatList, friendList } = useSocialData()
 
   return (
     <S.FriendChatList>
       {selectedTab === 'friendList'
-        ? friendList.map(friendInfo => <FriendItem key={friendInfo.id} {...friendInfo} />)
-        : chatList.map(chatInfo => <ChatItem key={chatInfo.id} {...chatInfo} />)}
+        ? friendList.map(friendInfo => <FriendItem key={friendInfo.memberId} {...friendInfo} />)
+        : chatList.map(chatInfo => <ChatItem key={chatInfo.chatRoomId} {...chatInfo} />)}
     </S.FriendChatList>
   )
 }

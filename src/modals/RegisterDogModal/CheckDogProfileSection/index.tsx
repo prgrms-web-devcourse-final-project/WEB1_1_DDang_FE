@@ -32,7 +32,7 @@ export default function CheckDogProfileSection() {
               $src={
                 'https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
               }
-              userId=''
+              userId={0}
             />
             <S.TagWrapper>
               <Tag content='밤톨' />
