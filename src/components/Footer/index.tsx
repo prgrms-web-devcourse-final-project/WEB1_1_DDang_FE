@@ -28,7 +28,9 @@ export default function Footer() {
   const handleNavigation = (endpoint: string) => {
     const token = localStorage.getItem('token')
     if (!token) {
+      alert('로그인을 진행해 주세요')
       navigate('/login')
+      return
     }
     navigate(endpoint)
   }
