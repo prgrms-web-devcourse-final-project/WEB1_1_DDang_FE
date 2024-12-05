@@ -71,7 +71,7 @@ export default function DogProfileDetailSection() {
         gender: dogProfile.gender?.toUpperCase() || '',
         isNeutered: dogProfile.isNeutered ? 'TRUE' : 'FALSE',
         familyId: '0',
-        comment: dogProfile.intro,
+        comment: dogProfile.intro.trim(),
       }
       formData.append(
         'request',
