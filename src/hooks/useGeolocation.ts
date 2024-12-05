@@ -5,10 +5,40 @@ interface Location {
   address: string | null
   error: string | null
 }
+
 interface AddressComponent {
   long_name: string
   short_name: string
   types: string[]
+}
+
+interface GeocodeResult {
+  address_components: AddressComponent[]
+  formatted_address: string
+  geometry: {
+    location: {
+      lat: number
+      lng: number
+    }
+    location_type: string
+    viewport: {
+      northeast: {
+        lat: number
+        lng: number
+      }
+      southwest: {
+        lat: number
+        lng: number
+      }
+    }
+  }
+  place_id: string
+  types: string[]
+}
+
+interface GeocodeResponse {
+  results: GeocodeResult[]
+  status: string
 }
 
 export const useGeolocation = () => {
@@ -18,10 +48,7 @@ export const useGeolocation = () => {
   })
 
   const getCurrentLocation = () => {
-    console.log('getCurrentLocation 호출됨')
-
     if (!navigator.geolocation) {
-      console.log('geolocation 지원되지 않음')
       setLocation({ address: null, error: '위치 서비스가 지원되지 않습니다.' })
       return
     }
@@ -30,29 +57,32 @@ export const useGeolocation = () => {
       async position => {
         try {
           const { latitude, longitude } = position.coords
-          console.log('위치 확인:', latitude, longitude)
-
           const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY
-
-          const response = await axios.get(
+          const response = await axios.get<GeocodeResponse>(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=ko&key=${apiKey}`
           )
 
           console.log('Google API 응답:', response.data)
 
+          let si: string | undefined
+          let district: string | undefined
+          let neighborhood: string | undefined
           if (response.data.results.length > 0) {
-            const addressComponents = response.data.results[0].address_components
-            const district = addressComponents.find((component: AddressComponent) =>
-              component.types.includes('sublocality_level_1')
-            )?.long_name
-            const neighborhood = addressComponents.find((component: AddressComponent) =>
-              component.types.includes('sublocality_level_2')
-            )?.long_name
+            response.data.results.forEach(result => {
+              const addressComponents = result.address_components
+              if (!si) si = addressComponents.find(component => component.long_name.endsWith('시'))?.long_name
+              if (!district)
+                district = addressComponents.find(component => component.long_name.endsWith('구'))?.long_name
+              if (!neighborhood)
+                neighborhood = addressComponents.find(component => component.long_name.endsWith('동'))?.long_name
 
-            console.log('찾은 주소:', district, neighborhood)
-
+              console.log(si, district, neighborhood)
+            })
+          }
+          const address = [si, district, neighborhood].join(' ').trim()
+          if (address) {
             setLocation({
-              address: `${district} ${neighborhood}`,
+              address: `${address}`,
               error: null,
             })
           }
@@ -66,9 +96,9 @@ export const useGeolocation = () => {
         setLocation({ address: null, error: '위치 권한이 거부되었습니다.' })
       },
       {
-        enableHighAccuracy: false, // 위치 정보 정확도 설정. false설정 시 배터리 소모가 적고 더 빠르게 위치 파악
-        timeout: 10000, // 위치 정보 가져오는데 허용되는 최대 시간 10000 == 10초
-        maximumAge: 1000, // 캐시된 위치 정보를 사용할 수 있는 최대 시간 1000 == 1초
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 1000,
       }
     )
   }
