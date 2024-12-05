@@ -4,7 +4,7 @@ export const LogPage = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 66px;
   height: 100%;
 `
 
@@ -48,11 +48,25 @@ export const NoWalkSummary = styled.div`
   justify-content: center;
   align-items: center;
   gap: 13px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
   color: #c6c6c6;
 
   p {
     text-align: center;
+  }
+
+  @media (max-height: 800px) {
+    scale: 0.8;
+  }
+
+  @media (max-height: 700px) {
+    gap: 0;
+    img {
+      scale: 0.6;
+    }
+    p {
+      transform: translateY(-16px);
+    }
   }
 `

@@ -79,6 +79,81 @@ export default function LogPage() {
             calories={walkDetail.totalCalorie}
           />
         ))}
+        {walkDetails?.map(walkDetail => (
+          <WalkSummary
+            key={walkDetail.walkId}
+            profileImg={walkDetail.profileImg}
+            userName={walkDetail.name}
+            walkPhoto={walkDetail.walkImg}
+            walkDuration={formatTime(
+              walkDetail.timeDuration.hours,
+              walkDetail.timeDuration.minutes,
+              walkDetail.timeDuration.seconds
+            )}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+            calories={walkDetail.totalCalorie}
+          />
+        ))}
+        {walkDetails?.map(walkDetail => (
+          <WalkSummary
+            key={walkDetail.walkId}
+            profileImg={walkDetail.profileImg}
+            userName={walkDetail.name}
+            walkPhoto={walkDetail.walkImg}
+            walkDuration={formatTime(
+              walkDetail.timeDuration.hours,
+              walkDetail.timeDuration.minutes,
+              walkDetail.timeDuration.seconds
+            )}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+            calories={walkDetail.totalCalorie}
+          />
+        ))}
+        {walkDetails?.map(walkDetail => (
+          <WalkSummary
+            key={walkDetail.walkId}
+            profileImg={walkDetail.profileImg}
+            userName={walkDetail.name}
+            walkPhoto={walkDetail.walkImg}
+            walkDuration={formatTime(
+              walkDetail.timeDuration.hours,
+              walkDetail.timeDuration.minutes,
+              walkDetail.timeDuration.seconds
+            )}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+            calories={walkDetail.totalCalorie}
+          />
+        ))}
+        {walkDetails?.map(walkDetail => (
+          <WalkSummary
+            key={walkDetail.walkId}
+            profileImg={walkDetail.profileImg}
+            userName={walkDetail.name}
+            walkPhoto={walkDetail.walkImg}
+            walkDuration={formatTime(
+              walkDetail.timeDuration.hours,
+              walkDetail.timeDuration.minutes,
+              walkDetail.timeDuration.seconds
+            )}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+            calories={walkDetail.totalCalorie}
+          />
+        ))}
+        {walkDetails?.map(walkDetail => (
+          <WalkSummary
+            key={walkDetail.walkId}
+            profileImg={walkDetail.profileImg}
+            userName={walkDetail.name}
+            walkPhoto={walkDetail.walkImg}
+            walkDuration={formatTime(
+              walkDetail.timeDuration.hours,
+              walkDetail.timeDuration.minutes,
+              walkDetail.timeDuration.seconds
+            )}
+            walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+            calories={walkDetail.totalCalorie}
+          />
+        ))}
         {!walkDetails?.length && (
           <S.NoWalkSummary>
             {/* {!randomIndex && (
