@@ -1,57 +1,70 @@
-import * as S from './styles'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
-import { GoBell } from 'react-icons/go'
-import { Typo14, Typo17, Typo24 } from '~components/Typo'
-import { LuClock5 } from 'react-icons/lu'
-import { Separator } from '~components/Separator'
+import BellIcon from '~assets/icons/bell_icon.svg?react'
+import GPSIcon from '~assets/icons/gps_icon.svg?react'
+import ClockIcon from '~assets/icons/clock_icon.svg?react'
+import { useHomePageData } from '~apis/main/useHomePageData'
+import DogHand from '~assets/dog_hand.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
-import { GrLocation } from 'react-icons/gr'
+import ErrorFallback from '~components/ErrorFallback'
+import Loader from '~components/Loader'
 import Profile from '~components/Profile'
+import { Separator } from '~components/Separator'
+import { Typo14, Typo17, Typo24 } from '~components/Typo'
+import { FAMILY_ROLE } from '~constants/familyRole'
+import NotificationModal from '~modals/NotificationModal'
+import { useModalStore } from '~stores/modalStore'
+import * as S from './styles'
 
-export default function HomePage() {
+function HomeContent() {
+  const { data } = useHomePageData()
+  const { pushModal } = useModalStore()
+
   return (
-    <S.HomePage>
-      <Helmet>
-        <title>DDang | 반려견 산책 서비스</title>
-        <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-      </Helmet>
-
+    <>
       <S.Header>
-        <Profile $size={32} $src='test.svg' />
-        <GoBell cursor='pointer' size={28} />
+        <Profile $size={32} $src={data?.memberProfileImgUrl || ''} />
+        <BellIcon cursor='pointer' onClick={() => pushModal(<NotificationModal />)} />
       </S.Header>
 
       <S.Visual>
-        <Typo24 $weight='700'>오늘은 아빠랑</Typo24>
-        <Typo24 $weight='700'>산책가는 날!</Typo24>
+        <Typo24 $weight='700' $textAlign='center'>
+          오늘은 {data && FAMILY_ROLE[data.familyRole]}랑
+        </Typo24>
+        <Typo24 $weight='700' $textAlign='center'>
+          산책가는 날!
+        </Typo24>
       </S.Visual>
 
       <S.CharacterWrapper>
-        <S.Character />
+        <DogHand />
       </S.CharacterWrapper>
 
       <S.WalkInfoArea>
         <Typo17 $weight='700'>
-          오늘 밤톨이가&nbsp;
-          <Typo17 as='span' $weight='700' color='default'>
-            1,293
+          오늘 {data?.dogName}가&nbsp;
+          <Typo17 as='span' $weight='700' $color='default'>
+            {data?.totalCalorie}
           </Typo17>
           kcal 소비했어요!
         </Typo17>
         <S.WalkInfoWrapper>
           <S.WalkTime>
-            <LuClock5 style={{ marginRight: 6 }} size={18} />
+            <ClockIcon style={{ marginRight: 6 }} />
             <Typo14 $weight='700'>산책 시간&nbsp;</Typo14>
             <Typo14 $color='default' $weight='700'>
-              1시간
+              {data?.timeDuration.hours}시간
+              {data?.timeDuration.minutes}분
             </Typo14>
           </S.WalkTime>
           <Separator $height={20} />
           <S.WalkDistance>
-            <GrLocation style={{ marginRight: 6 }} size={18} />
+            <GPSIcon style={{ marginRight: 6 }} />
             <Typo14 $weight='700'>산책한 거리&nbsp;</Typo14>{' '}
             <Typo14 as='span' color='default' $weight='700'>
-              3km
+              {data && (data.totalDistanceMeter / 100).toFixed(1)}km
             </Typo14>
           </S.WalkDistance>
         </S.WalkInfoWrapper>
@@ -59,6 +72,25 @@ export default function HomePage() {
       <ActionButton $fontWeight='700' $type='roundedRect'>
         산책 시작하기
       </ActionButton>
+    </>
+  )
+}
+export default function HomePage() {
+  return (
+    <S.HomePage>
+      <Helmet>
+        <title>DDang | 반려견 산책 서비스</title>
+        <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
+      </Helmet>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <Suspense fallback={<Loader />}>
+              <HomeContent />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </S.HomePage>
   )
 }

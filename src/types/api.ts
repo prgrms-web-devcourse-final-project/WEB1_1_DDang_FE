@@ -65,6 +65,7 @@ export type Member = BasicInfo & {
   familyRole: FamilyRole
   /** 프로필 이미지 URL @example "https://example.com/profile.jpg" */
   profileImg: string
+  memberProfileImgUrl: string
 }
 
 export type Position = {

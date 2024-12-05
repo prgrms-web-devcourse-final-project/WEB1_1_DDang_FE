@@ -4,4 +4,5 @@ export const queryKey = {
     friendList: () => ['friendList'],
   },
   profile: (memberId: number) => ['profile', memberId],
+  home: () => ['homePageData'],
 }
