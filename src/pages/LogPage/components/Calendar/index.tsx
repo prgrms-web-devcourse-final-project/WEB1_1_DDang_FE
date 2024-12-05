@@ -4,7 +4,6 @@ import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
-import { dateToString } from '~utils/dateFormat'
 import { fetchWalkDates } from '~apis/log/fetchWalkDates'
 
 interface CalendarProps {
