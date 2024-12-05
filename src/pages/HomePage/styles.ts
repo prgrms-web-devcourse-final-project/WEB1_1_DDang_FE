@@ -28,12 +28,7 @@ export const CharacterWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
-export const Character = styled.div`
-  width: 148px;
-  height: 148px;
-  background-color: ${({ theme }) => theme.colors.brand.lighten_1};
-  border-radius: 50%;
-`
+
 export const WalkInfoArea = styled(Box)`
   padding: 20px 24px;
 `

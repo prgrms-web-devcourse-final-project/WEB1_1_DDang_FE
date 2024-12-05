@@ -11,6 +11,8 @@ import { Typo14, Typo17, Typo24 } from '~components/Typo'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
+import { FAMILY_ROLE } from '~constants/familyRole'
+import DogHand from '~assets/dog_hand.svg?react'
 
 export default function HomePage() {
   const { pushModal } = useModalStore()
@@ -27,18 +29,17 @@ export default function HomePage() {
       </Helmet>
 
       <S.Header>
-        <Profile $size={32} $src='test.svg' />
+        <Profile $size={32} $src={data?.profileImg || ''} />
         <GoBell cursor='pointer' size={28} onClick={() => pushModal(<NotificationModal />)} />
       </S.Header>
 
       <S.Visual>
-        {/* FAMILY_ROLE 적용 */}
-        <Typo24 $weight='700'>오늘은 {data?.familyRole}랑</Typo24>
+        <Typo24 $weight='700'>오늘은 {data && FAMILY_ROLE[data.familyRole]}랑</Typo24>
         <Typo24 $weight='700'>산책가는 날!</Typo24>
       </S.Visual>
 
       <S.CharacterWrapper>
-        <S.Character />
+        <DogHand />
       </S.CharacterWrapper>
 
       <S.WalkInfoArea>
