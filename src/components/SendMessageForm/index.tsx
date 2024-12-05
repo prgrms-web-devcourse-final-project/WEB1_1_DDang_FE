@@ -10,16 +10,19 @@ type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
 export default function SendMessageForm({ chatRoomId, chatCount, ...rest }: SendMessageFormProps) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (rest.onSubmit) rest.onSubmit(e)
-    else {
-      if (chatCount === 0) {
-        //* 채팅방 생성
-        await createChatRoom({ opponentMemberId: 123 })
-      }
-      //* 채팅 전송 웹소켓
+    if (rest.onSubmit) {
+      rest.onSubmit(e)
+      return
     }
+
+    if (chatCount === 0) {
+      //* 채팅방 생성
+      await createChatRoom({ opponentMemberId: 123 })
+    }
+    //* 채팅 전송 웹소켓
+    console.log('chatRoomId:', chatRoomId)
   }
-  console.log('chatRoomId:', chatRoomId)
+
   return (
     <S.SendMessageForm onSubmit={onSubmit} {...rest}>
       <S.ChatInput placeholder='채팅 내용 입력' />

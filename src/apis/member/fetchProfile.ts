@@ -38,10 +38,9 @@ export const fetchProfile = async ({ memberId }: FetchProfileRequest): Promise<A
           default:
             throw new Error(message || '알 수 없는 오류가 발생했습니다.')
         }
-      } else {
-        // 요청 자체가 실패한 경우
-        throw new Error('네트워크 연결을 확인해주세요')
       }
+      // 요청 자체가 실패한 경우
+      throw new Error('네트워크 연결을 확인해주세요')
     }
 
     console.error('예상치 못한 에러:', error)
