@@ -13,7 +13,7 @@ export type BasicInfo = {
   /** 이름 @example "홍길동" */
   name: string
   /** 생년월일 @example "1990-01-01" */
-  // birthDate: string
+  birthDate?: string
   /** 성별 @example "MALE" */
   gender: Gender
 }
@@ -32,7 +32,7 @@ export type Dog = BasicInfo & {
   /** 가족 ID @example 1 */
   familyId: number
   /** 코멘트 @example "활발하고 친근한 성격입니다." */
-  comment: string
+  intro: string
 }
 
 export type OtherDog = {

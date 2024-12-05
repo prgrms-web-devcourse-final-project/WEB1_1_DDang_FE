@@ -17,8 +17,8 @@ const calculateAge = (birthDate: Date | null): number => {
   }
   return age
 }
-export default function DogProfile({ name, gender, image, birth, breed, intro }: DogProfileType) {
-  const age = calculateAge(birth)
+export default function DogProfile({ name, gender, image, birthDate, breed, intro }: DogProfileType) {
+  const age = calculateAge(birthDate)
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>

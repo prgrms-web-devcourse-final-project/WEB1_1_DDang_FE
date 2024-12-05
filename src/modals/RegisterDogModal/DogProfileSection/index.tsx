@@ -18,7 +18,7 @@ export default function DogProfileSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
 
   const handleDatePickerOpen = () => {
-    pushModal(<DatePickerModal date={dogProfile.birth} setDate={date => setDogProfile({ birth: date })} />)
+    pushModal(<DatePickerModal date={dogProfile.birthDate} setDate={date => setDogProfile({ birthDate: date })} />)
   }
 
   const handleNextClick = () => {
@@ -35,7 +35,7 @@ export default function DogProfileSection() {
       name: '',
       image: undefined,
       imageFile: undefined,
-      birth: null,
+      birthDate: null,
       intro: '',
       gender: null,
       isNeutered: false,
@@ -62,9 +62,13 @@ export default function DogProfileSection() {
             value={dogProfile.name}
             onChange={e => setDogProfile({ name: e.target.value })}
           />
-          <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birth}>
-            {dogProfile.birth
-              ? [dogProfile.birth.getFullYear(), dogProfile.birth.getMonth() + 1, dogProfile.birth.getDate()].join('. ')
+          <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birthDate}>
+            {dogProfile.birthDate
+              ? [
+                  dogProfile.birthDate.getFullYear(),
+                  dogProfile.birthDate.getMonth() + 1,
+                  dogProfile.birthDate.getDate(),
+                ].join('. ')
               : '생년월일 선택'}
           </S.DatePickerBtn>
           <TwoLineInput

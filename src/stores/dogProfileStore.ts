@@ -11,7 +11,7 @@ export const useDogProfileStore = create<DogProfileStore>(set => ({
     name: '',
     image: undefined,
     imageFile: undefined,
-    birth: null,
+    birthDate: null,
     intro: '',
     gender: null,
     isNeutered: false,

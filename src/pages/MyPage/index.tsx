@@ -66,7 +66,7 @@ export default function MyPage() {
               name={myPageData.dog.name}
               gender={myPageData.dog.gender}
               image={myPageData.dog.profileImg}
-              birth={new Date(myPageData.dog.birthDate)}
+              birthDate={new Date(myPageData.dog.birthDate)}
               breed={myPageData.dog.breed}
               intro={myPageData.dog.comment}
               isNeutered={myPageData.dog.isNeutered === 'TRUE'}
