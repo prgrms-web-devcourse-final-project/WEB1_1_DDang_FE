@@ -2,9 +2,9 @@ import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
-import { GoBell } from 'react-icons/go'
-import { GrLocation } from 'react-icons/gr'
-import { LuClock5 } from 'react-icons/lu'
+import BellIcon from '~assets/icons/bell_icon.svg?react'
+import GPSIcon from '~assets/icons/gps_icon.svg?react'
+import ClockIcon from '~assets/icons/clock_icon.svg?react'
 import { useHomePageData } from '~apis/main/useHomePageData'
 import DogHand from '~assets/dog_hand.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
@@ -26,7 +26,7 @@ function HomeContent() {
     <>
       <S.Header>
         <Profile $size={32} $src={data?.memberProfileImgUrl || ''} />
-        <GoBell cursor='pointer' size={28} onClick={() => pushModal(<NotificationModal />)} />
+        <BellIcon cursor='pointer' onClick={() => pushModal(<NotificationModal />)} />
       </S.Header>
 
       <S.Visual>
@@ -52,7 +52,7 @@ function HomeContent() {
         </Typo17>
         <S.WalkInfoWrapper>
           <S.WalkTime>
-            <LuClock5 style={{ marginRight: 6 }} size={18} />
+            <ClockIcon style={{ marginRight: 6 }} />
             <Typo14 $weight='700'>산책 시간&nbsp;</Typo14>
             <Typo14 $color='default' $weight='700'>
               {data?.timeDuration.hours}시간
@@ -61,7 +61,7 @@ function HomeContent() {
           </S.WalkTime>
           <Separator $height={20} />
           <S.WalkDistance>
-            <GrLocation style={{ marginRight: 6 }} size={18} />
+            <GPSIcon style={{ marginRight: 6 }} />
             <Typo14 $weight='700'>산책한 거리&nbsp;</Typo14>{' '}
             <Typo14 as='span' color='default' $weight='700'>
               {data && (data.totalDistanceMeter / 100).toFixed(1)}km
