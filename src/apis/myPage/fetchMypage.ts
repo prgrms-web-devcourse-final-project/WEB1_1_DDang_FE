@@ -2,7 +2,7 @@ import { AxiosError } from 'axios'
 import { axiosInstance } from '~apis/axiosInstance'
 import { APIResponse, ErrorResponse } from '~types/api'
 
-interface GetDogInfoResponse {
+export interface GetDogInfoResponse {
   memberId: number
   name: string
   address: string

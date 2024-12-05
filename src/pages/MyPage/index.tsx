@@ -9,6 +9,7 @@ import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 import CountSection from '~components/WalkCountArea'
 import { useQuery } from '@tanstack/react-query'
+import DogProfile from '~components/DogProfile'
 
 export default function MyPage() {
   const { data } = useQuery({
@@ -59,7 +60,11 @@ export default function MyPage() {
         </S.ProfileSection>
 
         <CountSection walkCount={23} totalDistance={32} gangCount={16} />
+        <S.DogProfileWrapper>
+          <DogProfile />
+        </S.DogProfileWrapper>
       </S.MainContainer>
+
       {/* <S.CountWrapperBig>{myPageData?.walkCount}회</S.CountWrapperBig>
       <S.CountWrapperBig>{myPageData?.totalDistance}km</S.CountWrapperBig>
       <S.CountWrapperBig>{myPageData?.countWalksWithMember}회</S.CountWrapperBig> */}
