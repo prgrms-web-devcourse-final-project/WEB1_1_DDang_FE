@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
+
 // import { useSearchParams } from 'react-router-dom'
 // import { useEffect } from 'react'
 type Provider = string
@@ -19,17 +20,6 @@ interface CreateRegisterRequest {
   email: string
   provider: string
   name: string
-  // birthDate: string
-  gender: Gender
-  address: string
-  familyRole: FamilyRole
-  profileImg: string
-}
-interface CreateRegisterRequest {
-  email: string
-  provider: Provider
-  name: string
-  // birthDate: string
   gender: Gender
   address: string
   familyRole: FamilyRole
@@ -41,7 +31,6 @@ interface CreateRegisterResponse {
   name: string
   email: string
   provider: Provider
-  // birthDate: string
   gender: Gender
   address: string
   familyRole: FamilyRole
@@ -50,18 +39,35 @@ interface CreateRegisterResponse {
 
 export const createRegister = async (req: CreateRegisterRequest): Promise<APIResponse<CreateRegisterResponse>> => {
   try {
-    const { data } = await axiosInstance.post<APIResponse<CreateRegisterResponse>>('/member/join', {
+    const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>('/member/join', {
       ...req,
       gender: req.gender as Gender,
       provider: req.provider as Provider,
       familyRole: req.familyRole as FamilyRole,
     })
-    if (data) {
-      alert('견주정보 입력 완료')
 
-      console.log(data)
+    // 토큰 저장 로직 추가
+    // const urlParams = new URLSearchParams(window.location.search)
+    // const accessToken = urlParams.get('accessToken')
+    const accessToken = response.headers['authorization']
+    const refreshToken = response.headers['refresh']
+    if (accessToken) {
+      localStorage.setItem('token', accessToken)
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken)
+      }
+      // URL에서 토큰 제거
+      // const newUrl = new URL(window.location.href)
+      // newUrl.searchParams.delete('accessToken')
+      // window.history.replaceState({}, '', newUrl.toString())
     }
-    return data
+
+    if (response.data) {
+      alert('견주정보 입력 완료')
+      console.log(response.data)
+    }
+    return response.data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response, request } = error as AxiosError<ErrorResponse>

@@ -13,11 +13,13 @@ import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
 import { createDogProfile } from '~apis/dog/createDogProfile'
 import { dateToString } from '~utils/dateFormat'
+import { useNavigate } from 'react-router-dom'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
   const { pushModal, popModal } = useModalStore()
   const { showToast } = useToastStore()
+  const navigate = useNavigate()
 
   const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
@@ -88,6 +90,7 @@ export default function DogProfileDetailSection() {
       if (response.code === 201) {
         // 홈으로 이동
         showToast('반려견 등록이 완료되었습니다')
+        navigate('/')
         // 성공 후 추가 처리 (예: 홈으로 이동)
       }
     } catch (error) {

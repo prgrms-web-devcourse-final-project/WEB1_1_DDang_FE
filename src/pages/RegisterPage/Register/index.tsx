@@ -49,9 +49,6 @@ export default function Register() {
   const provider = searchParams.get('provider') || ''
 
   const handleNextClick = async () => {
-    console.log('email : ', email)
-    console.log('provider : ', provider)
-    console.log(ownerProfile)
     const alertMessage = validateOwnerProfile(ownerProfile)
     if (alertMessage) {
       showToast(alertMessage)
@@ -63,23 +60,16 @@ export default function Register() {
         email,
         provider,
         name: ownerProfile.nickName,
-        // birthDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
         address: ownerProfile.location,
-        // familyRole: mapPositionToFamilyRole(ownerProfile.position),
-        familyRole: ownerProfile.position as
-          | 'MOTHER'
-          | 'FATHER'
-          | 'ELDER_BROTHER'
-          | 'OLDER_BROTHER'
-          | 'ELDER_SISTER'
-          | 'OLDER_SISTER'
-          | 'GRANDFATHER'
-          | 'GRANDMOTHER',
+        familyRole: ownerProfile.position as FamilyRole, // FamilyRole 타입으로 명시적 캐스팅
         profileImg: ownerProfile.avatar || '',
-      } as const
+      }
 
-      pushModal(<RegisterDogPage />)
+      const response = await createRegister(registerData) // registerData 전달
+      if (response.code === 201) {
+        pushModal(<RegisterDogPage />)
+      }
     } catch (error) {
       showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
     }
@@ -92,42 +82,23 @@ export default function Register() {
     }
   }
 
-  useEffect(() => {
-    if (location.address) {
-      setOwnerProfile({ location: location.address })
-    }
-    const accessToken = searchParams.get('accessToken')
-    if (accessToken) {
-      try {
-        localStorage.setItem('token', accessToken)
-        // URL에서 토큰 제거
-        const newUrl = new URL(window.location.href)
-        newUrl.searchParams.delete('accessToken')
-        window.history.replaceState({}, '', newUrl.toString())
-      } catch (error) {
-        console.error('Failed to store token:', error)
-      }
-    }
-  }, [searchParams])
-
   // useEffect(() => {
   //   if (location.address) {
   //     setOwnerProfile({ location: location.address })
   //   }
   //   const accessToken = searchParams.get('accessToken')
   //   if (accessToken) {
-  //     localStorage.setItem('token', accessToken)
-  //     console.log('토큰 가져옴(숨김처리 예정) : ', accessToken)
-  //     //URL에서 토큰 파라미터 제거하고 홈페이지로 리다이렉트, JWT토큰이 URL에 노출되어 히스토리에 남지 않게 함
-  //     // window.history.replaceState({}, '', '/')
-  //     return
+  //     try {
+  //       localStorage.setItem('token', accessToken)
+  //       // URL에서 토큰 제거
+  //       const newUrl = new URL(window.location.href)
+  //       newUrl.searchParams.delete('accessToken')
+  //       window.history.replaceState({}, '', newUrl.toString())
+  //     } catch (error) {
+  //       console.error('Failed to store token:', error)
+  //     }
   //   }
-  //   const storedToken = localStorage.getItem('token')
-  //   if (!storedToken) {
-  //     console.log('토큰 없음 비로그인 상태. register 이동.')
-  //   }
-  // }, [searchParams, location])
-
+  // }, [searchParams])
   const handleRoleClick = () => {
     pushModal(
       <PositionChoiceModal onSelect={position => setOwnerProfile({ position })} initialValue={ownerProfile.position} />
