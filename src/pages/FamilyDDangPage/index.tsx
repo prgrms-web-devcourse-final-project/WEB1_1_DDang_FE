@@ -6,8 +6,17 @@ import CountSection from '~components/WalkCountArea'
 import { Avatar10, Avatar3 } from '~assets/avatars'
 import Profile from '~components/Profile'
 import DogProfile from '~components/DogProfile'
+import { useModalStore } from '~stores/modalStore'
+import { useTheme } from 'styled-components'
+import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 
 export default function FamilyDDang() {
+  const { pushModal, popModal } = useModalStore()
+
+  const onClickCodeShare = () => {
+    pushModal(<ShareCodeModal />)
+  }
+
   return (
     <S.FamilyDDang>
       <S.Header type='sm' title='패밀리댕'>
@@ -77,7 +86,7 @@ export default function FamilyDDang() {
       </S.FamilySection>
       <S.InviteSection>
         <Typo15 $weight='700'>밤톨이와 함께할 동반자를 초대하세요!</Typo15>
-        <S.InviteBtn>
+        <S.InviteBtn onClick={onClickCodeShare}>
           <Typo14 $weight='700'>초대</Typo14>
         </S.InviteBtn>
       </S.InviteSection>
