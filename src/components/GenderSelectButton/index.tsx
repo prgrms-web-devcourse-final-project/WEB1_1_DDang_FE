@@ -1,6 +1,6 @@
 import * as S from './styles'
-import MALE from '~assets/MALE.svg'
-import FEMALE from '~assets/FEMALE.svg'
+import MALE from '~assets/male.svg'
+import FEMALE from '~assets/female.svg'
 import { Typo17 } from '~components/Typo/index'
 
 interface GenderSelectButtonProps {
