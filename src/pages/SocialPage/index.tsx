@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Typo15 } from '~components/Typo'
 import FriendChatList from '~pages/SocialPage/components/FriendChatList'
 import * as S from './styles'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from '~components/ErrorFallback'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import Loader from '~components/Loader'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
@@ -26,7 +30,15 @@ export default function SocialPage() {
           <S.TabUnderBar $selectedTab={selectedTab} />
         </S.TabArea>
       </S.Header>
-      <FriendChatList selectedTab={selectedTab} />
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <Suspense fallback={<Loader />}>
+              <FriendChatList selectedTab={selectedTab} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </S.SocialPage>
   )
 }
