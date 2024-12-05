@@ -81,8 +81,8 @@ export default function DogProfileDetailSection() {
           type: 'application/json',
         })
       )
-      if (dogProfile.imageFile) {
-        formData.append('file', dogProfile.imageFile)
+      if (dogProfile.image) {
+        formData.append('profileImgFile', dogProfile.image)
       }
 
       const response = await createDogProfile(formData)
