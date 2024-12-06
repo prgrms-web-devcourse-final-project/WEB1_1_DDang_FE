@@ -49,7 +49,7 @@ export default function MyPage() {
           </S.ProfileArea>
           <S.ProfileText>
             <Typo24 $weight='800'>{myPageData?.name}</Typo24>
-            <Typo15 $weight='400' style={{ color: theme.colors.grayscale.font_2 }}>
+            <Typo15 $weight='400' $color='font_2'>
               {myPageData?.address} 거주
             </Typo15>
             <S.TypoWrap>
@@ -60,20 +60,7 @@ export default function MyPage() {
         </S.ProfileSection>
 
         <CountSection walkCount={23} totalDistance={32} gangCount={16} />
-        <S.DogProfileWrapper>
-          {myPageData?.dog && (
-            <DogProfile
-              name={myPageData.dog.name}
-              gender={myPageData.dog.gender}
-              profileImg={myPageData.dog.profileImg}
-              birthDate={myPageData.dog.birthDate}
-              breed={myPageData.dog.breed}
-              comment={myPageData.dog.comment}
-              isNeutered={myPageData.dog.isNeutered}
-              weight={myPageData.dog.weight}
-            />
-          )}
-        </S.DogProfileWrapper>
+        <S.DogProfileWrapper>{myPageData?.dog && <DogProfile {...myPageData.dog} />}</S.DogProfileWrapper>
       </S.MainContainer>
 
       {/* <S.CountWrapperBig>{myPageData?.walkCount}회</S.CountWrapperBig>
