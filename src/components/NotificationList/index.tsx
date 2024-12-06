@@ -1,10 +1,7 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { fetchNotificationList, FetchNotificationListResponse } from '~apis/notification/fetchNotificationList'
+import useInfiniteNotificationList from '~apis/notification/useInfiniteNotificationList'
 import Loader from '~components/Loader'
 import NotificationItem from '~components/NotificationItem'
-import { queryKey } from '~constants/queryKey'
 import useObserver from '~hooks/useObserver'
-import { APIResponse } from '~types/api'
 import * as S from './styles'
 
 export default function NotificationList() {
@@ -12,19 +9,8 @@ export default function NotificationList() {
     callback: () => hasNextPage && !isFetchingNextPage && fetchNextPage(),
   })
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useSuspenseInfiniteQuery<
-    APIResponse<FetchNotificationListResponse>
-  >({
-    queryKey: queryKey.notification(),
-    queryFn: async ({ pageParam = 0 }) => {
-      if (pageParam !== 0) await new Promise(resolve => setTimeout(resolve, 1000))
-      return await fetchNotificationList({ page: pageParam as number })
-    },
-    getNextPageParam: lastPage => {
-      return lastPage.data.last ? undefined : lastPage.data.number + 1
-    },
-    initialPageParam: 0,
-  })
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteNotificationList()
+  console.log(data)
 
   return (
     <S.NotificationList>
