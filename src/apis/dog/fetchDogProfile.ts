@@ -1,41 +1,46 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-interface DogProfileDetail {
-  dogId: number
-  name: string
-  breed: string
-  birthDate: string
-  weight: number
-  gender: 'MALE' | 'FEMALE'
-  profileImg: string
-  isNeutered: 'TRUE' | 'FALSE'
-  familyId: number
-  comment: string
+type DogProfileDetail = Pick<
+  CommonAPIResponse,
+  'dogId' | 'name' | 'breed' | 'birthDate' | 'weight' | 'gender' | 'profileImg' | 'isNeutered' | 'familyId' | 'comment'
+>
+
+export type FetchDogProfileRequest = {
+  id: number
 }
 
-export interface FetchDogProfileResponse {
+export type FetchDogProfileResponse = {
   data: DogProfileDetail
 }
 
-export const fetchDogProfile = async (id: number): Promise<APIResponse<FetchDogProfileResponse>> => {
+/**
+ * 반려견의 상세 프로필 정보를 조회합니다.
+ */
+export const fetchDogProfile = async (req: FetchDogProfileRequest): Promise<APIResponse<FetchDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchDogProfileResponse>>(`/dogs/${id}`)
+    const { data } = await axiosInstance.get<APIResponse<FetchDogProfileResponse>>(`/dogs/${req.id}`)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
-      const { response, request } = error as AxiosError<ErrorResponse>
+      const { response } = error as AxiosError<ErrorResponse>
 
       if (response) {
-        console.error('반려견 조회 오류:', response.data)
-        throw new Error(response.data.message ?? '요청 실패')
+        const { code, message } = response.data
+        switch (code) {
+          case 400:
+            throw new Error(message || '잘못된 요청입니다.')
+          case 401:
+            throw new Error(message || '인증에 실패했습니다.')
+          case 500:
+            throw new Error(message || '서버 오류가 발생했습니다.')
+          default:
+            throw new Error(message || '알 수 없는 오류가 발생했습니다.')
+        }
       }
-
-      if (request) {
-        console.error('요청 에러:', request)
-        throw new Error('네트워크 연결을 확인해주세요')
-      }
+      // 요청 자체가 실패한 경우
+      throw new Error('네트워크 연결을 확인해주세요')
     }
 
     console.error('예상치 못한 에러:', error)
