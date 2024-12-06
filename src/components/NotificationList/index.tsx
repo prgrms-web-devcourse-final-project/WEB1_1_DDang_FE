@@ -18,7 +18,7 @@ export default function NotificationList() {
           <NotificationItem
             key={notification.notificationId}
             content={notification.content}
-            date={new Date(notification.createdAt || '2024-12-05')}
+            date={new Date(notification.createdAt)}
           />
         ))
       )}
