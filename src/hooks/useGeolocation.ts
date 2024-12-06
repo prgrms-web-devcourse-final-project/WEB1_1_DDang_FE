@@ -41,11 +41,37 @@ interface GeocodeResponse {
   status: string
 }
 
+const locality = ['시', '군', '구', '동', '읍', '면', '리']
+
 export const useGeolocation = () => {
   const [location, setLocation] = useState<Location>({
     address: null,
     error: null,
   })
+  const matches = new Set()
+
+  const extractMatchingComponents = (components: AddressComponent[], locality: string[]) => {
+    components.forEach(component => {
+      if (locality.some(loc => component.long_name.endsWith(loc))) {
+        matches.add(component.long_name)
+      }
+    })
+  }
+
+  const sortByLocality = (matches: string[]) => {
+    const sorted = matches.sort((a, b) => {
+      const aIndex = locality.findIndex(loc => a.endsWith(loc))
+      const bIndex = locality.findIndex(loc => b.endsWith(loc))
+      return aIndex - bIndex
+    })
+
+    const result = sorted.filter((loc, index) => {
+      const currentLastChar = loc.slice(-1)
+      return !sorted.slice(0, index).some(prev => prev.slice(-1) === currentLastChar)
+    })
+
+    return result
+  }
 
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
@@ -64,25 +90,16 @@ export const useGeolocation = () => {
 
           console.log('Google API 응답:', response.data)
 
-          let si: string | undefined
-          let district: string | undefined
-          let neighborhood: string | undefined
           if (response.data.results.length > 0) {
             response.data.results.forEach(result => {
               const addressComponents = result.address_components
-              if (!si) si = addressComponents.find(component => component.long_name.endsWith('시'))?.long_name
-              if (!district)
-                district = addressComponents.find(component => component.long_name.endsWith('구'))?.long_name
-              if (!neighborhood)
-                neighborhood = addressComponents.find(component => component.long_name.endsWith('동'))?.long_name
-
-              console.log(si, district, neighborhood)
+              extractMatchingComponents(addressComponents, locality)
             })
           }
-          const address = [si, district, neighborhood].join(' ').trim()
-          if (address) {
+          if (matches.size) {
+            const sortedMatches = sortByLocality(Array.from(matches) as string[])
             setLocation({
-              address: `${address}`,
+              address: sortedMatches.slice(-2).join(' '),
               error: null,
             })
           }
