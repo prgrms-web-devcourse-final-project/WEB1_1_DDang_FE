@@ -1,21 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as S from './styles'
 import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
-import { fetchWalkDates } from '~apis/log/fetchWalkDates'
+import { useWalkDates } from '~pages/LogPage/useWalkInfo'
 
 interface CalendarProps {
+  date: Date
   setDate: (date: Date) => void
 }
 
-export default function Calendar({ setDate }: CalendarProps) {
+export default function Calendar({ date, setDate }: CalendarProps) {
   const { pushModal } = useModalStore()
-  const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
+  const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar(date)
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [walkDates, setWalkDates] = useState<string[]>([])
+
+  const { data: walkDates = [] } = useWalkDates()
 
   const hasWalkRecord = (walkDates: string[], date: number) => {
     return walkDates.some(walkDate => {
@@ -30,24 +32,6 @@ export default function Calendar({ setDate }: CalendarProps) {
   useEffect(() => {
     setDate(currentDate)
   }, [currentDate])
-
-  useEffect(() => {
-    const getWalkDates = async () => {
-      try {
-        const response = await fetchWalkDates()
-        if (Array.isArray(response.data)) {
-          console.log(response.data)
-          setWalkDates(response.data)
-        } else {
-          console.error('Unexpected response format:', response)
-        }
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    getWalkDates()
-  }, [])
 
   const handleDateClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement
@@ -149,7 +133,7 @@ export default function Calendar({ setDate }: CalendarProps) {
                     data-date={date}
                     disabled={isDisabled}
                     $isActive={isActive}
-                    $hasWalkRecord={hasWalkRecord(walkDates, date)}
+                    $hasWalkRecord={hasWalkRecord(walkDates as string[], date)}
                   >
                     {date}
                   </S.Date>

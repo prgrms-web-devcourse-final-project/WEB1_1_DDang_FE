@@ -5,6 +5,7 @@ const DAYS_IN_WEEK = 7
 const MAX_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const WEEKDAYS = ['월', '화', '수', '목', '금', '토', '일']
 
+type UseCalendarRequest = Date
 interface UseCalendarReturn {
   activeIndex: number[]
   weekDays: string[]
@@ -18,8 +19,8 @@ const getDaysInMonth = (date: Date) => {
   return MAX_DAYS[date.getMonth()]
 }
 
-export default function useCalendar(): UseCalendarReturn {
-  const [currentDate, setCurrentDate] = React.useState<Date>(new Date())
+export default function useCalendar(date: UseCalendarRequest): UseCalendarReturn {
+  const [currentDate, setCurrentDate] = React.useState<Date>(date)
   const daysInCurrentMonth = getDaysInMonth(currentDate)
   const daysInPreviousMonth = getDaysInMonth(
     new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate())
