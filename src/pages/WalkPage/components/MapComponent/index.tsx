@@ -61,6 +61,18 @@ export type ProposalResponse = {
     dogGender: string
     dogAge: number
     email: string
+    type: 'PROPOSAL'
+  }
+}
+
+export type DecisionResponse = {
+  code: number
+  message: string
+  data: {
+    decision: 'ACCEPT' | 'DENY'
+    otherMemberName: string
+    otherMemberProfileImg: string
+    type: 'DECISION'
   }
 }
 
@@ -95,6 +107,7 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
   const lastHeadingRef = useRef<number>(0)
 
   const [showProposalModal, setShowProposalModal] = useState(true)
+  const [showDecisionModal, setShowDecisionModal] = useState(true)
   const [proposalInfo, setProposalInfo] = useState<ProposalResponse['data'] | null>({
     dogId: 1,
     dogName: '몽이',
@@ -104,6 +117,14 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
     dogGender: 'MALE',
     dogAge: 5,
     email: 'example@example.com',
+    type: 'PROPOSAL',
+  })
+
+  const [decisionInfo, setDecisionInfo] = useState<DecisionResponse['data'] | null>({
+    decision: 'ACCEPT',
+    otherMemberName: '홍길동',
+    otherMemberProfileImg: 'https://placedog.net/200/200?id=2',
+    type: 'DECISION',
   })
 
   const [currentAccuracy, setCurrentAccuracy] = useState<number | null>(null)
@@ -120,10 +141,20 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
         try {
           const response = JSON.parse(message.body)
           if (response.code === 1000 && response.data) {
-            if (response.type === 'proposal') {
+            if (response.data.type === 'PROPOSAL') {
               const proposalData = response.data as ProposalResponse['data']
               setProposalInfo(proposalData)
               setShowProposalModal(true)
+            } else if (response.data.type === 'DECISION') {
+              const decisionData = response.data as DecisionResponse['data']
+
+              if (decisionData.decision === 'ACCEPT') {
+              } else {
+                setDecisionInfo(decisionData)
+                setShowDecisionModal(true)
+              }
+              // 수락 시 같이 산책 모드
+              // 거절 시 거절 모달 띄워 줌
             } else {
               const newWalker = response.data as NearbyWalker
               setNearbyWalkers((prev: NearbyWalker[]) => {
@@ -999,7 +1030,7 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
             breed: proposalInfo.dogBreed,
             profileImg: proposalInfo.dogProfileImg,
             age: proposalInfo.dogAge,
-            gender: proposalInfo.dogGender,
+            gender: proposalInfo.dogGender === 'MALE' ? '남' : '여',
             email: proposalInfo.email,
             comment: proposalInfo.comment,
           }}
@@ -1011,6 +1042,23 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
           onCancel={() => {
             // TODO: 거절 로직 구현
             setShowProposalModal(false)
+          }}
+        />
+      )}
+      {showDecisionModal && decisionInfo && (
+        <WalkModal
+          type='progress'
+          userInfo={{
+            name: decisionInfo.otherMemberName,
+            profileImg: decisionInfo.otherMemberProfileImg,
+          }}
+          onClose={() => setShowDecisionModal(false)}
+          onConfirm={() => {
+            // TODO: 다시 시도 구현
+            setShowDecisionModal(false)
+          }}
+          onCancel={() => {
+            setShowDecisionModal(false)
           }}
         />
       )}

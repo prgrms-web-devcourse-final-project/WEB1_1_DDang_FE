@@ -13,10 +13,6 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
   const [message, setMessage] = useState('')
   const { publish, isConnected } = useWebSocket()
 
-  const convertGenderToKorean = (gender: string) => {
-    return gender === 'MALE' ? '남' : '여'
-  }
-
   const handleConfirm = () => {
     if (type === 'request') {
       const proposalData = {
@@ -130,18 +126,13 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
               <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
               <S.Info type={type}>
                 <h3>{userInfo.name}</h3>
-                {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
+                {(type === 'request' || type === 'accept' || type === 'walkRequest') ?? (
                   <>
                     <p>
                       {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
                       {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
-                      {convertGenderToKorean((userInfo as RequestUserInfo).gender)}
+                      {(userInfo as RequestUserInfo).gender}
                     </p>
-                  </>
-                ) : (
-                  <>
-                    {(userInfo as OtherUserInfo).location && <p>{(userInfo as OtherUserInfo).location}</p>}
-                    {(userInfo as OtherUserInfo).time && <p>{(userInfo as OtherUserInfo).time}</p>}
                   </>
                 )}
               </S.Info>

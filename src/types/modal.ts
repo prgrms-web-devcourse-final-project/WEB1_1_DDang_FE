@@ -16,8 +16,7 @@ export type RequestUserInfo = {
 
 export type OtherUserInfo = {
   name: string
-  location?: string
-  time?: string
+  profileImg: string
 }
 
 export type ModalContentType = {
