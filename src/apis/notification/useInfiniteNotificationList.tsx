@@ -7,7 +7,7 @@ export default function useInfiniteNotificationList() {
   return useSuspenseInfiniteQuery<APIResponse<FetchNotificationListResponse>>({
     queryKey: queryKey.notification(),
     queryFn: async ({ pageParam = 0 }) => {
-      if (pageParam !== 0) await new Promise(resolve => setTimeout(resolve, 1000))
+      if (pageParam !== 0) await new Promise(resolve => setTimeout(resolve, 500))
       return await fetchNotificationList({ page: pageParam as number })
     },
     getNextPageParam: lastPage => {

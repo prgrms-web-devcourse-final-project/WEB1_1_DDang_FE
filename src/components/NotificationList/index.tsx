@@ -10,7 +10,6 @@ export default function NotificationList() {
   })
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteNotificationList()
-  console.log(data)
 
   return (
     <S.NotificationList>
