@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { positionLabelMap } from '~utils/positionLabelMap'
 
 export function createBarChart(
   svgElement: SVGSVGElement,
@@ -62,7 +63,12 @@ export function createBarChart(
         const truncatedName = name.length > 4 ? name.slice(0, 4) + '...' : name
         text.append('tspan').attr('x', 0).attr('dy', '0em').text(truncatedName)
       }
-      text.append('tspan').attr('x', 0).attr('dy', '12px').text(`(${position})`).style('font-size', '9px')
+      text
+        .append('tspan')
+        .attr('x', 0)
+        .attr('dy', '12px')
+        .text(`(${positionLabelMap[position as keyof typeof positionLabelMap]})`)
+        .style('font-size', '9px')
     })
 
   svg.select('.domain').attr('stroke', '#F1F1F5')

@@ -13,22 +13,6 @@ import WalkSummary from './components/WalkSummary'
 import { WalkDetail } from '~apis/log/fetchWalkDetail'
 import * as S from './styles'
 
-// interface TimeDuration {
-//   hours: number
-//   minutes: number
-//   seconds: number
-// }
-
-// interface WalkDetail {
-//   name: string
-//   profileImg: string
-//   timeDuration: TimeDuration
-//   totalCalorie: number
-//   totalDistanceMeter: number
-//   walkId: number
-//   walkImg: string
-// }
-
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
   const randomImage = images[Math.floor(Math.random() * images.length)]
@@ -39,7 +23,7 @@ export default function LogPage() {
   useEffect(() => {
     const getWalkDetail = async () => {
       try {
-        const response = await fetchWalkDetail(dateToString(date))
+        const response = await fetchWalkDetail({ selectDate: dateToString(date) })
         setWalkDetails(response.data)
       } catch (e) {
         console.error(e)
