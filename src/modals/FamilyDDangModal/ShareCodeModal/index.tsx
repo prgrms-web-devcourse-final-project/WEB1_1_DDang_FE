@@ -25,11 +25,10 @@ export default function ShareCodeModal() {
       <S.CodeShareSection>
         <S.CodeShareButtonWrapper>
           <S.CodeShareButton>
-            <Typo15 $weight='700'>초대 코드 복사</Typo15>
+            <Typo15 $weight='700' >초대 코드 복사</Typo15>
           </S.CodeShareButton>
         </S.CodeShareButtonWrapper>
       </S.CodeShareSection>
-      코드 공유 공간입니다~!
     </S.ShareCodeModal>
   )
 }
