@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { Typo24 } from '~components/Typo/index'
-import Check from '~assets/check.svg'
+import Check from '~assets/is-neutered-check.svg'
 import Header from '~components/Header/index'
 import SearchModal from '~modals/SearchModal'
 import { useModalStore } from '~stores/modalStore'
@@ -11,23 +11,26 @@ import { useDogProfileStore } from '~/stores/dogProfileStore'
 import { validateDogDetailProfile } from '~utils/validateDogProfile'
 import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
+import { createDogProfile } from '~apis/dog/createDogProfile'
+import { useNavigate } from 'react-router-dom'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
-  const { pushModal, popModal } = useModalStore()
+  const { pushModal, popModal, clearModal } = useModalStore()
   const { showToast } = useToastStore()
+  const navigate = useNavigate()
 
-  const [displayValue, setDisplayValue] = useState('')
+  const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setDogProfile({ gender })
   }
 
   const onChangeWeightInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value === '') {
-      setDogProfile({ weight: '' })
+      setDogProfile({ weight: 0 })
       setDisplayValue('')
       return
     }
@@ -35,14 +38,14 @@ export default function DogProfileDetailSection() {
     if (/^\d*\.?\d*$/.test(value)) {
       const formatted = value.includes('.') ? value.match(/^\d*\.?\d{0,2}/)![0] : value
 
-      setDogProfile({ weight: formatted })
+      setDogProfile({ weight: Number(formatted) })
       setDisplayValue(inputType === 'number' ? formatted : `${formatted}kg`)
     }
   }
 
   const handleFocus = () => {
     setInputType('number')
-    setDisplayValue(dogProfile.weight)
+    setDisplayValue(dogProfile.weight.toString())
   }
 
   const handleBlur = () => {
@@ -52,21 +55,57 @@ export default function DogProfileDetailSection() {
     }
   }
 
-  const handleComfirmClick = () => {
+  const handleComfirmClick = async () => {
     const alertMessage = validateDogDetailProfile(dogProfile)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    console.log('이제 백엔드로 전송')
-  }
 
+    try {
+      const formData = new FormData()
+      const requestData = {
+        name: dogProfile.name,
+        breed: dogProfile.breed,
+        birthDate: dogProfile.birthDate,
+        weight: dogProfile.weight,
+        gender: dogProfile.gender,
+        isNeutered: dogProfile.isNeutered,
+        familyId: null,
+        comment: dogProfile.comment!.trim(),
+      }
+      formData.append(
+        'request',
+        new Blob([JSON.stringify(requestData)], {
+          type: 'application/json',
+        })
+      )
+      if (dogProfile.profileImgFile) {
+        console.log(dogProfile.profileImgFile)
+        formData.append('profileImgFile', dogProfile.profileImgFile)
+      }
+
+      const response = await createDogProfile(formData)
+
+      if (response.code === 201) {
+        // 홈으로 이동
+        alert('반려견 등록 완료')
+        clearModal()
+        navigate('/')
+        // 성공 후 추가 처리 (예: 홈으로 이동)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showToast(error.message)
+      }
+    }
+  }
   return (
     <>
       <S.DogProfileDetailSection>
         <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.TypoWrapper>
-          <Typo24 $weight='700'>
+          <Typo24 $weight='700' $textAlign='center'>
             반려견 상세 정보를
             <br /> 알려주세요!
           </Typo24>
@@ -74,21 +113,23 @@ export default function DogProfileDetailSection() {
         <S.GenderBtnArea>
           <S.GenderSelectBtnWrapper>
             <GenderSelectButton
-              gender='male'
-              isActive={dogProfile.gender === 'male'}
-              onClick={() => handleGenderSelect('male')}
+              gender='MALE'
+              isActive={dogProfile.gender === 'MALE'}
+              onClick={() => handleGenderSelect('MALE')}
             />
             <GenderSelectButton
-              gender='female'
-              isActive={dogProfile.gender === 'female'}
-              onClick={() => handleGenderSelect('female')}
+              gender='FEMALE'
+              isActive={dogProfile.gender === 'FEMALE'}
+              onClick={() => handleGenderSelect('FEMALE')}
             />
           </S.GenderSelectBtnWrapper>
-          <S.CheckboxWrapper onClick={() => setDogProfile({ isNeutered: !dogProfile.isNeutered })}>
-            <S.CheckboxCircle $isChecked={dogProfile.isNeutered}>
-              {dogProfile.isNeutered && <img src={Check} alt='check'></img>}
+          <S.CheckboxWrapper
+            onClick={() => setDogProfile({ isNeutered: dogProfile.isNeutered == 'TRUE' ? 'FALSE' : 'TRUE' })}
+          >
+            <S.CheckboxCircle $isChecked={dogProfile.isNeutered == 'TRUE'}>
+              {dogProfile.isNeutered == 'TRUE' && <img src={Check} alt='check'></img>}
             </S.CheckboxCircle>
-            <S.CheckboxLabel $isChecked={dogProfile.isNeutered}>중성화 했어요</S.CheckboxLabel>
+            <S.CheckboxLabel $isChecked={dogProfile.isNeutered == 'TRUE'}>중성화 했어요</S.CheckboxLabel>
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>
@@ -98,7 +139,7 @@ export default function DogProfileDetailSection() {
           <S.WeightInput
             placeholder='몸무게 입력 (kg)'
             type={inputType}
-            value={displayValue}
+            value={displayValue == '0' ? '' : displayValue}
             onChange={onChangeWeightInput}
             onFocus={handleFocus}
             onBlur={handleBlur}

@@ -5,7 +5,7 @@ import { DatePicker } from 'ios-style-picker'
 import '/node_modules/ios-style-picker/dist/style.css'
 
 interface DatePickerModalProps {
-  date: Date | null
+  date?: Date
   setDate: (birth: Date) => void
 }
 
