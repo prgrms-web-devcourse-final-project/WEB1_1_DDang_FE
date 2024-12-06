@@ -19,10 +19,15 @@ import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useDogProfileStore } from '~stores/dogProfileStore'
 
 function HomeContent() {
   const { data } = useHomePageData()
   const { pushModal } = useModalStore()
+  const { dogProfile } = useDogProfileStore()
+  useEffect(() => {
+    console.log(dogProfile)
+  }, [])
   return (
     <>
       <S.Header>
