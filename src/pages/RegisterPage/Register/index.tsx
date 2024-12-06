@@ -56,7 +56,10 @@ export default function Register() {
         profileImg: ownerProfile.avatar || '',
       }
 
-      const response = await createRegister(registerData)
+      const response = await createRegister({
+        ...registerData,
+        provider: registerData.provider as 'KAKAO' | 'NAVER' | 'GOOGLE',
+      })
       if (response.code === 201) {
         pushModal(<RegisterDogPage />)
       }
