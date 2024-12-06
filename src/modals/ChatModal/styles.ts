@@ -8,7 +8,6 @@ export const ChatModal = styled.div`
   height: 100%;
   padding: ${HEADER_HEIGHT_LG}px 20px 0;
   background-color: ${({ theme }) => theme.colors.brand.lighten_3};
-  overflow: auto;
   &::after {
     background: url(${DogHowling}) center/cover;
     content: '';
