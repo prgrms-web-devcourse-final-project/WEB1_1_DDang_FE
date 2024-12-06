@@ -2,29 +2,36 @@ import * as S from './styles'
 import { Typo13, Typo15, Typo20 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 import Profile from '~components/Profile'
-import { Dog } from '~types/api'
-import { calculateAge } from '~utils/calculateAge'
+import { DogProfileType } from '~types/dogProfile'
+import { stringToDate } from '~utils/dateFormat'
 
-type DogProfileProps = Pick<Dog, 'birthDate' | 'breed' | 'comment' | 'gender' | 'name' | 'profileImg'>
+//날짜 계산 로직
+const calculateAge = (birthDate?: Date): number => {
+  if (!birthDate) return 0
+  const today = new Date()
+  const birth = new Date(birthDate)
+  let age = today.getFullYear() - birth.getFullYear()
+  const monthDiff = today.getMonth() - birth.getMonth()
 
-export default function DogProfile({ birthDate, breed, comment, gender, name, profileImg }: DogProfileProps) {
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--
+  }
+  return age
+}
+export default function DogProfile({ name, gender, profileImg, birthDate, breed, comment }: DogProfileType) {
+  const age = calculateAge(stringToDate(birthDate!))
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>
-        <Profile $size={80} $src={profileImg} />
+        <Profile $size={80} $src={profileImg || ''} />
         <S.DogDetailWrapper>
           <S.TypoWrapper>
             <Typo20 $weight='700'>{name}</Typo20>
             <Typo15 $weight='400'>{breed}</Typo15>
             <Separator $height={8} />
-            <Typo15 $weight='400'>{calculateAge(birthDate)}살</Typo15>
+            <Typo15 $weight='400'>{age}살</Typo15>
             <Separator $height={8} />
             <Typo15 $weight='400'>{gender === 'MALE' ? '남' : '여'}</Typo15>
-          </S.TypoWrapper>
-          <S.TypoWrapper>
-            <Typo13>중성화 X</Typo13>
-            <Separator $height={8} />
-            <Typo13>3.4KG</Typo13>
           </S.TypoWrapper>
         </S.DogDetailWrapper>
       </S.DogInfoWrapper>
