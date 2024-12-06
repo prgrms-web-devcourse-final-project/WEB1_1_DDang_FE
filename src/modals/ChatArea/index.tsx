@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
 import useChatMessageList from '~apis/chat/useChatMessageList'
 import { IncomingMessage, OutgoingMessage } from '~components/Message'
 import SendMessageForm from '~components/SendMessageForm'
 import useObserver from '~hooks/useObserver'
+import { useScrollPreservation } from '~hooks/useScrollPreservation'
 import * as S from './styles'
 
 type ChatAreaListProps = {
@@ -10,27 +10,18 @@ type ChatAreaListProps = {
 }
 
 export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
-  const chatAreaRef = useRef<HTMLDivElement>(null)
-  const [prevScrollHeight, setPrevScrollHeight] = useState(0)
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useChatMessageList({ chatRoomId })
+  const { elementRef: chatAreaRef, preserveScroll } = useScrollPreservation<HTMLDivElement>({ dependency: [data] })
   const { observerRef } = useObserver<HTMLDivElement>({
     callback: () => {
       if (hasNextPage && !isFetchingNextPage) {
         if (chatAreaRef.current) {
-          setPrevScrollHeight(chatAreaRef.current.scrollHeight)
+          preserveScroll()
         }
         fetchNextPage()
       }
     },
   })
-
-  useEffect(() => {
-    if (chatAreaRef.current) {
-      const { scrollHeight, scrollTop } = chatAreaRef.current
-      const nextScrollTop = scrollHeight - prevScrollHeight + scrollTop
-      chatAreaRef.current.scrollTop = nextScrollTop
-    }
-  }, [data, prevScrollHeight])
 
   return (
     <S.ChatArea ref={chatAreaRef}>
@@ -45,7 +36,6 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
                 }
               >
                 {chat.text}
-                <p>{chat.createdAt}</p>
               </OutgoingMessage>
             ) : (
               <IncomingMessage
@@ -55,7 +45,6 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
                 }
               >
                 {chat.text}
-                <p>{chat.createdAt}</p>
               </IncomingMessage>
             )
           )
