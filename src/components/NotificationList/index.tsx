@@ -3,6 +3,7 @@ import Loader from '~components/Loader'
 import NotificationItem from '~components/NotificationItem'
 import useObserver from '~hooks/useObserver'
 import * as S from './styles'
+import { InfiniteScrollTrigger } from '~components/InfiniteScrollTrigger'
 
 export default function NotificationList() {
   const { observerRef } = useObserver<HTMLDivElement>({
@@ -22,9 +23,7 @@ export default function NotificationList() {
           />
         ))
       )}
-      <div ref={observerRef} style={{ height: '20px' }}>
-        {isFetchingNextPage && <Loader />}
-      </div>
+      <InfiniteScrollTrigger ref={observerRef}>{isFetchingNextPage && <Loader />}</InfiniteScrollTrigger>
     </S.NotificationList>
   )
 }
