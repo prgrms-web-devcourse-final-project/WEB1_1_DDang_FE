@@ -2,7 +2,6 @@ import { fetchMypage } from '~apis/myPage/fetchMypage'
 // import ProfileImage from 'assets/masterprofile.svg?react'
 import { Helmet } from 'react-helmet-async'
 import { IoSettingsOutline } from 'react-icons/io5'
-import { useTheme } from 'styled-components'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import SettingModal from '~modals/SettingModal'
 import { useModalStore } from '~stores/modalStore'
@@ -20,7 +19,6 @@ export default function MyPage() {
   const myPageData = data?.data // API 응답 구조에 맞춰 접근
   console.log(myPageData)
 
-  const theme = useTheme()
   const { pushModal } = useModalStore()
 
   const onSettingsClick = () => {
