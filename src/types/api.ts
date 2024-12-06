@@ -32,7 +32,7 @@ export type Dog = BasicInfo & {
   /** 가족 ID @example 1 */
   familyId: number
   /** 코멘트 @example "활발하고 친근한 성격입니다." */
-  intro: string
+  comment: string
 }
 
 export type OtherDog = {
