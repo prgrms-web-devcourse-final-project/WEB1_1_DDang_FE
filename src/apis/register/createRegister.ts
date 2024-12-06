@@ -34,22 +34,9 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
     })
 
     const accessToken = response.headers['authorization']
-    // const refreshToken = response.headers['refresh']
 
     localStorage.setItem('token', accessToken)
     axiosInstance.defaults.headers.common['Authorization'] = `${accessToken}`
-    // localStorage.setItem('refreshToken', refreshToken)
-
-    // null 체크와 함께 토큰 추출
-    // if (accessToken) {
-    //   // 토큰 값을 문자열로 변환하여 저장
-    //   localStorage.setItem('token', accessToken.toString())
-    //   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-
-    //   if (refreshToken) {
-    //     localStorage.setItem('refreshToken', refreshToken.toString())
-    //   }
-    // }
 
     if (response.data) {
       alert('견주정보 입력 완료')
