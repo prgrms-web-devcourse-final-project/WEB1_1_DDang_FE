@@ -8,7 +8,7 @@ type ProfileProps = {
   userId?: number
 }
 
-export default function Profile({ $size, $src, userId }: ProfileProps) {
+export default function Profile({ $size, $src = '', userId }: ProfileProps) {
   const { clearModal } = useModalStore()
   const navigate = useNavigate()
   const onClick = () => {
