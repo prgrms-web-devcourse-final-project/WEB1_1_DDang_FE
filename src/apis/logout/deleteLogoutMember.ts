@@ -1,32 +1,17 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
+import { ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type FetchMypageResponse = Pick<
-  CommonAPIResponse,
-  | 'memberId'
-  | 'name'
-  | 'address'
-  | 'gender'
-  | 'familyRole'
-  | 'profileImg'
-  | 'isMatched'
-  | 'totalDistance'
-  | 'walkCount'
-  | 'countWalksWithMember'
-  | 'dog'
-  | 'dogId'
-  | 'breed'
-  | 'birthDate'
-  | 'weight'
-  | 'isNeutered'
-  | 'familyId'
-  | 'comment'
->
+export type DeleteLogoutMemberResponse = {
+  code: number
+  status: '100 CONTINUE'
+  message: string
+  data: string
+}
 
-export const fetchMypage = async (): Promise<APIResponse<FetchMypageResponse>> => {
+export const deleteLogoutMember = async (): Promise<DeleteLogoutMemberResponse> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchMypageResponse>>(`/member/mypage`)
+    const { data } = await axiosInstance.delete<DeleteLogoutMemberResponse>(`/member/logout`)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -45,7 +30,7 @@ export const fetchMypage = async (): Promise<APIResponse<FetchMypageResponse>> =
             throw new Error(message || '알 수 없는 오류가 발생했습니다.')
         }
       }
-      // 요청 자체가 실패한 경우
+
       throw new Error('네트워크 연결을 확인해주세요')
     }
 

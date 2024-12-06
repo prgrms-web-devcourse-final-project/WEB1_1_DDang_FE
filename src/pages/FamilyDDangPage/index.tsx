@@ -7,11 +7,11 @@ import { Avatar10, Avatar3 } from '~assets/avatars'
 import Profile from '~components/Profile'
 import DogProfile from '~components/DogProfile'
 import { useQuery } from '@tanstack/react-query'
-import { fetchMypage, GetDogInfoResponse } from '~apis/myPage/fetchMypage'
+import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
 import { APIResponse } from '~types/api'
 
 export default function FamilyDDang() {
-  const { data } = useQuery<APIResponse<GetDogInfoResponse>>({
+  const { data } = useQuery<APIResponse<FetchMypageResponse>>({
     queryKey: ['myPage'],
     queryFn: fetchMypage,
   })

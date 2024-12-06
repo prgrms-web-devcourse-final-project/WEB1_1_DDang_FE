@@ -17,6 +17,7 @@ import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
 import { positionLabelMap } from '~utils/positionLabelMap'
 import { FamilyRole } from '~types/common'
+import { useEffect } from 'react'
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
@@ -45,7 +46,10 @@ export default function Register() {
         profileImg: ownerProfile.avatar || '',
       }
 
-      const response = await createRegister(registerData)
+      const response = await createRegister({
+        ...registerData,
+        provider: registerData.provider as 'KAKAO' | 'NAVER' | 'GOOGLE',
+      })
       if (response.code === 201) {
         pushModal(<RegisterDogPage />)
       }
@@ -53,12 +57,13 @@ export default function Register() {
       showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
     }
   }
-
-  const handleLocationClick = () => {
-    getCurrentLocation()
+  useEffect(() => {
     if (location.address) {
       setOwnerProfile({ location: location.address })
     }
+  }, [location.address, setOwnerProfile])
+  const handleLocationClick = () => {
+    getCurrentLocation()
   }
 
   const handleRoleClick = () => {

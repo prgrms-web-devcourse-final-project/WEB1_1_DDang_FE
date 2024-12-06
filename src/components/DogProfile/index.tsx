@@ -23,7 +23,7 @@ export default function DogProfile({ name, gender, profileImg, birthDate, breed,
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>
-        <Profile $size={80} $src={profileImg} />
+        <Profile $size={80} $src={profileImg || ''} />
         <S.DogDetailWrapper>
           <S.TypoWrapper>
             <Typo20 $weight='700'>{name}</Typo20>

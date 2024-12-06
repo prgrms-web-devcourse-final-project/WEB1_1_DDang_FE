@@ -1,29 +1,23 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIRequest, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse, PaginationResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type CreateRegisterRequest = Pick<
-  CommonAPIRequest,
-  'email' | 'provider' | 'name' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
+export type FetchNotificationListRequest = {
+  page: number
+}
 
-export type CreateRegisterResponse = Pick<
-  CommonAPIRequest,
-  'memberId' | 'name' | 'email' | 'provider' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
+export type FetchNotificationListResponse = PaginationResponse & {
+  content: Array<Pick<CommonAPIResponse, 'notificationId' | 'type' | 'content' | 'isRead' | 'memberId' | 'createdAt'>>
+}
 
-export const createRegister = async (req: CreateRegisterRequest): Promise<APIResponse<CreateRegisterResponse>> => {
+export const fetchNotificationList = async (
+  req: FetchNotificationListRequest
+): Promise<APIResponse<FetchNotificationListResponse>> => {
   try {
-    const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>(`/member/join`, req)
-
-    // 토큰 추출 및 저장
-    const accessToken = response.headers['authorization']
-    if (accessToken) {
-      localStorage.setItem('token', accessToken)
-      axiosInstance.defaults.headers.common['Authorization'] = accessToken
-    }
-
-    return response.data
+    const { data } = await axiosInstance.get<APIResponse<FetchNotificationListResponse>>(`/notification/list`, {
+      params: req,
+    })
+    return data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response } = error as AxiosError<ErrorResponse>

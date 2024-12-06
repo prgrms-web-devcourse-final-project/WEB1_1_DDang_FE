@@ -5,4 +5,5 @@ export const queryKey = {
   },
   profile: (memberId: number) => ['profile', memberId],
   home: () => ['homePageData'],
+  notification: () => ['notification'],
 }

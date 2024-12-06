@@ -6,6 +6,6 @@ export const useFetchProfile = (memberId: number): UseSuspenseQueryResult<FetchP
   return useSuspenseQuery<FetchProfileResponse, Error>({
     queryKey: queryKey.profile(memberId),
     queryFn: () => fetchProfile({ memberId }).then(data => data.data),
-    staleTime: 1000 * 60 * 5, // 5분ㅌ
+    staleTime: 1000 * 60 * 5, // 5분
   })
 }

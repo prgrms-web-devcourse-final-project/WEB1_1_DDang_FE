@@ -1,27 +1,22 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 
-const BACKEND_URL = 'https://ddang.shop'
+const serverUrl = import.meta.env.VITE_SERVER_URL
+const BACK_URL = new URL(serverUrl).origin
 
 const SOCIAL_LOGIN_BUTTONS = [
   {
     Component: S.Kakao,
     Icon: S.KakaoIcon,
     text: '카카오계정 로그인',
-    href: `${BACKEND_URL}/oauth2/authorization/kakao`,
+    href: `${BACK_URL}/oauth2/authorization/kakao`,
   },
   {
     Component: S.Google,
     Icon: S.GoogleIcon,
     text: '구글로 로그인',
-    href: `${BACKEND_URL}/oauth2/authorization/google`,
+    href: `${BACK_URL}/oauth2/authorization/google`,
   },
-  // {
-  //   Component: S.Naver,
-  //   Icon: S.NaverIcon,
-  //   text: '네이버로 로그인',
-  //   href: `${BACKEND_URL}/oauth2/authorization/naver`,
-  // },
 ] as const
 
 const TitleSection = () => (
