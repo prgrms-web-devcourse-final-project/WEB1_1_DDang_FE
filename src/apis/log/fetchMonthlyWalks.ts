@@ -2,8 +2,6 @@ import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type MonthlyWalksRequest = void
-
 export type MonthlyWalksResponse = number[]
 
 export const fetchMonthlyWalks = async (): Promise<APIResponse<MonthlyWalksResponse>> => {

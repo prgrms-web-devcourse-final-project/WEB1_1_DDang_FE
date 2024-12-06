@@ -2,8 +2,6 @@ import { AxiosError } from 'axios'
 import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type FamilyYearlyWalksRequest = void
-
 export type FamilyMemberWalk = Pick<CommonAPIResponse, 'memberId' | 'familyRole' | 'name' | 'count'>
 
 export type FamilyYearlyWalksResponse = FamilyMemberWalk[]

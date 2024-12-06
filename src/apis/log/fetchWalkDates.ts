@@ -1,9 +1,6 @@
 import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
-
-export type WalkDatesRequest = void
-
 export interface WalkDatesResponse {
   data: string[]
 }

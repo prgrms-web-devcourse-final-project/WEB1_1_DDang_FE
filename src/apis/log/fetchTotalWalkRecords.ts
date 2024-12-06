@@ -2,8 +2,6 @@ import { AxiosError } from 'axios'
 import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type TotalWalkRecordsRequest = void
-
 export type TotalWalkRecordsResponse = Pick<CommonAPIResponse, 'timeDuration' | 'walkCount' | 'totalDistanceKilo'>
 
 export const fetchTotalWalkRecords = async (): Promise<APIResponse<TotalWalkRecordsResponse>> => {

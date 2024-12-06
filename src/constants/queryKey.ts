@@ -4,6 +4,8 @@ export const queryKey = {
     friendList: () => ['friendList'],
   },
   profile: (memberId: number) => ['profile', memberId],
+  home: () => ['homePageData'],
+  notification: () => ['notification'],
   log: {
     walkDetail: (date: string) => ['walkDetail', date],
     walkDates: () => ['walkDates'],

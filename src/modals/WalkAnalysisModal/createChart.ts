@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import { positionLabelMap } from '~utils/positionLabelMap'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 export function createBarChart(
   svgElement: SVGSVGElement,
@@ -67,7 +67,7 @@ export function createBarChart(
         .append('tspan')
         .attr('x', 0)
         .attr('dy', '12px')
-        .text(`(${positionLabelMap[position as keyof typeof positionLabelMap]})`)
+        .text(`(${FAMILY_ROLE[position as keyof typeof FAMILY_ROLE]})`)
         .style('font-size', '9px')
     })
 
