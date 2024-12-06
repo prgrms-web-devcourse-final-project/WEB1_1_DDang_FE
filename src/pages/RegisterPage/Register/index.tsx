@@ -16,6 +16,7 @@ import { useToastStore } from '~stores/toastStore'
 import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
 import { FamilyRole } from '~types/common'
+import { useEffect } from 'react'
 
 const positionLabelMap: Record<FamilyRole, string> = {
   MOTHER: '엄마',
@@ -63,12 +64,13 @@ export default function Register() {
       showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
     }
   }
-
-  const handleLocationClick = () => {
-    getCurrentLocation()
+  useEffect(() => {
     if (location.address) {
       setOwnerProfile({ location: location.address })
     }
+  }, [location.address, setOwnerProfile])
+  const handleLocationClick = () => {
+    getCurrentLocation()
   }
 
   const handleRoleClick = () => {
