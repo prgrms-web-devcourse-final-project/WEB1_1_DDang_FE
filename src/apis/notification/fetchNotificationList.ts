@@ -1,46 +1,13 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse, PaginationResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
-import { BooleanString } from '~types/common'
 
 export type FetchNotificationListRequest = {
   page: number
 }
 
-export type FetchNotificationListResponse = {
-  size: number
-  content: [
-    {
-      notificationId: number
-      type: string
-      content: string
-      isRead: BooleanString
-      memberId: number
-      createdAt: string
-    },
-  ]
-  number: number
-  sort: {
-    empty: boolean
-    sorted: boolean
-    unsorted: boolean
-  }
-  numberOfElements: number
-  pageable: {
-    offset: number
-    sort: {
-      empty: boolean
-      sorted: boolean
-      unsorted: boolean
-    }
-    pageSize: number
-    paged: boolean
-    pageNumber: number
-    unpaged: boolean
-  }
-  first: boolean
-  last: boolean
-  empty: boolean
+export type FetchNotificationListResponse = PaginationResponse & {
+  content: Array<Pick<CommonAPIResponse, 'notificationId' | 'type' | 'content' | 'isRead' | 'memberId' | 'createdAt'>>
 }
 
 export const fetchNotificationList = async (
