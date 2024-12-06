@@ -1,7 +1,9 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 
-const BACK_URL = import.meta.env.VITE_SERVER_URL_WITHOUT_V1
+const serverUrl = import.meta.env.VITE_SERVER_URL
+const BACK_URL = new URL(serverUrl).origin
+
 const SOCIAL_LOGIN_BUTTONS = [
   {
     Component: S.Kakao,
