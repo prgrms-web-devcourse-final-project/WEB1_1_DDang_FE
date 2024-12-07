@@ -28,7 +28,7 @@ export default function SendMessageForm({ chatRoomId, ...rest }: SendMessageForm
 
   return (
     <S.SendMessageForm onSubmit={onSubmit} {...rest}>
-      <S.ChatInput placeholder='채팅 내용 입력' name='message' />
+      <S.ChatInput placeholder='채팅 내용 입력' name='message' autoFocus />
       <S.SendBtn>
         <Typo14 $weight='700'>전송</Typo14>
       </S.SendBtn>

@@ -27,8 +27,6 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
     },
   })
 
-  console.log(data)
-
   return (
     <S.ChatArea ref={chatAreaRef}>
       <S.ChatMessageList>
