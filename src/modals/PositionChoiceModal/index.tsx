@@ -3,27 +3,14 @@ import { useState } from 'react'
 import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
-import { FamilyRole } from '~types/common'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 interface PositionChoiceModalProps {
   onSelect: (position: string) => void
   initialValue?: string | null
 }
-interface Position {
-  label: string
-  value: FamilyRole
-}
 
-const positions: Position[] = [
-  { label: '엄마', value: 'MOTHER' },
-  { label: '아빠', value: 'FATHER' },
-  { label: '형', value: 'OLDER_BROTHER' },
-  { label: '오빠', value: 'ELDER_BROTHER' },
-  { label: '언니', value: 'ELDER_SISTER' },
-  { label: '누나', value: 'OLDER_SISTER' },
-  { label: '할머니', value: 'GRANDMOTHER' },
-  { label: '할아버지', value: 'GRANDFATHER' },
-]
+const positions = Object.values(FAMILY_ROLE)
 
 export default function PositionChoiceModal({ onSelect, initialValue = 'null' }: PositionChoiceModalProps) {
   const [value, setValue] = useState(initialValue)
@@ -42,12 +29,7 @@ export default function PositionChoiceModal({ onSelect, initialValue = 'null' }:
       <RadioGroup value={value} onChange={e => setValue(e.target.value)}>
         <S.RadioGroupContainer>
           {positions.map(position => (
-            <S.StyledFormControlLabel
-              key={position.value}
-              value={position.value}
-              control={<S.StyledRadio />}
-              label={position.label}
-            />
+            <S.StyledFormControlLabel key={position} value={position} control={<S.StyledRadio />} label={position} />
           ))}
         </S.RadioGroupContainer>
       </RadioGroup>

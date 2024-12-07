@@ -1,7 +1,12 @@
+import { FamilyRole, Gender, Provider } from '~types/common'
+
 export interface OwnerProfileType {
-  avatar: string | undefined
-  nickName: string
-  position: string
-  location: string
-  gender: 'MALE' | 'FEMALE' | null
+  memberId: number
+  name: string
+  email: string
+  provider: Provider
+  gender: Gender
+  address: string
+  familyRole: FamilyRole
+  profileImg: string
 }
