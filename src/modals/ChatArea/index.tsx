@@ -4,12 +4,16 @@ import SendMessageForm from '~components/SendMessageForm'
 import useObserver from '~hooks/useObserver'
 import { useScrollPreservation } from '~hooks/useScrollPreservation'
 import * as S from './styles'
+import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 
 type ChatAreaListProps = {
   chatRoomId: number
 }
 
 export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
+  const {
+    ownerProfile: { memberId },
+  } = useOwnerProfileStore()
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useChatMessageList({ chatRoomId })
   const { elementRef: chatAreaRef, preserveScroll } = useScrollPreservation<HTMLDivElement>({ dependency: [data] })
   const { observerRef } = useObserver<HTMLDivElement>({
@@ -28,7 +32,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
       <S.ChatMessageList>
         {[...data.pages].reverse().map(page =>
           page.data.content.map(chat =>
-            chat.memberInfo.memberId === 15 ? (
+            chat.memberInfo.memberId === memberId ? (
               <OutgoingMessage
                 key={chat.chatId}
                 ref={
