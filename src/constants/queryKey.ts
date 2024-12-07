@@ -6,4 +6,7 @@ export const queryKey = {
   profile: (memberId: number) => ['profile', memberId],
   home: () => ['homePageData'],
   notification: () => ['notification'],
+  dog: {
+    profile: (id: number) => ['dog', 'profile', id],
+  },
 }

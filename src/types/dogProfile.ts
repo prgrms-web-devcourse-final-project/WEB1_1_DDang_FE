@@ -1,6 +1,7 @@
 import { BooleanString, Gender } from './common'
 
 export interface DogProfileType {
+  dogId: number
   name: string
   profileImg: string
   profileImgFile?: File

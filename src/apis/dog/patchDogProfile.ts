@@ -1,24 +1,21 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse, CommonAPIResponse } from '~types/api'
+import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 import { DogProfileType } from '~types/dogProfile'
 
-export type CreateDogProfileRequest = FormData
+export type PatchDogProfileRequest = FormData
 
-export type CreateDogProfileResponse = DogProfileType
+export type PatchDogProfileResponse = DogProfileType
 
 /**
- * 새로운 반려견 프로필을 생성합니다.
+ * 반려견 프로필 정보를 수정합니다.
  */
-export const createDogProfile = async (
-  req: CreateDogProfileRequest
-): Promise<APIResponse<CreateDogProfileResponse>> => {
+export const patchDogProfile = async (
+  id: number,
+  req: PatchDogProfileRequest
+): Promise<APIResponse<PatchDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.post<APIResponse<CreateDogProfileResponse>>('/dogs/create', req, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    const { data } = await axiosInstance.patch<APIResponse<PatchDogProfileResponse>>(`/dogs/${id}`, req)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -38,7 +35,6 @@ export const createDogProfile = async (
         }
       }
 
-      // 요청 자체가 실패한 경우
       throw new Error('네트워크 연결을 확인해주세요')
     }
 
