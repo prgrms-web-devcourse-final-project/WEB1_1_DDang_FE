@@ -211,3 +211,10 @@ export type PaginationResponse = {
   sort: SortInfo
   pageable: PageableInfo
 }
+
+export type Setting = {
+  notificationSettingsId: number
+  memberId: number
+  type: NotificationType
+  isAgreed: BooleanString
+}

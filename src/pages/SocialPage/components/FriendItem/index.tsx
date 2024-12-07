@@ -24,7 +24,7 @@ export default function FriendItem({ gender, name, profileImg, memberId, familyR
           </Typo14>
           <Separator $height={8} />
           <Typo14 $color='font_2' $weight='500'>
-            {FAMILY_ROLE[familyRole]}
+            {FAMILY_ROLE[familyRole as keyof typeof FAMILY_ROLE]}
           </Typo14>
         </S.DetailWrapper>
       </S.TypoWrapper>

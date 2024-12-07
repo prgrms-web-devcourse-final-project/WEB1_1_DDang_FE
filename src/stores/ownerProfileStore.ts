@@ -8,13 +8,14 @@ interface OwnerProfileStore {
 
 export const useOwnerProfileStore = create<OwnerProfileStore>(set => ({
   ownerProfile: {
-    avatar: undefined,
-    nickName: '',
-    position: '',
-    location: '',
-    gender: null,
-    //? 채팅 구현을 위해 임의로 추가한 부분입니다.
     memberId: undefined,
+    name: '',
+    email: '',
+    provider: '',
+    profileImg: '',
+    familyRole: '',
+    address: '',
+    gender: 'MALE',
   },
   setOwnerProfile: profile =>
     set(state => ({
