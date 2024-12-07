@@ -8,6 +8,7 @@ import { ActionButton } from '~components/Button/ActionButton'
 import { deleteMember } from '~apis/myPage/deleteMember'
 import { useNavigate } from 'react-router-dom'
 // import { deleteLogoutMember } from '~apis/logout/deleteLogoutMember'
+import { updateSetting } from '~apis/myPage/updateSetting'
 
 export default function SettingModal() {
   const { popModal } = useModalStore()

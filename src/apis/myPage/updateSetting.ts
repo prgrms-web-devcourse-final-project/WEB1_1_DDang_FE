@@ -1,29 +1,15 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIRequest, ErrorResponse } from '~types/api'
+import { APIResponse, ErrorResponse, Setting } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type CreateRegisterRequest = Pick<
-  CommonAPIRequest,
-  'email' | 'provider' | 'name' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
+export type UpdateSettingRequest = Pick<Setting, 'type' | 'isAgreed'>
 
-export type CreateRegisterResponse = Pick<
-  CommonAPIRequest,
-  'memberId' | 'name' | 'email' | 'provider' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
+export type UpdateSettingResponse = Pick<Setting, 'notificationSettingsId' | 'memberId' | 'type' | 'isAgreed'>
 
-export const createRegister = async (req: CreateRegisterRequest): Promise<APIResponse<CreateRegisterResponse>> => {
+export const updateSetting = async (req: UpdateSettingRequest): Promise<APIResponse<UpdateSettingResponse>> => {
   try {
-    const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>(`/member/join`, req)
-
-    // 토큰 추출 및 저장
-    const accessToken = (response.headers['authorization'] as string).split('Bearer ')[1]
-
-    if (accessToken) {
-      localStorage.setItem('token', accessToken)
-    }
-
-    return response.data
+    const { data } = await axiosInstance.patch<APIResponse<UpdateSettingResponse>>(`/notification-settings/update`, req)
+    return data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response } = error as AxiosError<ErrorResponse>
