@@ -9,6 +9,7 @@ export type UpdateSettingResponse = Pick<Setting, 'notificationSettingsId' | 'me
 export const updateSetting = async (req: UpdateSettingRequest): Promise<APIResponse<UpdateSettingResponse>> => {
   try {
     const { data } = await axiosInstance.patch<APIResponse<UpdateSettingResponse>>(`/notification-settings/update`, req)
+    console.log('알림 상태변경 : ', data.data)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
