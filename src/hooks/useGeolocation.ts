@@ -119,6 +119,5 @@ export const useGeolocation = () => {
       }
     )
   }
-
   return { location, getCurrentLocation }
 }
