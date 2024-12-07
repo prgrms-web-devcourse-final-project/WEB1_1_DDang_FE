@@ -7,4 +7,5 @@ export const FAMILY_ROLE = {
   OLDER_SISTER: '누나',
   GRANDFATHER: '할아버지',
   GRANDMOTHER: '할머니',
+  '': '',
 }

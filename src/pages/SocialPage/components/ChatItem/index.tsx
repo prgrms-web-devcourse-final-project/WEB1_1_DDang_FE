@@ -5,6 +5,7 @@ import { Separator } from '~components/Separator'
 import { Typo11, Typo13, Typo17 } from '~components/Typo'
 import * as S from './styles'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import { UnreadChatCount } from '~components/UnreadChatCount'
 
 type ChatItemProps = FetchChatRoomListResponse[number]
 
@@ -31,9 +32,9 @@ export default function ChatItem({ lastMessage, members, name, unreadMessageCoun
         </S.UserInfoWrapper>
         {lastMessage}
       </S.TypoWrapper>
-      <S.UnreadChatCount>
+      <UnreadChatCount>
         <Typo11>{unreadMessageCount}</Typo11>
-      </S.UnreadChatCount>
+      </UnreadChatCount>
     </S.ChatItem>
   )
 }

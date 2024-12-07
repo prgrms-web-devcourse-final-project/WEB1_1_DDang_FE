@@ -53,6 +53,8 @@ export default function Register() {
         provider: registerData.provider as 'KAKAO' | 'GOOGLE',
       })
       if (response.code === 201) {
+        //? 채팅 구현을 위해 임의로 추가한 부분입니다.
+        setOwnerProfile({ memberId: response.data.memberId })
         pushModal(<RegisterDogPage />)
       }
     } catch (error) {

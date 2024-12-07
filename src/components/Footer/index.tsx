@@ -3,10 +3,11 @@ import { FaRegCalendarCheck } from 'react-icons/fa6'
 import { IoMdPeople } from 'react-icons/io'
 import { IoHomeSharp } from 'react-icons/io5'
 import { MdOutlineFamilyRestroom } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import useChatList from '~apis/chatRoom/useChatList'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
-import { useNavigate } from 'react-router-dom'
 
 const FOOTER_NAV_LIST = [
   { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
@@ -34,6 +35,11 @@ export default function Footer() {
     }
     navigate(endpoint)
   }
+  const { data } = useChatList()
+  let sum = 0
+  data?.forEach(({ unreadMessageCount }) => {
+    sum += unreadMessageCount
+  })
 
   return (
     <S.Footer>
@@ -47,6 +53,7 @@ export default function Footer() {
               handleNavigation(endpoint)
             }}
           >
+            {typo === '소셜' && <S.ChatCount>{sum}</S.ChatCount>}
             <Icon color={theme.colors.brand.default} size={28} />
             <Typo11 $weight='500' $color='font_3'>
               {typo}

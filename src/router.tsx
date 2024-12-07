@@ -2,16 +2,17 @@ import Footer from '~components/Footer'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import * as Pages from './components/LazyComponents'
 import ModalContainer from '~modals/ModalContainer'
+import { WebSocketProvider } from '~/WebSocketContext'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <>
+      <WebSocketProvider>
         <Outlet />
         <Footer />
         <ModalContainer />
-      </>
+      </WebSocketProvider>
     ),
     children: [
       {

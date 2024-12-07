@@ -1,4 +1,5 @@
-import { useSocialData } from '~apis/chatRoom/useSocialData'
+import useChatList from '~apis/chatRoom/useChatList'
+import useFriendList from '~apis/chatRoom/useFriendList'
 import ChatItem from '~pages/SocialPage/components/ChatItem'
 import FriendItem from '~pages/SocialPage/components/FriendItem'
 import { SocialTabs } from '~types/social'
@@ -8,14 +9,26 @@ type FriendChatListProps = {
   selectedTab: SocialTabs
 }
 
-export default function FriendChatList({ selectedTab }: FriendChatListProps) {
-  const { chatList, friendList } = useSocialData()
+function FriendList() {
+  const { data: friendList } = useFriendList()
 
   return (
     <S.FriendChatList>
-      {selectedTab === 'friendList'
-        ? friendList.map(friendInfo => <FriendItem key={friendInfo.memberId} {...friendInfo} />)
-        : chatList.map(chatInfo => <ChatItem key={chatInfo.chatRoomId} {...chatInfo} />)}
+      {friendList?.map(friendInfo => <FriendItem key={friendInfo.memberId} {...friendInfo} />)}
     </S.FriendChatList>
   )
+}
+
+function ChatList() {
+  const { data: chatList } = useChatList()
+
+  return (
+    <S.FriendChatList>
+      {chatList?.map(chatInfo => <ChatItem key={chatInfo.chatRoomId} {...chatInfo} />)}
+    </S.FriendChatList>
+  )
+}
+
+export default function FriendChatList({ selectedTab }: FriendChatListProps) {
+  return selectedTab === 'friendList' ? <FriendList /> : <ChatList />
 }

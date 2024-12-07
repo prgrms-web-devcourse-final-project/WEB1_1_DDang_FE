@@ -132,6 +132,8 @@ export type Chat = TimeStamp & {
   readMessageIds: null
   /** 읽지 않은 메시지 수 @example 3 */
   unreadMessageCount: number
+  /** 현재 가장 오래된 메시지 생성 시간 @example "2024-12-03T08:17:04.717Z" */
+  lastMessageCreatedAt: string
 }
 
 export type Family = {
