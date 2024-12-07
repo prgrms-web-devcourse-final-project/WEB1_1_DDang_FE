@@ -9,6 +9,7 @@ import * as S from './styles'
 import CountSection from '~components/WalkCountArea'
 import { useQuery } from '@tanstack/react-query'
 import DogProfile from '~components/DogProfile'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 export default function MyPage() {
   const { data } = useQuery({
@@ -20,6 +21,8 @@ export default function MyPage() {
   console.log(myPageData)
 
   const { pushModal } = useModalStore()
+  const familyRole = Object.values(FAMILY_ROLE)
+  console.log(familyRole)
 
   const onSettingsClick = () => {
     pushModal(<SettingModal />)
@@ -51,8 +54,10 @@ export default function MyPage() {
               {myPageData?.address} 거주
             </Typo15>
             <S.TypoWrap>
-              <Typo13 $weight='700'>{myPageData?.gender}</Typo13>
-              <Typo13 $weight='700'>{myPageData?.familyRole}</Typo13>
+              <Typo13 $weight='700'>{myPageData?.gender === 'FEMALE' ? '여자' : '남자'}</Typo13>
+              <Typo13 $weight='700'>
+                {myPageData?.familyRole ? FAMILY_ROLE[myPageData.familyRole as keyof typeof FAMILY_ROLE] : ''}
+              </Typo13>
             </S.TypoWrap>
           </S.ProfileText>
         </S.ProfileSection>
