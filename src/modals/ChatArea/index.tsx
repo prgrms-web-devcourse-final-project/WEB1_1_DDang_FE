@@ -26,7 +26,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
       }
     },
   })
-  console.log(data.pages.length === 0)
+  console.log()
   return (
     <S.ChatArea ref={chatAreaRef}>
       <S.ChatMessageList>
@@ -54,7 +54,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
           )
         )}
       </S.ChatMessageList>
-      <SendMessageForm isFirstChat={data.pages.length === 0} chatRoomId={chatRoomId} />
+      <SendMessageForm chatRoomId={chatRoomId} />
     </S.ChatArea>
   )
 }

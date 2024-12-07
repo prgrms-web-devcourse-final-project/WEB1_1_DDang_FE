@@ -1,13 +1,10 @@
 import { Typo14 } from '~components/Typo'
-import * as S from './styles'
-import { createChatRoom } from '~apis/chatRoom/createChatRoom'
 import { CommonAPIResponse } from '~types/api'
+import * as S from './styles'
 
-type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
-  isFirstChat: boolean
-} & Partial<Pick<CommonAPIResponse, 'chatRoomId'>>
+type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & Partial<Pick<CommonAPIResponse, 'chatRoomId'>>
 
-export default function SendMessageForm({ chatRoomId, isFirstChat, ...rest }: SendMessageFormProps) {
+export default function SendMessageForm({ chatRoomId, ...rest }: SendMessageFormProps) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (rest.onSubmit) {
@@ -15,10 +12,6 @@ export default function SendMessageForm({ chatRoomId, isFirstChat, ...rest }: Se
       return
     }
 
-    if (isFirstChat) {
-      //* 채팅방 생성
-      await createChatRoom({ opponentMemberId: 123 })
-    }
     //* 채팅 전송 웹소켓
     console.log('chatRoomId:', chatRoomId)
   }
