@@ -13,6 +13,8 @@ export const useOwnerProfileStore = create<OwnerProfileStore>(set => ({
     position: '',
     location: '',
     gender: null,
+    //? 채팅 구현을 위해 임의로 추가한 부분입니다.
+    memberId: undefined,
   },
   setOwnerProfile: profile =>
     set(state => ({
