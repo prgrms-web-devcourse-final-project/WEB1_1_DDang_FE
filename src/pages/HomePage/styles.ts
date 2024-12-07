@@ -18,7 +18,6 @@ export const Header = styled.header`
 
 export const Visual = styled.div`
   margin-top: 24px;
-  text-align: center;
 `
 export const CharacterWrapper = styled.div`
   margin: 8px auto 0;
@@ -28,12 +27,7 @@ export const CharacterWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
-export const Character = styled.div`
-  width: 148px;
-  height: 148px;
-  background-color: ${({ theme }) => theme.colors.brand.lighten_1};
-  border-radius: 50%;
-`
+
 export const WalkInfoArea = styled(Box)`
   padding: 20px 24px;
 `
@@ -42,8 +36,7 @@ export const WalkInfoWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
-  gap: 6px;
-  padding: 0 6px;
+  gap: 4px;
 `
 export const WalkTime = styled.div`
   display: flex;

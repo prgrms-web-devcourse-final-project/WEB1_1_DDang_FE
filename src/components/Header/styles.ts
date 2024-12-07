@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import CloseButton from '~components/Button/CloseButton'
-import PrevButton from '~components/Button/PrevButton'
+import { CloseBtn } from '~components/Button/CloseBtn'
+import { PrevBtn } from '~components/Button/PrevBtn'
 import { Typo17 } from '~components/Typo'
 import { HEADER_HEIGHT, HEADER_HEIGHT_LG, HEADER_Z_INDEX } from '~constants/layout'
 import { HeaderType } from '~types/headerType'
@@ -24,10 +24,10 @@ export const Header = styled.header<HeaderProps>`
   z-index: ${HEADER_Z_INDEX};
 `
 
-export const HeaderPrevBtn = styled(PrevButton)`
+export const HeaderPrevBtn = styled(PrevBtn)`
   margin-right: 8px;
 `
-export const HeaderCloseBtn = styled(CloseButton)`
+export const HeaderCloseBtn = styled(CloseBtn)`
   position: absolute;
   right: 1.25rem;
 `
