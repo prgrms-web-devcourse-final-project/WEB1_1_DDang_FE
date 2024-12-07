@@ -1,4 +1,4 @@
-import { ChatType, Gender, FamilyRole, DayOfWeek, Provider, BooleanString, Time } from '~types/common'
+import { ChatType, Gender, FamilyRole, DayOfWeek, Provider, BooleanString, Time, NotificationType } from '~types/common'
 
 export type APIResponse<T> = {
   code: number
@@ -13,9 +13,16 @@ export type BasicInfo = {
   /** 이름 @example "홍길동" */
   name: string
   /** 생년월일 @example "1990-01-01" */
-  birthDate: string
+  birthDate?: string
   /** 성별 @example "MALE" */
   gender: Gender
+}
+
+export type TimeStamp = {
+  /** 생성 시간 @example "2024-12-03T08:17:04.717Z" */
+  createdAt: string
+  /** 업데이트 시간 @example "2024-12-03T08:17:04.717Z" */
+  updatedAt: string
 }
 
 export type Dog = BasicInfo & {
@@ -106,7 +113,7 @@ export type Walk = {
   totalDistanceInKilometers: number
 }
 
-export type Chat = {
+export type Chat = TimeStamp & {
   /** 채팅 ID @example 123 */
   chatId: number
   /** 채팅방 ID @example 3 */
@@ -123,10 +130,6 @@ export type Chat = {
   readMessageIds: null
   /** 읽지 않은 메시지 수 @example 3 */
   unreadMessageCount: number
-  /** 생성 시간 @example "2024-12-03T08:17:04.717Z" */
-  createdAt: string
-  /** 업데이트 시간 @example "2024-12-03T08:17:04.717Z" */
-  updatedAt: string
 }
 
 export type Family = {
@@ -147,6 +150,12 @@ export type CommonAPIRequest = Member &
     totalWalkTimeSecond: number
   }
 
+export type Notification = TimeStamp & {
+  notificationId: number
+  type: NotificationType
+  content: string
+}
+
 export type CommonAPIResponse = BasicInfo &
   Member &
   Chat &
@@ -154,7 +163,8 @@ export type CommonAPIResponse = BasicInfo &
   Walk &
   Position &
   Dog &
-  OtherDog & {
+  OtherDog &
+  Notification & {
     dog: Dog
     dogs: Dog[]
     dogWalkCount: number
@@ -172,3 +182,30 @@ export type CommonAPIResponse = BasicInfo &
     positionList: Position[]
     memberEmail: string
   }
+
+//* Pagination 관련
+export type SortInfo = {
+  empty: boolean
+  sorted: boolean
+  unsorted: boolean
+}
+
+export type PageableInfo = {
+  offset: number
+  sort: SortInfo
+  pageSize: number
+  paged: boolean
+  pageNumber: number
+  unpaged: boolean
+}
+
+export type PaginationResponse = {
+  size: number
+  number: number
+  numberOfElements: number
+  first: boolean
+  last: boolean
+  empty: boolean
+  sort: SortInfo
+  pageable: PageableInfo
+}

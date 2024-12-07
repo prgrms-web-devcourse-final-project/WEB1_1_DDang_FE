@@ -2,7 +2,6 @@ import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import AddOwnerAvatar from '~assets/add-dog-picture.svg'
 import GenderSelectButton from '~components/GenderSelectButton'
-import { useEffect } from 'react'
 import { Input } from '~components/Input'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
@@ -14,35 +13,68 @@ import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import RegisterDogPage from '~pages/RegisterPage/Dog'
 import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
+import { useSearchParams } from 'react-router-dom'
+import { createRegister } from '~apis/register/createRegister'
+import { FamilyRole } from '~types/common'
+import { useEffect } from 'react'
+
+const positionLabelMap: Record<FamilyRole, string> = {
+  MOTHER: '엄마',
+  FATHER: '아빠',
+  OLDER_BROTHER: '형',
+  ELDER_BROTHER: '오빠',
+  ELDER_SISTER: '언니',
+  OLDER_SISTER: '누나',
+  GRANDFATHER: '할아버지',
+  GRANDMOTHER: '할머니',
+}
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
   const { location, getCurrentLocation } = useGeolocation()
   const pushModal = useModalStore(state => state.pushModal)
   const { showToast } = useToastStore()
+  const [searchParams] = useSearchParams()
+  const email = searchParams.get('email') || ''
+  const provider = searchParams.get('provider') || ''
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     const alertMessage = validateOwnerProfile(ownerProfile)
-    console.log('예외처리 확인 콘솔 : ', {
-      alertMessage,
-      ownerProfile,
-    })
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    pushModal(<RegisterDogPage />)
-  }
 
-  const handleLocationClick = () => {
-    getCurrentLocation()
-  }
+    try {
+      const registerData = {
+        email,
+        provider,
+        name: ownerProfile.nickName,
+        gender: ownerProfile.gender as 'MALE' | 'FEMALE',
+        address: ownerProfile.location,
+        familyRole: ownerProfile.position as FamilyRole,
+        profileImg: ownerProfile.avatar || '',
+      }
 
+      const response = await createRegister({
+        ...registerData,
+        provider: registerData.provider as 'KAKAO' | 'NAVER' | 'GOOGLE',
+      })
+      if (response.code === 201) {
+        pushModal(<RegisterDogPage />)
+      }
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
+    }
+  }
   useEffect(() => {
     if (location.address) {
       setOwnerProfile({ location: location.address })
     }
-  }, [location])
+  }, [location.address, setOwnerProfile])
+  const handleLocationClick = () => {
+    getCurrentLocation()
+  }
 
   const handleRoleClick = () => {
     pushModal(
@@ -59,7 +91,7 @@ export default function Register() {
     )
   }
 
-  const handleGenderSelect = (gender: 'male' | 'female') => {
+  const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
     setOwnerProfile({ gender })
   }
 
@@ -94,21 +126,21 @@ export default function Register() {
           />
         </S.NickNameWrapper>
         <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!ownerProfile.position}>
-          {ownerProfile.position || '가족 포지션 선택'}
+          {ownerProfile.position ? positionLabelMap[ownerProfile.position as FamilyRole] : '가족 포지션 선택'}
         </S.PositionChoiceBtn>
         <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!ownerProfile.location}>
           {ownerProfile.location || '내 동네 불러오기'}
         </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
-            gender='male'
-            isActive={ownerProfile.gender === 'male'}
-            onClick={() => handleGenderSelect('male')}
+            gender='MALE'
+            isActive={ownerProfile.gender === 'MALE'}
+            onClick={() => handleGenderSelect('MALE')}
           />
           <GenderSelectButton
-            gender='female'
-            isActive={ownerProfile.gender === 'female'}
-            onClick={() => handleGenderSelect('female')}
+            gender='FEMALE'
+            isActive={ownerProfile.gender === 'FEMALE'}
+            onClick={() => handleGenderSelect('FEMALE')}
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>

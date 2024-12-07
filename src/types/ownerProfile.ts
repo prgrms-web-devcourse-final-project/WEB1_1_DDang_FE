@@ -3,5 +3,5 @@ export interface OwnerProfileType {
   nickName: string
   position: string
   location: string
-  gender: 'male' | 'female' | null
+  gender: 'MALE' | 'FEMALE' | null
 }

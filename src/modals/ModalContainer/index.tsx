@@ -6,19 +6,18 @@ export default function ModalContainer() {
   const { modalList, popModal } = useModalStore()
 
   useEffect(() => {
+    const preventBack = () => {
+      window.history.pushState(null, '', window.location.href)
+      popModal()
+      return true
+    }
+
     if (modalList.length > 0) {
-      window.history.pushState({ modal: true }, '', window.location.href)
+      window.history.pushState(null, '', window.location.href)
+      window.addEventListener('popstate', preventBack)
     }
-
-    const handlePopState = (e: PopStateEvent) => {
-      if (e.state && e.state.modal) {
-        popModal()
-      }
-    }
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [modalList, popModal])
+    return () => window.removeEventListener('popstate', preventBack)
+  }, [modalList])
 
   return <>{modalList.length ? <S.ModalWrapper>{...modalList}</S.ModalWrapper> : null}</>
 }

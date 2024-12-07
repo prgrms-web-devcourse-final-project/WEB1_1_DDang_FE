@@ -6,11 +6,20 @@ import CountSection from '~components/WalkCountArea'
 import { Avatar10, Avatar3 } from '~assets/avatars'
 import Profile from '~components/Profile'
 import DogProfile from '~components/DogProfile'
+import { useQuery } from '@tanstack/react-query'
+import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
+import { APIResponse } from '~types/api'
 import { useModalStore } from '~stores/modalStore'
 import { useTheme } from 'styled-components'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 
 export default function FamilyDDang() {
+  const { data } = useQuery<APIResponse<FetchMypageResponse>>({
+    queryKey: ['myPage'],
+    queryFn: fetchMypage,
+  })
+  const dogInfo = data?.data?.dog
+
   const { pushModal, popModal } = useModalStore()
 
   const onClickCodeShare = () => {
@@ -24,9 +33,19 @@ export default function FamilyDDang() {
           <MdOutlineEditLocation cursor='pointer' size={28} />
         </S.IconWrapper>
       </S.Header>
-      {/* 데이터 바인딩 시 props 넣어주세요 */}
-      <DogProfile name={''} gender={'MALE'} profileImg={''} birthDate={''} breed={''} comment={''} />
 
+      {dogInfo && (
+        <DogProfile
+          name={dogInfo.name}
+          gender={dogInfo.gender}
+          profileImg={dogInfo.profileImg}
+          birthDate={dogInfo.birthDate}
+          breed={dogInfo.breed}
+          comment={dogInfo.comment}
+          isNeutered={dogInfo.isNeutered}
+          weight={dogInfo.weight}
+        />
+      )}
       <S.FamilySection>
         <S.ProfileOneArea>
           <Profile $size={64} $src={Avatar10} userId={1} />
