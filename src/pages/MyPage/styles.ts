@@ -48,7 +48,7 @@ export const SettingIcon = styled.div`
 
 export const ProfileSection = styled.div`
   width: 100%;
-  height: 17.8125rem;
+  height: 19rem;
   flex-shrink: 0;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   border-radius: 1rem;
@@ -57,8 +57,8 @@ export const ProfileSection = styled.div`
 `
 
 export const ProfileArea = styled.div`
-  width: 8.75rem;
-  height: 8.75rem;
+  width: 11rem;
+  height: 10rem;
   flex-shrink: 0;
   margin: 1.5rem auto;
   display: flex;
