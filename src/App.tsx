@@ -18,10 +18,11 @@ function App() {
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
   return (
     <>
-      <WebSocketProvider>
-        <HelmetProvider>
-          <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
+      {' '}
+      <QueryClientProvider client={queryClient}>
+        <WebSocketProvider>
+          <HelmetProvider>
+            <ThemeProvider theme={theme}>
               <Helmet>
                 <title>DDang</title>
                 <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
@@ -37,10 +38,10 @@ function App() {
               </MobileContainer>
               <PWABadge />
               <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </ThemeProvider>
-        </HelmetProvider>
-      </WebSocketProvider>
+            </ThemeProvider>
+          </HelmetProvider>
+        </WebSocketProvider>{' '}
+      </QueryClientProvider>
     </>
   )
 }

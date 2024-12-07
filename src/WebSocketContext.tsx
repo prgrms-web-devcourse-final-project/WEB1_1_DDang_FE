@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
+import { InfiniteData, useQueryClient } from '@tanstack/react-query'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import SockJS from 'sockjs-client'
+import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
+import { queryKey } from '~constants/queryKey'
+import { APIResponse, CommonAPIResponse } from '~types/api'
 
 interface WebSocketContextType {
   client: Client | null
@@ -11,12 +15,14 @@ interface WebSocketContextType {
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null)
 
+const token = localStorage.getItem('token')
+
 export const WebSocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = useQueryClient()
   const [client, setClient] = useState<Client | null>(null)
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
     const SERVER_URL = 'https://ddang.shop/ws'
 
     const socket = new SockJS(SERVER_URL)
@@ -62,9 +68,105 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
       client.publish({
         destination,
         body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
     }
   }
+
+  useEffect(() => {
+    //todo 유저 이메일 넣기
+    const email = ''
+    if (isConnected) {
+      console.log('구독!')
+      subscribe(`/user/queue/errors`, message => {
+        console.log('에러 구독')
+        const response = JSON.parse(message.body)
+        console.log(response)
+      })
+
+      subscribe(`/sub/message/${email}`, message => {
+        console.log('이메일 구독')
+        const response = JSON.parse(message.body) as {
+          data: {
+            chatRoomId: number
+            unreadCount: number
+          }[]
+        }
+        response.data.forEach(chatRoom => {
+          subscribe(`/sub/chat/${chatRoom.chatRoomId}`, message => {
+            console.log('채팅방 구독')
+            const res = JSON.parse(message.body) as APIResponse<
+              Pick<
+                CommonAPIResponse,
+                'chatId' | 'createdAt' | 'updatedAt' | 'chatRoomId' | 'memberInfo' | 'isRead' | 'text'
+              >
+            >
+            console.log(res)
+            queryClient.setQueryData<InfiniteData<APIResponse<FetchChatMessageListResponse>>>(
+              queryKey.social.chatMessageList(res.data.chatRoomId),
+              oldData => {
+                if (!oldData) {
+                  const initialPage: APIResponse<FetchChatMessageListResponse> = {
+                    code: 200,
+                    status: 'OK',
+                    message: 'Success',
+                    data: {
+                      content: [res.data],
+                      size: 1,
+                      number: 0,
+                      numberOfElements: 1,
+                      first: true,
+                      last: true,
+                      empty: false,
+                      sort: {
+                        empty: true,
+                        sorted: false,
+                        unsorted: true,
+                      },
+                      pageable: {
+                        offset: 0,
+                        sort: {
+                          empty: true,
+                          sorted: false,
+                          unsorted: true,
+                        },
+                        pageSize: 1,
+                        paged: true,
+                        pageNumber: 0,
+                        unpaged: false,
+                      },
+                    },
+                  }
+                  return {
+                    pages: [initialPage],
+                    pageParams: [null],
+                  }
+                }
+                return {
+                  ...oldData,
+                  pages: oldData.pages.map((page, index) => {
+                    if (index === 0) {
+                      return {
+                        ...page,
+                        data: {
+                          ...page.data,
+                          content: [...page.data.content, res.data],
+                          numberOfElements: page.data.numberOfElements + 1,
+                        },
+                      }
+                    }
+                    return page
+                  }),
+                }
+              }
+            )
+          })
+        })
+      })
+    }
+  }, [isConnected])
 
   return (
     <WebSocketContext.Provider value={{ client, isConnected, subscribe, publish }}>
