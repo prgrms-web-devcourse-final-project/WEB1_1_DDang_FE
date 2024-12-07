@@ -1,6 +1,5 @@
 import * as S from './styles.ts'
 import { useModalStore } from '~stores/modalStore.ts'
-import { useTheme } from 'styled-components'
 import { Typo17, Typo24, Typo15 } from '~components/Typo/index.ts'
 import Header from '~components/Header/index.tsx'
 import DogImage from '~assets/dog_standup.svg?react'
@@ -25,7 +24,7 @@ export default function ShareCodeModal() {
       <S.CodeShareSection>
         <S.CodeShareButtonWrapper>
           <S.CodeShareButton>
-            <Typo15 $weight='700' >초대 코드 복사</Typo15>
+            <Typo15 $weight='700'>초대 코드 복사</Typo15>
           </S.CodeShareButton>
         </S.CodeShareButtonWrapper>
       </S.CodeShareSection>

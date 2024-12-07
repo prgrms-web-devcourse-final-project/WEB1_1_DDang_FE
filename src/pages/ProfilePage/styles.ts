@@ -3,7 +3,7 @@ import { Box } from '~components/Box'
 import DefaultHeader from '~components/Header'
 import { Typo13, Typo15, Typo24 } from '~components/Typo'
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from '~constants/layout'
-import DogFood from '~assets?/dog_food.svg'
+import DogFood from '~/assets/dog_food.svg'
 
 export const ProfilePage = styled.div`
   padding: ${HEADER_HEIGHT}px 20px ${FOOTER_HEIGHT + 20}px 20px;

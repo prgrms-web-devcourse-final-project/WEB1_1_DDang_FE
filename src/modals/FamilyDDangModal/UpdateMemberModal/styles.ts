@@ -1,5 +1,7 @@
 import { FontWeight, styled } from 'styled-components'
 
+export const UpdateMemberModal = styled.div``
+
 export const RegisterPage = styled.div`
   height: 100dvh;
   display: flex;

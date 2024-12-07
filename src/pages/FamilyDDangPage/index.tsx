@@ -10,7 +10,6 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
 import { APIResponse } from '~types/api'
 import { useModalStore } from '~stores/modalStore'
-import { useTheme } from 'styled-components'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 
 export default function FamilyDDang() {
@@ -20,7 +19,7 @@ export default function FamilyDDang() {
   })
   const dogInfo = data?.data?.dog
 
-  const { pushModal, popModal } = useModalStore()
+  const { pushModal } = useModalStore()
 
   const onClickCodeShare = () => {
     pushModal(<ShareCodeModal />)
