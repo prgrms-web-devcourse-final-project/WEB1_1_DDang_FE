@@ -8,11 +8,14 @@ interface OwnerProfileStore {
 
 export const useOwnerProfileStore = create<OwnerProfileStore>(set => ({
   ownerProfile: {
-    avatar: undefined,
-    nickName: '',
-    position: '',
-    location: '',
-    gender: null,
+    memberId: undefined,
+    name: '',
+    email: '',
+    provider: '',
+    profileImg: '',
+    familyRole: '',
+    address: '',
+    gender: 'MALE',
   },
   setOwnerProfile: profile =>
     set(state => ({

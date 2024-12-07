@@ -1,7 +1,7 @@
 import { FamilyRole, Gender, Provider } from '~types/common'
 
 export interface OwnerProfileType {
-  memberId: number
+  memberId?: number
   name: string
   email: string
   provider: Provider
