@@ -15,7 +15,11 @@ export const patchDogProfile = async (
   req: PatchDogProfileRequest
 ): Promise<APIResponse<PatchDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.patch<APIResponse<PatchDogProfileResponse>>(`/dogs/${id}`, req)
+    const { data } = await axiosInstance.patch<APIResponse<PatchDogProfileResponse>>(`/dogs/${id}`, req, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     return data
   } catch (error) {
     if (error instanceof AxiosError) {

@@ -17,4 +17,5 @@ export const queryKey = {
     totalWalks: () => ['totalWalks'],
     currentMonthWalks: () => ['currentMonthWalks'],
   },
+  myPage: () => ['myPage'],
 }

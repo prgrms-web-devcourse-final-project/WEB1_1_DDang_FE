@@ -1,44 +1,65 @@
 import { useState, useEffect } from 'react'
-import { Typo24 } from '~components/Typo/index'
-import * as S from './styles'
-import { useModalStore } from '~stores/modalStore'
-import SearchModal from '~modals/SearchModal/index'
-import { useToastStore } from '~stores/toastStore'
-import Header from '~components/Header/index'
-import { validateDogProfile, validateDogDetailProfile } from '~utils/validateDogProfile'
+import { usePatchDogProfile } from '~apis/dog/useDogProfile'
+import Check from '~assets/is-neutered-check.svg'
+import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton/index'
+import Header from '~components/Header/index'
 import TwoLineInput from '~components/Input/TwoLineInput/index'
 import Toast from '~components/Toast/index'
-import { ActionButton } from '~components/Button/ActionButton'
-import Check from '~assets/is-neutered-check.svg'
-import DogImageUploader from './DogImageUploader'
+import { Typo24 } from '~components/Typo/index'
 import DatePickerModal from '~modals/DatePickerModal/index'
+import SearchModal from '~modals/SearchModal/index'
+import { useModalStore } from '~stores/modalStore'
+import { useToastStore } from '~stores/toastStore'
 import { dateToString, stringToDate } from '~utils/dateFormat'
+import { validateDogDetailProfile, validateDogProfile } from '~utils/validateDogProfile'
+import DogImageUploader from './DogImageUploader'
+import * as S from './styles'
+import { useMyPage } from '~apis/myPage/useMyPage'
 import { DogProfileType } from '~types/dogProfile'
-// import { patchDogProfile } from '~apis/dog/patchDogProfile'
-import { usePatchDogProfile } from '~apis/dog/useDogProfile'
 
-interface EditDogProfileProps {
-  initialDogProfile: DogProfileType
+interface EditDogProfileModalProps {
+  dogId: number
 }
 
-export default function EditDogProfileModal({ initialDogProfile }: EditDogProfileProps) {
+export default function EditDogProfileModal({ dogId }: EditDogProfileModalProps) {
+  const { data, refetch } = useMyPage()
+  const [dogProfile, setDogProfile] = useState<DogProfileType | null>(null)
+  const patchDogProfileMutation = usePatchDogProfile(dogId)
   const { popModal, pushModal } = useModalStore()
   const { showToast } = useToastStore()
-
-  const [dogProfile, setDogProfile] = useState<DogProfileType>(initialDogProfile)
-  const [displayValue, setDisplayValue] = useState(initialDogProfile.weight + 'kg')
+  const [displayValue, setDisplayValue] = useState('')
   const [inputType, setInputType] = useState('text')
-  const patchDogProfileMutation = usePatchDogProfile(dogProfile.dogId)
+
+  useEffect(() => {
+    if (data?.dog) {
+      setDogProfile(data.dog)
+      setDisplayValue(data.dog.weight ? `${data.dog.weight}kg` : '')
+    } else refetch()
+  }, [data])
+
+  if (!dogProfile) {
+    return null
+  }
+
+  const updateDogProfile = (update: Partial<DogProfileType>) => {
+    setDogProfile(prev => {
+      if (!prev) return null
+      return {
+        ...prev,
+        ...update,
+      } as DogProfileType
+    })
+  }
 
   const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
-    setDogProfile(prev => ({ ...prev, gender }))
+    updateDogProfile({ gender })
   }
 
   const onChangeWeightInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value === '') {
-      setDogProfile(prev => ({ ...prev, weight: 0 }))
+      updateDogProfile({ weight: undefined })
       setDisplayValue('')
       return
     }
@@ -46,7 +67,7 @@ export default function EditDogProfileModal({ initialDogProfile }: EditDogProfil
     if (/^\d*\.?\d*$/.test(value)) {
       const formatted = value.includes('.') ? value.match(/^\d*\.?\d{0,2}/)![0] : value
 
-      setDogProfile(prev => ({ ...prev, weight: Number(formatted) }))
+      updateDogProfile({ weight: Number(formatted) })
       setDisplayValue(inputType === 'number' ? formatted : `${formatted}kg`)
     }
   }
@@ -67,18 +88,18 @@ export default function EditDogProfileModal({ initialDogProfile }: EditDogProfil
     pushModal(
       <DatePickerModal
         date={dogProfile.birthDate ? stringToDate(dogProfile.birthDate) : new Date()}
-        setDate={date => setDogProfile(prev => ({ ...prev, birthDate: dateToString(date) }))}
+        setDate={date => updateDogProfile({ birthDate: dateToString(date) })}
       />
     )
   }
 
   const handleComfirmClick = async () => {
-    let alertMessage = validateDogProfile(dogProfile)
+    let alertMessage = validateDogProfile(dogProfile!)
     if (alertMessage) {
       showToast(alertMessage)
       return
     }
-    alertMessage = validateDogDetailProfile(dogProfile)
+    alertMessage = validateDogDetailProfile(dogProfile!)
     if (alertMessage) {
       showToast(alertMessage)
       return
@@ -108,22 +129,24 @@ export default function EditDogProfileModal({ initialDogProfile }: EditDogProfil
         </Typo24>
       </S.TypoWrapper>
       <DogImageUploader
-        image={dogProfile.profileImg}
+        image={dogProfile?.profileImg}
         setImage={({ profileImg, profileImgFile }) =>
-          setDogProfile(prev => ({
-            ...prev,
+          updateDogProfile({
             profileImg,
             profileImgFile,
-          }))
+          })
         }
       />
       <S.InputArea>
         <S.NameInput
           placeholder='이름 입력'
           value={dogProfile.name}
-          onChange={e => setDogProfile(prev => ({ ...prev, name: e.target.value }))}
+          onChange={e => updateDogProfile({ name: e.target.value })}
         />
-        <S.PickerBtn onClick={() => pushModal(<SearchModal />)} $hasBreed={!!dogProfile.breed}>
+        <S.PickerBtn
+          onClick={() => pushModal(<SearchModal setDogProfile={update => updateDogProfile(update)} />)}
+          $hasBreed={!!dogProfile.breed}
+        >
           {dogProfile.breed || '견종 입력'}
         </S.PickerBtn>
         <S.DatePickerBtn onClick={handleDatePickerOpen} $hasBirth={!!dogProfile.birthDate}>
@@ -153,9 +176,7 @@ export default function EditDogProfileModal({ initialDogProfile }: EditDogProfil
           />
         </S.GenderSelectBtnWrapper>
         <S.CheckboxWrapper
-          onClick={() =>
-            setDogProfile(prev => ({ ...prev, isNeutered: dogProfile.isNeutered == 'TRUE' ? 'FALSE' : 'TRUE' }))
-          }
+          onClick={() => updateDogProfile({ isNeutered: dogProfile.isNeutered == 'TRUE' ? 'FALSE' : 'TRUE' })}
         >
           <S.CheckboxCircle $isChecked={dogProfile.isNeutered == 'TRUE'}>
             {dogProfile.isNeutered == 'TRUE' && <img src={Check} alt='check'></img>}
@@ -167,7 +188,7 @@ export default function EditDogProfileModal({ initialDogProfile }: EditDogProfil
         <TwoLineInput
           placeholder='한줄 소개 입력'
           value={dogProfile.comment}
-          onChange={e => setDogProfile(prev => ({ ...prev, comment: e.target.value }))}
+          onChange={e => updateDogProfile({ comment: e.target.value })}
         >
           한줄 소개 입력
         </TwoLineInput>

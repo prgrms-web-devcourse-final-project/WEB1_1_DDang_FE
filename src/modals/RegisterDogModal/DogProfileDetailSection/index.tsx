@@ -108,7 +108,10 @@ export default function DogProfileDetailSection() {
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>
-          <S.PickerBtn onClick={() => pushModal(<SearchModal />)} $hasBreed={!!dogProfile.breed}>
+          <S.PickerBtn
+            onClick={() => pushModal(<SearchModal setDogProfile={setDogProfile} />)}
+            $hasBreed={!!dogProfile.breed}
+          >
             {dogProfile.breed || '견종 입력'}
           </S.PickerBtn>
           <S.WeightInput

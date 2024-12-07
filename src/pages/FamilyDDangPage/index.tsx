@@ -6,20 +6,20 @@ import CountSection from '~components/WalkCountArea'
 import { Avatar10, Avatar3 } from '~assets/avatars'
 import Profile from '~components/Profile'
 import DogProfile from '~components/DogProfile'
-import { useQuery } from '@tanstack/react-query'
-import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
-import { APIResponse } from '~types/api'
 import { useModalStore } from '~stores/modalStore'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
+import { useMyPage } from '~apis/myPage/useMyPage'
+import { useEffect } from 'react'
 
 export default function FamilyDDang() {
-  const { data } = useQuery<APIResponse<FetchMypageResponse>>({
-    queryKey: ['myPage'],
-    queryFn: fetchMypage,
-  })
-  const dogInfo = data?.data?.dog
+  const { data, refetch } = useMyPage()
+  const dogInfo = data?.dog
 
-  const { pushModal } = useModalStore()
+  const { pushModal, modalList } = useModalStore()
+
+  useEffect(() => {
+    refetch()
+  }, [modalList])
 
   const onClickCodeShare = () => {
     pushModal(<ShareCodeModal />)

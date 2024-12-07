@@ -3,26 +3,21 @@ import { Typo13, Typo15, Typo20 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 import Profile from '~components/Profile'
 import { DogProfileType } from '~types/dogProfile'
-import { stringToDate } from '~utils/dateFormat'
+import { MdOutlineModeEdit } from 'react-icons/md'
+import { useModalStore } from '~stores/modalStore'
+import EditDogProfileModal from '~modals/EditDogProfileModal'
+import { calculateAge } from '~utils/calculateAge'
 
-//날짜 계산 로직
-const calculateAge = (birthDate?: Date): number => {
-  if (!birthDate) return 0
-  const today = new Date()
-  const birth = new Date(birthDate)
-  let age = today.getFullYear() - birth.getFullYear()
-  const monthDiff = today.getMonth() - birth.getMonth()
-
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-    age--
-  }
-  return age
-}
-export default function DogProfile({ name, gender, profileImg, birthDate, breed, comment }: DogProfileType) {
-  const age = calculateAge(stringToDate(birthDate!))
+export default function DogProfile({ ...dogInfo }: DogProfileType) {
+  const { dogId, name, gender, profileImg, birthDate, breed, comment } = dogInfo
+  const age = calculateAge(birthDate!)
+  const { pushModal } = useModalStore()
   return (
     <S.DogInfoArea>
       <S.DogInfoWrapper>
+        <S.EditIconWrapper onClick={() => pushModal(<EditDogProfileModal dogId={dogId} />)}>
+          <MdOutlineModeEdit size={20} />
+        </S.EditIconWrapper>
         <Profile $size={80} $src={profileImg || ''} />
         <S.DogDetailWrapper>
           <S.TypoWrapper>
@@ -35,7 +30,6 @@ export default function DogProfile({ name, gender, profileImg, birthDate, breed,
           </S.TypoWrapper>
         </S.DogDetailWrapper>
       </S.DogInfoWrapper>
-
       <S.OneLineIntro>
         <Typo15 $weight='700' $color='default'>
           우리 댕댕이를 소개해요!

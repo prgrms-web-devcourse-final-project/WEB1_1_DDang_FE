@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createDogProfile } from '~apis/dog/createDogProfile'
 import { useNavigate } from 'react-router-dom'
 import { useModalStore } from '~stores/modalStore'

@@ -6,7 +6,6 @@ import addDogProfile from '~assets/add-dog-profile.svg'
 import addFamilycode from '~assets/add-family-code.svg'
 import DogProfileSection from '~modals/RegisterDogModal/DogProfileSection'
 import FamilyCodeSection from '~modals/RegisterDogModal/FamilyCodeSection'
-import EditDogProfile from '~modals/EditDogProfileModal'
 
 export default function RegisterDogPage() {
   return (
@@ -26,7 +25,7 @@ export default function RegisterDogPage() {
           title='반려견 프로필 추가하기'
           description='반려견 프로필을 추가해보세요'
           src={addDogProfile}
-          modal={<EditDogProfile />}
+          modal={<DogProfileSection />}
         />
         <SelectSectionButton
           title='가족 반려견 등록하기'
