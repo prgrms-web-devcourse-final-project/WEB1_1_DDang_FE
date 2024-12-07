@@ -27,12 +27,14 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
     },
   })
 
+  console.log(data)
+
   return (
     <S.ChatArea ref={chatAreaRef}>
       <S.ChatMessageList>
         {[...data.pages].reverse().map(page =>
           page.data.content.map(chat =>
-            chat.memberInfo.memberId === memberId ? (
+            chat.memberInfo?.memberId === memberId ? (
               <OutgoingMessage
                 key={chat.chatId}
                 ref={

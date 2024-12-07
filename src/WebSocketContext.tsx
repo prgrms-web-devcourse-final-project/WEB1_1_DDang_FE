@@ -3,8 +3,8 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import SockJS from 'sockjs-client'
 import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
+import { useHomePageData } from '~apis/main/useHomePageData'
 import { queryKey } from '~constants/queryKey'
-import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 import { APIResponse, CommonAPIResponse } from '~types/api'
 
 interface WebSocketContextType {
@@ -20,8 +20,8 @@ const token = localStorage.getItem('token')
 
 export const WebSocketProvider = ({ children }: { children: React.ReactNode }) => {
   const {
-    ownerProfile: { email },
-  } = useOwnerProfileStore()
+    data: { email },
+  } = useHomePageData()
   const queryClient = useQueryClient()
   const [client, setClient] = useState<Client | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -80,7 +80,6 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
   }
 
   useEffect(() => {
-    //todo 유저 이메일 넣기
     if (isConnected) {
       console.log('구독!')
       subscribe(`/user/queue/errors`, message => {
