@@ -4,21 +4,18 @@ import { RadioGroup } from '@mui/material'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import { FamilyRole } from '~types/common'
 
-interface PositionChoiceModalProps {
-  onSelect: (position: string) => void
-  initialValue?: string | null
-}
+const familyRoles = Object.values(FAMILY_ROLE)
+type FamilyRoleChoiceModalProps = { onSelectRole: (role: FamilyRole) => void; initialRole: FamilyRole }
 
-const positions = Object.values(FAMILY_ROLE)
-
-export default function PositionChoiceModal({ onSelect, initialValue = 'null' }: PositionChoiceModalProps) {
-  const [value, setValue] = useState(initialValue)
+export default function FamilyRoleChoiceModal({ onSelectRole, initialRole }: FamilyRoleChoiceModalProps) {
+  const [selectedFamilyRole, setSelectedFamilyRole] = useState<FamilyRole>(initialRole)
   const { popModal } = useModalStore()
 
   const handleConfirm = () => {
-    if (value !== null) {
-      onSelect(value)
+    if (selectedFamilyRole !== null) {
+      onSelectRole(selectedFamilyRole)
       popModal()
     }
   }
@@ -26,17 +23,17 @@ export default function PositionChoiceModal({ onSelect, initialValue = 'null' }:
   return (
     <S.DialogContainer open={true} onClose={popModal}>
       <S.DialogTitle>가족 포지션 선택</S.DialogTitle>
-      <RadioGroup value={value} onChange={e => setValue(e.target.value)}>
+      <RadioGroup value={selectedFamilyRole} onChange={e => setSelectedFamilyRole(e.target.value as FamilyRole)}>
         <S.RadioGroupContainer>
-          {positions.map(position => (
-            <S.StyledFormControlLabel key={position} value={position} control={<S.StyledRadio />} label={position} />
+          {familyRoles.map(role => (
+            <S.StyledFormControlLabel key={role} value={role} control={<S.StyledRadio />} label={role} />
           ))}
         </S.RadioGroupContainer>
       </RadioGroup>
 
       <S.ButtonContainer>
         <ActionButton onClick={popModal}>취소</ActionButton>
-        <ActionButton onClick={handleConfirm} disabled={!value} $fontWeight='700'>
+        <ActionButton onClick={handleConfirm} disabled={!selectedFamilyRole} $fontWeight='700'>
           확인
         </ActionButton>
       </S.ButtonContainer>

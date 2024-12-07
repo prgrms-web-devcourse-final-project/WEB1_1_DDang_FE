@@ -6,7 +6,7 @@ import { Input } from '~components/Input'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
-import PositionChoiceModal from '~modals/PositionChoiceModal'
+import FamilyRoleChoiceModal from '~modals/PositionChoiceModal'
 import { useGeolocation } from '~hooks/useGeolocation'
 import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 import { validateOwnerProfile } from '~utils/validateOwnerProfile'
@@ -17,17 +17,6 @@ import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
 import { FamilyRole } from '~types/common'
 import { useEffect } from 'react'
-
-const positionLabelMap: Record<FamilyRole, string> = {
-  MOTHER: '엄마',
-  FATHER: '아빠',
-  OLDER_BROTHER: '형',
-  ELDER_BROTHER: '오빠',
-  ELDER_SISTER: '언니',
-  OLDER_SISTER: '누나',
-  GRANDFATHER: '할아버지',
-  GRANDMOTHER: '할머니',
-}
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
@@ -49,16 +38,16 @@ export default function Register() {
       const registerData = {
         email,
         provider,
-        name: ownerProfile.nickName,
+        name: ownerProfile.name,
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
-        address: ownerProfile.location,
-        familyRole: ownerProfile.position as FamilyRole,
-        profileImg: ownerProfile.avatar || '',
+        address: ownerProfile.address,
+        familyRole: ownerProfile.familyRole as FamilyRole,
+        profileImg: ownerProfile.profileImg || '',
       }
 
       const response = await createRegister({
         ...registerData,
-        provider: registerData.provider as 'KAKAO' | 'NAVER' | 'GOOGLE',
+        provider: registerData.provider as 'KAKAO' | 'GOOGLE',
       })
       if (response.code === 201) {
         pushModal(<RegisterDogPage />)
@@ -69,7 +58,7 @@ export default function Register() {
   }
   useEffect(() => {
     if (location.address) {
-      setOwnerProfile({ location: location.address })
+      setOwnerProfile({ address: location.address })
     }
   }, [location.address, setOwnerProfile])
   const handleLocationClick = () => {
@@ -78,15 +67,18 @@ export default function Register() {
 
   const handleRoleClick = () => {
     pushModal(
-      <PositionChoiceModal onSelect={position => setOwnerProfile({ position })} initialValue={ownerProfile.position} />
+      <FamilyRoleChoiceModal
+        onSelectRole={role => setOwnerProfile({ familyRole: role })}
+        initialRole={ownerProfile.familyRole}
+      />
     )
   }
 
   const handleAvatarClick = () => {
     pushModal(
       <RegisterAvatarModal
-        onSelectAvatar={avatarSrc => setOwnerProfile({ avatar: avatarSrc })}
-        initialSelectedAvatar={ownerProfile.avatar}
+        onSelectAvatar={avatarSrc => setOwnerProfile({ profileImg: avatarSrc })}
+        initialSelectedAvatar={ownerProfile.profileImg}
       />
     )
   }
@@ -105,9 +97,9 @@ export default function Register() {
       <S.TextSection weight='700'>견주님에 대해{'\n'}알려주세요</S.TextSection>
 
       <S.AddOwnerAvatarBtnWrapper>
-        {ownerProfile.avatar ? (
+        {ownerProfile.profileImg ? (
           <S.Avatar onClick={handleAvatarClick}>
-            <img src={ownerProfile.avatar} alt='선택된 아바타' />
+            <img src={ownerProfile.profileImg} alt='선택된 아바타' />
           </S.Avatar>
         ) : (
           <S.AddOwnerAvatarBtn onClick={handleAvatarClick}>
@@ -121,15 +113,15 @@ export default function Register() {
         <S.NickNameWrapper>
           <Input
             placeholder='닉네임 입력'
-            value={ownerProfile.nickName}
-            onChange={e => setOwnerProfile({ nickName: e.target.value })}
+            value={ownerProfile.name}
+            onChange={e => setOwnerProfile({ name: e.target.value })}
           />
         </S.NickNameWrapper>
-        <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!ownerProfile.position}>
-          {ownerProfile.position ? positionLabelMap[ownerProfile.position as FamilyRole] : '가족 포지션 선택'}
+        <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!ownerProfile.familyRole}>
+          {ownerProfile.familyRole || '가족 포지션 선택'}
         </S.PositionChoiceBtn>
-        <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!ownerProfile.location}>
-          {ownerProfile.location || '내 동네 불러오기'}
+        <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!ownerProfile.address}>
+          {ownerProfile.address || '내 동네 불러오기'}
         </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton

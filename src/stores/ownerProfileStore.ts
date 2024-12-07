@@ -21,4 +21,4 @@ export const useOwnerProfileStore = create<OwnerProfileStore>(set => ({
     set(state => ({
       ownerProfile: { ...state.ownerProfile, ...profile },
     })),
-}))
+})) 
