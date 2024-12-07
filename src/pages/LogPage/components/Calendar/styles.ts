@@ -63,14 +63,19 @@ export const Week = styled.div`
   display: contents;
 `
 
-export const Date = styled.button<{ $isActive: boolean }>`
+export const Date = styled.button<{ $isActive: boolean; $hasWalkRecord: boolean }>`
   font-size: 16px;
   aspect-ratio: 1/ 1;
   font-weight: 500;
   border-radius: 40%;
 
   background-color: ${props => (props.$isActive ? props.theme.colors.brand.sub : props.theme.colors.grayscale.gc_4)};
-  color: ${props => (props.$isActive ? props.theme.colors.grayscale.gc_4 : props.theme.colors.grayscale.font_1)};
+  color: ${props =>
+    props.$isActive
+      ? props.theme.colors.grayscale.gc_4
+      : props.$hasWalkRecord
+        ? props.theme.colors.brand.sub
+        : props.theme.colors.grayscale.font_1};
 
   &:disabled {
     color: ${props => props.theme.colors.grayscale.font_4};

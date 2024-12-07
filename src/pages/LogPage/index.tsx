@@ -1,21 +1,28 @@
-import * as S from './styles'
-// import { useState } from 'react'
-import Header from '~components/Header'
+import { useState, Suspense } from 'react'
 import { Helmet } from 'react-helmet-async'
 import GraphIcon from '~/assets/graph.svg'
-import Calendar from './components/Calendar'
-// import WalkSummary from './components/WalkSummary'
-// import TestImg from '~assets/masterprofile.svg'
 import NoWalkSummaryImg from '~/assets/no-walk-summary.svg'
 import NoWalkSummaryImg2 from '~/assets/no-walk-summary2.svg'
-import { useModalStore } from '~stores/modalStore'
+import Header from '~components/Header'
 import WalkAnalysisModal from '~modals/WalkAnalysisModal'
+import { useModalStore } from '~stores/modalStore'
+import { formatTime } from '~utils/dateFormat'
+import Calendar from './components/Calendar'
+import WalkSummary from './components/WalkSummary'
+import * as S from './styles'
+import { useWalkDetail } from './useWalkInfo'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from '~components/ErrorFallback'
+import Loader from '~components/Loader'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
-  const randomIndex = Math.floor(Math.random() * images.length)
-  const randomImage = images[randomIndex]
+  const randomImage = images[Math.floor(Math.random() * images.length)]
   const { pushModal } = useModalStore()
+  const [date, setDate] = useState<Date>(new Date())
+  const { data: walkDetails } = useWalkDetail(date)
+
   return (
     <S.LogPage>
       <Helmet>
@@ -28,36 +35,39 @@ export default function LogPage() {
         <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' onClick={() => pushModal(<WalkAnalysisModal />)} />
       </Header>
       <S.CalendarWrapper>
-        <Calendar />
+        <Calendar date={date} setDate={setDate} />
       </S.CalendarWrapper>
-      <S.WalkSummaryWrapper>
-        {/* <WalkSummary
-          profileImg={TestImg}
-          userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
-          walkDuration='1:10:10'
-          walkDistance={3.3}
-          calories={212}
-        />
-        <WalkSummary
-          profileImg={TestImg}
-          userName='감자탕수육'
-          walkPhoto='https://img1.yna.co.kr/etc/inner/KR/2021/01/22/AKR20210122107000017_06_i_P2.jpg'
-          walkDuration='1:10:10'
-          walkDistance={3.3}
-          calories={212}
-        /> */}
-        <S.NoWalkSummary>
-          {!randomIndex && (
-            <p>
-              산책 좀<br />
-              시켜주세요 주인님!
-            </p>
-          )}
-          <img src={randomImage} alt='산책 기록 없음' />
-          <p>산책 기록이 없어요</p>
-        </S.NoWalkSummary>
-      </S.WalkSummaryWrapper>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <Suspense fallback={<Loader />}>
+              <S.WalkSummaryWrapper>
+                {walkDetails?.map(walkDetail => (
+                  <WalkSummary
+                    key={walkDetail.walkId}
+                    profileImg={walkDetail.profileImg}
+                    userName={walkDetail.name}
+                    walkPhoto={walkDetail.walkImg}
+                    walkDuration={formatTime(
+                      walkDetail.timeDuration.hours,
+                      walkDetail.timeDuration.minutes,
+                      walkDetail.timeDuration.seconds
+                    )}
+                    walkDistance={Number((walkDetail.totalDistanceMeter / 1000).toFixed(2))}
+                    calories={walkDetail.totalCalorie}
+                  />
+                ))}
+                {!walkDetails?.length && (
+                  <S.NoWalkSummary>
+                    <img src={randomImage} alt='산책 기록 없음' />
+                    <p>산책 기록이 없어요</p>
+                  </S.NoWalkSummary>
+                )}
+              </S.WalkSummaryWrapper>
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </S.LogPage>
   )
 }
