@@ -6,35 +6,63 @@ import { Typo11, Typo15 } from '~components/Typo'
 import ChatArea from '~modals/ChatArea'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
+import { useFetchProfile } from '~apis/member/useFetchProfile'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Suspense } from 'react'
+import Loader from '~components/Loader'
+import ErrorFallback from '~components/ErrorFallback'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 type ChatModalProps = {
   chatRoomId: number
-  userId: number
+  opponentMemberId: number
 }
 
-export default function ChatModal({ chatRoomId, userId }: ChatModalProps) {
-  const { popModal } = useModalStore()
-  console.log('userId', userId) //todo fetch by userId
-
+export default function ChatModal({ chatRoomId, opponentMemberId }: ChatModalProps) {
   return (
     <S.ChatModal>
-      <Header type='lg' prevBtn onClickPrev={popModal}>
-        <S.ProfileWrapper>
-          <Profile $size={40} $src='' userId={userId} />
-          <S.TypoWrapper>
-            <Typo15 $weight='700'>감자탕수육</Typo15>
-            <S.DetailWrapper>
-              <Typo11 $color='font_2'>남자</Typo11>
-              <Separator $height={8} />
-              <Typo11 $color='font_2'>할아버지</Typo11>
-            </S.DetailWrapper>
-          </S.TypoWrapper>
-        </S.ProfileWrapper>
-        <S.EllipsisWrapper>
-          <HiEllipsisVertical size={28} />
-        </S.EllipsisWrapper>
-      </Header>
-      <ChatArea chatRoomId={chatRoomId} />
+      <QueryErrorResetBoundary>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<Loader />}>
+            <ChatModalHeader opponentMemberId={opponentMemberId} />
+          </Suspense>
+        </ErrorBoundary>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<Loader />}>
+            <ChatArea chatRoomId={chatRoomId} />
+          </Suspense>
+        </ErrorBoundary>
+      </QueryErrorResetBoundary>
     </S.ChatModal>
+  )
+}
+
+type ChatModalHeaderProps = {
+  opponentMemberId: number
+}
+
+function ChatModalHeader({ opponentMemberId }: ChatModalHeaderProps) {
+  const {
+    data: { name, gender, familyRole },
+  } = useFetchProfile(opponentMemberId)
+  const { popModal } = useModalStore()
+  return (
+    <Header type='lg' prevBtn onClickPrev={popModal}>
+      <S.ProfileWrapper>
+        <Profile $size={40} $src='' userId={opponentMemberId} />
+        <S.TypoWrapper>
+          <Typo15 $weight='700'>{name}</Typo15>
+          <S.DetailWrapper>
+            <Typo11 $color='font_2'>{gender === 'MALE' ? '남자' : '여자'}</Typo11>
+            <Separator $height={8} />
+            <Typo11 $color='font_2'>{FAMILY_ROLE[familyRole]}</Typo11>
+          </S.DetailWrapper>
+        </S.TypoWrapper>
+      </S.ProfileWrapper>
+      <S.EllipsisWrapper>
+        <HiEllipsisVertical size={28} />
+      </S.EllipsisWrapper>
+    </Header>
   )
 }

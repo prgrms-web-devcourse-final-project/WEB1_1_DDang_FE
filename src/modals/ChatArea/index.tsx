@@ -3,8 +3,8 @@ import { IncomingMessage, OutgoingMessage } from '~components/Message'
 import SendMessageForm from '~components/SendMessageForm'
 import useObserver from '~hooks/useObserver'
 import { useScrollPreservation } from '~hooks/useScrollPreservation'
-import * as S from './styles'
 import { useOwnerProfileStore } from '~stores/ownerProfileStore'
+import * as S from './styles'
 
 type ChatAreaListProps = {
   chatRoomId: number
@@ -26,7 +26,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
       }
     },
   })
-
+  console.log(data.pages.length === 0)
   return (
     <S.ChatArea ref={chatAreaRef}>
       <S.ChatMessageList>
@@ -54,7 +54,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
           )
         )}
       </S.ChatMessageList>
-      <SendMessageForm chatCount={1} chatRoomId={chatRoomId} />
+      <SendMessageForm isFirstChat={data.pages.length === 0} chatRoomId={chatRoomId} />
     </S.ChatArea>
   )
 }

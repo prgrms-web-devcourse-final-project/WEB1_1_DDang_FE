@@ -4,10 +4,10 @@ import { createChatRoom } from '~apis/chatRoom/createChatRoom'
 import { CommonAPIResponse } from '~types/api'
 
 type SendMessageFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
-  chatCount: number
+  isFirstChat: boolean
 } & Partial<Pick<CommonAPIResponse, 'chatRoomId'>>
 
-export default function SendMessageForm({ chatRoomId, chatCount, ...rest }: SendMessageFormProps) {
+export default function SendMessageForm({ chatRoomId, isFirstChat, ...rest }: SendMessageFormProps) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (rest.onSubmit) {
@@ -15,7 +15,7 @@ export default function SendMessageForm({ chatRoomId, chatCount, ...rest }: Send
       return
     }
 
-    if (chatCount === 0) {
+    if (isFirstChat) {
       //* 채팅방 생성
       await createChatRoom({ opponentMemberId: 123 })
     }

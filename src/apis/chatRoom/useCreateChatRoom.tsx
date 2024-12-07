@@ -17,7 +17,7 @@ export const useCreateChatRoom = (): UseMutationResult<
     mutationFn: createChatRoom,
     onSuccess: (data, { opponentMemberId }) => {
       console.log(data.message || '채팅방 생성 성공')
-      pushModal(<ChatModal chatRoomId={data.data.chatRoomId} userId={opponentMemberId} />)
+      pushModal(<ChatModal chatRoomId={data.data.chatRoomId} opponentMemberId={opponentMemberId} />)
     },
     onError: error => {
       console.error('채팅방 생성 실패:', error.message)
