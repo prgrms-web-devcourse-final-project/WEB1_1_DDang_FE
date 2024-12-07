@@ -17,6 +17,7 @@ import { useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
 import { FamilyRole } from '~types/common'
 import { useEffect } from 'react'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
 export default function Register() {
   const { ownerProfile, setOwnerProfile } = useOwnerProfileStore()
@@ -33,15 +34,17 @@ export default function Register() {
       showToast(alertMessage)
       return
     }
-
     try {
+      const familyRoleKey = Object.keys(FAMILY_ROLE).find(
+        key => FAMILY_ROLE[key as keyof typeof FAMILY_ROLE] === ownerProfile.familyRole
+      )
       const registerData = {
         email,
         provider,
         name: ownerProfile.name,
         gender: ownerProfile.gender as 'MALE' | 'FEMALE',
         address: ownerProfile.address,
-        familyRole: ownerProfile.familyRole as FamilyRole,
+        familyRole: familyRoleKey as FamilyRole,
         profileImg: ownerProfile.profileImg || '',
       }
 

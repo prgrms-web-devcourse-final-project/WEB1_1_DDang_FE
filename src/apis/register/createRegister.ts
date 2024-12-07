@@ -15,7 +15,7 @@ export type CreateRegisterResponse = Pick<
 export const createRegister = async (req: CreateRegisterRequest): Promise<APIResponse<CreateRegisterResponse>> => {
   try {
     const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>(`/member/join`, req)
-
+    console.log(response)
     // 토큰 추출 및 저장
     const accessToken = (response.headers['authorization'] as string).split('Bearer ')[1]
 
