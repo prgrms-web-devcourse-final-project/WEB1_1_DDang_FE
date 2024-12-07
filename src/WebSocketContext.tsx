@@ -27,6 +27,7 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
+    if (!email) return
     const SERVER_URL = 'https://ddang.shop/ws'
 
     const socket = new SockJS(SERVER_URL)
@@ -104,7 +105,9 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
               >
             >
             console.log('채팅방 구독', res)
-
+            queryClient.invalidateQueries({
+              queryKey: queryKey.social.chatRoomList(),
+            })
             if (res.data.chatId)
               queryClient.setQueryData<InfiniteData<APIResponse<FetchChatMessageListResponse>>>(
                 queryKey.social.chatMessageList(res.data.chatRoomId),

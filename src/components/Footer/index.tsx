@@ -7,6 +7,8 @@ import { useTheme } from 'styled-components'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
 import { useNavigate } from 'react-router-dom'
+import useChatList from '~apis/chatRoom/useChatList'
+import { UnreadChatCount } from '~components/UnreadChatCount'
 
 const FOOTER_NAV_LIST = [
   { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
@@ -34,6 +36,11 @@ export default function Footer() {
     }
     navigate(endpoint)
   }
+  const { data } = useChatList()
+  let sum = 0
+  data?.forEach(({ unreadMessageCount }) => {
+    sum += unreadMessageCount
+  })
 
   return (
     <S.Footer>
@@ -47,6 +54,7 @@ export default function Footer() {
               handleNavigation(endpoint)
             }}
           >
+            {typo === '소셜' && <S.ChatCount>{sum}</S.ChatCount>}
             <Icon color={theme.colors.brand.default} size={28} />
             <Typo11 $weight='500' $color='font_3'>
               {typo}
