@@ -216,3 +216,29 @@ export type Setting = {
   type: NotificationType
   isAgreed: BooleanString
 }
+export type ApiResponseIsMatched = {
+  code: number
+  status: string
+  message: string
+  data: string
+}
+
+// 중첩된 settings 객체를 위한 타입 정의
+export type NotificationSettings = {
+  WALK: {
+    notificationSettingId: number
+    type: 'WALK'
+    isAgreed: BooleanString
+  }
+  CHAT: {
+    notificationSettingId: number
+    type: 'CHAT'
+    isAgreed: BooleanString
+  }
+}
+
+export type GetSettingsResponse = {
+  memberId: number
+  isMatched: BooleanString
+  settings: NotificationSettings
+}

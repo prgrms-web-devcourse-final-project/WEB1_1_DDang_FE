@@ -1,5 +1,7 @@
 import { SettingsStoreKey, useSettingsStore } from '~stores/settingsStore'
 import { updateSetting } from '~apis/myPage/updateSetting'
+import { updateGangbuntta } from '~apis/myPage/updateGangbuntta'
+
 import * as S from './styles'
 
 type ToggleProps = {
@@ -15,7 +17,10 @@ export default function Toggle({ id, setting }: ToggleProps) {
     try {
       const newValue = e.target.checked
       // setting이 'messages' 또는 'myWalkNotifications'인 경우에만 API 호출
-      if (setting === 'messages' || setting === 'myWalkNotifications') {
+      if (setting === 'gangbuntta') {
+        console.log('강번따 상태 변경 : ', newValue)
+        await updateGangbuntta({ isMatched: newValue ? 'TRUE' : 'FALSE' })
+      } else if (setting === 'messages' || setting === 'myWalkNotifications') {
         await updateSetting({
           type: setting === 'messages' ? 'CHAT' : 'WALK',
           isAgreed: newValue ? 'TRUE' : 'FALSE',
