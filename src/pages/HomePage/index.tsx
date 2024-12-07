@@ -23,6 +23,7 @@ import { useDogProfileStore } from '~stores/dogProfileStore'
 
 function HomeContent() {
   const { data } = useHomePageData()
+  console.log(data)
   const { pushModal } = useModalStore()
   const { dogProfile } = useDogProfileStore()
   useEffect(() => {
@@ -37,7 +38,7 @@ function HomeContent() {
 
       <S.Visual>
         <Typo24 $weight='700' $textAlign='center'>
-          오늘은 {data && FAMILY_ROLE[data.familyRole]}랑
+          오늘은 {data?.familyRole ? FAMILY_ROLE[data.familyRole] : ''}랑
         </Typo24>
         <Typo24 $weight='700' $textAlign='center'>
           산책가는 날!

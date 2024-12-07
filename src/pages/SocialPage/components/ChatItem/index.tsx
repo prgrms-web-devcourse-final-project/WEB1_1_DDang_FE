@@ -21,7 +21,7 @@ export default function ChatItem({ lastMessage, members, name, unreadMessageCoun
           <Typo17 $weight='700'>{name}</Typo17>
           <S.DetailWrapper>
             <Typo13 $color='font_2' $weight='500'>
-              {FAMILY_ROLE[members[0].familyRole]}
+              {FAMILY_ROLE[members[0].familyRole as keyof typeof FAMILY_ROLE]}
             </Typo13>
             <Separator $height={8} />
             <Typo13 $color='font_2' $weight='500'>

@@ -9,4 +9,12 @@ export const queryKey = {
   dog: {
     profile: (id: number) => ['dog', 'profile', id],
   },
+  log: {
+    walkDetail: (date: string) => ['walkDetail', date],
+    walkDates: () => ['walkDates'],
+    monthlyWalks: () => ['monthlyWalks'],
+    familyWalks: () => ['familyWalks'],
+    totalWalks: () => ['totalWalks'],
+    currentMonthWalks: () => ['currentMonthWalks'],
+  },
 }

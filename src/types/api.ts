@@ -85,6 +85,8 @@ export type Position = {
 }
 
 export type Walk = {
+  walkId: number
+  walkImg: string
   /** 산책 시간 정보 */
   timeDuration: Time
   /** 산책 일정 ID @example 1 */
@@ -208,4 +210,11 @@ export type PaginationResponse = {
   empty: boolean
   sort: SortInfo
   pageable: PageableInfo
+}
+
+export type Setting = {
+  notificationSettingsId: number
+  memberId: number
+  type: NotificationType
+  isAgreed: BooleanString
 }

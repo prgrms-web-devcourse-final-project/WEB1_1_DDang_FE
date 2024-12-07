@@ -1,6 +1,10 @@
 import * as d3 from 'd3'
+import { FAMILY_ROLE } from '~constants/familyRole'
 
-export function createBarChart(svgElement: SVGSVGElement, data: { name: string; value: number }[]) {
+export function createBarChart(
+  svgElement: SVGSVGElement,
+  data: { name: string; familyPosition: string; value: number }[]
+) {
   const svg = d3.select(svgElement)
   const width = svgElement.clientWidth || 400
   const height = 237
@@ -44,10 +48,28 @@ export function createBarChart(svgElement: SVGSVGElement, data: { name: string; 
   svg
     .append('g')
     .attr('transform', `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(xScale).tickSize(0).tickPadding(12))
+    .call(d3.axisBottom(xScale).tickSize(0).tickPadding(15))
     .style('font-size', '11px')
     .style('font-weight', 'bold')
     .style('font-family', 'SUIT, sans-serif')
+    .selectAll('.tick text')
+    .each(function (d) {
+      const text = d3.select(this)
+      const name = d as string
+      const position = data.find(item => item.name === d)?.familyPosition || ''
+
+      text.text('')
+      if (typeof name === 'string') {
+        const truncatedName = name.length > 4 ? name.slice(0, 4) + '...' : name
+        text.append('tspan').attr('x', 0).attr('dy', '0em').text(truncatedName)
+      }
+      text
+        .append('tspan')
+        .attr('x', 0)
+        .attr('dy', '12px')
+        .text(`(${FAMILY_ROLE[position as keyof typeof FAMILY_ROLE]})`)
+        .style('font-size', '9px')
+    })
 
   svg.select('.domain').attr('stroke', '#F1F1F5')
 

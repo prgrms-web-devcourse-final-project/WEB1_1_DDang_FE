@@ -34,7 +34,7 @@ function ProfileContent({ id }: { id: number }) {
         <S.TypoWrapper $gap={8}>
           <Typo13 $weight='700'>{data?.gender === 'MALE' ? '남자' : '여자'}</Typo13>
           <Separator $height={8} />
-          <Typo13 $weight='700'>{data ? FAMILY_ROLE[data.familyRole] : ''}</Typo13>
+          <Typo13 $weight='700'>{data ? FAMILY_ROLE[data.familyRole as keyof typeof FAMILY_ROLE] : ''}</Typo13>
         </S.TypoWrapper>
       </S.ProfileArea>
 

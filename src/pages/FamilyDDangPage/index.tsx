@@ -9,6 +9,8 @@ import DogProfile from '~components/DogProfile'
 import { useQuery } from '@tanstack/react-query'
 import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
 import { APIResponse } from '~types/api'
+import { useModalStore } from '~stores/modalStore'
+import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 
 export default function FamilyDDang() {
   const { data } = useQuery<APIResponse<FetchMypageResponse>>({
@@ -16,6 +18,12 @@ export default function FamilyDDang() {
     queryFn: fetchMypage,
   })
   const dogInfo = data?.data?.dog
+
+  const { pushModal } = useModalStore()
+
+  const onClickCodeShare = () => {
+    pushModal(<ShareCodeModal />)
+  }
 
   return (
     <S.FamilyDDang>
@@ -85,7 +93,7 @@ export default function FamilyDDang() {
       </S.FamilySection>
       <S.InviteSection>
         <Typo15 $weight='700'>밤톨이와 함께할 동반자를 초대하세요!</Typo15>
-        <S.InviteBtn>
+        <S.InviteBtn onClick={onClickCodeShare}>
           <Typo14 $weight='700'>초대</Typo14>
         </S.InviteBtn>
       </S.InviteSection>

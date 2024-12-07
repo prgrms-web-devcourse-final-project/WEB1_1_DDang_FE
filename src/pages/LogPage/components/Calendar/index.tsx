@@ -1,15 +1,37 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as S from './styles'
 import useCalendar from '~hooks/useCalendar'
 import arrowDown from '~assets/arrow-down.svg'
 import { useModalStore } from '~stores/modalStore'
 import DatePickerModal from '~modals/DatePickerModal'
+import { useWalkDates } from '~pages/LogPage/useWalkInfo'
 
-export default function Calendar() {
+interface CalendarProps {
+  date: Date
+  setDate: (date: Date) => void
+}
+
+export default function Calendar({ date, setDate }: CalendarProps) {
   const { pushModal } = useModalStore()
-  const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar()
+  const { activeIndex, weekDays, weekCalendarList, currentDate, setCurrentDate } = useCalendar(date)
   const calendarRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+
+  const { data: walkDates = [] } = useWalkDates()
+
+  const hasWalkRecord = (walkDates: string[], date: number) => {
+    return walkDates.some(walkDate => {
+      const [y, m, d] = walkDate.split('-').map(Number)
+      if (y != currentDate.getFullYear()) return false
+      if (m != currentDate.getMonth() + 1) return false
+      if (d != date) return false
+      return true
+    })
+  }
+
+  useEffect(() => {
+    setDate(currentDate)
+  }, [currentDate])
 
   const handleDateClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement
@@ -106,7 +128,13 @@ export default function Calendar() {
                 const isDisabled = (weekIdx === 0 && date > 7) || (weekIdx === 4 && date < 22)
                 const isActive = weekIdx === activeIndex[0] && dateIdx === activeIndex[1]
                 return (
-                  <S.Date key={dateIdx} data-date={date} disabled={isDisabled} $isActive={isActive}>
+                  <S.Date
+                    key={dateIdx}
+                    data-date={date}
+                    disabled={isDisabled}
+                    $isActive={isActive}
+                    $hasWalkRecord={hasWalkRecord(walkDates as string[], date)}
+                  >
                     {date}
                   </S.Date>
                 )

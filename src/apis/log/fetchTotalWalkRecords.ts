@@ -1,29 +1,13 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIRequest, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 
-export type CreateRegisterRequest = Pick<
-  CommonAPIRequest,
-  'email' | 'provider' | 'name' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
+export type TotalWalkRecordsResponse = Pick<CommonAPIResponse, 'timeDuration' | 'walkCount' | 'totalDistanceKilo'>
 
-export type CreateRegisterResponse = Pick<
-  CommonAPIRequest,
-  'memberId' | 'name' | 'email' | 'provider' | 'gender' | 'address' | 'familyRole' | 'profileImg'
->
-
-export const createRegister = async (req: CreateRegisterRequest): Promise<APIResponse<CreateRegisterResponse>> => {
+export const fetchTotalWalkRecords = async (): Promise<APIResponse<TotalWalkRecordsResponse>> => {
   try {
-    const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>(`/member/join`, req)
-    console.log(response)
-    // 토큰 추출 및 저장
-    const accessToken = (response.headers['authorization'] as string).split('Bearer ')[1]
-
-    if (accessToken) {
-      localStorage.setItem('token', accessToken)
-    }
-
-    return response.data
+    const { data } = await axiosInstance.get<APIResponse<TotalWalkRecordsResponse>>('/log/total')
+    return data
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response } = error as AxiosError<ErrorResponse>
