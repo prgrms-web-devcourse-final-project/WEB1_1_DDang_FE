@@ -22,6 +22,7 @@ import { useEffect } from 'react'
 
 function HomeContent() {
   const { data } = useHomePageData()
+  console.log(data)
   const { pushModal } = useModalStore()
   return (
     <>
@@ -32,7 +33,7 @@ function HomeContent() {
 
       <S.Visual>
         <Typo24 $weight='700' $textAlign='center'>
-          오늘은 {data && FAMILY_ROLE[data.familyRole]}랑
+          오늘은 {data && FAMILY_ROLE[data.familyRole as keyof typeof FAMILY_ROLE]}랑
         </Typo24>
         <Typo24 $weight='700' $textAlign='center'>
           산책가는 날!
