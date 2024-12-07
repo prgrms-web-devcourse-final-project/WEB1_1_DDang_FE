@@ -3,12 +3,11 @@ import { FaRegCalendarCheck } from 'react-icons/fa6'
 import { IoMdPeople } from 'react-icons/io'
 import { IoHomeSharp } from 'react-icons/io5'
 import { MdOutlineFamilyRestroom } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import useChatList from '~apis/chatRoom/useChatList'
 import { Typo11 } from '~components/Typo'
 import * as S from './styles'
-import { useNavigate } from 'react-router-dom'
-import useChatList from '~apis/chatRoom/useChatList'
-import { UnreadChatCount } from '~components/UnreadChatCount'
 
 const FOOTER_NAV_LIST = [
   { Icon: IoHomeSharp, endpoint: '/', typo: '홈' },
