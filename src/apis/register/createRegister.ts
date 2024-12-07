@@ -17,10 +17,10 @@ export const createRegister = async (req: CreateRegisterRequest): Promise<APIRes
     const response = await axiosInstance.post<APIResponse<CreateRegisterResponse>>(`/member/join`, req)
 
     // 토큰 추출 및 저장
-    const accessToken = response.headers['authorization']
+    const accessToken = (response.headers['authorization'] as string).split('Bearer ')[1]
+
     if (accessToken) {
       localStorage.setItem('token', accessToken)
-      axiosInstance.defaults.headers.common['Authorization'] = accessToken
     }
 
     return response.data
