@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { Typo13, Typo15, Typo20 } from '~components/Typo'
+import { Typo13, Typo14, Typo15, Typo20 } from '~components/Typo'
 import { Separator } from '~components/Separator'
 import Profile from '~components/Profile'
 import { DogProfileType } from '~types/dogProfile'
@@ -18,7 +18,16 @@ const calculateAge = (birthDate?: Date): number => {
   }
   return age
 }
-export default function DogProfile({ name, gender, profileImg, birthDate, breed, comment }: DogProfileType) {
+export default function DogProfile({
+  name,
+  gender,
+  profileImg,
+  birthDate,
+  breed,
+  comment,
+  isNeutered,
+  weight,
+}: DogProfileType) {
   const age = calculateAge(stringToDate(birthDate!))
   return (
     <S.DogInfoArea>
@@ -26,14 +35,21 @@ export default function DogProfile({ name, gender, profileImg, birthDate, breed,
         <Profile $size={80} $src={profileImg || ''} />
         <S.DogDetailWrapper>
           <S.TypoWrapper>
-            <Typo20 $weight='700'>{name}</Typo20>
+            <S.TyopNameWrapper>
+              <Typo20 $weight='700'>{name}</Typo20>
+            </S.TyopNameWrapper>
             <Typo15 $weight='400'>{breed}</Typo15>
             <Separator $height={8} />
             <Typo15 $weight='400'>{age}살</Typo15>
             <Separator $height={8} />
             <Typo15 $weight='400'>{gender === 'MALE' ? '남' : '여'}</Typo15>
           </S.TypoWrapper>
-        </S.DogDetailWrapper>
+          <S.DogDetailInfoWrapper>
+            <Typo14 $weight='400'>중성화 {isNeutered === 'TRUE' ? 'O' : 'X'}</Typo14>
+            <Separator $height={8} />
+            <Typo14 $weight='400'>{weight} KG</Typo14>
+          </S.DogDetailInfoWrapper>
+        </S.DogDetailWrapper>     
       </S.DogInfoWrapper>
 
       <S.OneLineIntro>
