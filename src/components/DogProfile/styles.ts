@@ -10,6 +10,7 @@ export const TypoWrapper = styled.div<{ $gap?: number }>`
 `
 export const TyopNameWrapper = styled.div`
   margin-right: 0.3rem;
+  margin-bottom: 0.4rem;
 `
 export const DogInfoArea = styled(Box)`
   padding: 16px 20px;
@@ -21,7 +22,8 @@ export const DogInfoWrapper = styled.div`
 `
 export const DogDetailInfoWrapper = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  align-items: center;
   margin-bottom: 1rem;
 `
 export const DogDetailWrapper = styled.div`

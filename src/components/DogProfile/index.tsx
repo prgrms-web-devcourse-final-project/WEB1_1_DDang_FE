@@ -49,7 +49,7 @@ export default function DogProfile({
             <Separator $height={8} />
             <Typo14 $weight='400'>{weight} KG</Typo14>
           </S.DogDetailInfoWrapper>
-        </S.DogDetailWrapper>
+        </S.DogDetailWrapper>     
       </S.DogInfoWrapper>
 
       <S.OneLineIntro>
