@@ -3,17 +3,28 @@ import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 import { BooleanString } from '~types/common'
 
-export type UpdateGangbunttaRequest = { isMatched: BooleanString }
-export type UpdateGangbunttaResponse = Pick<APIResponse<{ isMatched: BooleanString }>, 'code' | 'data'>
+//Pick 유틸리티 타입으로는 중첩된 settings 객체 구조를 표현할 수 없어서 직접 타입 정의
+export type GetSettingsResponse = {
+  memberId: number
+  isMatched: BooleanString
+  settings: {
+    WALK: {
+      notificationSettingId: number
+      type: 'WALK'
+      isAgreed: BooleanString
+    }
+    CHAT: {
+      notificationSettingId: number
+      type: 'CHAT'
+      isAgreed: BooleanString
+    }
+  }
+}
 
-export const updateGangbuntta = async (
-  req: UpdateGangbunttaRequest
-): Promise<APIResponse<UpdateGangbunttaResponse>> => {
+export const getSettings = async (): Promise<APIResponse<GetSettingsResponse>> => {
   try {
-    const { data } = await axiosInstance.patch<APIResponse<UpdateGangbunttaResponse>>(
-      `/member?isMatched=${req.isMatched}`
-    )
-    console.log('알림 상태변경 : ', data.data)
+    const { data } = await axiosInstance.get<APIResponse<GetSettingsResponse>>(`/notification-settings`)
+    console.log('알람 설정 불러오기 : ', data)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {

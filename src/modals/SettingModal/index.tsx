@@ -8,13 +8,34 @@ import { ActionButton } from '~components/Button/ActionButton'
 import { deleteMember } from '~apis/myPage/deleteMember'
 import { useNavigate } from 'react-router-dom'
 // import { deleteLogoutMember } from '~apis/logout/deleteLogoutMember'
-
+import { getSettings } from '~apis/myPage/getSettings'
+import { useSettingsStore } from '~stores/settingsStore'
+import { useEffect } from 'react'
 export default function SettingModal() {
   const { popModal } = useModalStore()
   const navigate = useNavigate()
+  const setSetting = useSettingsStore(state => state.setSetting)
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await getSettings()
+        const gangbunttaState = response.data.isMatched
+        const walkState = response.data.settings.WALK.isAgreed // WALK로 수정
+        const chatState = response.data.settings.CHAT.isAgreed // CHAT으로 수정        console.log('mywalkState : ', mywalkState)
+
+        setSetting('gangbuntta', gangbunttaState === 'TRUE')
+        setSetting('myWalkNotifications', walkState === 'TRUE')
+        setSetting('messages', chatState === 'TRUE')
+      } catch (error) {
+        console.error('설정 불러오기 실패:', error)
+      }
+    }
+    fetchSettings()
+  }, [setSetting])
+
   const onClickLogout = async () => {
     try {
-      // await deleteLogoutMember()
       localStorage.removeItem('token')
       alert('로그아웃 되었습니다.')
       console.log('로그아웃 되었습니다.')
