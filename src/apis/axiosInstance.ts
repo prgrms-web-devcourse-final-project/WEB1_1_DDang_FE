@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use(
     // 요청 전 수행할 작업
     const token = localStorage.getItem('token')
     if (token) {
-      config.c = `Bearer ${token}`
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
