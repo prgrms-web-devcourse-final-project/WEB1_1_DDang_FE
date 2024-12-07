@@ -1,12 +1,13 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
-import BellIcon from '~assets/icons/bell_icon.svg?react'
-import GPSIcon from '~assets/icons/gps_icon.svg?react'
-import ClockIcon from '~assets/icons/clock_icon.svg?react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useHomePageData } from '~apis/main/useHomePageData'
 import DogHand from '~assets/dog_hand.svg?react'
+import BellIcon from '~assets/icons/bell_icon.svg?react'
+import ClockIcon from '~assets/icons/clock_icon.svg?react'
+import GPSIcon from '~assets/icons/gps_icon.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
 import ErrorFallback from '~components/ErrorFallback'
 import Loader from '~components/Loader'
@@ -17,13 +18,11 @@ import { FAMILY_ROLE } from '~constants/familyRole'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { useSearchParams, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 function HomeContent() {
   const { data } = useHomePageData()
-  console.log(data)
   const { pushModal } = useModalStore()
+
   return (
     <>
       <S.Header>
@@ -81,6 +80,7 @@ function HomeContent() {
 export default function HomePage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
   useEffect(() => {
     const accessToken = searchParams.get('accessToken')
     if (accessToken) {
@@ -90,12 +90,15 @@ export default function HomePage() {
       window.history.replaceState({}, '', '/')
       return
     }
+
     const storedToken = localStorage.getItem('token')
     if (!storedToken) {
       console.log('토큰 없음 비로그인 상태. login페이지 이동.')
       navigate('/login')
+      return
     }
   }, [searchParams, navigate])
+
   return (
     <S.HomePage>
       <Helmet>

@@ -4,7 +4,18 @@ import { axiosInstance } from '~apis/axiosInstance'
 
 export type FetchHomePageDataResponse = Pick<
   CommonAPIResponse,
-  'memberId' | 'familyRole' | 'dogName' | 'timeDuration' | 'totalDistanceMeter' | 'totalCalorie' | 'memberProfileImgUrl'
+  | 'memberId'
+  | 'familyRole'
+  | 'address'
+  | 'email'
+  | 'memberGender'
+  | 'memberName'
+  | 'memberProfileImgUrl'
+  | 'provider'
+  | 'dogName'
+  | 'timeDuration'
+  | 'totalDistanceMeter'
+  | 'totalCalorie'
 >
 
 export const fetchHomePageData = async (): Promise<APIResponse<FetchHomePageDataResponse>> => {

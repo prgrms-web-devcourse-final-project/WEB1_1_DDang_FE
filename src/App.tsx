@@ -18,7 +18,6 @@ function App() {
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
   return (
     <>
-      {' '}
       <QueryClientProvider client={queryClient}>
         <WebSocketProvider>
           <HelmetProvider>

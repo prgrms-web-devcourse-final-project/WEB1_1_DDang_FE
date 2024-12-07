@@ -3,6 +3,7 @@ import { APIResponse, CommonAPIResponse } from '~types/api'
 
 export type RequestFriendRequest = {
   memberId: number
+  decision: 'ACCEPT' | 'DENY'
 }
 
 export type RequestFriendResponse = Pick<

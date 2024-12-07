@@ -47,6 +47,7 @@ function ChatModalHeader({ opponentMemberId }: ChatModalHeaderProps) {
     data: { name, gender, familyRole },
   } = useFetchProfile(opponentMemberId)
   const { popModal } = useModalStore()
+
   return (
     <Header type='lg' prevBtn onClickPrev={popModal}>
       <S.ProfileWrapper>

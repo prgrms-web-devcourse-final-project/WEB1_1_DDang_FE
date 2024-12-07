@@ -1,9 +1,9 @@
 import useChatMessageList from '~apis/chat/useChatMessageList'
+import { useHomePageData } from '~apis/main/useHomePageData'
 import { IncomingMessage, OutgoingMessage } from '~components/Message'
 import SendMessageForm from '~components/SendMessageForm'
 import useObserver from '~hooks/useObserver'
 import { useScrollPreservation } from '~hooks/useScrollPreservation'
-import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 import * as S from './styles'
 
 type ChatAreaListProps = {
@@ -11,7 +11,9 @@ type ChatAreaListProps = {
 }
 
 export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
-  const { ownerProfile } = useOwnerProfileStore()
+  const {
+    data: { memberId },
+  } = useHomePageData()
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } = useChatMessageList({ chatRoomId })
   const { elementRef: chatAreaRef, preserveScroll } = useScrollPreservation<HTMLDivElement>({ dependency: [data] })
   const { observerRef } = useObserver<HTMLDivElement>({
@@ -30,8 +32,7 @@ export default function ChatArea({ chatRoomId }: ChatAreaListProps) {
       <S.ChatMessageList>
         {[...data.pages].reverse().map(page =>
           page.data.content.map(chat =>
-            //! 104는 임시 ID
-            chat.memberInfo.memberId === (ownerProfile.memberId || 104) ? (
+            chat.memberInfo.memberId === memberId ? (
               <OutgoingMessage
                 key={chat.chatId}
                 ref={
