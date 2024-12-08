@@ -63,7 +63,7 @@ const MobileContainer = styled.div`
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-
+  overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 

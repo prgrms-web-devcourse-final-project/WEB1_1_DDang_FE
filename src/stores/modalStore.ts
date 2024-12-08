@@ -1,33 +1,39 @@
 import { ReactNode } from 'react'
 import { create } from 'zustand'
 
+export type AnimationType = 'none' | 'fade' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight'
+
+interface ModalItem {
+  id: string
+  content: ReactNode
+  animationType?: AnimationType
+}
+
 interface ModalStore {
-  modalList: ReactNode[]
-  pushModal: (modal: ReactNode) => void
+  modalList: ModalItem[]
+  pushModal: (modal: ReactNode, animationType?: AnimationType) => void
   popModal: () => void
   clearModal: () => void
 }
 
 export const useModalStore = create<ModalStore>((set, get) => ({
   modalList: [],
-  pushModal: modal => {
+  pushModal: (content, animationType) => {
+    const id = `modal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     set(state => ({
-      modalList: [...state.modalList, modal],
+      modalList: [...state.modalList, { id, content, animationType }],
     }))
-    // 모달이 추가될 때 새로운 히스토리 항목 생성
     if (get().modalList.length > 0) {
       window.history.pushState({ modal: true }, '', window.location.href)
     }
   },
   popModal: () => {
-    // 모달이 제거될 때 히스토리 뒤로가기
     set(state => ({
       modalList: state.modalList.slice(0, -1),
     }))
   },
   clearModal: () => {
     set({ modalList: [] })
-    // 모든 모달 제거 시 히스토리 초기화
     const modalCount = get().modalList.length
     if (modalCount) window.history.go(-modalCount)
   },
