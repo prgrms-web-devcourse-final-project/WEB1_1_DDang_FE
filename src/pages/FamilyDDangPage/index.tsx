@@ -11,6 +11,7 @@ import { fetchMypage, FetchMypageResponse } from '~apis/myPage/fetchMypage'
 import { APIResponse } from '~types/api'
 import { useModalStore } from '~stores/modalStore'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
+import OwnerUpdateModal from '~modals/OwnerUpdateModal'
 
 export default function FamilyDDang() {
   const { data } = useQuery<APIResponse<FetchMypageResponse>>({
@@ -23,6 +24,10 @@ export default function FamilyDDang() {
 
   const onClickCodeShare = () => {
     pushModal(<ShareCodeModal />)
+  }
+
+  const onClickMemberUpdate = () => {
+    pushModal(<OwnerUpdateModal />)
   }
 
   return (
@@ -71,7 +76,7 @@ export default function FamilyDDang() {
               </Typo14>
             </S.LineWrapper>
           </S.FamilyInfoArea>
-          <S.EditIconWrapper>
+          <S.EditIconWrapper onClick={onClickMemberUpdate}>
             <MdOutlineModeEdit size={20} />
           </S.EditIconWrapper>
         </S.ProfileOneArea>

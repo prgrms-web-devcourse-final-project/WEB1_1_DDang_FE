@@ -4,6 +4,7 @@ import { Separator } from '~components/Separator'
 import Profile from '~components/Profile'
 import { DogProfileType } from '~types/dogProfile'
 import { stringToDate } from '~utils/dateFormat'
+import { MdOutlineModeEdit } from 'react-icons/md'
 
 //날짜 계산 로직
 const calculateAge = (birthDate?: Date): number => {
@@ -49,9 +50,8 @@ export default function DogProfile({
             <Separator $height={8} />
             <Typo14 $weight='400'>{weight} KG</Typo14>
           </S.DogDetailInfoWrapper>
-        </S.DogDetailWrapper>     
+        </S.DogDetailWrapper>
       </S.DogInfoWrapper>
-
       <S.OneLineIntro>
         <Typo15 $weight='700' $color='default'>
           우리 댕댕이를 소개해요!

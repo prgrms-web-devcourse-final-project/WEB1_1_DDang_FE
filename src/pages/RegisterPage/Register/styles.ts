@@ -5,7 +5,7 @@ export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5.5rem 1.25rem 1.8rem 1.25rem;
+  padding: 3.5rem 1.25rem 1.8rem 1.25rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
 
   @media (max-height: 700px) {
@@ -23,11 +23,14 @@ export const TextSection = styled.text<{ weight: FontWeight }>`
   text-align: center;
   margin: 1rem 0;
 `
-
 export const AddOwnerAvatarBtnWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  position: relative;
   flex-shrink: 0;
+  gap: 1rem;
 `
 
 export const AddOwnerAvatarBtn = styled.div`
@@ -148,4 +151,17 @@ export const GenderSelectBtnWrapper = styled.div`
 
 export const ToastWrapper = styled.div`
   position: relative;
+`
+
+export const ChoiceAvatarBtn = styled.div`
+  width: 87px;
+  height: 32px;
+  /* display: inline-flex; */
+  padding: 5.5px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 22px;
+  color: ${({ theme }) => theme.colors.grayscale.gc_4};
+  background-color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
