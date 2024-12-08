@@ -13,7 +13,7 @@ import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import RegisterDogPage from '~pages/RegisterPage/Dog'
 import Toast from '~components/Toast'
 import { useToastStore } from '~stores/toastStore'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { createRegister } from '~apis/register/createRegister'
 import { FamilyRole } from '~types/common'
 import { useEffect } from 'react'
@@ -27,7 +27,7 @@ export default function Register() {
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email') || ''
   const provider = searchParams.get('provider') || ''
-
+  const navigate = useNavigate()
   const handleNextClick = async () => {
     const alertMessage = validateOwnerProfile(ownerProfile)
     if (alertMessage) {
@@ -55,7 +55,7 @@ export default function Register() {
       if (response.code === 201) {
         //? 채팅 구현을 위해 임의로 추가한 부분입니다.
         setOwnerProfile({ memberId: response.data.memberId })
-        pushModal(<RegisterDogPage />)
+        navigate('/register/dog')
       }
     } catch (error) {
       showToast(error instanceof Error ? error.message : '회원가입에 실패했습니다')
