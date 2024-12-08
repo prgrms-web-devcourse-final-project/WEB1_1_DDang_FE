@@ -7,64 +7,6 @@ import { useState } from 'react'
 import WalkerListModal from '~pages/WalkPage/components/WalkerListModal'
 import WalkModal from '~pages/WalkPage/components/WalkModal'
 
-const dummyWalkers: NearbyWalker[] = [
-  {
-    dogId: 1,
-    dogName: '멍멍이',
-    dogProfileImg: 'https://placedog.net/200/200?id=1',
-    breed: '골든리트리버',
-    dogAge: 3,
-    dogGender: 'MALE',
-    dogWalkCount: 15,
-    memberId: 1,
-    memberEmail: 'test@test.com',
-  },
-  {
-    dogId: 2,
-    dogName: '초코',
-    dogProfileImg: 'https://placedog.net/200/200?id=2',
-    breed: '푸들',
-    dogAge: 2,
-    dogGender: 'FEMALE',
-    dogWalkCount: 8,
-    memberId: 2,
-    memberEmail: 'test2@test.com',
-  },
-  {
-    dogId: 3,
-    dogName: '바둑이',
-    dogProfileImg: 'https://placedog.net/200/200?id=3',
-    breed: '말티즈',
-    dogAge: 4,
-    dogGender: 'MALE',
-    dogWalkCount: 20,
-    memberId: 3,
-    memberEmail: 'test3@test.com',
-  },
-  {
-    dogId: 4,
-    dogName: '뽀삐',
-    dogProfileImg: 'https://placedog.net/200/200?id=4',
-    breed: '포메라니안',
-    dogAge: 1,
-    dogGender: 'FEMALE',
-    dogWalkCount: 5,
-    memberId: 4,
-    memberEmail: 'test4@test.com',
-  },
-  {
-    dogId: 5,
-    dogName: '보리',
-    dogProfileImg: 'https://placedog.net/200/200?id=5',
-    breed: '포메라니안',
-    dogAge: 1,
-    dogGender: 'FEMALE',
-    dogWalkCount: 5,
-    memberId: 5,
-    memberEmail: 'test5@test.com',
-  },
-]
-
 export default function WalkPage() {
   const navigate = useNavigate()
   const [isModalOpen] = useState(false)
@@ -111,7 +53,7 @@ export default function WalkPage() {
         isOpen={isWalkerListOpen}
         onClose={handleWalkerListClose}
         isClosing={isClosing}
-        walkers={dummyWalkers}
+        walkers={nearbyWalkers}
         onWalkRequest={handleWalkRequest}
       />
 
@@ -124,6 +66,7 @@ export default function WalkPage() {
             age: selectedWalker.dogAge,
             gender: selectedWalker.dogGender === 'MALE' ? '남' : '여',
             profileImg: selectedWalker.dogProfileImg,
+            memberEmail: selectedWalker.memberEmail,
           }}
           onClose={() => setIsWalkModalOpen(false)}
           onConfirm={() => {

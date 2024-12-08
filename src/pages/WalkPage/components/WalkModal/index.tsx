@@ -13,19 +13,22 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
   const [message, setMessage] = useState('')
   const { publish, isConnected } = useWebSocket()
 
+  console.log(userInfo)
   const handleConfirm = () => {
     if (type === 'request') {
       const proposalData = {
-        otherMemberId: userInfo.email,
-        message,
+        otherMemberEmail: (userInfo as RequestUserInfo).memberEmail,
+        comment: message,
       }
+      console.log(proposalData)
       publish('/pub/api/v1/proposal', proposalData)
       onClose()
     } else if (type === 'accept') {
       const decisionData = {
-        otherEmail: (userInfo as RequestUserInfo).email,
+        otherEmail: (userInfo as RequestUserInfo).memberEmail,
         decision: 'ACCEPT',
       }
+      console.log(decisionData)
       publish('/pub/api/v1/decision', decisionData)
       onClose()
     } else {
@@ -36,7 +39,7 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
   const handleCancel = () => {
     if (type === 'accept') {
       const decisionData = {
-        otherEmail: (userInfo as RequestUserInfo).email,
+        otherEmail: (userInfo as RequestUserInfo).memberEmail,
         decision: 'DENY',
       }
       publish('/pub/api/v1/decision', decisionData)
@@ -126,7 +129,7 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
               <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
               <S.Info type={type}>
                 <h3>{userInfo.name}</h3>
-                {(type === 'request' || type === 'accept' || type === 'walkRequest') ?? (
+                {(type === 'request' || type === 'accept' || type === 'walkRequest') && (
                   <>
                     <p>
                       {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
@@ -156,7 +159,14 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
         )}
 
         {type === 'request' ? (
-          <S.Message as='textarea' type={type} className='message' placeholder={modalContent?.message} />
+          <S.Message
+            as='textarea'
+            type={type}
+            className='message'
+            placeholder={modalContent?.message}
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+          />
         ) : type === 'progress' ? (
           <S.Message type={type} className='message'>
             {modalContent?.message}

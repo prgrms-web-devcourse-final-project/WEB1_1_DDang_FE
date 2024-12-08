@@ -10,7 +10,7 @@ export type RequestUserInfo = {
   age: number
   gender: string
   profileImg?: string
-  email?: string
+  memberEmail?: string
   comment?: string
 }
 
