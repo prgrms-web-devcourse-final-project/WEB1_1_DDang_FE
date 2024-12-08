@@ -6,7 +6,7 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -29,7 +29,7 @@ function App() {
             </button>
             <GlobalStyle />
             <MobileContainer>
-              <Suspense fallback={<Loader />}>
+              <Suspense fallback={<PageLoader />}>
                 <RouterProvider router={router} />
               </Suspense>
             </MobileContainer>

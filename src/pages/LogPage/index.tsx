@@ -14,7 +14,7 @@ import { useWalkDetail } from './useWalkInfo'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '~components/ErrorFallback'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 
 export default function LogPage() {
   const images = [NoWalkSummaryImg, NoWalkSummaryImg2]
@@ -40,7 +40,7 @@ export default function LogPage() {
       <QueryErrorResetBoundary>
         {({ reset }) => (
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
               <S.WalkSummaryWrapper>
                 {walkDetails?.map(walkDetail => (
                   <WalkSummary

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchProfile } from '~apis/member/useFetchProfile'
 import DogProfile from '~components/DogProfile'
 import ErrorFallback from '~components/ErrorFallback'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo13, Typo15, Typo20, Typo24 } from '~components/Typo'
@@ -65,7 +65,7 @@ export default function ProfilePage() {
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<PageLoader />}>
             <ProfileContent id={+id} />
           </Suspense>
         </ErrorBoundary>

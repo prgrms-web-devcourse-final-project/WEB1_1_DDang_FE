@@ -5,7 +5,7 @@ import * as S from './styles'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '~components/ErrorFallback'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 
 export default function SocialPage() {
   const [selectedTab, setSelectedTab] = useState<'friendList' | 'dangTalk'>('friendList')
@@ -33,7 +33,7 @@ export default function SocialPage() {
       <QueryErrorResetBoundary>
         {({ reset }) => (
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
               <FriendChatList selectedTab={selectedTab} />
             </Suspense>
           </ErrorBoundary>

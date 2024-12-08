@@ -37,3 +37,16 @@ export const EllipsisWrapper = styled.div`
   position: absolute;
   right: 20px;
 `
+
+export const FallbackWrapper = styled.div`
+  position: absolute;
+  height: ${HEADER_HEIGHT_LG}px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors.brand.lighten_2};
+`
