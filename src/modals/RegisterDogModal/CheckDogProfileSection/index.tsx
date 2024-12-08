@@ -26,7 +26,7 @@ export default function CheckDogProfileSection({ familyCode, dogProfiles }: Chec
   return (
     <>
       <S.CheckDogProfileSection>
-        <Header type='sm' onClickPrev={popModal} prevBtn={true} />
+        <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.ProfileArea>
           <S.TypoWrapper>
             <Typo24 $weight='700' $textAlign='center'>
@@ -41,13 +41,7 @@ export default function CheckDogProfileSection({ familyCode, dogProfiles }: Chec
              index.html 파일에서 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin />과 같이 
              url을 추가해주세요.
              */}
-            <Profile
-              $size={180}
-              $src={
-                'https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
-              }
-              userId={0}
-            />
+            <Profile $size={180} $src={dogProfile.profileImg} />
             <S.TagWrapper>
               <Tag content={dogProfile.name} />
               <Tag content={dogProfile.breed} />
