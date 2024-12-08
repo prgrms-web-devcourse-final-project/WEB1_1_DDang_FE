@@ -77,7 +77,12 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
   )
 }
 
-export const useWebSocket = () => {
+export const useWebSocket = (): {
+  client: Client | null
+  isConnected: boolean
+  subscribe: (destination: string, callback: (message: any) => void) => void
+  publish: (destination: string, body: any) => void
+} => {
   const context = useContext(WebSocketContext)
   if (!context) {
     throw new Error('useWebSocket must be used within a WebSocketProvider')

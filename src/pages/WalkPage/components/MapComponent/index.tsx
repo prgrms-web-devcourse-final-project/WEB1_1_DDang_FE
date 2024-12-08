@@ -18,6 +18,9 @@ import * as S from './styles'
 import { MIN_ACCURACY, MIN_DISTANCE, MIN_TIME_INTERVAL } from '~types/map'
 import { useNavigate } from 'react-router-dom'
 import { useWebSocket } from '~/WebSocketContext'
+import { useMutation } from '@tanstack/react-query'
+import { fetchWalkComplete } from '~apis/walk/fetchWalkComplete'
+import WalkModal from '~pages/WalkPage/components/WalkModal'
 
 const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
@@ -32,16 +35,60 @@ export const getMarkerIconString = () => {
   return svgString
 }
 
-type MapComponentProps = {
-  isModalOpen?: boolean
+export const getMarkerIconString2 = () => {
+  const svgString = ReactDOMServer.renderToString(<S.MapPinIcon2 />)
+  return svgString
 }
 
-// DeviceOrientationEvent 타입 확장
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
   webkitCompassHeading?: number
 }
 
-export default function MapComponent({ isModalOpen = false }: MapComponentProps) {
+export type NearbyWalker = {
+  dogId: number
+  dogProfileImg: string
+  dogName: string
+  breed: string
+  dogWalkCount: number
+  dogAge: number
+  dogGender: 'MALE' | 'FEMALE'
+  memberId: number
+  memberEmail: string
+}
+
+export type ProposalResponse = {
+  code: number
+  message: string
+  data: {
+    dogId: number
+    dogName: string
+    dogBreed: string
+    dogProfileImg: string
+    comment: string
+    dogGender: string
+    dogAge: number
+    email: string
+    type: 'PROPOSAL'
+  }
+}
+
+export type DecisionResponse = {
+  code: number
+  message: string
+  data: {
+    decision: 'ACCEPT' | 'DENY'
+    otherMemberName: string
+    otherMemberProfileImg: string
+    type: 'DECISION'
+  }
+}
+
+type MapComponentProps = {
+  isModalOpen?: boolean
+  setNearbyWalkers: React.Dispatch<React.SetStateAction<NearbyWalker[]>>
+}
+
+export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: MapComponentProps) {
   const mapRef = useRef<Map | null>(null)
   const currentLocationMarkerRef = useRef<Feature<Geometry> | null>(null)
   const watchPositionIdRef = useRef<number | null>(null)
@@ -66,21 +113,102 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const [autoRotate, setAutoRotate] = useState<boolean>(false)
   const lastHeadingRef = useRef<number>(0)
 
+  const [showProposalModal, setShowProposalModal] = useState(false)
+  const [showDecisionModal, setShowDecisionModal] = useState(false)
+  const [proposalInfo, setProposalInfo] = useState<ProposalResponse['data'] | null>({
+    dogId: 1,
+    dogName: '몽이',
+    dogBreed: '골든 리트리버',
+    dogProfileImg: 'https://placedog.net/200/200?id=1',
+    comment: '같이 산책 해요 :)',
+    dogGender: 'MALE',
+    dogAge: 5,
+    email: 'example@example.com',
+    type: 'PROPOSAL',
+  })
+
+  const [decisionInfo, setDecisionInfo] = useState<DecisionResponse['data'] | null>({
+    decision: 'ACCEPT',
+    otherMemberName: '홍길동',
+    otherMemberProfileImg: 'https://placedog.net/200/200?id=2',
+    type: 'DECISION',
+  })
+
   const [currentAccuracy, setCurrentAccuracy] = useState<number | null>(null)
+
+  const [isWalkingTogether, setIsWalkingTogether] = useState<boolean>(false)
+  const [, setWalkPartnerEmail] = useState<string | null>(null)
 
   const navigate = useNavigate()
 
   const { subscribe, publish, isConnected } = useWebSocket()
 
-  const memberEmail = 'mkh6793@naver.com'
+  const memberEmail = localStorage.getItem('email')
+
+  // const { data } = useQuery({
+  //   queryKey: ['walkPage'],
+  //   queryFn: fetchMypage,
+  // })
+
+  const walkCompleteMutation = useMutation({
+    mutationFn: (walkData: FormData) => fetchWalkComplete(walkData),
+  })
+
+  const partnerMarkerRef = useRef<Feature | null>(null)
 
   useEffect(() => {
+    console.log('isConnected', isConnected)
     if (isConnected) {
       const handleMessage = (message: { body: string }) => {
-        console.log('수신된 메시지:', message.body)
+        try {
+          const response = JSON.parse(message.body)
+          console.log('response', response)
+          const type = Array.isArray(response.data) ? response.data[0].type : response.data.type
+
+          if (type === 'WALK_ALONE') {
+            const nearbyWalkersData = response.data.map((walker: NearbyWalker) => ({
+              dogId: walker.dogId,
+              dogProfileImg: walker.dogProfileImg,
+              dogName: walker.dogName,
+              breed: walker.breed,
+              dogWalkCount: walker.dogWalkCount,
+              dogAge: walker.dogAge,
+              dogGender: walker.dogGender,
+              memberId: walker.memberId,
+              memberEmail: walker.memberEmail,
+            }))
+
+            setNearbyWalkers(nearbyWalkersData)
+          } else if (type === 'PROPOSAL') {
+            const proposalData = response.data as ProposalResponse['data']
+            setProposalInfo(proposalData)
+            setShowProposalModal(true)
+            setWalkPartnerEmail(proposalData.email)
+          } else if (type === 'DECISION') {
+            const decisionData = response.data as DecisionResponse['data']
+
+            if (decisionData.decision === 'DENY') {
+              setDecisionInfo(decisionData)
+              setShowDecisionModal(true)
+            } else {
+              setIsWalkingTogether(true)
+            }
+          } else if (type === 'WALK_WITH') {
+            setIsWalkingTogether(true)
+            setWalkPartnerEmail(response.data.email)
+
+            updatePartnerLocation(response.data.latitude, response.data.longitude)
+          }
+        } catch (error) {
+          console.error('메시지 파싱 실패:', error)
+        }
       }
 
+      const handleError = (message: { body: string }) => {
+        console.error('WebSocket 오류:', message.body)
+      }
       subscribe(`/sub/walk/${memberEmail}`, handleMessage)
+      subscribe('/user/queue/errors', handleError)
     }
   }, [isConnected, subscribe, memberEmail])
 
@@ -446,8 +574,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const filterPosition = (position: GeolocationPosition): boolean => {
     const isAccurate = position.coords.accuracy <= MIN_ACCURACY
 
-    const accuracy = position.coords.accuracy
-    setCurrentAccuracy(accuracy)
+    setCurrentAccuracy(position.coords.accuracy)
 
     return isAccurate
   }
@@ -623,6 +750,102 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
     }
   }
 
+  const base64ToFile = (base64String: string): File => {
+    // base64 문자열에서 데이터 URI 스키마 제거
+    const base64Content = base64String.split(',')[1]
+    // base64를 바이너리 데이터로 변환
+    const binaryData = atob(base64Content)
+
+    // 바이너리 데이터를 Uint8Array로 변환
+    const bytes = new Uint8Array(binaryData.length)
+    for (let i = 0; i < binaryData.length; i++) {
+      bytes[i] = binaryData.charCodeAt(i)
+    }
+
+    // Blob 생성
+    const blob = new Blob([bytes], { type: 'image/png' })
+
+    // File 객체 생성
+    const fileName = `walk-map-${new Date().getTime()}.png`
+    return new File([blob], fileName, { type: 'image/png' })
+  }
+
+  const startWatchingPosition = () => {
+    return navigator.geolocation.watchPosition(
+      (position: GeolocationPosition) => {
+        if (!filterPosition(position)) return
+
+        const newPosition = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+
+        const coordinates = fromLonLat([newPosition.lng, newPosition.lat])
+
+        if (currentLocationMarkerRef.current) {
+          const point = currentLocationMarkerRef.current.getGeometry() as Point
+          point.setCoordinates(coordinates)
+          vectorSourceRef.current.changed()
+        } else {
+          currentLocationMarkerRef.current = new Feature({
+            geometry: new Point(coordinates),
+          })
+          const markerStyle = new Style({
+            image: new Icon({
+              anchor: [0.5, 1],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'fraction',
+              src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString())}`,
+              scale: 1,
+            }),
+          })
+          currentLocationMarkerRef.current.setStyle(markerStyle)
+          vectorSourceRef.current.addFeature(currentLocationMarkerRef.current)
+        }
+
+        if (mapRef.current) {
+          mapRef.current.getView().animate({
+            center: coordinates,
+            duration: 500,
+          })
+        }
+
+        if (shouldCallApi(newPosition)) {
+          accumulatedPositionsRef.current.push(newPosition)
+          addWalkLocationMarker(coordinates)
+
+          const walkData = {
+            latitude: newPosition.lat.toFixed(6),
+            longitude: newPosition.lng.toFixed(6),
+          }
+
+          const endpoint = isWalkingTogether ? '/pub/api/v1/walk-with' : '/pub/api/v1/walk-alone'
+          publish(endpoint, walkData)
+
+          if (accumulatedPositionsRef.current.length >= 2) {
+            const lastTwoPositions = accumulatedPositionsRef.current.slice(-2)
+            calculateWalkingDistance(lastTwoPositions)
+          }
+
+          lastApiCallTimeRef.current = Date.now()
+        }
+
+        updateEstimatedDistance()
+      },
+      handleLocationError,
+      getGeoOptions()
+    )
+  }
+
+  useEffect(() => {
+    if (isWalking) {
+      if (watchPositionIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchPositionIdRef.current)
+      }
+      watchPositionIdRef.current = startWatchingPosition()
+    }
+  }, [isWalkingTogether, isWalking])
+
   const handleWalkToggle = async () => {
     if (!isWalking) {
       handleCompassPermission()
@@ -637,72 +860,7 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       vectorSourceRef.current.clear()
 
       rotateMap(lastHeadingRef.current)
-      watchPositionIdRef.current = navigator.geolocation.watchPosition(
-        (position: GeolocationPosition) => {
-          if (!filterPosition(position)) return
-
-          const newPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          }
-
-          const coordinates = fromLonLat([newPosition.lng, newPosition.lat])
-
-          if (currentLocationMarkerRef.current) {
-            const point = currentLocationMarkerRef.current.getGeometry() as Point
-            point.setCoordinates(coordinates)
-            vectorSourceRef.current.changed()
-          } else {
-            currentLocationMarkerRef.current = new Feature({
-              geometry: new Point(coordinates),
-            })
-            const markerStyle = new Style({
-              image: new Icon({
-                anchor: [0.5, 1],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
-                src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString())}`,
-                scale: 1,
-              }),
-            })
-            currentLocationMarkerRef.current.setStyle(markerStyle)
-            vectorSourceRef.current.addFeature(currentLocationMarkerRef.current)
-          }
-
-          if (mapRef.current) {
-            mapRef.current.getView().animate({
-              center: coordinates,
-              duration: 500,
-            })
-          }
-
-          if (shouldCallApi(newPosition)) {
-            accumulatedPositionsRef.current.push(newPosition)
-            addWalkLocationMarker(coordinates)
-
-            try {
-              publish('/pub/api/v1/walk-alone', {
-                latitude: newPosition.lat,
-                longitude: newPosition.lng,
-              })
-              console.log('웹소켓 발행 성공')
-            } catch (error) {
-              console.error('웹소켓 발행 실패:', error)
-            }
-
-            if (accumulatedPositionsRef.current.length >= 2) {
-              const lastTwoPositions = accumulatedPositionsRef.current.slice(-2)
-              calculateWalkingDistance(lastTwoPositions)
-            }
-
-            lastApiCallTimeRef.current = Date.now()
-          }
-
-          updateEstimatedDistance()
-        },
-        handleLocationError,
-        getGeoOptions()
-      )
+      watchPositionIdRef.current = startWatchingPosition()
 
       walkIntervalRef.current = window.setInterval(() => {
         setWalkTime(prev => prev + 1)
@@ -723,15 +881,35 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
 
       const mapImage = await captureMap()
 
-      const walkCompleteData = {
-        time: formatTime(walkTime),
-        distance: formatDistance(walkDistance || estimatedDistance),
-        mapImage: mapImage,
-      }
+      try {
+        const mapImageFile = base64ToFile(mapImage)
 
-      navigate('/walk-complete', {
-        state: walkCompleteData,
-      })
+        // FormData 객체 생성
+        const formData = new FormData()
+        formData.append('walkImgFile', mapImageFile)
+        formData.append(
+          'request',
+          new Blob(
+            [
+              JSON.stringify({
+                totalDistanceMeter: walkDistance || estimatedDistance,
+                totalWalkTimeSecond: walkTime,
+              }),
+            ],
+            { type: 'application/json' }
+          )
+        )
+
+        const response = await walkCompleteMutation.mutateAsync(formData)
+
+        console.log(response)
+
+        navigate('/walk-complete', {
+          state: response.data,
+        })
+      } catch (error) {
+        console.error('산책 완료 데이터 전송 실패:', error)
+      }
     }
   }
 
@@ -779,8 +957,8 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
   const drawRoute = (coordinates: number[][], append: boolean = false) => {
     const routeStyle = new Style({
       stroke: new Stroke({
-        color: '#FF6B6B',
-        width: 5,
+        color: '#ECB99A',
+        width: 10,
         lineCap: 'round',
         lineJoin: 'round',
       }),
@@ -840,6 +1018,65 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
       }
     }
   }, [isWalking])
+
+  // 파트너 위치 마커 스타일 정의
+  const getPartnerMarkerStyle = new Style({
+    image: new Icon({
+      anchor: [0.5, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      src: `data:image/svg+xml;utf8,${encodeURIComponent(getMarkerIconString2())}`,
+
+      scale: 0.75,
+    }),
+  })
+
+  // 파트너 위치 업데이트 함수
+  const updatePartnerLocation = (latitude: number, longitude: number) => {
+    const coordinates = fromLonLat([longitude, latitude])
+
+    if (partnerMarkerRef.current) {
+      // 기존 마커 위치 업데이트
+      const point = partnerMarkerRef.current.getGeometry() as Point
+      const currentCoords = point.getCoordinates()
+
+      // 부드러운 애니메이션으로 위치 이동
+      const duration = 2000
+      const start = Date.now()
+      const animate = () => {
+        const elapsed = Date.now() - start
+        const progress = Math.min(elapsed / duration, 1)
+        const easeProgress = easeOut(progress)
+
+        const x = currentCoords[0] + (coordinates[0] - currentCoords[0]) * easeProgress
+        const y = currentCoords[1] + (coordinates[1] - currentCoords[1]) * easeProgress
+
+        point.setCoordinates([x, y])
+
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
+      }
+
+      animate()
+    } else {
+      // 새로운 마커 생성
+      partnerMarkerRef.current = new Feature({
+        geometry: new Point(coordinates),
+      })
+      partnerMarkerRef.current.setStyle(getPartnerMarkerStyle)
+      vectorSourceRef.current.addFeature(partnerMarkerRef.current)
+    }
+  }
+
+  // 컴포넌트 정리 시 파트너 마커 제거
+  useEffect(() => {
+    return () => {
+      if (partnerMarkerRef.current) {
+        vectorSourceRef.current.removeFeature(partnerMarkerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <S.MapContainer>
@@ -927,6 +1164,47 @@ export default function MapComponent({ isModalOpen = false }: MapComponentProps)
             </S.ModalButton>
           </S.ModalContent>
         </S.ModalOverlay>
+      )}
+
+      {showProposalModal && proposalInfo && (
+        <WalkModal
+          type='accept'
+          userInfo={{
+            name: proposalInfo.dogName,
+            breed: proposalInfo.dogBreed,
+            profileImg: proposalInfo.dogProfileImg,
+            age: proposalInfo.dogAge,
+            gender: proposalInfo.dogGender === 'MALE' ? '남' : '여',
+            memberEmail: proposalInfo.email,
+            comment: proposalInfo.comment,
+          }}
+          onClose={() => setShowProposalModal(false)}
+          onConfirm={() => {
+            // TODO: 수락 로직 구현
+            setShowProposalModal(false)
+          }}
+          onCancel={() => {
+            // TODO: 거절 로직 구현
+            setShowProposalModal(false)
+          }}
+        />
+      )}
+      {showDecisionModal && decisionInfo && (
+        <WalkModal
+          type='progress'
+          userInfo={{
+            name: decisionInfo.otherMemberName,
+            profileImg: decisionInfo.otherMemberProfileImg,
+          }}
+          onClose={() => setShowDecisionModal(false)}
+          onConfirm={() => {
+            // TODO: 다시 시도 구현
+            setShowDecisionModal(false)
+          }}
+          onCancel={() => {
+            setShowDecisionModal(false)
+          }}
+        />
       )}
     </S.MapContainer>
   )

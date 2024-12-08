@@ -1,7 +1,8 @@
 import { SetStateAction, useState, useEffect } from 'react'
 import * as S from './styles'
 import Select from '~components/Select'
-import { WalkModalProps, RequestUserInfo, OtherUserInfo } from '~types/modal'
+import { WalkModalProps, RequestUserInfo } from '~types/modal'
+import { useWebSocket } from '~/WebSocketContext'
 
 const reportOptions = [
   { value: 'dog', label: '강아지가 사나워요.' },
@@ -9,6 +10,44 @@ const reportOptions = [
 ]
 
 const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalProps) => {
+  const [message, setMessage] = useState('')
+  const { publish } = useWebSocket()
+
+  const handleConfirm = () => {
+    if (type === 'request') {
+      const proposalData = {
+        otherMemberEmail: (userInfo as RequestUserInfo).memberEmail,
+        comment: message,
+      }
+      console.log(proposalData)
+      publish('/pub/api/v1/proposal', proposalData)
+      onClose()
+    } else if (type === 'accept') {
+      const decisionData = {
+        otherEmail: (userInfo as RequestUserInfo).memberEmail,
+        decision: 'ACCEPT',
+      }
+      console.log(decisionData)
+      publish('/pub/api/v1/decision', decisionData)
+      onClose()
+    } else {
+      onConfirm()
+    }
+  }
+
+  const handleCancel = () => {
+    if (type === 'accept') {
+      const decisionData = {
+        otherEmail: (userInfo as RequestUserInfo).memberEmail,
+        decision: 'DENY',
+      }
+      publish('/pub/api/v1/decision', decisionData)
+      onClose()
+    } else {
+      onCancel?.()
+    }
+  }
+
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
@@ -84,26 +123,24 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
         {type !== 'accept' && type === 'friend' && <div className='date'>2024.12.14</div>}
 
         {type !== 'progress' && type !== 'report' && type !== 'reportComplete' && (
-          <S.UserInfo type={type}>
-            <S.Avatar type={type} />
-            <S.Info type={type}>
-              <h3>{userInfo.name}</h3>
-              {type === 'request' || type === 'accept' || type === 'walkRequest' ? (
-                <>
-                  <p>
-                    {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
-                    {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
-                    {(userInfo as RequestUserInfo).gender}
-                  </p>
-                </>
-              ) : (
-                <>
-                  {(userInfo as OtherUserInfo).location && <p>{(userInfo as OtherUserInfo).location}</p>}
-                  {(userInfo as OtherUserInfo).time && <p>{(userInfo as OtherUserInfo).time}</p>}
-                </>
-              )}
-            </S.Info>
-          </S.UserInfo>
+          <>
+            <S.UserInfo type={type}>
+              <S.Avatar type={type} src={(userInfo as RequestUserInfo).profileImg} />
+              <S.Info type={type}>
+                <h3>{userInfo.name}</h3>
+                {(type === 'request' || type === 'accept' || type === 'walkRequest') && (
+                  <>
+                    <p>
+                      {(userInfo as RequestUserInfo).breed} <S.InfoSeparator $height={8} />{' '}
+                      {(userInfo as RequestUserInfo).age} <S.InfoSeparator $height={8} />{' '}
+                      {(userInfo as RequestUserInfo).gender}
+                    </p>
+                  </>
+                )}
+              </S.Info>
+            </S.UserInfo>
+            {type === 'accept' && <S.ProposalMessage>{(userInfo as RequestUserInfo).comment}</S.ProposalMessage>}
+          </>
         )}
 
         {type === 'report' && (
@@ -121,7 +158,14 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
         )}
 
         {type === 'request' ? (
-          <S.Message as='textarea' type={type} className='message' placeholder={modalContent?.message} />
+          <S.Message
+            as='textarea'
+            type={type}
+            className='message'
+            placeholder={modalContent?.message}
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+          />
         ) : type === 'progress' ? (
           <S.Message type={type} className='message'>
             {modalContent?.message}
@@ -137,11 +181,11 @@ const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalPr
 
         <S.ButtonGroup type={type}>
           {modalContent?.cancelText && (
-            <S.Button type={type} variant='cancel' onClick={onCancel}>
+            <S.Button type={type} variant='cancel' onClick={handleCancel}>
               {modalContent.cancelText}
             </S.Button>
           )}
-          <S.Button type={type} variant='confirm' onClick={onConfirm}>
+          <S.Button type={type} variant='confirm' onClick={handleConfirm}>
             {modalContent?.confirmText}
           </S.Button>
         </S.ButtonGroup>

@@ -1,18 +1,27 @@
 import { IoChevronBack } from 'react-icons/io5'
-import MapComponent from './components/MapComponent'
+import MapComponent, { NearbyWalker } from './components/MapComponent'
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import WalkerListModal from '~pages/WalkPage/components/WalkerListModal'
+import WalkModal from '~pages/WalkPage/components/WalkModal'
 
 export default function WalkPage() {
   const navigate = useNavigate()
-  // const [_modalType, _setModalType] = useState<'request' | 'accept' | 'complete' | 'progress' | 'friend' | null>(null)
-  // const [isModalOpen, _setIsModalOpen] = useState(false)
   const [isModalOpen] = useState(false)
   const [isWalkerListOpen, setIsWalkerListOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+
+  const [nearbyWalkers, setNearbyWalkers] = useState<NearbyWalker[]>([])
+
+  const [isWalkModalOpen, setIsWalkModalOpen] = useState(false)
+  const [selectedWalker, setSelectedWalker] = useState<NearbyWalker | null>(null)
+
+  const handleWalkRequest = (walker: NearbyWalker) => {
+    setSelectedWalker(walker)
+    setIsWalkModalOpen(true)
+  }
 
   const handleWalkerListClose = () => {
     setIsClosing(true)
@@ -39,8 +48,33 @@ export default function WalkPage() {
         </S.WalkerListButtonWrapper>
       </S.Header>
 
-      <MapComponent isModalOpen={isModalOpen} />
-      <WalkerListModal isOpen={isWalkerListOpen} onClose={handleWalkerListClose} isClosing={isClosing} />
+      <MapComponent isModalOpen={isModalOpen} setNearbyWalkers={setNearbyWalkers} />
+      <WalkerListModal
+        isOpen={isWalkerListOpen}
+        onClose={handleWalkerListClose}
+        isClosing={isClosing}
+        walkers={nearbyWalkers}
+        onWalkRequest={handleWalkRequest}
+      />
+
+      {isWalkModalOpen && selectedWalker && (
+        <WalkModal
+          type='request'
+          userInfo={{
+            name: selectedWalker.dogName,
+            breed: selectedWalker.breed,
+            age: selectedWalker.dogAge,
+            gender: selectedWalker.dogGender === 'MALE' ? '남' : '여',
+            profileImg: selectedWalker.dogProfileImg,
+            memberEmail: selectedWalker.memberEmail,
+          }}
+          onClose={() => setIsWalkModalOpen(false)}
+          onConfirm={() => {
+            // 산책 요청 처리 로직
+            setIsWalkModalOpen(false)
+          }}
+        />
+      )}
     </S.WalkPage>
   )
 }
