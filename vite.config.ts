@@ -52,10 +52,12 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: 'DDang',
           short_name: 'DDang',
+          start_url: '/',
           description: '반려견 산책 서비스',
           theme_color: '#783D16', //?
           background_color: '#783D16', //?
           display: 'standalone',
+          categories: ['lifestyle', 'pets'],
           icons: [
             {
               src: '/icons/pwa-192x192.png',
@@ -87,6 +89,7 @@ export default defineConfig(({ mode }) => {
           ],
         },
 
+        useCredentials: true,
         injectManifest: {
           globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
         },
