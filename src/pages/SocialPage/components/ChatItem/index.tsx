@@ -32,9 +32,11 @@ export default function ChatItem({ lastMessage, members, name, unreadMessageCoun
         </S.UserInfoWrapper>
         {lastMessage}
       </S.TypoWrapper>
-      <UnreadChatCount>
-        <Typo11>{unreadMessageCount}</Typo11>
-      </UnreadChatCount>
+      {unreadMessageCount ? (
+        <UnreadChatCount>
+          <Typo11>{unreadMessageCount}</Typo11>
+        </UnreadChatCount>
+      ) : null}
     </S.ChatItem>
   )
 }
