@@ -7,6 +7,7 @@ import Tag from '~components/Tag'
 import { useModalStore } from '~stores/modalStore'
 import { DogProfileType } from '~types/dogProfile'
 import { useJoinFamily } from '~apis/family/useFamily'
+import { calculateAge } from '~utils/calculateAge'
 
 interface CheckDogProfileSectionProp {
   familyCode: string
@@ -45,7 +46,7 @@ export default function CheckDogProfileSection({ familyCode, dogProfiles }: Chec
             <S.TagWrapper>
               <Tag content={dogProfile.name} />
               <Tag content={dogProfile.breed} />
-              <Tag content={dogProfile.birthDate} />
+              <Tag content={calculateAge(dogProfile.birthDate).toString()} />
             </S.TagWrapper>
           </S.ProfileWrapper>
         </S.ProfileArea>
