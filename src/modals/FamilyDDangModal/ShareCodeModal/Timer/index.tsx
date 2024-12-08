@@ -9,7 +9,11 @@ interface TimerProps {
 export function Timer({ time, onTimeEnd }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState<number>(time * 1000)
 
-  const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, '0')
+  useEffect(() => {
+    setTimeLeft(time * 1000)
+  }, [time])
+
+  const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60))
   const seconds = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, '0')
 
   useEffect(() => {

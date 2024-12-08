@@ -77,11 +77,7 @@ export const TimerWrapper = styled.div`
   display: flex;
   gap: 10px;
   justify-content: center;
-`
-
-export const Timer = styled.p`
   font-weight: 700;
-  color: red;
 `
 
 export const Manual = styled.div`

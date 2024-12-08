@@ -3,12 +3,12 @@ import { useModalStore } from '~stores/modalStore.ts'
 import { Typo17, Typo24, Typo15 } from '~components/Typo/index.ts'
 import Header from '~components/Header/index.tsx'
 import DogImage from '~assets/dog_standup.svg?react'
-import { useState } from 'react'
-import { Timer } from './Timer.tsx'
+import { Timer } from './Timer'
+import { useInviteCode } from '~apis/family/useFamily.ts'
 
 export default function ShareCodeModal() {
   const { popModal } = useModalStore()
-  const [familyCode, setFamilyCode] = useState('GaMJATaNG01')
+  const { data, refetch } = useInviteCode()
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -16,7 +16,7 @@ export default function ShareCodeModal() {
         await navigator.share({
           title: '패밀리코드',
           text: '텍스트',
-          url: familyCode,
+          url: data.inviteCode,
         })
       } catch (err) {
         console.error('Error sharing:', err)
@@ -29,6 +29,7 @@ export default function ShareCodeModal() {
 
   const onTimeEnd = () => {
     console.log('타이머 끝')
+    refetch()
   }
   return (
     <S.ShareCodeModal>
@@ -53,11 +54,11 @@ export default function ShareCodeModal() {
         <S.CodeShareButtonWrapper>
           <S.CodeShareButton onClick={handleShare}>
             <Typo15 $weight='700'>초대 코드 복사</Typo15>
-            <S.FamilyCode>{familyCode}</S.FamilyCode>
+            <S.FamilyCode>{data.inviteCode}</S.FamilyCode>
           </S.CodeShareButton>
           <S.TimerWrapper>
             <p>유효 시간</p>
-            <Timer time={150} onTimeEnd={onTimeEnd} />
+            <Timer time={data.expiresInSeconds} onTimeEnd={onTimeEnd} />
           </S.TimerWrapper>
         </S.CodeShareButtonWrapper>
       </S.CodeShareSection>

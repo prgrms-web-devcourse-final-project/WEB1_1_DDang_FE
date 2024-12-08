@@ -18,4 +18,7 @@ export const queryKey = {
     currentMonthWalks: () => ['currentMonthWalks'],
   },
   myPage: () => ['myPage'],
+  family: {
+    inviteCode: () => ['family', 'inviteCode'],
+  },
 }
