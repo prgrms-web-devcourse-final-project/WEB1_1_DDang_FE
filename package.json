@@ -11,7 +11,8 @@
     "pwa": "pwa-assets-generator --preset minimal public/test.svg",
     "format": "prettier --check --ignore-path .gitignore \"**/*.{ts,tsx}\"",
     "format:fix": "prettier --write --ignore-path .gitignore \"**/*.{ts,tsx}\"",
-    "build-and-test": "npm run build && lhci autorun"
+    "build-and-test": "npm run build && lhci autorun",
+    "gen-pwa": "pwa-assets-generator --preset minimal public/favicon.svg"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
@@ -48,9 +49,7 @@
     "@types/styled-components": "^5.1.34",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@types/ol": "^7.0.0",
-    "@types/react-textarea-autosize": "^8.0.0",
-    "@vite-pwa/assets-generator": "^0.2.4",
+    "@vite-pwa/assets-generator": "^0.2.6",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.57.0",

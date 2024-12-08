@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'sw.ts',
-        registerType: 'prompt',
+        registerType: 'autoUpdate',
         injectRegister: false,
 
         pwaAssets: {
@@ -53,7 +53,42 @@ export default defineConfig(({ mode }) => {
           name: 'DDang',
           short_name: 'DDang',
           description: '반려견 산책 서비스',
-          theme_color: '#ffffff',
+          theme_color: '#783D16', //?
+          background_color: '#783D16', //?
+          display: 'standalone',
+          icons: [
+            {
+              src: '/icons/android-chrome-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/android-chrome-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable',
+            },
+            {
+              src: '/icons/apple-touch-icon.png',
+              sizes: '180x180',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/favicon-16x16.png',
+              sizes: '16x16',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/favicon-32x32.png',
+              sizes: '32x32',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/favicon.ico',
+              sizes: '48x48',
+              type: 'image/x-icon',
+            },
+          ],
         },
 
         injectManifest: {
