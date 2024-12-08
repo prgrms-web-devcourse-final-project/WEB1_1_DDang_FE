@@ -58,35 +58,31 @@ export default defineConfig(({ mode }) => {
           display: 'standalone',
           icons: [
             {
-              src: '/icons/android-chrome-192x192.png',
+              src: '/icons/pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
             },
             {
-              src: '/icons/android-chrome-512x512.png',
+              src: '/icons/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/maskable-icon-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
             },
             {
-              src: '/icons/apple-touch-icon.png',
+              src: '/icons/apple-touch-icon-180x180.png',
               sizes: '180x180',
               type: 'image/png',
+              purpose: 'apple touch icon',
             },
             {
-              src: '/icons/favicon-16x16.png',
-              sizes: '16x16',
+              src: '/icons/pwa-64x64.png',
+              sizes: '64x64',
               type: 'image/png',
-            },
-            {
-              src: '/icons/favicon-32x32.png',
-              sizes: '32x32',
-              type: 'image/png',
-            },
-            {
-              src: '/icons/favicon.ico',
-              sizes: '48x48',
-              type: 'image/x-icon',
             },
           ],
         },
