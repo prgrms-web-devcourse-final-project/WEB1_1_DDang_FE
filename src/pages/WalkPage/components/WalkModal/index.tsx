@@ -1,7 +1,7 @@
 import { SetStateAction, useState, useEffect } from 'react'
 import * as S from './styles'
 import Select from '~components/Select'
-import { WalkModalProps, RequestUserInfo, OtherUserInfo } from '~types/modal'
+import { WalkModalProps, RequestUserInfo } from '~types/modal'
 import { useWebSocket } from '~/WebSocketContext'
 
 const reportOptions = [
@@ -11,9 +11,8 @@ const reportOptions = [
 
 const WalkModal = ({ type, userInfo, onClose, onConfirm, onCancel }: WalkModalProps) => {
   const [message, setMessage] = useState('')
-  const { publish, isConnected } = useWebSocket()
+  const { publish } = useWebSocket()
 
-  console.log(userInfo)
   const handleConfirm = () => {
     if (type === 'request') {
       const proposalData = {
