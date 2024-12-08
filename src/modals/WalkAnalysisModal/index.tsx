@@ -9,7 +9,7 @@ import { useCurrentMonthWalks, useFamilyWalks, useMonthlyWalks, useTotalWalks } 
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '~components/ErrorFallback'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 
 interface ChartData {
   month: string
@@ -58,7 +58,7 @@ export default function WalkAnalysisModal() {
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<PageLoader />}>
             <S.Header>
               <S.PrevBtn src={Prev} alt='뒤로 가기' onClick={popModal} />
               <S.Title>산책 분석</S.Title>

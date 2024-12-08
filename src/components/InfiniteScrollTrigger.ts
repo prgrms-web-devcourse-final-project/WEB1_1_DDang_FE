@@ -4,5 +4,8 @@ type InfiniteScrollTriggerProps = {
   $height?: number
 }
 export const InfiniteScrollTrigger = styled.div<InfiniteScrollTriggerProps>`
-  height: ${({ $height = 20 }) => $height + 'px'};
+  height: ${({ $height = 30 }) => $height + 'px'};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

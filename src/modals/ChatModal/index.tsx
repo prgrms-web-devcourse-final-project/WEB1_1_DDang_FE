@@ -10,9 +10,10 @@ import { useFetchProfile } from '~apis/member/useFetchProfile'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Suspense } from 'react'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 import ErrorFallback from '~components/ErrorFallback'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import { Spinner } from '~components/Spinner'
 
 type ChatModalProps = {
   chatRoomId: number
@@ -23,13 +24,15 @@ export default function ChatModal({ chatRoomId, opponentMemberId }: ChatModalPro
   return (
     <S.ChatModal>
       <QueryErrorResetBoundary>
+        <S.FallbackWrapper>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<Spinner />}>
+              <ChatModalHeader opponentMemberId={opponentMemberId} />
+            </Suspense>
+          </ErrorBoundary>
+        </S.FallbackWrapper>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<Loader />}>
-            <ChatModalHeader opponentMemberId={opponentMemberId} />
-          </Suspense>
-        </ErrorBoundary>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<PageLoader />}>
             <ChatArea chatRoomId={chatRoomId} />
           </Suspense>
         </ErrorBoundary>
