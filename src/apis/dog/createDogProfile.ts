@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse, CommonAPIResponse } from '~types/api'
+import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 import { DogProfileType } from '~types/dogProfile'
 

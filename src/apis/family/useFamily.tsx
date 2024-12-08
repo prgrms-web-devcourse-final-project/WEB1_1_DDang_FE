@@ -7,6 +7,7 @@ import { joinFamily } from './joinFamily'
 import { useToastStore } from '~stores/toastStore'
 import { useNavigate } from 'react-router-dom'
 import { useModalStore } from '~stores/modalStore'
+import ConfirmModal from '~modals/ConfirmModal'
 
 export function useInviteCode() {
   return useSuspenseQuery({
@@ -28,16 +29,19 @@ export function useFetchFamilyDogs() {
 export function useJoinFamily() {
   const queryClient = useQueryClient()
   const { showToast } = useToastStore()
-  const { clearModal } = useModalStore()
+  const { pushModal, clearModal } = useModalStore()
   const navigate = useNavigate()
+
+  const completeRegistration = () => {
+    queryClient.invalidateQueries({ queryKey: queryKey.family.profile() })
+    navigate('/')
+    clearModal()
+  }
 
   return useMutation({
     mutationFn: (inviteCode: string) => joinFamily({ inviteCode }).then(res => res.data),
     onSuccess: () => {
-      alert('가족 참여가 완료되었습니다')
-      queryClient.invalidateQueries({ queryKey: queryKey.family.profile() })
-      navigate('/')
-      clearModal()
+      pushModal(<ConfirmModal content='가족 참여가 완료되었습니다' onClick={completeRegistration} />)
     },
     onError: (error: Error) => {
       showToast(error.message)

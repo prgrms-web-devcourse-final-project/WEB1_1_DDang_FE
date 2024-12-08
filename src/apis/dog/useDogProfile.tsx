@@ -8,21 +8,25 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { fetchDogProfile } from '~apis/dog/fetchDogProfile'
 import { queryKey } from '~constants/queryKey'
 import { patchDogProfile, PatchDogProfileRequest } from '~apis/dog/patchDogProfile'
+import ConfirmModal from '~modals/ConfirmModal'
+
+const { pushModal, popModal, clearModal } = useModalStore()
+const { showToast } = useToastStore()
+const navigate = useNavigate()
 
 export function useCreateDogProfile() {
-  const navigate = useNavigate()
-  const { clearModal } = useModalStore()
-  const { showToast } = useToastStore()
   const { setDogProfile } = useDogProfileStore()
+
+  const completeRegistration = () => {
+    navigate('/')
+    clearModal()
+  }
 
   return useMutation({
     mutationFn: (formData: FormData) => createDogProfile(formData),
     onSuccess: response => {
-      console.log(response.data)
       setDogProfile({ ...response.data })
-      alert('반려견 등록 완료')
-      clearModal()
-      navigate('/')
+      pushModal(<ConfirmModal content='반려견 등록이 완료되었습니다' onClick={completeRegistration} />)
     },
     onError: (error: Error) => {
       showToast(error.message)
@@ -38,16 +42,17 @@ export function useFetchDogProfile(id: number) {
 }
 
 export function usePatchDogProfile(id: number) {
-  const { popModal } = useModalStore()
-  const { showToast } = useToastStore()
   const queryClient = useQueryClient()
+
+  const completeRegistration = () => {
+    queryClient.invalidateQueries({ queryKey: queryKey.dog.profile(id) })
+    popModal()
+  }
 
   return useMutation({
     mutationFn: (data: PatchDogProfileRequest) => patchDogProfile(id, data),
     onSuccess: () => {
-      alert('반려견 정보가 수정되었습니다')
-      queryClient.invalidateQueries({ queryKey: queryKey.dog.profile(id) })
-      popModal()
+      pushModal(<ConfirmModal content='반려견 등록이 수정되었습니다' onClick={completeRegistration} />)
     },
     onError: (error: Error) => {
       showToast(error.message)
