@@ -27,10 +27,6 @@ export default function ShareCodeModal() {
     }
   }
 
-  const onTimeEnd = () => {
-    console.log('타이머 끝')
-    refetch()
-  }
   return (
     <S.ShareCodeModal>
       <Header type='lg' prevBtn onClickPrev={popModal}></Header>
@@ -58,7 +54,7 @@ export default function ShareCodeModal() {
           </S.CodeShareButton>
           <S.TimerWrapper>
             <p>유효 시간</p>
-            <Timer time={data.expiresInSeconds} onTimeEnd={onTimeEnd} />
+            <Timer time={data.expiresInSeconds} onTimeEnd={() => refetch()} />
           </S.TimerWrapper>
         </S.CodeShareButtonWrapper>
       </S.CodeShareSection>

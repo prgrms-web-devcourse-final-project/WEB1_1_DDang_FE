@@ -5,9 +5,23 @@ import { Typo24 } from '~components/Typo/index'
 import Profile from '~components/Profile'
 import Tag from '~components/Tag'
 import { useModalStore } from '~stores/modalStore'
+import { DogProfileType } from '~types/dogProfile'
+import { useJoinFamily } from '~apis/family/useFamily'
 
-export default function CheckDogProfileSection() {
+interface CheckDogProfileSectionProp {
+  familyCode: string
+  dogProfiles: DogProfileType[]
+}
+
+export default function CheckDogProfileSection({ familyCode, dogProfiles }: CheckDogProfileSectionProp) {
+  const joinFamilyMutation = useJoinFamily()
   const { popModal } = useModalStore()
+  const dogProfile = dogProfiles[0]
+
+  const handleOnClick = () => {
+    console.log(familyCode)
+    joinFamilyMutation.mutate(familyCode)
+  }
 
   return (
     <>
@@ -35,13 +49,13 @@ export default function CheckDogProfileSection() {
               userId={0}
             />
             <S.TagWrapper>
-              <Tag content='밤톨' />
-              <Tag content='토이푸들' />
-              <Tag content='2년' />
+              <Tag content={dogProfile.name} />
+              <Tag content={dogProfile.breed} />
+              <Tag content={dogProfile.birthDate} />
             </S.TagWrapper>
           </S.ProfileWrapper>
         </S.ProfileArea>
-        <ActionButton>다음</ActionButton>
+        <ActionButton onClick={handleOnClick}>다음</ActionButton>
       </S.CheckDogProfileSection>
     </>
   )

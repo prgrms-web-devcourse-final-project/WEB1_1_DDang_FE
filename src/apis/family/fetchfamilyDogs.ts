@@ -1,25 +1,14 @@
+// apis/family/fetchFamilyDogs.ts
 import { AxiosError } from 'axios'
 import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
+import { DogProfileType } from '~types/dogProfile'
 
-type DogProfileDetail = Pick<
-  CommonAPIResponse,
-  'dogId' | 'name' | 'breed' | 'birthDate' | 'weight' | 'gender' | 'profileImg' | 'isNeutered' | 'familyId' | 'comment'
->
+type FetchFamilyDogsRequest = Pick<CommonAPIResponse, 'inviteCode'>
 
-export type FetchDogProfileRequest = {
-  id: number
-}
-
-export type FetchDogProfileResponse = {
-  data: DogProfileDetail
-}
-/**
- * 반려견의 상세 프로필 정보를 조회합니다.
- */
-export const fetchDogProfile = async (req: FetchDogProfileRequest): Promise<APIResponse<FetchDogProfileResponse>> => {
+export const fetchFamilyDogs = async (request: FetchFamilyDogsRequest): Promise<APIResponse<DogProfileType[]>> => {
   try {
-    const { data } = await axiosInstance.get<APIResponse<FetchDogProfileResponse>>(`/dogs/${req.id}`)
+    const { data } = await axiosInstance.post<APIResponse<DogProfileType[]>>('/family/dogs', request)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -31,14 +20,14 @@ export const fetchDogProfile = async (req: FetchDogProfileRequest): Promise<APIR
           case 400:
             throw new Error(message || '잘못된 요청입니다.')
           case 401:
-            throw new Error(message || '인증에 실패했습니다.')
+            throw new Error(message || '유효하지 않은 코드입니다.')
           case 500:
             throw new Error(message || '서버 오류가 발생했습니다.')
           default:
             throw new Error(message || '알 수 없는 오류가 발생했습니다.')
         }
       }
-      // 요청 자체가 실패한 경우
+
       throw new Error('네트워크 연결을 확인해주세요')
     }
 

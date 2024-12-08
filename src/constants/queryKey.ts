@@ -20,5 +20,6 @@ export const queryKey = {
   myPage: () => ['myPage'],
   family: {
     inviteCode: () => ['family', 'inviteCode'],
+    profile: () => ['family', 'dogProfile'],
   },
 }
