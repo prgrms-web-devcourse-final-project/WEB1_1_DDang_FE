@@ -19,6 +19,7 @@ import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 import { getParticle } from '~utils/getParticle'
+import { useNavigate } from 'react-router-dom'
 
 function HomeContent() {
   const {
@@ -29,6 +30,7 @@ function HomeContent() {
   const unreadNotificationCount = notificationListPages.reduce((count, page) => {
     return count + page.data.content.filter(noti => noti.isRead === 'FALSE').length
   }, 0)
+  const navigate = useNavigate()
 
   return (
     <>
@@ -83,7 +85,7 @@ function HomeContent() {
           </S.WalkDistance>
         </S.WalkInfoWrapper>
       </S.WalkInfoArea>
-      <ActionButton $fontWeight='700' $type='roundedRect'>
+      <ActionButton $fontWeight='700' $type='roundedRect' onClick={() => navigate('/walk')}>
         산책 시작하기
       </ActionButton>
     </>
