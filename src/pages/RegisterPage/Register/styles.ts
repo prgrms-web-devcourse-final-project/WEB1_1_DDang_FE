@@ -157,18 +157,19 @@ export const ChoiceAvatarBtn = styled.div`
   width: 87px;
   height: 32px;
   /* display: inline-flex; */
-  padding: 5.5px 12px;
+  padding: 6.5px 12px;
   justify-content: center;
   align-items: center;
   gap: 4px;
   border-radius: 22px;
   color: ${({ theme }) => theme.colors.grayscale.gc_4};
   background-color: ${({ theme }) => theme.colors.grayscale.font_1};
+  margin-top: 1rem;
 `
 export const ProfileArea = styled.div`
   flex-direction: column;
-  width: 11rem;
-  height: 10rem;
+  width: 13rem;
+  height: 13rem;
   flex-shrink: 0;
   margin: 1.5rem auto;
   display: flex;

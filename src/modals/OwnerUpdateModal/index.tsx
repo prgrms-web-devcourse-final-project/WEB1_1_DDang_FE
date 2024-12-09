@@ -75,15 +75,15 @@ export default function OwnerUpdateModal() {
   })
 
   useEffect(() => {
-    if (prevOwnerProfile?.profileImg) {
-      const avatarNumber = prevOwnerProfile.profileImg.match(/Avatar(\d+)/)?.[1]
+    if (ownerProfile.profileImg) {
+      const avatarNumber = ownerProfile.profileImg.match(/Avatar(\d+)/)?.[1] // 프로필 이미지에서 번호 추출
       if (avatarNumber) {
         import(`../../../src/assets/avatars/Avatar${avatarNumber}.svg?react`)
-          .then(module => setProfileImage(() => module.default))
+          .then(module => setProfileImage(() => module.default)) // 동적으로 가져온 컴포넌트를 상태에 저장
           .catch(err => console.error('Error loading SVG:', err))
       }
     }
-  }, [prevOwnerProfile?.profileImg])
+  }, [ownerProfile.profileImg]) // profileImg가 변경될 때마다 실행
 
   const handleRoleClick = () => {
     pushModal(
@@ -102,12 +102,12 @@ export default function OwnerUpdateModal() {
   const handleAvatarClick = () => {
     pushModal(
       <RegisterAvatarModal
-        onSelectAvatar={avatarSrc =>
+        onSelectAvatar={avatarSrc => {
           setOwnerProfile(prev => ({
-            ...prev!,
-            profileImg: avatarSrc,
+            ...prev,
+            profileImg: avatarSrc, // 선택된 아바타 경로 업데이트
           }))
-        }
+        }}
         initialSelectedAvatar={ownerProfile.profileImg}
       />
     )
