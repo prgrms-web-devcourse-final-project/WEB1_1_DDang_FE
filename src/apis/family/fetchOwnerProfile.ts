@@ -10,7 +10,7 @@ export type FetchOwnerProfileResponse = Pick<
 export const fetchOwnerProfile = async (): Promise<APIResponse<FetchOwnerProfileResponse>> => {
   try {
     const { data } = await axiosInstance.get<APIResponse<FetchOwnerProfileResponse>>(`/member/update`)
-    console.log(data)
+    console.log('잘 오나?', data)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {

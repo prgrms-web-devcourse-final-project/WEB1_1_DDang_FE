@@ -165,3 +165,12 @@ export const ChoiceAvatarBtn = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.gc_4};
   background-color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
+export const ProfileArea = styled.div`
+  width: 11rem;
+  height: 10rem;
+  flex-shrink: 0;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
