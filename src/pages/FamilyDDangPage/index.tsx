@@ -11,14 +11,12 @@ import OwnerUpdateModal from '~modals/OwnerUpdateModal'
 import { fetchFamilyDDang } from '~apis/family/fetchFamilyDDang'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import DogProfile from '~components/DogProfile'
-import { useMyPage } from '~apis/myPage/useMyPage'
 import { useEffect } from 'react'
 
 export default function FamilyDDang() {
   const { pushModal, modalList } = useModalStore()
-  const { refetch } = useMyPage()
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['familyList'],
     queryFn: fetchFamilyDDang,
   })
@@ -56,23 +54,10 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
-      {/* {firstDog && (
-        <DogProfile
-          name={firstDog.name}
-          gender={firstDog.gender === 'MALE' ? '남자' : '여자'}
-          profileImg={firstDog.profileImg}
-          birthDate={firstDog.birthDate}
-          breed={firstDog.breed}
-          comment={firstDog.comment}
-          isNeutered={firstDog.isNeutered === 'TRUE' ? '중성화 O' : '중성화 X'}
-          weight={`${firstDog.weight}kg`}
-        />
-      )} */}
-
       {familyInfo?.dogs[0] && <DogProfile dogProfile={familyInfo?.dogs[0]} isEditBtnVisible />}
 
       <S.FamilySection>
-        {members?.map(member => (
+        {members?.map((member, index) => (
           <S.ProfileOneArea key={member.memberId}>
             <Profile $size={64} $src={member.profileImg} userId={member.memberId} />
             <S.FamilyInfoArea>
@@ -85,10 +70,9 @@ export default function FamilyDDang() {
               <S.LineWrapper>
                 <Typo14 $weight='700'>산책 시간</Typo14>
                 <Typo14 $weight='700' $color='default'>
-                  {/* {member.walkScheduleInfoList.map(schedule => schedule.dayOfWeek).join(', ') || '없음'} */}
-                </Typo14>
-                <Typo14 $weight='700' $color='default'>
-                  {member.walkScheduleInfoList.map(schedule => schedule.walkTime).join(', ') || ''}
+                  {member.walkScheduleInfoList
+                    .map(schedule => schedule.walkTime.split(':').slice(0, 2)?.join(':'))
+                    .join(', ') || ''}
                 </Typo14>
               </S.LineWrapper>
               <S.LineWrapper>
@@ -98,9 +82,11 @@ export default function FamilyDDang() {
                 </Typo14>
               </S.LineWrapper>
             </S.FamilyInfoArea>
-            <S.EditIconWrapper onClick={onClickMemberUpdate}>
-              <MdOutlineModeEdit size={20} />
-            </S.EditIconWrapper>
+            {index === 0 && (
+              <S.EditIconWrapper onClick={onClickMemberUpdate}>
+                <MdOutlineModeEdit size={20} />
+              </S.EditIconWrapper>
+            )}
           </S.ProfileOneArea>
         ))}
       </S.FamilySection>

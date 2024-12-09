@@ -30,7 +30,7 @@ export default function DogProfile({ dogProfile, isEditBtnVisible = false }: Dog
             <S.TyopNameWrapper>
               <Typo20 $weight='700'>{dogProfile.name}</Typo20>
             </S.TyopNameWrapper>
-            <Typo15 $weight='400'>{dogProfile.breed}</Typo15>
+            <S.Breed>{dogProfile.breed}</S.Breed>
             <Separator $height={8} />
             <Typo15 $weight='400'>{age}살</Typo15>
             <Separator $height={8} />

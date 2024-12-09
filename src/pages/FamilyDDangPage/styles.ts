@@ -8,6 +8,10 @@ export const FamilyDDang = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const Header = styled(BasicHeader)`
@@ -26,6 +30,7 @@ export const IconWrapper = styled.div`
   cursor: pointer;
 `
 export const ProfileOneArea = styled.div`
+  position: relative;
   display: flex;
   gap: 1rem;
   padding: 1.25rem 0;
@@ -36,13 +41,19 @@ export const ProfileOneArea = styled.div`
 `
 
 export const FamilyInfoArea = styled.div`
-  gap: 1rem;
+  gap: 2px;
+  display: flex;
+  flex-direction: column;
 `
 export const LineWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
+  /* border: solid 1px red; */
+  align-items: flex-end;
 `
 export const EditIconWrapper = styled.div`
+  position: absolute;
+  right: 0px;
   width: 2rem;
   height: 2rem;
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};

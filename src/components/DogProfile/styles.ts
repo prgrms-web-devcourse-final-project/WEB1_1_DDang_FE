@@ -13,9 +13,16 @@ export const TyopNameWrapper = styled.div`
   margin-bottom: 0.4rem;
 `
 
+export const Breed = styled.div`
+  font-size: 15px;
+  max-width: 83px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
 export const EditIconWrapper = styled.div`
   position: absolute;
-  right: 48px;
+  right: 29px;
   width: 2rem;
   height: 2rem;
   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
@@ -29,6 +36,7 @@ export const EditIconWrapper = styled.div`
 
 export const DogInfoArea = styled(Box)`
   padding: 16px 20px;
+  position: relative;
 `
 export const DogInfoWrapper = styled.div`
   display: flex;
@@ -59,17 +67,6 @@ export const OneLineIntro = styled(Box)`
     display: none;
   }
 `
-
-// export const EditIconWrapper = styled.div`
-//   width: 2rem;
-//   height: 2rem;
-//   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-left: auto;
-// `
 
 export const InviteBtn = styled.button`
   width: 57px;

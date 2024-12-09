@@ -53,7 +53,7 @@ export function usePatchDogProfile(id: number) {
   return useMutation({
     mutationFn: (data: PatchDogProfileRequest) => patchDogProfile(id, data),
     onSuccess: () => {
-      pushModal(<ConfirmModal content='반려견 정보가 수정되었습니다' onClick={completeRegistration} />)
+      pushModal(<ConfirmModal content='반려견 정보가 수정되었습니다' onClick={completeRegistration} />, 'none')
     },
     onError: (error: Error) => {
       showToast(error.message)
