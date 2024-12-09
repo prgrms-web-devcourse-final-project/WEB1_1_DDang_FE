@@ -9,6 +9,7 @@ import { darkTheme, lightTheme } from '~/styles/theme'
 import PageLoader from '~components/PageLoader'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import PushNotification from '~components/PushNotification'
 
 const queryClient = new QueryClient()
 function App() {
@@ -33,6 +34,7 @@ function App() {
                 <RouterProvider router={router} />
               </Suspense>
             </MobileContainer>
+            <PushNotification />
             <PWABadge />
             <ReactQueryDevtools initialIsOpen={false} />
           </ThemeProvider>

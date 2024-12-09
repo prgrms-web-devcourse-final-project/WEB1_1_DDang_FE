@@ -5,6 +5,7 @@ import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
 import { useHomePageData } from '~apis/main/useHomePageData'
 import { FetchNotificationListResponse } from '~apis/notification/fetchNotificationList'
 import { queryKey } from '~constants/queryKey'
+import { usePushNotificationStore } from '~stores/usePushNotificationStore'
 import { APIResponse } from '~types/api'
 
 export default function useSubscribe() {
@@ -13,6 +14,7 @@ export default function useSubscribe() {
   } = useHomePageData()
   const { isConnected, subscribe } = useWebSocket()
   const queryClient = useQueryClient()
+  const { showNotification } = usePushNotificationStore()
   useEffect(() => {
     if (isConnected) {
       console.log('구독!')
@@ -101,7 +103,7 @@ export default function useSubscribe() {
 
       subscribe(`sub/notification/${email}`, message => {
         const response = JSON.parse(message.body) as APIResponse<FetchNotificationListResponse['content'][number]>
-
+        showNotification(response.data.content)
         console.log(response)
         queryClient.setQueryData<InfiniteData<APIResponse<FetchNotificationListResponse>>>(
           queryKey.notification(),
