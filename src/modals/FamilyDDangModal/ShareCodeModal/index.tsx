@@ -11,19 +11,15 @@ export default function ShareCodeModal() {
   const { data, refetch } = useInviteCode()
 
   const handleShare = async () => {
+    navigator.clipboard.writeText(data.inviteCode)
     if (navigator.share) {
       try {
         await navigator.share({
-          title: '패밀리코드',
-          text: '텍스트',
-          url: data.inviteCode,
+          text: data.inviteCode,
         })
       } catch (err) {
         console.error('Error sharing:', err)
       }
-    } else {
-      navigator.clipboard.writeText(window.location.href)
-      alert('Link copied to clipboard!')
     }
   }
 
