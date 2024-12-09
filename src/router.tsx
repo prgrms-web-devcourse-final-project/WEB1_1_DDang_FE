@@ -1,11 +1,11 @@
+import { Suspense } from 'react'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import { WebSocketProvider } from '~/WebSocketContext'
 import Footer from '~components/Footer'
+import GlobalHookContainer from '~components/GlobalHookContainer'
+import PageLoader from '~components/PageLoader'
 import ModalContainer from '~modals/ModalContainer'
 import * as Pages from './components/LazyComponents'
-import GlobalHookContainer from '~components/GlobalHookContainer'
-import { Suspense } from 'react'
-import PageLoader from '~components/PageLoader'
 
 export const router = createBrowserRouter([
   {
@@ -63,28 +63,28 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <>
+      <Suspense fallback={<PageLoader />}>
         <Pages.LoginPage />
         <ModalContainer />
-      </>
+      </Suspense>
     ),
   },
   {
     path: '/register',
     element: (
-      <>
+      <Suspense fallback={<PageLoader />}>
         <Pages.RegisterPage />
         <ModalContainer />
-      </>
+      </Suspense>
     ),
   },
   {
     path: '/register/dog',
     element: (
-      <>
+      <Suspense fallback={<PageLoader />}>
         <Pages.RegisterDogPage />
         <ModalContainer />
-      </>
+      </Suspense>
     ),
   },
 ])
