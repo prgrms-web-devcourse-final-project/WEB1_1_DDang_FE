@@ -8,6 +8,7 @@ import { useModalStore } from '~stores/modalStore'
 import { DogProfileType } from '~types/dogProfile'
 import { useJoinFamily } from '~apis/family/useFamily'
 import { calculateAge } from '~utils/calculateAge'
+import Toast from '~components/Toast/index'
 
 interface CheckDogProfileSectionProp {
   familyCode: string
@@ -50,7 +51,10 @@ export default function CheckDogProfileSection({ familyCode, dogProfiles }: Chec
             </S.TagWrapper>
           </S.ProfileWrapper>
         </S.ProfileArea>
-        <ActionButton onClick={handleOnClick}>다음</ActionButton>
+        <S.ActionButtonWrapper>
+          <ActionButton onClick={handleOnClick}>다음</ActionButton>
+          <Toast />
+        </S.ActionButtonWrapper>
       </S.CheckDogProfileSection>
     </>
   )

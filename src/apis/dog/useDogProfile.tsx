@@ -10,12 +10,11 @@ import { queryKey } from '~constants/queryKey'
 import { patchDogProfile, PatchDogProfileRequest } from '~apis/dog/patchDogProfile'
 import ConfirmModal from '~modals/ConfirmModal'
 
-const { pushModal, popModal, clearModal } = useModalStore()
-const { showToast } = useToastStore()
-const navigate = useNavigate()
-
 export function useCreateDogProfile() {
   const { setDogProfile } = useDogProfileStore()
+  const { pushModal, clearModal } = useModalStore()
+  const { showToast } = useToastStore()
+  const navigate = useNavigate()
 
   const completeRegistration = () => {
     navigate('/')
@@ -43,16 +42,18 @@ export function useFetchDogProfile(id: number) {
 
 export function usePatchDogProfile(id: number) {
   const queryClient = useQueryClient()
+  const { clearModal, pushModal } = useModalStore()
+  const { showToast } = useToastStore()
 
   const completeRegistration = () => {
     queryClient.invalidateQueries({ queryKey: queryKey.dog.profile(id) })
-    popModal()
+    clearModal()
   }
 
   return useMutation({
     mutationFn: (data: PatchDogProfileRequest) => patchDogProfile(id, data),
     onSuccess: () => {
-      pushModal(<ConfirmModal content='반려견 등록이 수정되었습니다' onClick={completeRegistration} />)
+      pushModal(<ConfirmModal content='반려견 정보가 수정되었습니다' onClick={completeRegistration} />)
     },
     onError: (error: Error) => {
       showToast(error.message)

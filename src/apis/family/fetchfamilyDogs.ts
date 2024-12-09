@@ -1,4 +1,3 @@
-// apis/family/fetchFamilyDogs.ts
 import { AxiosError } from 'axios'
 import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'

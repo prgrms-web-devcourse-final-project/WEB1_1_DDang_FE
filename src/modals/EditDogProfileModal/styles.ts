@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const EditDogProfileModal = styled.div`
+  z-index: 100;
   overflow-y: auto;
   padding: 90px 20px 24px 20px;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};

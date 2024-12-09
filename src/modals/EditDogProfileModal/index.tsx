@@ -116,6 +116,7 @@ export default function EditDogProfileModal({ dogId }: EditDogProfileModalProps)
         type: 'application/json',
       })
     )
+    console.log('hi')
     if (dogProfile.profileImgFile) formData.append('profileImgFile', dogProfile.profileImgFile)
     patchDogProfileMutation.mutate(formData)
   }

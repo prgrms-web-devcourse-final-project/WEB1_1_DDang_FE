@@ -4,7 +4,7 @@ import { Typo17, Typo24, Typo15 } from '~components/Typo/index.ts'
 import Header from '~components/Header/index.tsx'
 import DogImage from '~assets/dog_standup.svg?react'
 import { Timer } from './Timer'
-import { useInviteCode } from '~apis/family/useFamily.ts'
+import { useInviteCode } from '~apis/family/useFamily.tsx'
 
 export default function ShareCodeModal() {
   const { popModal } = useModalStore()
