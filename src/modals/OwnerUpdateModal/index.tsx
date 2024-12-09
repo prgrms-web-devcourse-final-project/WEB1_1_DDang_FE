@@ -12,8 +12,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query' //
 import { fetchOwnerProfile } from '~apis/family/fetchOwnerProfile'
 import { UpdateOwnerProfileRequest, updateOwnerProfile } from '~apis/family/updateOwnerProfile' // 추가
 import { Typo14 } from '~components/Typo'
-import { FAMILY_ROLE } from '~constants/familyRole'
 import { queryKey } from '~constants/queryKey'
+import { FAMILY_ROLE } from '~constants/familyRole'
 import { REVERSE_FAMILY_ROLE } from '~constants/familyRole'
 
 import { FamilyRole, Gender } from '~types/common'
