@@ -7,8 +7,6 @@ import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
 import FamilyRoleChoiceModal from '~modals/PositionChoiceModal'
-// import { useOwnerProfileStore } from '~stores/ownerProfileStore'
-import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import Toast from '~components/Toast'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query' // 추가
 import { fetchOwnerProfile } from '~apis/family/fetchOwnerProfile'
@@ -17,8 +15,6 @@ import { Typo14 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import { queryKey } from '~constants/queryKey'
 import { REVERSE_FAMILY_ROLE } from '~constants/familyRole'
-import { OwnerProfileType } from '~types/ownerProfile'
-// import { UpdateOwnerProfileResponse } from '~apis/family/updateOwnerProfile'
 
 import { FamilyRole, Gender } from '~types/common'
 
@@ -58,8 +54,6 @@ export default function OwnerUpdateModal() {
   if (!ownerProfile) {
     return null
   }
-
-  const prevOwnerProfile = data?.data // fetchOwnerProfile의 데이터를 바로 사용
 
   const updateOwnerMutation = useMutation({
     mutationFn: (data: UpdateOwnerProfileRequest) => updateOwnerProfile(data),

@@ -16,6 +16,7 @@ export const queryKey = {
     currentMonthWalks: () => ['currentMonthWalks'],
   },
   family: {
+    familyList: ()=> ['familyList'],
     prevOwnerInto: () => ['prevOwnerInfo'],
     UpdateOwner: () => ['updateOwnerInfo'],
   },
