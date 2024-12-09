@@ -38,6 +38,9 @@ jobs:
           NODE_AUTH_TOKEN: ''
 
       - name: Build project
+        run: npm run lint
+
+      - name: Build project
         run: npm run build
 
       - name: Run Lighthouse CI
@@ -61,62 +64,101 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const fs = require('fs');
-            const reportPath = './lhci_reports/manifest.json';
+            const fs = require('fs')
 
-            if (!fs.existsSync(reportPath)) {
-                console.log('No Lighthouse report found');
-                return;
+            const REPORT_PATH = './lhci_reports/manifest.json'
+            const SCORE_EMOJIS = {
+              HIGH: '🟢',
+              MEDIUM: '🟠',
+              LOW: '🔴',
             }
 
-            const results = JSON.parse(fs.readFileSync(reportPath));
-            // 중앙값 결과 찾기
-            const medianResult = results.find(entry => entry.isRepresentativeRun);
-            const details = JSON.parse(fs.readFileSync(medianResult.jsonPath));
-            const { summary } = medianResult;
-            const { audits } = details;
+            const getScoreEmoji = score => {
+              if (score >= 90) return SCORE_EMOJIS.HIGH
+              if (score >= 50) return SCORE_EMOJIS.MEDIUM
+              return SCORE_EMOJIS.LOW
+            }
 
-            const formatResult = (res) => Math.round(res * 100);
+            const formatScore = score => Math.round(score * 100)
 
-            Object.keys(summary).forEach(
-                (key) => (summary[key] = formatResult(summary[key]))
-            );
+            const generateReportForUrl = report => {
+              const {
+                url,
+                details: { audits },
+                summary,
+              } = report
 
-            const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+              const sections = [
+                `## ${url}`,
+                generateMetricsTable(summary),
+                generateDetailedMetricsTable(audits),
+                generateSecurityTable(audits),
+              ]
 
-            // 기본 성능 메트릭
-            const performanceMetrics = [
-                `# ⚡ Lighthouse Report`,
-                `| Category | Score |`,
-                `| --- | --- |`,
-                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
-                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
-                `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
-                `| ${score(summary.seo)} SEO | ${summary.seo} |`
-            ].join('\n');
+              return sections.join('\n\n')
+            }
 
-            // 상세 메트릭
-            const detailedMetrics = [
-                `\n### Detailed Metrics`,
-                `| Metric | Value |`,
-                `| --- | --- |`,
-                `| ${score(audits['first-contentful-paint'].score * 100)} First Contentful Paint | ${audits['first-contentful-paint'].displayValue} |`,
-                `| ${score(audits['largest-contentful-paint'].score * 100)} Largest Contentful Paint | ${audits['largest-contentful-paint'].displayValue} |`,
-                `| ${score(audits['total-blocking-time'].score * 100)} Total Blocking Time | ${audits['total-blocking-time'].displayValue} |`,
-                `| ${score(audits['cumulative-layout-shift'].score * 100)} Cumulative Layout Shift | ${audits['cumulative-layout-shift'].displayValue} |`,
-                `| ${score(audits['speed-index'].score * 100)} Speed Index | ${audits['speed-index'].displayValue} |`
-            ].join('\n');
+            const generateMetricsTable = summary => {
+              return [
+                '### Performance Metrics',
+                '| Category | Score |',
+                '| --- | --- |',
+                `| Performance | ${getScoreEmoji(summary.performance)} ${summary.performance} |`,
+                `| Accessibility | ${getScoreEmoji(summary.accessibility)} ${summary.accessibility} |`,
+                `| Best Practices | ${getScoreEmoji(summary['best-practices'])} ${summary['best-practices']} |`,
+                `| SEO | ${getScoreEmoji(summary.seo)} ${summary.seo} |`,
+              ].join('\n')
+            }
 
-            // 보안 검사 결과
-            const securityChecks = [
-                `\n### Security Checks`,
-                `| Check | Status | Details |`,
-                `| --- | --- | --- |`,
-                `| CSP-XSS | ${audits['csp-xss'] ? (audits['csp-xss'].score === 1 ? '✅' : '⚠️') : '❓'} | ${audits['csp-xss'] ? audits['csp-xss'].title : 'Not available'} |`
-            ].join('\n');
+            const generateDetailedMetricsTable = audits => {
+              return [
+                '### Detailed Metrics',
+                '| Metric | Value |',
+                '| --- | --- |',
+                `| First Contentful Paint | ${getScoreEmoji(audits['first-contentful-paint'].score * 100)} ${audits['first-contentful-paint'].displayValue} |`,
+                `| Largest Contentful Paint | ${getScoreEmoji(audits['largest-contentful-paint'].score * 100)} ${audits['largest-contentful-paint'].displayValue} |`,
+                `| Total Blocking Time | ${getScoreEmoji(audits['total-blocking-time'].score * 100)} ${audits['total-blocking-time'].displayValue} |`,
+                `| Cumulative Layout Shift | ${getScoreEmoji(audits['cumulative-layout-shift'].score * 100)} ${audits['cumulative-layout-shift'].displayValue} |`,
+                `| Speed Index | ${getScoreEmoji(audits['speed-index'].score * 100)} ${audits['speed-index'].displayValue} |`,
+              ].join('\n')
+            }
 
-            const comments = performanceMetrics + '\n' + detailedMetrics + '\n' + securityChecks;
-            core.setOutput('comments', comments);
+            const generateSecurityTable = audits => {
+              return [
+                '### Security Checks',
+                '| Check | Status | Details |',
+                '| --- | --- | --- |',
+                `| CSP-XSS | ${audits['csp-xss'] ? (audits['csp-xss'].score === 1 ? '✅' : '⚠️') : '❓'} | ${audits['csp-xss']?.title || 'Not available'} |`,
+              ].join('\n')
+            }
+
+            const generateLighthouseReports = () => {
+              if (!fs.existsSync(REPORT_PATH)) {
+                console.error('No Lighthouse report found')
+                return null
+              }
+
+              try {
+                const results = JSON.parse(fs.readFileSync(REPORT_PATH))
+                const medianResults = results.filter(entry => entry.isRepresentativeRun)
+
+                const reports = medianResults.map(result => ({
+                  url: result.url,
+                  details: JSON.parse(fs.readFileSync(result.jsonPath)),
+                  summary: Object.fromEntries(Object.entries(result.summary).map(([key, value]) => [key, formatScore(value)])),
+                }))
+
+                return ['# ⚡ Lighthouse Reports', ...reports.map(report => generateReportForUrl(report))].join('\n\n')
+              } catch (error) {
+                console.error('Error generating Lighthouse reports:', error)
+                return null
+              }
+            }
+
+            const comments = generateLighthouseReports()
+            if (comments) {
+              core.setOutput('comments', comments)
+            }
 
       - name: Comment PR
         if: github.event_name == 'pull_request'

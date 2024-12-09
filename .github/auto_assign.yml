@@ -1,0 +1,30 @@
+addReviewers: true
+addAssignees: author
+
+reviewers:
+  - saseungmin
+  - ruehan
+  - shlee9999
+  - wonill
+  - kimjuyoung99
+
+numberOfReviewers: 2  # requiredReviewers를 제외한 추가 리뷰어 수
+
+requiredReviewers:
+  - saseungmin
+
+useReviewGroups: true  # 리뷰 그룹 사용 활성화
+
+reviewGroups:
+  required:
+    - saseungmin
+  optional:
+    - ruehan
+    - shlee9999
+    - wonill
+    - kimjuyoung99
+
+skipKeywords:
+  - wip
+
+filterUserReviewer: true
