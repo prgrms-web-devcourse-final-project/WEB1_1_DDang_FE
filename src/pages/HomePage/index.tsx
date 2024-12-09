@@ -18,6 +18,7 @@ import { FAMILY_ROLE } from '~constants/familyRole'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
+import { appendParticle } from '~utils/appendParticle'
 
 function HomeContent() {
   const {
@@ -40,7 +41,7 @@ function HomeContent() {
       </S.Header>
       <S.Visual>
         <Typo24 $weight='700' $textAlign='center'>
-          오늘은 {data?.familyRole ? FAMILY_ROLE[data.familyRole] : ''}랑
+          오늘은 {appendParticle(FAMILY_ROLE[data?.familyRole])}
         </Typo24>
         <Typo24 $weight='700' $textAlign='center'>
           산책가는 날!
