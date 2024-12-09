@@ -13,12 +13,6 @@ import OwnerUpdateModal from '~modals/OwnerUpdateModal'
 import { fetchFamilyDDang, FetchFamilyDDangResponse } from '~apis/family/fetchFamilyDDang'
 
 export default function FamilyDDang() {
-  // const { data } = useQuery<APIResponse<FetchMypageResponse>>({
-  //   queryKey: ['myPage'],
-  //   queryFn: fetchMypage,
-  // })
-  // const dogInfo = data?.data?.dog
-
   const { data } = useQuery<APIResponse<FetchFamilyDDangResponse>>({
     queryKey: ['familyList'],
     queryFn: fetchFamilyDDang,
@@ -101,7 +95,7 @@ export default function FamilyDDang() {
         </S.InviteBtn>
       </S.InviteSection>
 
-      <CountSection walkCount={80} totalDistance={204} gangCount={30} />
+      <CountSection />
     </S.FamilyDDang>
   )
 }
