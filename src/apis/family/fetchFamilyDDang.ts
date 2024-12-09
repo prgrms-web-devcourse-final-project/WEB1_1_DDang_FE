@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { APIResponse, CommonAPIResponse, ErrorResponse, Member } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
 import { DayOfWeek } from '~types/common'
 

@@ -51,10 +51,6 @@ export default function OwnerUpdateModal() {
     }
   }, [data])
 
-  if (!ownerProfile) {
-    return null
-  }
-
   const updateOwnerMutation = useMutation({
     mutationFn: (data: UpdateOwnerProfileRequest) => updateOwnerProfile(data),
     onSuccess: () => {
@@ -78,6 +74,10 @@ export default function OwnerUpdateModal() {
       }
     }
   }, [ownerProfile.profileImg]) // profileImg가 변경될 때마다 실행
+
+  if (!ownerProfile) {
+    return null
+  }
 
   const handleRoleClick = () => {
     pushModal(
