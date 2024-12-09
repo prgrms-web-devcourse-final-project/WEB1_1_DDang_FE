@@ -1,9 +1,10 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useHomePageData } from '~apis/main/useHomePageData'
+import useInfiniteNotificationList from '~apis/notification/useInfiniteNotificationList'
 import DogHand from '~assets/dog_hand.svg?react'
 import BellIcon from '~assets/icons/bell_icon.svg?react'
 import ClockIcon from '~assets/icons/clock_icon.svg?react'
@@ -21,8 +22,16 @@ import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
 
 function HomeContent() {
+  const {
+    data: { pages: notificationListPages },
+  } = useInfiniteNotificationList()
   const { data } = useHomePageData()
   const { pushModal } = useModalStore()
+  const unreadNotificationCount = useMemo(() => {
+    return notificationListPages.reduce((count, page) => {
+      return count + page.data.content.filter(noti => !noti.isRead).length
+    }, 0)
+  }, [notificationListPages])
 
   useSubscribe()
 
@@ -30,7 +39,10 @@ function HomeContent() {
     <>
       <S.Header>
         <Profile $size={32} $src={data?.memberProfileImgUrl || ''} />
-        <BellIcon cursor='pointer' onClick={() => pushModal(<NotificationModal />)} />
+        <S.BellIconWrapper>
+          <BellIcon cursor='pointer' onClick={() => pushModal(<NotificationModal />)} />
+          {unreadNotificationCount ? <S.UnreadCircle /> : null}
+        </S.BellIconWrapper>
       </S.Header>
       <S.Visual>
         <Typo24 $weight='700' $textAlign='center'>

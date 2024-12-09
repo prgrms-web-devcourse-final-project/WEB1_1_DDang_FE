@@ -49,3 +49,14 @@ export const WalkDistance = styled.div`
   align-items: center;
   justify-content: space-between;
 `
+export const BellIconWrapper = styled.div`
+  position: relative;
+`
+export const UnreadCircle = styled.span`
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: ${({ theme }) => theme.colors.brand.sub};
+  top: 0;
+  right: 0;
+`
