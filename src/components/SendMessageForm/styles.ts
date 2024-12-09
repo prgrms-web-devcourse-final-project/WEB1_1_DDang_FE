@@ -11,7 +11,7 @@ export const SendMessageForm = styled.form`
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 1;
+  z-index: 1000;
 `
 export const ChatInput = styled.input`
   flex: 1;
