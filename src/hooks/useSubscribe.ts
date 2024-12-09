@@ -107,8 +107,9 @@ export default function useSubscribe() {
         }
         if (response.code === 1001) {
           //* 첫 연결 이후부터 새로운 채팅방 생성 시
-          const data = response.data as CreateChatRoomResponse
+          // const data = response.data as CreateChatRoomResponse
           //todo 새로운 채팅방 추가
+          queryClient.invalidateQueries({ queryKey: queryKey.social.chatRoomList() })
         }
       })
 
