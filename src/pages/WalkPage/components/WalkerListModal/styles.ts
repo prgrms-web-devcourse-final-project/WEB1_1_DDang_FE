@@ -111,6 +111,13 @@ export const ProfileCircle = styled.div`
   border-radius: 50%;
   background-color: #ffe4d6;
   margin-right: 12px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `
 
 export const InfoArea = styled.div`
@@ -157,4 +164,12 @@ export const WalkBtn = styled(ActionButton)`
 
 export const WalkListSeparator = styled(Separator)`
   margin: 0 4px;
+`
+
+export const NoWalkersMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.grayscale.font_3};
+  font-size: ${({ theme }) => theme.typography._17};
+  font-weight: 500;
 `

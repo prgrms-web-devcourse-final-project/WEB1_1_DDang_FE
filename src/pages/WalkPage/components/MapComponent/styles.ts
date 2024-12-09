@@ -1,7 +1,8 @@
 import { styled } from 'styled-components'
 import { FOOTER_HEIGHT } from '~constants/layout'
 import DogProfile from '~assets/walk_dog.svg?react'
-import MapPin from '~assets/walk_pin.svg?react'
+import MapPin from '~assets/map_pin_1.svg?react'
+import MapPin2 from '~assets/map_pin_2.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
 import Center from '~assets/center.svg?react'
 import { Box } from '~components/Box'
@@ -67,6 +68,11 @@ export const WalkerListIcon = styled(DogProfile)`
 `
 
 export const MapPinIcon = styled(MapPin)`
+  width: 100%;
+  height: 100%;
+`
+
+export const MapPinIcon2 = styled(MapPin2)`
   width: 100%;
   height: 100%;
 `

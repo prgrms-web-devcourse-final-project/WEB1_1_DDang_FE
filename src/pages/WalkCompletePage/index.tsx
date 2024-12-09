@@ -2,8 +2,10 @@ import { useLocation } from 'react-router-dom'
 import * as S from './styles'
 
 interface WalkCompleteData {
+  dogName: string
+  memberName: string
   date: string
-  time: string
+  timeDuration: { hours: number; minutes: number; seconds: number }
   distance: string
   calories: string
   mapImage: string
@@ -11,7 +13,10 @@ interface WalkCompleteData {
 
 export default function WalkCompletePage() {
   const location = useLocation()
+  console.log(location.state)
   const walkData: WalkCompleteData = {
+    dogName: location.state?.dogName || '',
+    memberName: location.state?.memberName || '',
     date: new Date()
       .toLocaleDateString('ko-KR', {
         year: 'numeric',
@@ -19,27 +24,27 @@ export default function WalkCompletePage() {
         day: '2-digit',
       })
       .replace(/\. /g, '.'),
-    time: location.state?.time || '00:00:00',
-    distance: location.state?.distance || '0m',
-    calories: '200kcal',
-    mapImage: location.state?.mapImage || '',
+    timeDuration: location.state?.timeDuration,
+    distance: `${location.state?.totalDistanceMeter}m` || '0m',
+    calories: `${location.state?.totalCalorie}kcal` || '0kcal',
+    mapImage: location.state?.walkImg || '',
   }
 
   console.log(walkData)
 
-  const getMinutesFromTime = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number)
+  const getMinutesFromTime = (time: { hours: number; minutes: number; seconds?: number }) => {
+    const { hours, minutes } = time
     return hours * 60 + minutes
   }
 
-  const walkTimeInMinutes = getMinutesFromTime(walkData.time)
+  const walkTimeInMinutes = getMinutesFromTime(walkData.timeDuration)
 
   return (
     <S.WalkCompletePage>
       <S.Date>{walkData.date}</S.Date>
 
       <S.Title>
-        견주닉넴과 밤톨이가
+        {walkData.memberName}와(과) {walkData.dogName}가
         <br />
         <span>{walkTimeInMinutes}분</span>동안 산책했어요.
       </S.Title>
@@ -49,7 +54,7 @@ export default function WalkCompletePage() {
 
       <S.WalkStats>
         <S.StatItem>
-          <S.StatValue className='value'>{walkData.time}</S.StatValue>
+          <S.StatValue className='value'>{`${walkData.timeDuration.hours} : ${walkData.timeDuration.minutes} : ${walkData.timeDuration.seconds}`}</S.StatValue>
           <S.StatLabel className='label'>산책 시간</S.StatLabel>
         </S.StatItem>
         <S.StatItem>
