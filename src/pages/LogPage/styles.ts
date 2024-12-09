@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const LogPage = styled.div`
+  overscroll-behavior: none;
   display: flex;
   flex-direction: column;
   overflow: hidden;

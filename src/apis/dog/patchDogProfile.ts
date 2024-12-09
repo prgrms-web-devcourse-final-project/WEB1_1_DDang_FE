@@ -1,23 +1,25 @@
 import { AxiosError } from 'axios'
 import { APIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
+import { DogProfileType } from '~types/dogProfile'
 
-export type DeleteDogProfileRequest = {
-  id: number
-}
+export type PatchDogProfileRequest = FormData
 
-export type DeleteDogProfileResponse = {
-  data: Record<string, never>
-}
+export type PatchDogProfileResponse = DogProfileType
 
 /**
- * 반려견 프로필을 삭제합니다.
+ * 반려견 프로필 정보를 수정합니다.
  */
-export const deleteDogProfile = async (
-  req: DeleteDogProfileRequest
-): Promise<APIResponse<DeleteDogProfileResponse>> => {
+export const patchDogProfile = async (
+  id: number,
+  req: PatchDogProfileRequest
+): Promise<APIResponse<PatchDogProfileResponse>> => {
   try {
-    const { data } = await axiosInstance.delete<APIResponse<DeleteDogProfileResponse>>(`/dogs/${req.id}`)
+    const { data } = await axiosInstance.patch<APIResponse<PatchDogProfileResponse>>(`/dogs/${id}`, req, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -36,7 +38,7 @@ export const deleteDogProfile = async (
             throw new Error(message || '알 수 없는 오류가 발생했습니다.')
         }
       }
-      // 요청 자체가 실패한 경우
+
       throw new Error('네트워크 연결을 확인해주세요')
     }
 

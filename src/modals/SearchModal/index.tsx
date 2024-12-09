@@ -2,10 +2,13 @@ import * as S from './styles'
 import { useState, useEffect } from 'react'
 import breeds from '~/data/breeds.json'
 import { useModalStore } from '~/stores/modalStore'
-import { useDogProfileStore } from '~/stores/dogProfileStore'
+import { DogProfileType } from '~types/dogProfile'
 
-export default function SearchModal() {
-  const { setDogProfile } = useDogProfileStore()
+interface SearchModalProps {
+  setDogProfile: (update: Partial<DogProfileType>) => void
+}
+
+export default function SearchModal({ setDogProfile }: SearchModalProps) {
   const { popModal } = useModalStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<string[]>([])

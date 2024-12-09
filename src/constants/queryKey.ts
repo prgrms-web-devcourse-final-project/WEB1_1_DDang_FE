@@ -7,6 +7,9 @@ export const queryKey = {
   profile: (memberId: number) => ['profile', memberId],
   home: () => ['homePageData'],
   notification: () => ['notification'],
+  dog: {
+    profile: (id: number) => ['dog', 'profile', id],
+  },
   log: {
     walkDetail: (date: string) => ['walkDetail', date],
     walkDates: () => ['walkDates'],
@@ -15,4 +18,9 @@ export const queryKey = {
     totalWalks: () => ['totalWalks'],
     currentMonthWalks: () => ['currentMonthWalks'],
   },
-} as const
+  myPage: () => ['myPage'],
+  family: {
+    inviteCode: () => ['family', 'inviteCode'],
+    profile: () => ['family', 'dogProfile'],
+  },
+}

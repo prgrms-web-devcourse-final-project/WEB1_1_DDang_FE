@@ -1,23 +1,13 @@
 import { AxiosError } from 'axios'
-import { APIResponse, ErrorResponse } from '~types/api'
+import { APIResponse, CommonAPIResponse, ErrorResponse } from '~types/api'
 import { axiosInstance } from '~apis/axiosInstance'
+import { DogProfileType } from '~types/dogProfile'
 
-export type DeleteDogProfileRequest = {
-  id: number
-}
+type FetchFamilyDogsRequest = Pick<CommonAPIResponse, 'inviteCode'>
 
-export type DeleteDogProfileResponse = {
-  data: Record<string, never>
-}
-
-/**
- * 반려견 프로필을 삭제합니다.
- */
-export const deleteDogProfile = async (
-  req: DeleteDogProfileRequest
-): Promise<APIResponse<DeleteDogProfileResponse>> => {
+export const fetchFamilyDogs = async (request: FetchFamilyDogsRequest): Promise<APIResponse<DogProfileType[]>> => {
   try {
-    const { data } = await axiosInstance.delete<APIResponse<DeleteDogProfileResponse>>(`/dogs/${req.id}`)
+    const { data } = await axiosInstance.post<APIResponse<DogProfileType[]>>('/family/dogs', request)
     return data
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -29,14 +19,14 @@ export const deleteDogProfile = async (
           case 400:
             throw new Error(message || '잘못된 요청입니다.')
           case 401:
-            throw new Error(message || '인증에 실패했습니다.')
+            throw new Error(message || '유효하지 않은 코드입니다.')
           case 500:
             throw new Error(message || '서버 오류가 발생했습니다.')
           default:
             throw new Error(message || '알 수 없는 오류가 발생했습니다.')
         }
       }
-      // 요청 자체가 실패한 경우
+
       throw new Error('네트워크 연결을 확인해주세요')
     }
 
