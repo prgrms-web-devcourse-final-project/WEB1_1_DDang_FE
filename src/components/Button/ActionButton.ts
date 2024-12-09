@@ -59,4 +59,10 @@ export const ActionButton = styled.button<ActionButtonProps>`
     font-weight: ${({ $fontWeight }) => $fontWeight};
     cursor: not-allowed;
   }
+  &:hover {
+    filter: brightness(1.1);
+  }
+  &:active {
+    filter: brightness(1.05);
+  }
 `

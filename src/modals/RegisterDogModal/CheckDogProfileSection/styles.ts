@@ -45,3 +45,7 @@ export const TagWrapper = styled.div`
 export const TypoWrapper = styled.div`
   text-align: center;
 `
+
+export const ActionButtonWrapper = styled.div`
+  position: relative;
+`

@@ -14,9 +14,11 @@ export default function SelectSectionButton({ title, description, src, modal }: 
   const { pushModal } = useModalStore()
 
   return (
-    <S.SelectSectionButton onClick={() => pushModal(modal)}>
+    <S.SelectSectionButton onClick={() => pushModal(modal, 'slideLeft')}>
       <S.TypoWrapper>
-        <Typo20 $weight='700'>{title}</Typo20>
+        <Typo20 $weight='700' $color='font_1'>
+          {title}
+        </Typo20>
       </S.TypoWrapper>
       <S.Desc>{description}</S.Desc>
       <S.ImageWrapper>

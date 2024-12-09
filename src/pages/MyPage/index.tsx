@@ -80,6 +80,7 @@ export default function MyPage() {
 
         <CountSection />
         <S.DogProfileWrapper>{myPageData?.dog && <DogProfile {...myPageData.dog} />}</S.DogProfileWrapper>
+
       </S.MainContainer>
 
       {/* <S.CountWrapperBig>{myPageData?.walkCount}회</S.CountWrapperBig>

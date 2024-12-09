@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Suspense, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
@@ -6,9 +8,7 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
-import Loader from '~components/Loader'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import PageLoader from '~components/PageLoader'
 
 const queryClient = new QueryClient()
 function App() {
@@ -29,7 +29,7 @@ function App() {
             </button>
             <GlobalStyle />
             <MobileContainer>
-              <Suspense fallback={<Loader />}>
+              <Suspense fallback={<PageLoader />}>
                 <RouterProvider router={router} />
               </Suspense>
             </MobileContainer>
@@ -63,7 +63,7 @@ const MobileContainer = styled.div`
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-
+  overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 

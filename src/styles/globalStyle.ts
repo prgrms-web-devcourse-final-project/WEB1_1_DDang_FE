@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-
+  
   /* SUIT 폰트 패밀리 설정 */
   @font-face {
     font-family: 'SUIT';

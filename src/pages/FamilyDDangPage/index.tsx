@@ -4,21 +4,32 @@ import { Typo14, Typo15, Typo17 } from '~components/Typo'
 import { MdOutlineModeEdit } from 'react-icons/md'
 import CountSection from '~components/WalkCountArea'
 import Profile from '~components/Profile'
-// import DogProfile from '~components/DogProfile'
 import { useQuery } from '@tanstack/react-query'
 import { useModalStore } from '~stores/modalStore'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 import OwnerUpdateModal from '~modals/OwnerUpdateModal'
 import { fetchFamilyDDang } from '~apis/family/fetchFamilyDDang'
 import { FAMILY_ROLE } from '~constants/familyRole'
-
+import DogProfile from '~components/DogProfile'
+import { useMyPage } from '~apis/myPage/useMyPage'
+import { useEffect } from 'react'        
+        
 export default function FamilyDDang() {
   const { pushModal } = useModalStore()
+  const { data, refetch } = useMyPage()
+  const dogInfo = data?.dog
 
-  const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError } = useQuery({
     queryKey: ['familyList'],
     queryFn: fetchFamilyDDang,
   })
+    
+  const { pushModal, modalList } = useModalStore()
+
+  useEffect(() => {
+    refetch()
+  }, [modalList])
+    
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -37,7 +48,7 @@ export default function FamilyDDang() {
   console.log('familyIdfo : ', familyInfo)
 
   const onClickCodeShare = () => {
-    pushModal(<ShareCodeModal />)
+    pushModal(<ShareCodeModal />, 'slideLeft')
   }
 
   const onClickMemberUpdate = () => {
@@ -51,6 +62,7 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
+
       {/* {firstDog && (
         <DogProfile
           name={firstDog.name}
@@ -63,6 +75,9 @@ export default function FamilyDDang() {
           weight={`${firstDog.weight}kg`}
         />
       )} */}
+
+      {dogInfo && <DogProfile dogProfile={dogInfo} isEditBtnVisible />}
+
       <S.FamilySection>
         {members?.map(member => (
           <S.ProfileOneArea key={member.memberId}>

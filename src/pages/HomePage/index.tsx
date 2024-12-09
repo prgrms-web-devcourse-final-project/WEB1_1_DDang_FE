@@ -3,6 +3,8 @@ import { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useWebSocket } from '~/WebSocketContext'
+import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
 import { useHomePageData } from '~apis/main/useHomePageData'
 import DogHand from '~assets/dog_hand.svg?react'
 import BellIcon from '~assets/icons/bell_icon.svg?react'
@@ -10,18 +12,16 @@ import ClockIcon from '~assets/icons/clock_icon.svg?react'
 import GPSIcon from '~assets/icons/gps_icon.svg?react'
 import { ActionButton } from '~components/Button/ActionButton'
 import ErrorFallback from '~components/ErrorFallback'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo14, Typo17, Typo24 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
+import { queryKey } from '~constants/queryKey'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
-import * as S from './styles'
-import { useWebSocket } from '~/WebSocketContext'
-import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
-import { queryKey } from '~constants/queryKey'
 import { APIResponse, CommonAPIResponse } from '~types/api'
+import * as S from './styles'
 
 function HomeContent() {
   const { isConnected, subscribe } = useWebSocket()
@@ -121,13 +121,13 @@ function HomeContent() {
       })
     }
   }, [isConnected])
+
   return (
     <>
       <S.Header>
         <Profile $size={32} $src={data?.memberProfileImgUrl || ''} />
         <BellIcon cursor='pointer' onClick={() => pushModal(<NotificationModal />)} />
       </S.Header>
-
       <S.Visual>
         <Typo24 $weight='700' $textAlign='center'>
           오늘은 {data?.familyRole ? FAMILY_ROLE[data.familyRole] : ''}랑
@@ -206,7 +206,7 @@ export default function HomePage() {
       <QueryErrorResetBoundary>
         {({ reset }) => (
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
               <HomeContent />
             </Suspense>
           </ErrorBoundary>

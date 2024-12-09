@@ -1,9 +1,9 @@
 import useInfiniteNotificationList from '~apis/notification/useInfiniteNotificationList'
-import Loader from '~components/Loader'
+import { InfiniteScrollTrigger } from '~components/InfiniteScrollTrigger'
 import NotificationItem from '~components/NotificationItem'
+import { Spinner } from '~components/Spinner'
 import useObserver from '~hooks/useObserver'
 import * as S from './styles'
-import { InfiniteScrollTrigger } from '~components/InfiniteScrollTrigger'
 
 export default function NotificationList() {
   const { observerRef } = useObserver<HTMLDivElement>({
@@ -23,7 +23,9 @@ export default function NotificationList() {
           />
         ))
       )}
-      <InfiniteScrollTrigger ref={observerRef}>{isFetchingNextPage && <Loader />}</InfiniteScrollTrigger>
+      <InfiniteScrollTrigger ref={observerRef}>
+        {isFetchingNextPage && <Spinner $size={20} $stroke={3} />}
+      </InfiniteScrollTrigger>
     </S.NotificationList>
   )
 }

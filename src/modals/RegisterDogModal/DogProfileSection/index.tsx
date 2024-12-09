@@ -33,7 +33,7 @@ export default function DogProfileSection() {
       showToast(alertMessage)
       return
     }
-    pushModal(<DogProfileDetailSection />)
+    pushModal(<DogProfileDetailSection />, 'slideLeft')
   }
 
   const handlePrevClick = () => {

@@ -6,7 +6,7 @@ import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '~components/ErrorFallback'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 
 export default function NotificationModal() {
   const { popModal } = useModalStore()
@@ -16,7 +16,7 @@ export default function NotificationModal() {
       <QueryErrorResetBoundary>
         {({ reset }) => (
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
               <NotificationList />
             </Suspense>
           </ErrorBoundary>
