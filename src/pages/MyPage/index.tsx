@@ -78,7 +78,7 @@ export default function MyPage() {
           </S.ProfileText>
         </S.ProfileSection>
 
-        <CountSection walkCount={23} totalDistance={32} gangCount={16} />
+        <CountSection />
         <S.DogProfileWrapper>{myPageData?.dog && <DogProfile {...myPageData.dog} />}</S.DogProfileWrapper>
       </S.MainContainer>
 
