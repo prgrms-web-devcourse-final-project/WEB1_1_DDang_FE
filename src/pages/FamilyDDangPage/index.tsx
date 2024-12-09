@@ -33,7 +33,7 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
-      {dogInfo && <DogProfile {...dogInfo} />}
+      {dogInfo && <DogProfile dogProfile={dogInfo} isEditBtnVisible />}
       <S.FamilySection>
         <S.ProfileOneArea>
           <Profile $size={64} $src={Avatar10} userId={1} />
