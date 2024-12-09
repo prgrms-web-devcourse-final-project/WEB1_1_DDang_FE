@@ -9,12 +9,14 @@ import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
 import PageLoader from '~components/PageLoader'
+import PushNotification from '~components/PushNotification'
 
 const queryClient = new QueryClient()
 function App() {
   //* 다크모드 확장성 고려
   const [theme, setTheme] = useState(lightTheme)
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -32,6 +34,7 @@ function App() {
               <Suspense fallback={<PageLoader />}>
                 <RouterProvider router={router} />
               </Suspense>
+              <PushNotification />
             </MobileContainer>
             <PWABadge />
             <ReactQueryDevtools initialIsOpen={false} />

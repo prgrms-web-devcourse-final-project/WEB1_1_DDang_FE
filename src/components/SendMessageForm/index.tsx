@@ -24,6 +24,7 @@ export default function SendMessageForm({ chatRoomId, ...rest }: SendMessageForm
     if (!message.trim()) return
     sendMessage(message)
     $form.reset()
+    $form['message'].focus()
   }
 
   return (
