@@ -6,5 +6,6 @@ export default function useChatList() {
   return useQuery({
     queryKey: queryKey.social.chatRoomList(),
     queryFn: () => fetchChatRoomList().then(res => res.data),
+    enabled: !!localStorage.getItem('token'),
   })
 }
