@@ -5,14 +5,30 @@ import { Typo24 } from '~components/Typo/index'
 import Profile from '~components/Profile'
 import Tag from '~components/Tag'
 import { useModalStore } from '~stores/modalStore'
+import { DogProfileType } from '~types/dogProfile'
+import { useJoinFamily } from '~apis/family/useFamily'
+import { calculateAge } from '~utils/calculateAge'
+import Toast from '~components/Toast/index'
 
-export default function CheckDogProfileSection() {
+interface CheckDogProfileSectionProp {
+  familyCode: string
+  dogProfiles: DogProfileType[]
+}
+
+export default function CheckDogProfileSection({ familyCode, dogProfiles }: CheckDogProfileSectionProp) {
+  const joinFamilyMutation = useJoinFamily()
   const { popModal } = useModalStore()
+  const dogProfile = dogProfiles[0]
+
+  const handleOnClick = () => {
+    console.log(familyCode)
+    joinFamilyMutation.mutate(familyCode)
+  }
 
   return (
     <>
       <S.CheckDogProfileSection>
-        <Header type='sm' onClickPrev={popModal} prevBtn={true} />
+        <Header type='sm' onClickPrev={popModal} prevBtn />
         <S.ProfileArea>
           <S.TypoWrapper>
             <Typo24 $weight='700' $textAlign='center'>
@@ -27,21 +43,18 @@ export default function CheckDogProfileSection() {
              index.html 파일에서 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin />과 같이 
              url을 추가해주세요.
              */}
-            <Profile
-              $size={180}
-              $src={
-                'https://www.shutterstock.com/image-photo/beautiful-golden-retriever-cute-puppy-260nw-2526542701.jpg'
-              }
-              userId={0}
-            />
+            <Profile $size={180} $src={dogProfile.profileImg} />
             <S.TagWrapper>
-              <Tag content='밤톨' />
-              <Tag content='토이푸들' />
-              <Tag content='2년' />
+              <Tag content={dogProfile.name} />
+              <Tag content={dogProfile.breed} />
+              <Tag content={calculateAge(dogProfile.birthDate).toString()} />
             </S.TagWrapper>
           </S.ProfileWrapper>
         </S.ProfileArea>
-        <ActionButton>다음</ActionButton>
+        <S.ActionButtonWrapper>
+          <ActionButton onClick={handleOnClick}>다음</ActionButton>
+          <Toast />
+        </S.ActionButtonWrapper>
       </S.CheckDogProfileSection>
     </>
   )

@@ -7,14 +7,16 @@ export type BaseModalProps = {
 export type RequestUserInfo = {
   name: string
   breed: string
-  age: string
+  age: number
   gender: string
+  profileImg?: string
+  memberEmail?: string
+  comment?: string
 }
 
 export type OtherUserInfo = {
   name: string
-  location?: string
-  time?: string
+  profileImg: string
 }
 
 export type ModalContentType = {

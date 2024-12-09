@@ -13,7 +13,7 @@ export type BasicInfo = {
   /** 이름 @example "홍길동" */
   name: string
   /** 생년월일 @example "1990-01-01" */
-  birthDate?: string
+  birthDate: string
   /** 성별 @example "MALE" */
   gender: Gender
 }
@@ -55,6 +55,8 @@ export type OtherDog = {
   otherDogAge: number
   /** 다른 강아지 성별 @example "MALE" */
   otherDogGender: Gender
+  /** 다른 강아지 산책 횟수 @example 4 */
+  otherDogWalkCount?: number
   /** 다른 강아지 주인의 유저 ID @example 2 */
   memberId: number
 }
@@ -245,4 +247,11 @@ export type GetSettingsResponse = {
   memberId: number
   isMatched: BooleanString
   settings: NotificationSettings
+}
+
+export type UpdateOwnerProfileResponse = {
+  familyRole: FamilyRole
+  gender: Gender
+  name: string
+  profileImg: string
 }

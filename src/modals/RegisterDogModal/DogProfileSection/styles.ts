@@ -60,6 +60,8 @@ export const HiddenFileInput = styled.input`
 `
 
 export const DogImage = styled.img<{ $hasImage: boolean }>`
+  background-color: ${props => props.theme.colors.grayscale.gc_4};
+  border: solid 2px ${props => props.theme.colors.grayscale.gc_2};
   position: absolute;
   z-index: ${({ $hasImage }) => ($hasImage ? '100' : '-100')};
   top: 0;

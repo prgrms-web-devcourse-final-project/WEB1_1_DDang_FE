@@ -32,7 +32,11 @@ export default function LogPage() {
       <Header type={'sm'}>
         <S.ProfileImg src='test.svg' alt='프로필 사진' />
         <S.DogName>밤톨이 일기</S.DogName>
-        <S.GraphImage src={GraphIcon} alt='산책 기록 그래프' onClick={() => pushModal(<WalkAnalysisModal />)} />
+        <S.GraphImage
+          src={GraphIcon}
+          alt='산책 기록 그래프'
+          onClick={() => pushModal(<WalkAnalysisModal />, 'slideLeft')}
+        />
       </Header>
       <S.CalendarWrapper>
         <Calendar date={date} setDate={setDate} />

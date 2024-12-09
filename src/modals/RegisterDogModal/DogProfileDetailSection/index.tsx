@@ -1,24 +1,23 @@
-import * as S from './styles'
 import { useState } from 'react'
+import { useDogProfileStore } from '~/stores/dogProfileStore'
+import Check from '~assets/is-neutered-check.svg'
 import { ActionButton } from '~components/Button/ActionButton'
 import GenderSelectButton from '~components/GenderSelectButton'
-import { Typo24 } from '~components/Typo/index'
-import Check from '~assets/is-neutered-check.svg'
 import Header from '~components/Header/index'
-import SearchModal from '~modals/SearchModal'
-import { useModalStore } from '~stores/modalStore'
-import { useDogProfileStore } from '~/stores/dogProfileStore'
-import { validateDogDetailProfile } from '~utils/validateDogProfile'
-import { useToastStore } from '~stores/toastStore'
 import Toast from '~components/Toast'
-import { createDogProfile } from '~apis/dog/createDogProfile'
-import { useNavigate } from 'react-router-dom'
+import { Typo24 } from '~components/Typo/index'
+import SearchModal from '~modals/SearchModal'
+import { useCreateDogProfile } from '~apis/dog/useDogProfile'
+import { useModalStore } from '~stores/modalStore'
+import { useToastStore } from '~stores/toastStore'
+import { validateDogDetailProfile } from '~utils/validateDogProfile'
+import * as S from './styles'
 
 export default function DogProfileDetailSection() {
   const { dogProfile, setDogProfile } = useDogProfileStore()
-  const { pushModal, popModal, clearModal } = useModalStore()
+  const { pushModal, popModal } = useModalStore()
   const { showToast } = useToastStore()
-  const navigate = useNavigate()
+  const createDogProfile = useCreateDogProfile()
 
   const [displayValue, setDisplayValue] = useState(dogProfile.weight && dogProfile.weight + 'kg')
   const [inputType, setInputType] = useState('text')
@@ -45,7 +44,7 @@ export default function DogProfileDetailSection() {
 
   const handleFocus = () => {
     setInputType('number')
-    setDisplayValue(dogProfile.weight.toString())
+    setDisplayValue(dogProfile.weight?.toString())
   }
 
   const handleBlur = () => {
@@ -62,43 +61,19 @@ export default function DogProfileDetailSection() {
       return
     }
 
-    try {
-      const formData = new FormData()
-      const requestData = {
-        name: dogProfile.name,
-        breed: dogProfile.breed,
-        birthDate: dogProfile.birthDate,
-        weight: dogProfile.weight,
-        gender: dogProfile.gender,
-        isNeutered: dogProfile.isNeutered,
-        familyId: null,
-        comment: dogProfile.comment!.trim(),
-      }
-      formData.append(
-        'request',
-        new Blob([JSON.stringify(requestData)], {
-          type: 'application/json',
-        })
-      )
-      if (dogProfile.profileImgFile) {
-        console.log(dogProfile.profileImgFile)
-        formData.append('profileImgFile', dogProfile.profileImgFile)
-      }
-
-      const response = await createDogProfile(formData)
-
-      if (response.code === 201) {
-        // 홈으로 이동
-        alert('반려견 등록 완료')
-        clearModal()
-        navigate('/')
-        // 성공 후 추가 처리 (예: 홈으로 이동)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        showToast(error.message)
-      }
+    const formData = new FormData()
+    const requestData = {
+      ...dogProfile,
+      famliyId: null,
     }
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(requestData)], {
+        type: 'application/json',
+      })
+    )
+    if (dogProfile.profileImgFile) formData.append('profileImgFile', dogProfile.profileImgFile)
+    createDogProfile.mutate(formData)
   }
   return (
     <>
@@ -133,13 +108,16 @@ export default function DogProfileDetailSection() {
           </S.CheckboxWrapper>
         </S.GenderBtnArea>
         <S.InputArea>
-          <S.PickerBtn onClick={() => pushModal(<SearchModal />)} $hasBreed={!!dogProfile.breed}>
+          <S.PickerBtn
+            onClick={() => pushModal(<SearchModal setDogProfile={setDogProfile} />)}
+            $hasBreed={!!dogProfile.breed}
+          >
             {dogProfile.breed || '견종 입력'}
           </S.PickerBtn>
           <S.WeightInput
             placeholder='몸무게 입력 (kg)'
             type={inputType}
-            value={displayValue == '0' ? '' : displayValue}
+            value={displayValue}
             onChange={onChangeWeightInput}
             onFocus={handleFocus}
             onBlur={handleBlur}

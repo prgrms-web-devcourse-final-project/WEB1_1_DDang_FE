@@ -9,3 +9,8 @@ export const FAMILY_ROLE = {
   GRANDMOTHER: '할머니',
   '': '',
 }
+export type FamilyRoleKey = keyof typeof FAMILY_ROLE
+export type FamilyRoleValue = (typeof FAMILY_ROLE)[FamilyRoleKey]
+export const REVERSE_FAMILY_ROLE = Object.fromEntries(
+  Object.entries(FAMILY_ROLE).map(([key, value]) => [value, key])
+) as { [key in FamilyRoleValue]: FamilyRoleKey }

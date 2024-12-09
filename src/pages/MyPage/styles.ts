@@ -111,3 +111,4 @@ export const CountWrapperSmall = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.font_1};
   font-weight: 500;
 `
+
