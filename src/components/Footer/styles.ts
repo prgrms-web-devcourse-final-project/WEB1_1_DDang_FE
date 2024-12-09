@@ -10,7 +10,7 @@ export const Footer = styled.footer`
   bottom: 0;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   box-shadow: inset 0 1px 0 0 ${({ theme }) => theme.colors.grayscale.gc_1};
-  z-index: 1000;
+  z-index: 900;
 `
 
 export const FooterNavList = styled.ul`
