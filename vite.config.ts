@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'sw.ts',
-        registerType: 'prompt',
+        registerType: 'autoUpdate',
         injectRegister: false,
 
         pwaAssets: {
@@ -52,10 +52,44 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: 'DDang',
           short_name: 'DDang',
+          start_url: '/',
           description: '반려견 산책 서비스',
-          theme_color: '#ffffff',
+          theme_color: '#783D16', //?
+          background_color: '#783D16', //?
+          display: 'standalone',
+          categories: ['lifestyle', 'pets'],
+          icons: [
+            {
+              src: '/icons/pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+            {
+              src: '/icons/maskable-icon-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable',
+            },
+            {
+              src: '/icons/apple-touch-icon-180x180.png',
+              sizes: '180x180',
+              type: 'image/png',
+              purpose: 'apple touch icon',
+            },
+            {
+              src: '/icons/pwa-64x64.png',
+              sizes: '64x64',
+              type: 'image/png',
+            },
+          ],
         },
 
+        useCredentials: true,
         injectManifest: {
           globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
         },

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import SockJS from 'sockjs-client'
 
 interface WebSocketContextType {
@@ -11,12 +11,13 @@ interface WebSocketContextType {
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null)
 
+const token = localStorage.getItem('token')
+
 export const WebSocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [client, setClient] = useState<Client | null>(null)
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
     const SERVER_URL = 'https://ddang.shop/ws'
 
     const socket = new SockJS(SERVER_URL)
@@ -62,6 +63,9 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
       client.publish({
         destination,
         body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
     }
   }

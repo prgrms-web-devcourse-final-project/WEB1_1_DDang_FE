@@ -8,8 +8,7 @@ import PWABadge from '~/PWABadge'
 import { router } from '~/router'
 import GlobalStyle from '~/styles/globalStyle'
 import { darkTheme, lightTheme } from '~/styles/theme'
-import { WebSocketProvider } from '~/WebSocketContext'
-import Loader from '~components/Loader'
+import PageLoader from '~components/PageLoader'
 
 const queryClient = new QueryClient()
 function App() {
@@ -18,29 +17,27 @@ function App() {
   const toggleTheme = () => setTheme(prev => (prev === lightTheme ? darkTheme : lightTheme))
   return (
     <>
-      <WebSocketProvider>
+      <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              <Helmet>
-                <title>DDang</title>
-                <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
-              </Helmet>
-              <button onClick={toggleTheme} hidden>
-                Toggle Theme
-              </button>
-              <GlobalStyle />
-              <MobileContainer>
-                <Suspense fallback={<Loader />}>
-                  <RouterProvider router={router} />
-                </Suspense>
-              </MobileContainer>
-              <PWABadge />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
+            <Helmet>
+              <title>DDang</title>
+              <meta name='description' content='반려견과 함께하는 즐거운 산책, DDang.' />
+            </Helmet>
+            <button onClick={toggleTheme} hidden>
+              Toggle Theme
+            </button>
+            <GlobalStyle />
+            <MobileContainer>
+              <Suspense fallback={<PageLoader />}>
+                <RouterProvider router={router} />
+              </Suspense>
+            </MobileContainer>
+            <PWABadge />
+            <ReactQueryDevtools initialIsOpen={false} />
           </ThemeProvider>
         </HelmetProvider>
-      </WebSocketProvider>
+      </QueryClientProvider>
     </>
   )
 }
@@ -66,7 +63,7 @@ const MobileContainer = styled.div`
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-
+  overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 

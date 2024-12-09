@@ -1,17 +1,18 @@
-import Footer from '~components/Footer'
 import { createBrowserRouter, Outlet } from 'react-router-dom'
-import * as Pages from './components/LazyComponents'
+import { WebSocketProvider } from '~/WebSocketContext'
+import Footer from '~components/Footer'
 import ModalContainer from '~modals/ModalContainer'
+import * as Pages from './components/LazyComponents'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <>
+      <WebSocketProvider>
         <Outlet />
         <Footer />
         <ModalContainer />
-      </>
+      </WebSocketProvider>
     ),
     children: [
       {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: '/profile/:id',
         element: <Pages.ProfilePage />,
+      },
+      {
+        path: '*',
+        element: <Pages.NotFoundPage />,
       },
     ],
   },
