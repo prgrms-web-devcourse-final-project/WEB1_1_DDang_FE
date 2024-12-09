@@ -59,4 +59,5 @@ export const UnreadCircle = styled.span`
   background-color: ${({ theme }) => theme.colors.brand.sub};
   top: 0;
   right: 0;
+  border-radius: 50%;
 `

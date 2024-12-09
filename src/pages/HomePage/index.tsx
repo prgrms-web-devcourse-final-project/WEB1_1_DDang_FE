@@ -1,5 +1,5 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { Suspense, useEffect, useMemo } from 'react'
+import { Suspense, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -27,11 +27,10 @@ function HomeContent() {
   } = useInfiniteNotificationList()
   const { data } = useHomePageData()
   const { pushModal } = useModalStore()
-  const unreadNotificationCount = useMemo(() => {
-    return notificationListPages.reduce((count, page) => {
-      return count + page.data.content.filter(noti => !noti.isRead).length
-    }, 0)
-  }, [notificationListPages])
+  const unreadNotificationCount = notificationListPages.reduce((count, page) => {
+    console.log(page.data.content)
+    return count + page.data.content.filter(noti => noti.isRead === 'FALSE').length
+  }, 0)
 
   useSubscribe()
 
