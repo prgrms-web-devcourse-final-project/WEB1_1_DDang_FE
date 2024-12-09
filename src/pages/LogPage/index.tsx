@@ -35,7 +35,20 @@ export default function LogPage() {
         <S.GraphImage
           src={GraphIcon}
           alt='산책 기록 그래프'
-          onClick={() => pushModal(<WalkAnalysisModal />, 'slideLeft')}
+          onClick={() =>
+            pushModal(
+              <QueryErrorResetBoundary>
+                {({ reset }) => (
+                  <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+                    <Suspense fallback={<PageLoader />}>
+                      <WalkAnalysisModal />
+                    </Suspense>
+                  </ErrorBoundary>
+                )}
+              </QueryErrorResetBoundary>,
+              'slideLeft'
+            )
+          }
         />
       </Header>
       <S.CalendarWrapper>

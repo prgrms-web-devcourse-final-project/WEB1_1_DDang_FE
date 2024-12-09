@@ -1,15 +1,11 @@
-import { useEffect, useRef, Suspense } from 'react'
+import { useEffect, useRef } from 'react'
+import { FamilyMemberWalk } from '~apis/log/fetchFamilyYearlyWalks'
 import Prev from '~assets/prev.svg'
+import { useCurrentMonthWalks, useFamilyWalks, useMonthlyWalks, useTotalWalks } from '~pages/LogPage/useWalkInfo'
 import { useModalStore } from '~stores/modalStore'
+import Statistics from './components/Statistics'
 import { createBarChart, createLineChart } from './createChart'
 import * as S from './styles'
-import { FamilyMemberWalk } from '~apis/log/fetchFamilyYearlyWalks'
-import Statistics from './components/Statistics'
-import { useCurrentMonthWalks, useFamilyWalks, useMonthlyWalks, useTotalWalks } from '~pages/LogPage/useWalkInfo'
-import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { ErrorBoundary } from 'react-error-boundary'
-import ErrorFallback from '~components/ErrorFallback'
-import PageLoader from '~components/PageLoader'
 
 interface ChartData {
   month: string
@@ -55,33 +51,27 @@ export default function WalkAnalysisModal() {
     }
   }, [monthlyWalks, familyWalks])
   return (
-    <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-          <Suspense fallback={<PageLoader />}>
-            <S.Header>
-              <S.PrevBtn src={Prev} alt='뒤로 가기' onClick={popModal} />
-              <S.Title>산책 분석</S.Title>
-            </S.Header>
-            <S.WalkAnalysisModal>
-              <S.ChartArea>
-                <S.ChartWrapper>
-                  <S.ChartTitle>올해 월 별 산책기록</S.ChartTitle>
-                  <S.Chart ref={lineChartRef} width='100%' height='100%'></S.Chart>
-                </S.ChartWrapper>
-                <S.ChartWrapper>
-                  <S.ChartTitle>올해 가족별 산책 횟수</S.ChartTitle>
-                  <S.Chart ref={barChartRef} width='100%' height='100%'></S.Chart>
-                </S.ChartWrapper>
-              </S.ChartArea>
-              <S.StatisticsArea>
-                <Statistics title={'총 산책 내역'} stats={totalWalks} />
-                <Statistics title={'이번달 통계'} stats={currentMonthWalks} />
-              </S.StatisticsArea>
-            </S.WalkAnalysisModal>
-          </Suspense>
-        </ErrorBoundary>
-      )}
-    </QueryErrorResetBoundary>
+    <>
+      <S.Header>
+        <S.PrevBtn src={Prev} alt='뒤로 가기' onClick={popModal} />
+        <S.Title>산책 분석</S.Title>
+      </S.Header>
+      <S.WalkAnalysisModal>
+        <S.ChartArea>
+          <S.ChartWrapper>
+            <S.ChartTitle>올해 월 별 산책기록</S.ChartTitle>
+            <S.Chart ref={lineChartRef} width='100%' height='100%'></S.Chart>
+          </S.ChartWrapper>
+          <S.ChartWrapper>
+            <S.ChartTitle>올해 가족별 산책 횟수</S.ChartTitle>
+            <S.Chart ref={barChartRef} width='100%' height='100%'></S.Chart>
+          </S.ChartWrapper>
+        </S.ChartArea>
+        <S.StatisticsArea>
+          <Statistics title={'총 산책 내역'} stats={totalWalks} />
+          <Statistics title={'이번달 통계'} stats={currentMonthWalks} />
+        </S.StatisticsArea>
+      </S.WalkAnalysisModal>
+    </>
   )
 }
