@@ -1,6 +1,6 @@
 import * as S from './styles'
 import { Helmet } from 'react-helmet-async'
-
+import Logo from '~assets/favicon.svg?react'
 const serverUrl = import.meta.env.VITE_SERVER_URL
 const BACK_URL = new URL(serverUrl).origin
 
@@ -56,7 +56,9 @@ export default function LoginPage() {
         <meta name='description' content='DDang 서비스 로그인' />
       </Helmet>
       <TitleSection />
-      <S.Logo>로고</S.Logo>
+      <S.Logo>
+        <Logo width='90%' height='90%' />
+      </S.Logo>
       <SocialLoginButtons />
     </S.LoginPage>
   )
