@@ -60,16 +60,16 @@ export const OneLineIntro = styled(Box)`
   }
 `
 
-export const EditIconWrapper = styled.div`
-  width: 2rem;
-  height: 2rem;
-  background-color: ${({ theme }) => theme.colors.brand.lighten_2};
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto;
-`
+// export const EditIconWrapper = styled.div`
+//   width: 2rem;
+//   height: 2rem;
+//   background-color: ${({ theme }) => theme.colors.brand.lighten_2};
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-left: auto;
+// `
 
 export const InviteBtn = styled.button`
   width: 57px;

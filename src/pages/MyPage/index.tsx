@@ -79,7 +79,7 @@ export default function MyPage() {
         </S.ProfileSection>
 
         <CountSection />
-        <S.DogProfileWrapper>{myPageData?.dog && <DogProfile {...myPageData.dog} />}</S.DogProfileWrapper>
+        <S.DogProfileWrapper>{myPageData?.dog && <DogProfile dogProfile= {myPageData.dog} />}</S.DogProfileWrapper>
 
       </S.MainContainer>
 

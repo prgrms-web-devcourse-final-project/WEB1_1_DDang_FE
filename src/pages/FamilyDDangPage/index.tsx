@@ -12,24 +12,20 @@ import { fetchFamilyDDang } from '~apis/family/fetchFamilyDDang'
 import { FAMILY_ROLE } from '~constants/familyRole'
 import DogProfile from '~components/DogProfile'
 import { useMyPage } from '~apis/myPage/useMyPage'
-import { useEffect } from 'react'        
-        
-export default function FamilyDDang() {
-  const { pushModal } = useModalStore()
-  const { data, refetch } = useMyPage()
-  const dogInfo = data?.dog
+import { useEffect } from 'react'
 
-    const { data, isLoading, isError } = useQuery({
+export default function FamilyDDang() {
+  const { pushModal, modalList } = useModalStore()
+  const { refetch } = useMyPage()
+
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['familyList'],
     queryFn: fetchFamilyDDang,
   })
-    
-  const { pushModal, modalList } = useModalStore()
 
   useEffect(() => {
     refetch()
   }, [modalList])
-    
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -42,8 +38,6 @@ export default function FamilyDDang() {
 
   const familyInfo = data?.data
   const members = familyInfo?.members
-
-  // const firstDog = familyInfo?.dogs[0]
 
   console.log('familyIdfo : ', familyInfo)
 
@@ -62,7 +56,6 @@ export default function FamilyDDang() {
         </S.IconWrapper>
       </S.Header>
 
-
       {/* {firstDog && (
         <DogProfile
           name={firstDog.name}
@@ -76,7 +69,7 @@ export default function FamilyDDang() {
         />
       )} */}
 
-      {dogInfo && <DogProfile dogProfile={dogInfo} isEditBtnVisible />}
+      {familyInfo?.dogs[0] && <DogProfile dogProfile={familyInfo?.dogs[0]} isEditBtnVisible />}
 
       <S.FamilySection>
         {members?.map(member => (
