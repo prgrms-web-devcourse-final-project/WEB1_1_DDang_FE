@@ -53,7 +53,7 @@ function ProfileContent({ id }: { id: number }) {
         </S.WalkInfoWrapper>
       </S.WalkInfoArea>
 
-      {data && <DogProfile {...data.dog} />}
+      {data && <DogProfile dogProfile={data.dog} />}
     </S.ProfilePage>
   )
 }
