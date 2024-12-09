@@ -3,15 +3,18 @@ import { WebSocketProvider } from '~/WebSocketContext'
 import Footer from '~components/Footer'
 import ModalContainer from '~modals/ModalContainer'
 import * as Pages from './components/LazyComponents'
+import GlobalHookContainer from '~components/GlobalHookContainer'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <WebSocketProvider>
-        <Outlet />
-        <Footer />
-        <ModalContainer />
+        <GlobalHookContainer>
+          <Outlet />
+          <Footer />
+          <ModalContainer />
+        </GlobalHookContainer>
       </WebSocketProvider>
     ),
     children: [

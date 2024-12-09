@@ -1,8 +1,7 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { Suspense, useEffect } from 'react'
+import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet } from 'react-helmet-async'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useHomePageData } from '~apis/main/useHomePageData'
 import useInfiniteNotificationList from '~apis/notification/useInfiniteNotificationList'
 import DogHand from '~assets/dog_hand.svg?react'
@@ -16,10 +15,10 @@ import Profile from '~components/Profile'
 import { Separator } from '~components/Separator'
 import { Typo14, Typo17, Typo24 } from '~components/Typo'
 import { FAMILY_ROLE } from '~constants/familyRole'
-import useSubscribe from '~hooks/useSubscribe'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
+import { usePushNotificationStore } from '~stores/usePushNotificationStore'
 
 function HomeContent() {
   const {
@@ -31,8 +30,7 @@ function HomeContent() {
     console.log(page.data.content)
     return count + page.data.content.filter(noti => noti.isRead === 'FALSE').length
   }, 0)
-
-  useSubscribe()
+  const { showNotification } = usePushNotificationStore()
 
   return (
     <>
@@ -86,32 +84,12 @@ function HomeContent() {
       <ActionButton $fontWeight='700' $type='roundedRect'>
         산책 시작하기
       </ActionButton>
+      <button onClick={() => showNotification('원일님과 친구가 되었어요')}>클릭</button>
     </>
   )
 }
 
 export default function HomePage() {
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const accessToken = searchParams.get('accessToken')
-    if (accessToken) {
-      localStorage.setItem('token', accessToken)
-      console.log('토큰 가져옴(숨김처리 예정) : ', accessToken)
-      //URL에서 토큰 파라미터 제거하고 홈페이지로 리다이렉트, JWT토큰이 URL에 노출되어 히스토리에 남지 않게 함
-      window.history.replaceState({}, '', '/')
-      return
-    }
-
-    const storedToken = localStorage.getItem('token')
-    if (!storedToken) {
-      console.log('토큰 없음 비로그인 상태. login페이지 이동.')
-      navigate('/login')
-      return
-    }
-  }, [searchParams, navigate])
-
   return (
     <S.HomePage>
       <Helmet>

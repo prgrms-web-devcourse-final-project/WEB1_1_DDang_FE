@@ -1,17 +1,20 @@
-import { InfiniteData, useQueryClient } from '@tanstack/react-query'
+import { InfiniteData, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useWebSocket } from '~/WebSocketContext'
 import { FetchChatMessageListResponse } from '~apis/chat/fetchChatMessageList'
-import { useHomePageData } from '~apis/main/useHomePageData'
+import { fetchHomePageData } from '~apis/main/fetchHomePageData'
 import { FetchNotificationListResponse } from '~apis/notification/fetchNotificationList'
 import { queryKey } from '~constants/queryKey'
 import { usePushNotificationStore } from '~stores/usePushNotificationStore'
 import { APIResponse } from '~types/api'
 
 export default function useSubscribe() {
-  const {
-    data: { email },
-  } = useHomePageData()
+  const { data } = useQuery({
+    queryKey: queryKey.home(),
+    queryFn: () => fetchHomePageData().then(data => data.data),
+    enabled: !!localStorage.getItem('token'),
+  })
+
   const { isConnected, subscribe } = useWebSocket()
   const queryClient = useQueryClient()
   const { showNotification } = usePushNotificationStore()
@@ -23,7 +26,7 @@ export default function useSubscribe() {
         console.log('에러 구독', response)
       })
 
-      subscribe(`/sub/message/${email}`, message => {
+      subscribe(`/sub/message/${data?.email || ''}`, message => {
         const response = JSON.parse(message.body)
         if (response.code === 1000) {
           //* 첫 연결 시 모든 채팅방 반환
@@ -112,9 +115,9 @@ export default function useSubscribe() {
         }
       })
 
-      subscribe(`/sub/notification/${email}`, message => {
+      subscribe(`/sub/notification/${data?.email || ''}`, message => {
         const response = JSON.parse(message.body) as APIResponse<FetchNotificationListResponse['content'][number]>
-        console.log('알림 구독')
+        console.log('알림 구독', response)
         if (!response.data.content) {
           return
         }

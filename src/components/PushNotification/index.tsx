@@ -17,7 +17,9 @@ export default function PushNotification() {
           transition={{ duration: 0.3 }}
           onClick={() => clearNotification()}
         >
-          <Typo15>{message}</Typo15>
+          <Typo15 $weight='700' $color='default'>
+            {message}
+          </Typo15>
         </S.PushNotification>
       ))}
     </AnimatePresence>
