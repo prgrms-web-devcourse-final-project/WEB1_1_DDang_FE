@@ -6,15 +6,15 @@ import CountSection from '~components/WalkCountArea'
 import Profile from '~components/Profile'
 // import DogProfile from '~components/DogProfile'
 import { useQuery } from '@tanstack/react-query'
-import { APIResponse } from '~types/api'
 import { useModalStore } from '~stores/modalStore'
 import ShareCodeModal from '~modals/FamilyDDangModal/ShareCodeModal'
 import OwnerUpdateModal from '~modals/OwnerUpdateModal'
-import { fetchFamilyDDang, FetchFamilyDDangResponse } from '~apis/family/fetchFamilyDDang'
-import { REVERSE_FAMILY_ROLE } from '~constants/familyRole'
+import { fetchFamilyDDang } from '~apis/family/fetchFamilyDDang'
 import { FAMILY_ROLE } from '~constants/familyRole'
 
 export default function FamilyDDang() {
+  const { pushModal } = useModalStore()
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['familyList'],
     queryFn: fetchFamilyDDang,
@@ -30,14 +30,11 @@ export default function FamilyDDang() {
   console.log(data)
 
   const familyInfo = data?.data
-  const firstMember = familyInfo?.members[0] // members 배열의 첫 번째 멤버
   const members = familyInfo?.members
 
   // const firstDog = familyInfo?.dogs[0]
 
   console.log('familyIdfo : ', familyInfo)
-
-  const { pushModal } = useModalStore()
 
   const onClickCodeShare = () => {
     pushModal(<ShareCodeModal />)
