@@ -4,6 +4,8 @@ import Footer from '~components/Footer'
 import ModalContainer from '~modals/ModalContainer'
 import * as Pages from './components/LazyComponents'
 import GlobalHookContainer from '~components/GlobalHookContainer'
+import { Suspense } from 'react'
+import PageLoader from '~components/PageLoader'
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +13,9 @@ export const router = createBrowserRouter([
     element: (
       <WebSocketProvider>
         <GlobalHookContainer>
-          <Outlet />
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
           <Footer />
           <ModalContainer />
         </GlobalHookContainer>
