@@ -8,7 +8,12 @@ export const RegisterAvatarModal = styled.div`
   position: relative;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
   overflow: hidden;
-
+  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   @media (max-height: 700px) {
     padding: 3.3rem 1.25rem 1rem;
     gap: 0.5rem;

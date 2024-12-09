@@ -20,7 +20,10 @@ export const queryKey = {
   },
   myPage: () => ['myPage'],
   family: {
-    inviteCode: () => ['family', 'inviteCode'],
+    familyList: ()=> ['familyList'],
+    prevOwnerInto: () => ['prevOwnerInfo'],
+    UpdateOwner: () => ['updateOwnerInfo'],
+       inviteCode: () => ['family', 'inviteCode'],
     profile: () => ['family', 'dogProfile'],
   },
-}
+} as const
