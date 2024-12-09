@@ -1,18 +1,30 @@
 import { create } from 'zustand'
 
-interface PushNotificationStore {
-  pushNotification: string
-  showNotification: (message: string) => void
-  hideNotification: () => void
+interface PushNotification {
+  id: number
+  message: string
 }
 
-export const usePushNotificationStore = create<PushNotificationStore>(set => ({
-  pushNotification: '',
+interface PushNotificationStore {
+  notifications: PushNotification[]
+  showNotification: (message: string) => void
+  hideNotification: (id: number) => void
+  clearNotification: () => void
+}
+
+export const usePushNotificationStore = create<PushNotificationStore>((set, get) => ({
+  notifications: [],
   showNotification: (message: string) => {
-    set({ pushNotification: message })
-    setTimeout(() => set({ pushNotification: '' }), 2000)
+    const id = Date.now()
+    set(state => ({ notifications: [...state.notifications, { id, message }] }))
+    setTimeout(() => get().hideNotification(id), 2000)
   },
-  hideNotification: () => {
-    set({ pushNotification: '' })
+  hideNotification: (id: number) => {
+    set(state => ({
+      notifications: state.notifications.filter(notification => notification.id !== id),
+    }))
+  },
+  clearNotification: () => {
+    set({ notifications: [] })
   },
 }))

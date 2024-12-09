@@ -33,8 +33,8 @@ function App() {
               <Suspense fallback={<PageLoader />}>
                 <RouterProvider router={router} />
               </Suspense>
+              <PushNotification />
             </MobileContainer>
-            <PushNotification />
             <PWABadge />
             <ReactQueryDevtools initialIsOpen={false} />
           </ThemeProvider>

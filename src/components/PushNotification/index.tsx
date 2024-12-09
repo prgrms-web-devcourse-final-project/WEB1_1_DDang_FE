@@ -1,27 +1,25 @@
 import { AnimatePresence } from 'framer-motion'
-import { createPortal } from 'react-dom'
 import { Typo15 } from '~components/Typo'
 import { usePushNotificationStore } from '~stores/usePushNotificationStore'
 import * as S from './styles'
 
 export default function PushNotification() {
-  const { pushNotification, hideNotification } = usePushNotificationStore()
-  console.log(pushNotification)
+  const { notifications, clearNotification } = usePushNotificationStore()
 
-  return createPortal(
+  return (
     <AnimatePresence>
-      {pushNotification && (
+      {notifications.map(({ id, message }) => (
         <S.PushNotification
+          key={id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          onClick={() => hideNotification}
+          onClick={() => clearNotification()}
         >
-          <Typo15>{pushNotification}</Typo15>
+          <Typo15>{message}</Typo15>
         </S.PushNotification>
-      )}
-    </AnimatePresence>,
-    document.getElementById('root')!.querySelector('div')!
+      ))}
+    </AnimatePresence>
   )
 }
