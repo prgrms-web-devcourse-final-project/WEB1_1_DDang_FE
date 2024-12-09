@@ -18,7 +18,6 @@ import { FAMILY_ROLE } from '~constants/familyRole'
 import NotificationModal from '~modals/NotificationModal'
 import { useModalStore } from '~stores/modalStore'
 import * as S from './styles'
-import { usePushNotificationStore } from '~stores/usePushNotificationStore'
 
 function HomeContent() {
   const {
@@ -27,10 +26,8 @@ function HomeContent() {
   const { data } = useHomePageData()
   const { pushModal } = useModalStore()
   const unreadNotificationCount = notificationListPages.reduce((count, page) => {
-    console.log(page.data.content)
     return count + page.data.content.filter(noti => noti.isRead === 'FALSE').length
   }, 0)
-  const { showNotification } = usePushNotificationStore()
 
   return (
     <>
@@ -84,7 +81,6 @@ function HomeContent() {
       <ActionButton $fontWeight='700' $type='roundedRect'>
         산책 시작하기
       </ActionButton>
-      <button onClick={() => showNotification('원일님과 친구가 되었어요')}>클릭</button>
     </>
   )
 }
