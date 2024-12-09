@@ -22,7 +22,7 @@ export default function FamilyDDang() {
   }, [modalList])
 
   const onClickCodeShare = () => {
-    pushModal(<ShareCodeModal />)
+    pushModal(<ShareCodeModal />, 'slideLeft')
   }
 
   return (

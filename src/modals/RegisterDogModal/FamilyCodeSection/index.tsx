@@ -24,7 +24,8 @@ export default function FamilyCodeSection() {
       return
     }
     const dogProfiles = await fetchFamilyDogsMutation.mutateAsync(familyCode)
-    if (dogProfiles) pushModal(<CheckDogProfileSection familyCode={familyCode} dogProfiles={dogProfiles} />)
+    if (dogProfiles)
+      pushModal(<CheckDogProfileSection familyCode={familyCode} dogProfiles={dogProfiles} />, 'slideLeft')
   }
   return (
     <>

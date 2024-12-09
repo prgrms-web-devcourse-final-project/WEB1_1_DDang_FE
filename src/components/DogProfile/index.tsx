@@ -20,7 +20,7 @@ export default function DogProfile({ dogProfile, isEditBtnVisible = false }: Dog
     <S.DogInfoArea>
       <S.DogInfoWrapper>
         {isEditBtnVisible && (
-          <S.EditIconWrapper onClick={() => pushModal(<EditDogProfileModal dogId={dogProfile.dogId} />)}>
+          <S.EditIconWrapper onClick={() => pushModal(<EditDogProfileModal dogId={dogProfile.dogId} />, 'slideLeft')}>
             <MdOutlineModeEdit size={20} />
           </S.EditIconWrapper>
         )}
