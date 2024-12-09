@@ -1,50 +1,99 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from '~pages/RegisterPage/Register/styles'
 import { Helmet } from 'react-helmet-async'
-import AddOwnerAvatar from '~assets/add-dog-picture.svg'
 import GenderSelectButton from '~components/GenderSelectButton'
 import { Input } from '~components/Input'
 import RegisterAvatarModal from '~modals/RegisterAvatarModal'
 import { useModalStore } from '~stores/modalStore'
 import { ActionButton } from '~components/Button/ActionButton'
 import FamilyRoleChoiceModal from '~modals/PositionChoiceModal'
-import { useGeolocation } from '~hooks/useGeolocation'
-import { useOwnerProfileStore } from '~stores/ownerProfileStore'
+// import { useOwnerProfileStore } from '~stores/ownerProfileStore'
 import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 import Toast from '~components/Toast'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query' // 추가
 import { fetchOwnerProfile } from '~apis/family/fetchOwnerProfile'
+import { UpdateOwnerProfileRequest, updateOwnerProfile } from '~apis/family/updateOwnerProfile' // 추가
 import { Typo14 } from '~components/Typo'
+import { FAMILY_ROLE } from '~constants/familyRole'
+import { queryKey } from '~constants/queryKey'
+import { REVERSE_FAMILY_ROLE } from '~constants/familyRole'
+import { OwnerProfileType } from '~types/ownerProfile'
+// import { UpdateOwnerProfileResponse } from '~apis/family/updateOwnerProfile'
+
+import { FamilyRole, Gender } from '~types/common'
+
+interface updateProfileType {
+  familyRole: FamilyRole
+  gender: Gender
+  name: string
+  profileImg: string
+}
 
 export default function OwnerUpdateModal() {
-  const { location, getCurrentLocation } = useGeolocation()
-  // const popModal = useModalStore(state => state.popModal)
   const pushModal = useModalStore(state => state.pushModal)
-  const setOwnerProfile = useOwnerProfileStore(state => state.setOwnerProfile) // 상태 업데이트 함수
-  const ownerProfile = useOwnerProfileStore(state => state.ownerProfile) // 상태 값 가져오기
+  const popModal = useModalStore(state => state.popModal)
 
-  // Fetch owner profile data
-  const { data } = useQuery({
-    queryKey: ['ownerUpdatePage'],
+  const [ownerProfile, setOwnerProfile] = useState<updateProfileType>({
+    familyRole: '',
+    gender: 'MALE', // 기본값
+    name: '',
+    profileImg: '',
+  })
+  const [ProfileImage, setProfileImage] = useState<React.ComponentType | null>(null)
+
+  const queryClient = useQueryClient()
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: queryKey.family.prevOwnerInto(),
     queryFn: fetchOwnerProfile,
   })
-  console.log('희희, ', data)
 
-  // Update address when location changes
   useEffect(() => {
-    if (location.address) {
-      setOwnerProfile({ address: location.address })
+    if (data?.data) {
+      setOwnerProfile(data?.data)
+      console.log('ownerProfile :', ownerProfile)
     }
-  }, [location.address, setOwnerProfile])
+  }, [data])
 
-  const handleLocationClick = () => {
-    getCurrentLocation()
+  if (!ownerProfile) {
+    return null
   }
+
+  const prevOwnerProfile = data?.data // fetchOwnerProfile의 데이터를 바로 사용
+
+  const updateOwnerMutation = useMutation({
+    mutationFn: (data: UpdateOwnerProfileRequest) => updateOwnerProfile(data),
+    onSuccess: () => {
+      alert('견주정보 수정 완료')
+      queryClient.invalidateQueries({ queryKey: queryKey.family.UpdateOwner() })
+      popModal()
+    },
+    onError: error => {
+      console.error('정보 수정 실패:', error)
+      alert('정보 수정에 실패했습니다. 다시 시도해주세요.')
+    },
+  })
+
+  useEffect(() => {
+    if (prevOwnerProfile?.profileImg) {
+      const avatarNumber = prevOwnerProfile.profileImg.match(/Avatar(\d+)/)?.[1]
+      if (avatarNumber) {
+        import(`../../../src/assets/avatars/Avatar${avatarNumber}.svg?react`)
+          .then(module => setProfileImage(() => module.default))
+          .catch(err => console.error('Error loading SVG:', err))
+      }
+    }
+  }, [prevOwnerProfile?.profileImg])
 
   const handleRoleClick = () => {
     pushModal(
       <FamilyRoleChoiceModal
-        onSelectRole={role => setOwnerProfile({ familyRole: role })}
+        onSelectRole={role =>
+          setOwnerProfile(prev => ({
+            ...prev!,
+            familyRole: role,
+          }))
+        }
         initialRole={ownerProfile.familyRole}
       />
     )
@@ -53,15 +102,41 @@ export default function OwnerUpdateModal() {
   const handleAvatarClick = () => {
     pushModal(
       <RegisterAvatarModal
-        onSelectAvatar={avatarSrc => setOwnerProfile({ profileImg: avatarSrc })}
+        onSelectAvatar={avatarSrc =>
+          setOwnerProfile(prev => ({
+            ...prev!,
+            profileImg: avatarSrc,
+          }))
+        }
         initialSelectedAvatar={ownerProfile.profileImg}
       />
     )
   }
 
   const handleGenderSelect = (gender: 'MALE' | 'FEMALE') => {
-    setOwnerProfile({ gender })
+    setOwnerProfile(prev => ({
+      ...prev!,
+      gender,
+    }))
   }
+
+  const handleUpdateClick = () => {
+    if (!ownerProfile.name || !ownerProfile.familyRole || !ownerProfile.gender || !ownerProfile.profileImg) {
+      alert('모든 필드를 입력해주세요.')
+      return
+    }
+
+    // familyRole을 영어 Enum 값으로 변환
+    const updatedProfile = {
+      ...ownerProfile,
+      familyRole: REVERSE_FAMILY_ROLE[ownerProfile.familyRole || ''], // value를 key로 변환
+    }
+
+    console.log('프로필 업데이트 요청 데이터:', updatedProfile)
+    updateOwnerMutation.mutate(updatedProfile) // 변환된 데이터를 서버로 전송
+  }
+  if (isLoading) return <div>Loading...</div>
+  if (isError) return <div>Error loading data</div>
 
   return (
     <S.RegisterPage>
@@ -72,38 +147,31 @@ export default function OwnerUpdateModal() {
 
       <S.TextSection weight='700'>내 정보 수정</S.TextSection>
 
-      <S.AddOwnerAvatarBtnWrapper>
-        {ownerProfile.profileImg ? (
-          <S.Avatar onClick={handleAvatarClick}>
-            <img src={ownerProfile.profileImg} alt='선택된 아바타' />
-          </S.Avatar>
-        ) : (
-          <S.AddOwnerAvatarBtn>
-            <img src={AddOwnerAvatar} alt='프로필 선택' />
-            <div>아바타 선택</div>
-          </S.AddOwnerAvatarBtn>
-        )}
+      <S.ProfileArea>
+        {ProfileImage && <ProfileImage />}
         <S.ChoiceAvatarBtn onClick={handleAvatarClick}>
           <Typo14 $weight='700' color='white'>
             아바타 선택
           </Typo14>
         </S.ChoiceAvatarBtn>
-      </S.AddOwnerAvatarBtnWrapper>
+      </S.ProfileArea>
 
       <S.OwnerProfileSection>
         <S.NickNameWrapper>
           <Input
             placeholder='닉네임 입력'
             value={ownerProfile.name}
-            onChange={e => setOwnerProfile({ name: e.target.value })}
+            onChange={e =>
+              setOwnerProfile(prev => ({
+                ...prev!,
+                name: e.target.value,
+              }))
+            }
           />
         </S.NickNameWrapper>
         <S.PositionChoiceBtn onClick={handleRoleClick} $hasSelected={!!ownerProfile.familyRole}>
-          {ownerProfile.familyRole || '가족 포지션 선택'}
+          {FAMILY_ROLE[ownerProfile.familyRole] || ownerProfile.familyRole}
         </S.PositionChoiceBtn>
-        <S.LocationBtn onClick={handleLocationClick} $hasSelected={!!ownerProfile.address}>
-          {ownerProfile.address || '내 동네 불러오기'}
-        </S.LocationBtn>
         <S.GenderSelectBtnWrapper>
           <GenderSelectButton
             gender='MALE'
@@ -117,12 +185,9 @@ export default function OwnerUpdateModal() {
           />
         </S.GenderSelectBtnWrapper>
       </S.OwnerProfileSection>
+
       <S.ToastWrapper>
-        <ActionButton
-          $fontWeight='700'
-          $bgColor={validateOwnerProfile(ownerProfile) ? 'gc_1' : 'default'}
-          onClick={() => console.log('수정 완료')}
-        >
+        <ActionButton $fontWeight='700' $bgColor='gc_1' onClick={handleUpdateClick}>
           수정 완료
         </ActionButton>
         <Toast />

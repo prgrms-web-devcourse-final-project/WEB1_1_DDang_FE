@@ -7,13 +7,13 @@ export const RegisterPage = styled.div`
   justify-content: space-between;
   padding: 3.5rem 1.25rem 1.8rem 1.25rem;
   background-color: ${({ theme }) => theme.colors.grayscale.gc_4};
-
+  z-index: 100;
+  /* position: absolute; */
   @media (max-height: 700px) {
     padding: 4.75rem 1.25rem 1rem;
     gap: 0.5rem;
   }
 `
-
 export const TextSection = styled.text<{ weight: FontWeight }>`
   flex-shrink: 0;
   color: ${({ theme }) => theme.colors.grayscale.font_1};
@@ -104,7 +104,7 @@ export const PositionChoiceBtn = styled.div<{ $hasSelected?: boolean }>`
   padding: 1rem 2rem;
   border-radius: 0.75rem;
   font-size: ${({ theme }) => theme.typography._20};
-  color: ${({ theme, $hasSelected }) => ($hasSelected ? theme.colors.grayscale.font_1 : theme.colors.grayscale.font_3)};
+  color: ${({ theme }) => theme.colors.grayscale.font_1};
   cursor: pointer;
 
   @media (max-height: 700px) {
@@ -166,6 +166,7 @@ export const ChoiceAvatarBtn = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.font_1};
 `
 export const ProfileArea = styled.div`
+  flex-direction: column;
   width: 11rem;
   height: 10rem;
   flex-shrink: 0;

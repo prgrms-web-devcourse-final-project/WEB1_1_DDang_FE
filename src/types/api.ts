@@ -246,3 +246,10 @@ export type GetSettingsResponse = {
   isMatched: BooleanString
   settings: NotificationSettings
 }
+
+export type UpdateOwnerProfileResponse = {
+  familyRole: FamilyRole
+  gender: Gender
+  name: string
+  profileImg: string
+}
