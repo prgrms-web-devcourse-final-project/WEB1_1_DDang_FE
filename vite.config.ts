@@ -17,6 +17,32 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
           rewrite: path => path.replace(/^\/api\/ors/, '/ors'),
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+          },
+          configure: (proxy, _options) => {
+            proxy.on('error', (err, _req, _res) => {
+              console.log('프록시 에러:', err)
+            })
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              // POST 요청의 경우 content-length 헤더 재설정
+              if (req.method === 'POST') {
+                let bodyData = ''
+                req.on('data', chunk => {
+                  bodyData += chunk.toString()
+                })
+                req.on('end', () => {
+                  if (bodyData) {
+                    proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
+                    proxyReq.setHeader('Content-Type', 'application/json')
+                    proxyReq.write(bodyData)
+                  }
+                })
+              }
+            })
+          },
         },
       },
     },

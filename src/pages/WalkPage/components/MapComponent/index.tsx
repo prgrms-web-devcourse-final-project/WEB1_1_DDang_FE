@@ -919,9 +919,18 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
     try {
       const coordinates = positions.map(pos => [pos.lng, pos.lat])
 
-      const response = await axios.post('/api/ors/v2/directions/foot-walking/geojson', {
-        coordinates: coordinates,
-      })
+      const response = await axios.post(
+        '/api/ors/v2/directions/foot-walking/geojson',
+        {
+          coordinates: coordinates,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      )
 
       if (!response.data.features?.[0]?.properties?.segments?.[0]?.distance) {
         console.log('유효한 경로를 찾을 수 없습니다')
