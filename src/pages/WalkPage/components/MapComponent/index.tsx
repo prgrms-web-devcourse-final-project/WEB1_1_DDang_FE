@@ -22,7 +22,7 @@ import { useMutation } from '@tanstack/react-query'
 import { fetchWalkComplete } from '~apis/walk/fetchWalkComplete'
 import WalkModal from '~pages/WalkPage/components/WalkModal'
 
-const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
+// const ORS_API_URL = '/ors/v2/directions/foot-walking/geojson'
 
 const getGeoOptions = () => ({
   enableHighAccuracy: true,
@@ -919,7 +919,7 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
     try {
       const coordinates = positions.map(pos => [pos.lng, pos.lat])
 
-      const response = await axios.post(ORS_API_URL, {
+      const response = await axios.post('/api/ors/v2/directions/foot-walking/geojson', {
         coordinates: coordinates,
       })
 
