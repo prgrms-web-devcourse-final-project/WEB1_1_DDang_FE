@@ -30,7 +30,7 @@ export default function OwnerUpdateModal() {
   const popModal = useModalStore(state => state.popModal)
 
   const [ownerProfile, setOwnerProfile] = useState<updateProfileType>({
-    familyRole: '',
+    familyRole: 'MOTHER',
     gender: 'MALE', // 기본값
     name: '',
     profileImg: '',
@@ -46,8 +46,12 @@ export default function OwnerUpdateModal() {
 
   useEffect(() => {
     if (data?.data) {
-      setOwnerProfile(data?.data)
-      console.log('ownerProfile :', ownerProfile)
+      setOwnerProfile(prev => ({
+        ...prev, // 기존 상태 유지
+        ...data.data, // 서버 데이터 병합
+        familyRole: data.data.familyRole || prev.familyRole, // familyRole이 없으면 기존 값 유지
+      }))
+      console.log('ownerProfile:', ownerProfile)
     }
   }, [data])
 
@@ -123,12 +127,13 @@ export default function OwnerUpdateModal() {
     // familyRole을 영어 Enum 값으로 변환
     const updatedProfile = {
       ...ownerProfile,
-      familyRole: REVERSE_FAMILY_ROLE[ownerProfile.familyRole || ''], // value를 key로 변환
+      familyRole: REVERSE_FAMILY_ROLE[ownerProfile.familyRole] || ownerProfile.familyRole, // ENUM 변환 또는 기존 값 유지
     }
 
     console.log('프로필 업데이트 요청 데이터:', updatedProfile)
-    updateOwnerMutation.mutate(updatedProfile) // 변환된 데이터를 서버로 전송
+    updateOwnerMutation.mutate(updatedProfile) // 서버로 전송
   }
+
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error loading data</div>
 
