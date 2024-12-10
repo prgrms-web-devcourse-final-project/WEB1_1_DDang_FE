@@ -17,6 +17,7 @@ import { FAMILY_ROLE } from '~constants/familyRole'
 import { REVERSE_FAMILY_ROLE } from '~constants/familyRole'
 
 import { FamilyRole, Gender } from '~types/common'
+// import { validateOwnerProfile } from '~utils/validateOwnerProfile'
 
 interface updateProfileType {
   familyRole: FamilyRole
@@ -28,13 +29,13 @@ interface updateProfileType {
 export default function OwnerUpdateModal() {
   const pushModal = useModalStore(state => state.pushModal)
   const popModal = useModalStore(state => state.popModal)
-
   const [ownerProfile, setOwnerProfile] = useState<updateProfileType>({
     familyRole: 'MOTHER',
     gender: 'MALE', // 기본값
     name: '',
     profileImg: '',
   })
+
   const [ProfileImage, setProfileImage] = useState<React.ComponentType | null>(null)
 
   const queryClient = useQueryClient()
@@ -51,7 +52,6 @@ export default function OwnerUpdateModal() {
         ...data.data, // 서버 데이터 병합
         familyRole: data.data.familyRole || prev.familyRole, // familyRole이 없으면 기존 값 유지
       }))
-      console.log('ownerProfile:', ownerProfile)
     }
   }, [data])
 
@@ -61,10 +61,6 @@ export default function OwnerUpdateModal() {
       alert('견주정보 수정 완료')
       queryClient.invalidateQueries({ queryKey: queryKey.family.UpdateOwner() })
       popModal()
-    },
-    onError: error => {
-      console.error('정보 수정 실패:', error)
-      alert('정보 수정에 실패했습니다. 다시 시도해주세요.')
     },
   })
 
@@ -130,7 +126,6 @@ export default function OwnerUpdateModal() {
       familyRole: REVERSE_FAMILY_ROLE[ownerProfile.familyRole] || ownerProfile.familyRole, // ENUM 변환 또는 기존 값 유지
     }
 
-    console.log('프로필 업데이트 요청 데이터:', updatedProfile)
     updateOwnerMutation.mutate(updatedProfile) // 서버로 전송
   }
 
@@ -186,7 +181,7 @@ export default function OwnerUpdateModal() {
       </S.OwnerProfileSection>
 
       <S.ToastWrapper>
-        <ActionButton $fontWeight='700' $bgColor='gc_1' onClick={handleUpdateClick}>
+        <ActionButton $fontWeight='700' $bgColor={'default'} onClick={handleUpdateClick}>
           수정 완료
         </ActionButton>
         <Toast />
@@ -194,4 +189,3 @@ export default function OwnerUpdateModal() {
     </S.RegisterPage>
   )
 }
-
