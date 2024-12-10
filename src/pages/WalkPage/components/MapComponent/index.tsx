@@ -927,7 +927,12 @@ export default function MapComponent({ isModalOpen = false, setNearbyWalkers }: 
         {
           headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json',
+          },
+          // 프록시 요청임을 명시
+          proxy: {
+            protocol: 'http',
+            host: '112.162.84.70',
+            port: 8003,
           },
         }
       )

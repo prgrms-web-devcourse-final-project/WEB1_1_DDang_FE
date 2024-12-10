@@ -1,1 +1,2 @@
-/api/ors/*  http://112.162.84.70:8003/ors/:splat  200!
+/api/ors/v2/directions/foot-walking/geojson  http://112.162.84.70:8003/ors/v2/directions/foot-walking/geojson  200!
+/* /index.html 200
