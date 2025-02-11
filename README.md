@@ -9,13 +9,42 @@ DDang은 반려견 산책 서비스입니다. 산책 시 200미터 안에 산책
 
 |<img src="https://avatars.githubusercontent.com/u/95556588?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/102804323?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/119827402?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/65541546?v=4" width="150" height="150"/>|
 |:-:|:-:|:-:|:-:|
-|Seonghoon Lee<br/>[@shlee9999](https://github.com/shlee9999)|Kim Ju Young<br/>[@kimjuyoung99](https://github.com/kimjuyoung99)|wonil<br/>[@wonill](https://github.com/wonill)|한규<br/>[@ruehan](https://github.com/ruehan)|
+|이성훈<br/>[@shlee9999](https://github.com/shlee9999)|김주영<br/>[@kimjuyoung99](https://github.com/kimjuyoung99)|남원일<br/>[@wonill](https://github.com/wonill)|한규<br/>[@ruehan](https://github.com/ruehan)|
 
 
 ### **백엔드**
 |<img src="https://avatars.githubusercontent.com/u/108010440?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/65394501?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/128586833?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/176549799?v=4" width="150" height="150"/>|
 |:-:|:-:|:-:|:-:|
-|MoonJaeGyeong<br/>[@MoonJaeGyeong](https://github.com/MoonJaeGyeong)|YesGwanTae<br/>[@Repaion24](https://github.com/Repaion24)|KyungHun Song<br/>[@rudgns328](https://github.com/rudgns328)|[@highjjjw](https://github.com/highjjjw)|
+|문재경<br/>[@MoonJaeGyeong](https://github.com/MoonJaeGyeong)|노관태<br/>[@Repaion24](https://github.com/Repaion24)|송경훈<br/>[@rudgns328](https://github.com/rudgns328)|장준우<br/>[@highjjjw](https://github.com/highjjjw)|
+
+
+
+## 🐶 기능 소개
+
+**패밀리댕**
+
+<img src="https://github.com/user-attachments/assets/82526393-93cc-4d11-b5e2-4748638ffa21" align="center" width="32%">
+
+
+**산책**
+
+
+https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
+
+
+**홈화면**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
+
+<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
+
+**소셜 페이지** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**채팅**
+
+<img src="https://github.com/user-attachments/assets/9ac4bf4c-3f3e-40bd-bb83-c60845f3a8bd" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/67f667f2-2ceb-4765-8a36-fcb34595849f" align="center" width="32%">
+
+
+**댕로그** 
+<img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="32%">  
+
+
 
 ## **📅 개발 기간 및 작업 관리**
 
@@ -92,37 +121,6 @@ DDang은 반려견 산책 서비스입니다. 산책 시 200미터 안에 산책
  ┣ 📂utils
 ```
     
-
-## 📄 담당 페이지
-
-### 김주영(PM)
-
-**패밀리댕**
-
-<img src="https://github.com/user-attachments/assets/82526393-93cc-4d11-b5e2-4748638ffa21" align="center" width="32%">
-
-### 한 규
-
-**산책**
-
-
-https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
-
-
-### 이성훈
-
-**홈페이지**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
-
-<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
-
-**소셜 페이지** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**채팅**
-
-<img src="https://github.com/user-attachments/assets/9ac4bf4c-3f3e-40bd-bb83-c60845f3a8bd" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/67f667f2-2ceb-4765-8a36-fcb34595849f" align="center" width="32%">
-
-
-### 남원일
-
-<img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="32%">  
 
 
 
