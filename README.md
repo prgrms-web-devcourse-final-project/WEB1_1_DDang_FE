@@ -10,20 +10,17 @@
 - 배포 URL : https://ddang.pages.dev/
 
 ## 👪 팀원 구성
-
 ### **프론트엔드**
-
-|<img src="https://avatars.githubusercontent.com/u/95556588?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/102804323?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/119827402?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/65541546?v=4" width="150" height="150"/>|
+| [이성훈](https://github.com/shlee9999) | [김주영(PM)](https://github.com/kimjuyoung99) | [남원일](https://github.com/wonill) | [한규(팀장)](https://github.com/ruehan) |
 |:-:|:-:|:-:|:-:|
-|이성훈<br/>[@shlee9999](https://github.com/shlee9999)|김주영<br/>[@kimjuyoung99](https://github.com/kimjuyoung99)|남원일<br/>[@wonill](https://github.com/wonill)|한규<br/>[@ruehan](https://github.com/ruehan)|
-
+| <img src="https://avatars.githubusercontent.com/u/95556588?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/102804323?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/119827402?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/65541546?v=4" width="150" height="150"/> |
+| **소셜, 실시간 채팅, 홈** | **패밀리댕, 로그인, <br>견주등록 관리, 설정** | **댕로그, 가족코드 공유,<br>강아지등록 관리**  | **산책, 강번따, 친구신청** |
 
 ### **백엔드**
-|<img src="https://avatars.githubusercontent.com/u/108010440?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/65394501?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/128586833?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/176549799?v=4" width="150" height="150"/>|
+| [문재경](https://github.com/MoonJaeGyeong) | [노관태(팀장)](https://github.com/Repaion24) | [송경훈](https://github.com/rudgns328) | [장준우](https://github.com/highjjjw) |
 |:-:|:-:|:-:|:-:|
-|문재경<br/>[@MoonJaeGyeong](https://github.com/MoonJaeGyeong)|노관태<br/>[@Repaion24](https://github.com/Repaion24)|송경훈<br/>[@rudgns328](https://github.com/rudgns328)|장준우<br/>[@highjjjw](https://github.com/highjjjw)|
-
-
+| <img src="https://avatars.githubusercontent.com/u/108010440?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/65394501?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/128586833?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/176549799?v=4" width="150" height="150"/> |
+| ** ** | ** ** | ** ** | **강아지 조회** |
 
 ## 🐶 기능 소개
 
@@ -65,6 +62,8 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
 
 
 ## ♻️ 개발 환경
+<img width="931" alt="image" src="https://github.com/user-attachments/assets/a834c7ef-eafe-4422-8ef2-8e215eaa7768" />
+<img width="933" alt="image" src="https://github.com/user-attachments/assets/46f36c10-7bcb-4c05-b7a1-15135c25cbac" />
 
 - Front : Vite React Typescript
 - Back : Java Spring
