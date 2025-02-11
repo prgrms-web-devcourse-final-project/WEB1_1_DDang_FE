@@ -22,7 +22,7 @@
 | <img src="https://avatars.githubusercontent.com/u/108010440?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/65394501?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/128586833?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/176549799?v=4" width="150" height="150"/> |
 | ** ** | ** ** | ** ** | **강아지 조회** |
 
-## 🐶 기능 소개
+## 🐶 주요 기능 소개
 
 **패밀리댕**
 
@@ -47,6 +47,7 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
 <img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="32%">  
 
 
+## 기획서
 
 ## **📅 개발 기간 및 작업 관리**
 
@@ -59,6 +60,10 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
 - 프로젝트 기간이 짧았던 만큼, 매주 월요일마다 스프린트 하였습니다.
 - 데일리 스크럼을 통해 팀원 간 작업 상황을 공유하였습니다.
 - [Github Project](https://github.com/orgs/prgrms-web-devcourse-final-project/projects/4)에서 Stroy Point를 이용해 작업을 관리하였습니다.
+
+## 브랜치 전략
+
+## 컨벤션, PR 규칙
 
 
 ## ♻️ 개발 환경
@@ -124,7 +129,9 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
  ┣ 📂types
  ┣ 📂utils
 ```
-    
+## 설치 및 실행 방법
+
+
 
 
 
