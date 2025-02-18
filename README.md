@@ -62,6 +62,8 @@
     - **수락**: 서로의 위치가 공유되고 채팅방이 생성됩니다.
 - **신고**: 특정 강아지를 신고하거나 차단할 수 있는 기능을 제공합니다.
 - **채팅창**: 강아지와 산책이 매칭된 사용자 간에 채팅이 가능합니다.
+
+  
 **홈**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
 
 <img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
@@ -77,11 +79,8 @@
 
 **견주,강아지 정보입력 프로세스**
 
+
 **패밀리댕**
-
-<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%">
-<img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
-
 - **가족 역할**: 가족 구성원 역할 확인 및 관리 기능을 제공합니다. 가족 구성원의 역할을 수정할 수 있습니다.
 - **댕 평집 페이지**: 강아지 프로필 상세 정보를 확인 및 수정할 수 있습니다.
 
