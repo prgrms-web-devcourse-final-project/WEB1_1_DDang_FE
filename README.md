@@ -5,8 +5,8 @@
 <div align=center>
 
   <br/><h2>소중한 댕댕이와 새로운 산책을 원할 때!🐶🐾</h2>
-  반려견과 견주들의 행복한 공생을 돕는 **강아지 산책 서비스** **DDang** 입니다.
-**DDang(댕)** 은 넘쳐나는 반려동물 서비스들 중 오직 **‘산책’** 키워드에 맞춘 사용자 친화적인 서비스를 만들고자 탄생했습니다.
+  반려견과 견주들의 행복한 공생을 돕는 **강아지 산책 서비스** **DDang** 입니다. </br>
+**DDang(댕)** 오직 **‘산책’** 키워드에 맞춘 사용자 친화적인 서비스를 만들고자 탄생했습니다.
 
 ### $${\text{🏆웹 데브코스 최종 프로젝트(전공자반) }{\color{red}\textbf{'인기 프로젝트상'}}{\text{수상 작품}}}$$
 
@@ -15,12 +15,10 @@
 *→ **강번따** : 산책 시 200미터 안에 산책하는 또다른 사용자가 있다면  해당 사용자에게 강번따 요청을 할 수 있습니다. 승낙 시 서로의 위치를 공유하며 함께 산책할 수 있는 서비스를 제공하며,산책을 마치면 친구를 맺을 수 있습니다.*
 
 ### 👨‍👩‍👧‍👦온 가족이 케어하는 댕댕이 산책 라이프
-*→ 강아지 한 마리를 키우려면 여러 주인이 필요하다!*
 *→ **댕로그, 패밀리댕** : 함께 사는 가족 or 연인과 함께 모든 기록을 공유하며 체계적으로 산책을 관리 합니다.*
 
 
-</br></br>
-
+</br>
 
 배포 URL : https://ddang.pages.dev  ➡️  **React Native로 마이그레이션 진행 중!** <br/>
 **❗️ NEW 레포지토리 : https://github.com/DDang-Org/FrontEnd**
@@ -39,9 +37,6 @@
 | <img src="https://avatars.githubusercontent.com/u/102804323?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/119827402?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/95556588?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/65541546?v=4" width="150" height="150"/> |
 | **패밀리댕, 로그인, <br>견주등록 관리, 설정** | **댕로그, 가족코드 공유,<br>강아지등록 관리** | **소셜, 실시간 채팅, 홈** | **산책, 강번따, 친구신청** |
 
-
-
-
 ### **Back-end**
 | [문재경](https://github.com/MoonJaeGyeong) | [노관태(팀장)](https://github.com/Repaion24) | [송경훈](https://github.com/rudgns328) | [장준우](https://github.com/highjjjw) |
 |:-:|:-:|:-:|:-:|
@@ -51,29 +46,60 @@
 
 
 
-## 🐶 주요 기능 소개
-
-**패밀리댕**
-
-<img src="https://github.com/user-attachments/assets/82526393-93cc-4d11-b5e2-4748638ffa21" align="center" width="32%">
-
+## 🐶 기능 소개
 
 **산책**
+- **산책**: 산책 중 위치와 경로를 실시간으로 확인하고 기록할 수 있는 기능입니다.
+- **산책 기록**: 산책이 끝난 후 경로, 시간, 거리 등의 기록을 요약하여 보여줍니다.
 
-https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
+**강번따**
 
-
-**홈화면**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
+- **근처 강아지 알림**: 사용자의 반경 내 산책 중인 다른 강아지 수를 표시해줍니다.
+- **강아지 프로필**: 근처에 있는 강아지의 프로필을 확인할 수 있습니다.
+- **강번따 요청 버튼**: 다른 강아지와 산책을 시작하는 버튼을 통해 강번따 요청을 보낼 수 있습니다.
+- **강번따 요청**: 강아지 산책 요청이 들어왔을 때 수락/거절 옵션이 있는 알림을 제공합니다.
+    - **거절**: 강아지가 부끄러워하는 상황에 대한 메시지를 제공합니다.
+    - **수락**: 서로의 위치가 공유되고 채팅방이 생성됩니다.
+- **신고**: 특정 강아지를 신고하거나 차단할 수 있는 기능을 제공합니다.
+- **채팅창**: 강아지와 산책이 매칭된 사용자 간에 채팅이 가능합니다.
+**홈**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
 
 <img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
 
-**소셜 페이지** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**채팅**
+이번 주 동안의 산책 횟수, 다음 산책 차례를 한눈에 확인할 수 있습니다.
+알림 목록을 확인할 수 있습니다.
+
+**소셜** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**채팅**
 
 <img src="https://github.com/user-attachments/assets/9ac4bf4c-3f3e-40bd-bb83-c60845f3a8bd" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/67f667f2-2ceb-4765-8a36-fcb34595849f" align="center" width="32%">
+- **댕친구 리스트**: 사용자가 추가한 친구 목록을 확인할 수 있습니다.
+- **채팅**: 댕친구와의 채팅 기능을 지원합니다.
 
+**견주,강아지 정보입력 프로세스**
+
+**패밀리댕**
+
+<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%">
+<img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
+
+- **가족 역할**: 가족 구성원 역할 확인 및 관리 기능을 제공합니다. 가족 구성원의 역할을 수정할 수 있습니다.
+- **댕 평집 페이지**: 강아지 프로필 상세 정보를 확인 및 수정할 수 있습니다.
 
 **댕로그** 
 <img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="32%">  
+
+- **캘린더 페이지**: 일별로 산책 기록을 캘린더 형태로 확인할 수 있습니다.
+- **주간 캘린더별 기록 페이지**: 주간 산책 횟수 및 주요 활동을 요약하여 제공하는 페이지입니다.
+- **기록별 상세 정보 페이지**: 각 산책 기록의 상세 정보를 확인할 수 있습니다.
+- **산책 기록 기반 분석 그래프**: 사용자와 강아지의 산책 횟수를 그래프로 시각화하여 제공합니다.
+
+  
+**마이페이지**
+
+- **회원 정보 메인 페이지**: 사용자의 기본 정보와 설정 페이지로 이동할 수 있는 메뉴입니다.
+- **알림 설정 페이지**: 강번따 요청, 산책 알림 등 주요 알림을 설정하는 페이지입니다.
+- **회원 정보 상세 페이지**: 사용자 정보 수정 및 관리 기능을 제공합니다.
+
 
 
 ## 기획서
@@ -84,6 +110,10 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
 
 - 2024.11.15 ~ 2024.12.09
 
+### **👥 UserFlow**
+![image](https://github.com/user-attachments/assets/4fbe61a1-5851-4306-999c-22ff5032377e)
+
+
 ### **📊 작업 관리**
 
 - 프로젝트 기간이 짧았던 만큼, 매주 월요일마다 스프린트 하였습니다.
@@ -92,7 +122,7 @@ https://github.com/user-attachments/assets/3ac31188-4c20-490e-88f9-c43cf4b5c81a
 
 ## 브랜치 전략
 
-## 컨벤션, PR 규칙
+## 컨벤션, PR
 
 
 ## ♻️ 개발 환경
