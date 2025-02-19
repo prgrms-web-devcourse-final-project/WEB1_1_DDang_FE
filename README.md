@@ -49,10 +49,13 @@
 ## 🐶 기능 소개
 
 **산책**
+(추가 예정)
+
 - **산책**: 산책 중 위치와 경로를 실시간으로 확인하고 기록할 수 있는 기능입니다.
 - **산책 기록**: 산책이 끝난 후 경로, 시간, 거리 등의 기록을 요약하여 보여줍니다.
 
 **강번따**
+(추가 예정)
 
 - **근처 강아지 알림**: 사용자의 반경 내 산책 중인 다른 강아지 수를 표시해줍니다.
 - **강아지 프로필**: 근처에 있는 강아지의 프로필을 확인할 수 있습니다.
@@ -66,26 +69,31 @@
   
 **홈**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**프로필 페이지**
 
-<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="32%">
+<img src="https://github.com/user-attachments/assets/47396d87-c6c4-4535-8dfd-51e2ce912193" align="center" width="25%"> <img src="https://github.com/user-attachments/assets/365c13dc-75f2-4592-9e06-ad471c5553f5" align="center" width="25%">
 
 이번 주 동안의 산책 횟수, 다음 산책 차례를 한눈에 확인할 수 있습니다.
 알림 목록을 확인할 수 있습니다.
 
 **소셜** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**채팅**
 
-<img src="https://github.com/user-attachments/assets/9ac4bf4c-3f3e-40bd-bb83-c60845f3a8bd" align="center" width="32%"> <img src="https://github.com/user-attachments/assets/67f667f2-2ceb-4765-8a36-fcb34595849f" align="center" width="32%">
+<img src="https://github.com/user-attachments/assets/9ac4bf4c-3f3e-40bd-bb83-c60845f3a8bd" align="center" width="25%"> <img src="https://github.com/user-attachments/assets/67f667f2-2ceb-4765-8a36-fcb34595849f" align="center" width="25%">
 - **댕친구 리스트**: 사용자가 추가한 친구 목록을 확인할 수 있습니다.
 - **채팅**: 댕친구와의 채팅 기능을 지원합니다.
 
-**견주,강아지 정보입력 프로세스**
+
+**견주,강아지 정보입력 프로세스** <br/>
+<img src="https://github.com/user-attachments/assets/075113de-2f5f-4642-908f-aa30d397b2f0" align="center" width="30%">  <img src="https://github.com/user-attachments/assets/6b7a6001-7fa9-48e2-b29f-765671f7aff8" align="center" width="30%">  
+
 
 
 **패밀리댕**
+(추가예정) <br/>
+
 - **가족 역할**: 가족 구성원 역할 확인 및 관리 기능을 제공합니다. 가족 구성원의 역할을 수정할 수 있습니다.
 - **댕 평집 페이지**: 강아지 프로필 상세 정보를 확인 및 수정할 수 있습니다.
 
-**댕로그** 
-<img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="32%">  
+**댕로그**  <br/>
+<img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="25%">  <img src="https://github.com/user-attachments/assets/661de03d-8c06-49a7-9ef6-b9fa88236dfb" align="center" width="25%">  
 
 - **캘린더 페이지**: 일별로 산책 기록을 캘린더 형태로 확인할 수 있습니다.
 - **주간 캘린더별 기록 페이지**: 주간 산책 횟수 및 주요 활동을 요약하여 제공하는 페이지입니다.
@@ -93,7 +101,9 @@
 - **산책 기록 기반 분석 그래프**: 사용자와 강아지의 산책 횟수를 그래프로 시각화하여 제공합니다.
 
   
-**마이페이지**
+**마이페이지**  <br/>
+<img src="https://github.com/user-attachments/assets/7ee76683-b644-4b78-98ca-d7290d8e3bd3" align="center" width="25%">  <img src="https://github.com/user-attachments/assets/1fd34da1-dafa-4ea2-9cbf-78f14aa74280" align="center" width="30%">  
+
 
 - **회원 정보 메인 페이지**: 사용자의 기본 정보와 설정 페이지로 이동할 수 있는 메뉴입니다.
 - **알림 설정 페이지**: 강번따 요청, 산책 알림 등 주요 알림을 설정하는 페이지입니다.
@@ -110,7 +120,7 @@
 - 2024.11.15 ~ 2024.12.09
 
 ### **👥 UserFlow**
-![image](https://github.com/user-attachments/assets/4fbe61a1-5851-4306-999c-22ff5032377e)
+<img src="https://github.com/user-attachments/assets/4fbe61a1-5851-4306-999c-22ff5032377e" align="center" width="70%">
 
 
 ### **📊 작업 관리**
