@@ -4,7 +4,6 @@ addAssignees: author
 reviewers:
   - saseungmin
   - ruehan
-  - shlee9999
   - wonill
   - kimjuyoung99
 
@@ -20,7 +19,6 @@ reviewGroups:
     - saseungmin
   optional:
     - ruehan
-    - shlee9999
     - wonill
     - kimjuyoung99
 
