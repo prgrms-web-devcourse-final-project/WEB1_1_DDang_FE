@@ -7,7 +7,7 @@ reviewers:
   - wonill
   - kimjuyoung99
 
-numberOfReviewers: 2  # requiredReviewers를 제외한 추가 리뷰어 수
+numberOfReviewers: 1  # requiredReviewers를 제외한 추가 리뷰어 수
 
 requiredReviewers:
   - saseungmin
