@@ -4,11 +4,10 @@ addAssignees: author
 reviewers:
   - saseungmin
   - ruehan
-  - shlee9999
   - wonill
   - kimjuyoung99
 
-numberOfReviewers: 2  # requiredReviewers를 제외한 추가 리뷰어 수
+numberOfReviewers: 1  # requiredReviewers를 제외한 추가 리뷰어 수
 
 requiredReviewers:
   - saseungmin
@@ -20,7 +19,6 @@ reviewGroups:
     - saseungmin
   optional:
     - ruehan
-    - shlee9999
     - wonill
     - kimjuyoung99
 
